@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep the research experience on the index route with client-side mock answers and independent browser-stored usage trackers, because no backend is connected and the requested search is explicitly a mock.
