@@ -1,5 +1,5 @@
-# Research page
-
-- [x] Add a professional report form and separate quick-search tabs.
-- [x] Add mock quick search, multilingual answers, loading, daily limit, and advertisement placeholder.
-- [x] Verify the tab, form, search, and daily limit in the browser.
+# Verifai
+- [ ] Rebrand the research experience and implement the attached mock SaaS brief.
+- [ ] Add the mobile-friendly global language switcher and complete requested translations.
+- [ ] Add language-specific search and social metadata.
+- [ ] Verify the mobile language flow and mock research actions.
