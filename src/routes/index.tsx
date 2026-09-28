@@ -16,7 +16,7 @@ const REPORT_LIMIT = 25;
 const STORE_LANG = "verifai-lang";
 
 export const Route = createFileRoute("/")({
-  validateSearch: (s: Record<string, unknown>): { lang?: Lang } => (isLang(s.lang) ? { lang: s.lang } : {}),
+  validateSearch: (s: Record<string, unknown>): { lang?: Lang } => (isLang(s['lang']) ? { lang: s['lang'] } : {}),
   loaderDeps: ({ search }) => ({ lang: search.lang ?? "en" }),
   loader: ({ deps }) => ({ lang: deps.lang as Lang }),
   head: ({ loaderData }) => {
