@@ -77,10 +77,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-       { title: "Research Desk" },
-       { name: "description", content: "A workspace for focused research." },
-       { property: "og:title", content: "Research Desk" },
-       { property: "og:description", content: "A workspace for focused research." },
+       { property: "og:site_name", content: "Verifai" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
