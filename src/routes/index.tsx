@@ -185,7 +185,7 @@ function VerifaiPage() {
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
           <a href="#top" className="flex items-center gap-2 font-display text-xl font-extrabold">
             <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground"><Sparkles className="size-4" /></span>
-            Veri<span className="text-brand">fai</span>
+            <span>Veri<span className="text-brand">fai</span></span>
           </a>
           <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
             <a href="#how" className="text-muted-foreground hover:text-foreground">{t(lang, "navHow")}</a>
@@ -205,11 +205,11 @@ function VerifaiPage() {
       <div className="fixed bottom-5 right-5 z-40 md:hidden"><LanguageMenu lang={lang} onChange={setLang} compact /></div>
 
       <main id="top">
-        <section className="relative overflow-hidden" style={{ background: "var(--hero-gradient)" }}>
+        <section className="relative overflow-hidden" lang={lang} style={{ background: "var(--hero-gradient)" }}>
           <img src={hero} alt="" width={1600} height={900} className="absolute inset-0 size-full object-cover opacity-40" />
           <div className="relative mx-auto max-w-6xl px-5 py-20 md:py-32">
-            <span className="inline-block rounded-full border border-brand/40 bg-brand-soft px-4 py-1.5 text-xs font-semibold text-brand">🚀 {t(lang, "heroBadge")}</span>
-            <h1 className="mt-6 max-w-3xl font-display text-4xl font-extrabold leading-tight md:text-6xl">{t(lang, "heroTitle")}</h1>
+            <span className="inline-block rounded-full border border-brand/40 bg-brand-soft px-4 py-1.5 text-xs font-semibold text-brand">{t(lang, "heroBadge")}</span>
+            <h1 className="mt-6 max-w-3xl font-display text-4xl font-extrabold leading-tight break-words hyphens-auto md:text-6xl">{t(lang, "heroTitle")}</h1>
             <p className="mt-5 max-w-xl text-lg text-muted-foreground">{t(lang, "heroBody")}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild size="lg" className="h-12 px-6"><a href="#studio">{t(lang, "heroPrimary")}</a></Button>
