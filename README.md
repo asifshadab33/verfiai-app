@@ -27,3 +27,8 @@ npm run dev
 - TypeScript
 - React
 - Tailwind CSS
+
+## Translations (Verifai)
+All interface text lives in `src/lib/translations.ts`. Each language is one `|`-separated row following the `keys` order.
+To add a language: add it to `languages`, then add a row in `rows` with one value per key. Missing languages fall back to English with a notice.
+The selected language is stored in the browser and in the `?lang=` URL so share previews show the right language.
