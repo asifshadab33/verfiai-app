@@ -14,6 +14,21 @@ export type Database = {
   }
   public: {
     Tables: {
+      guest_usage: {
+        Row: {
+          created_at: string
+          fingerprint: string
+        }
+        Insert: {
+          created_at?: string
+          fingerprint: string
+        }
+        Update: {
+          created_at?: string
+          fingerprint?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -62,6 +77,27 @@ export type Database = {
           question?: string
           title?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      research_cache: {
+        Row: {
+          created_at: string
+          key: string
+          kind: string
+          payload: Json
+        }
+        Insert: {
+          created_at?: string
+          key: string
+          kind: string
+          payload: Json
+        }
+        Update: {
+          created_at?: string
+          key?: string
+          kind?: string
+          payload?: Json
         }
         Relationships: []
       }
