@@ -15,6 +15,13 @@
       "when": 1790697056555,
       "tag": "0001_web_research_cache",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790697423290,
+      "tag": "0002_usage_events",
+      "breakpoints": true
     }
   ]
 }

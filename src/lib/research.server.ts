@@ -9,16 +9,16 @@ const SYNTHESIS_ENGINES = [
 const SEARCH_TTL_MS = 24 * 3600_000;
 const REPORT_TTL_MS = 7 * 24 * 3600_000;
 
-type Source = { title: string; url: string; content: string; published?: string | undefined; score: number };
+export type Source = { title: string; url: string; content: string; published?: string | undefined; score: number };
 
 export const sha = (s: string) => createHash("sha256").update(s).digest("hex");
 
-async function admin() {
+export async function admin() {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   return supabaseAdmin;
 }
 
-async function cacheGet<T>(key: string, ttl: number): Promise<T | null> {
+export async function cacheGet<T>(key: string, ttl: number): Promise<T | null> {
   try {
     const db = await admin();
     const { data } = await db.from("research_cache").select("payload, created_at").eq("key", key).maybeSingle();
@@ -26,14 +26,14 @@ async function cacheGet<T>(key: string, ttl: number): Promise<T | null> {
     return data.payload as T;
   } catch { return null; }
 }
-async function cacheSet(key: string, kind: string, payload: unknown) {
+export async function cacheSet(key: string, kind: string, payload: unknown) {
   try { const db = await admin(); await db.from("research_cache").upsert({ key, kind, payload: payload as never, created_at: new Date().toISOString() }); } catch { /* cache is best-effort */ }
 }
 
 const tokenize = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, " ").split(/\s+/).filter(w => w.length > 2);
 
 // Hybrid ranking: search engine relevance rank + local BM25 rank, fused with Reciprocal Rank Fusion.
-function rerank(query: string, docs: Source[], top = 6): Source[] {
+export function rerank(query: string, docs: Source[], top = 6): Source[] {
   const q = [...new Set(tokenize(query))];
   const toks = docs.map(d => tokenize(`${d.title} ${d.content}`));
   const avg = toks.reduce((a, t) => a + t.length, 0) / Math.max(1, toks.length);
@@ -48,7 +48,7 @@ function rerank(query: string, docs: Source[], top = 6): Source[] {
   return docs.map((d, i) => ({ d, r: rrf[i]! })).sort((a, b) => b.r - a.r).slice(0, top).map(x => x.d);
 }
 
-async function webSearch(query: string): Promise<Source[]> {
+export async function webSearch(query: string): Promise<Source[]> {
   const key = process.env["TAVILY_API_KEY"];
   if (!key) return [];
   const ck = "search:" + sha(query.toLowerCase().trim());
@@ -68,7 +68,7 @@ async function webSearch(query: string): Promise<Source[]> {
   } catch (e) { console.error("Tavily failed", e); return []; }
 }
 
-async function callEngine(model: string, system: string, user: string): Promise<string> {
+export async function callEngine(model: string, system: string, user: string): Promise<string> {
   const key = process.env["OPENROUTER_API_KEY"];
   if (!key) throw new Error("engine-missing");
   const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
