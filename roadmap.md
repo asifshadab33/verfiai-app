@@ -8,3 +8,5 @@
 - [x] Accounts (Google + email), server-side report limit, saved reports, voice input, 2-page minimum reports.
 - [ ] Payments, saved reports, additional providers and richer files — blocked by backend setup and actual provider/billing configuration.
 - [ ] Privacy/Terms legal text and contact address — blocked by owner-provided details.
+- [ ] Stage 1 of new brief: live web research reports (Web-Verified vs Model Knowledge Only, saved sources) via OpenRouter engines, cached results, 1 free report without sign-in — blocked on Tavily + OpenRouter keys.
+- [ ] Later stages: claim fact-checker, citation cascade (200 refs), PDF upload, Word export, share links, Stripe Pro $9, public API + /docs, homepage redesign.
