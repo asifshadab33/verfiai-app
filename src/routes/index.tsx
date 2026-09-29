@@ -46,6 +46,8 @@ function LanguagePicker({ lang, onChange }: { lang: Lang; onChange: (lang: Lang)
 function ReportForm({ lang }: { lang: Lang }) {
   const tx = (key: TextKey) => siteText(lang, key);
   const generate = useServerFn(generateReport);
+  const fetchUsage = useServerFn(getReportUsage);
+  const { user, loading: authLoading } = useAuth();
   const [question, setQuestion] = useState("");
   const [attachment, setAttachment] = useState("");
   const [filename, setFilename] = useState("");
@@ -59,12 +61,10 @@ function ReportForm({ lang }: { lang: Lang }) {
   const [report, setReport] = useState<ResearchReport | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
-  const [copied, setCopied] = useState(false);
   const [used, setUsed] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
-  useEffect(() => setUsed(usedReports()), []);
-  const left = Math.max(0, 3 - used);
-  const reportText = report ? `${report.title}\n\n${tx("execSummary")}\n${report.summary}\n\n${tx("keyFindings")}\n${report.findings.map(f => `- [${f.status}] ${f.title}: ${f.detail}`).join("\n")}\n\n${tx("sources")}\n${report.sources.map(s => `${s.title} — ${s.publisher}, ${s.date}\n${s.url}`).join("\n")}\n\nConflicting evidence\n${report.conflictingEvidence}\n\n${tx("methodology")}\n${report.methodology}\n\n${tx("limitations")}\n${report.limitations}\n\n${tx("conclusion")}\n${report.conclusion}\n\nAI-generated. Sources were not checked against the live web.` : "";
+  useEffect(() => { if (user) fetchUsage().then(u => setUsed(u.used)).catch(() => {}); }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
+  const left = Math.max(0, MONTHLY_REPORT_LIMIT - used);
   async function readFile(file: File) {
     setFileError("");
     if (!/\.(txt|md)$/i.test(file.name) || file.size > 200 * 1024) { setFileError(tx("uploadError")); return; }
@@ -72,18 +72,16 @@ function ReportForm({ lang }: { lang: Lang }) {
     catch { setFileError(tx("uploadError")); }
   }
   async function submit() {
-    if (busy || left === 0) return;
+    if (busy || left === 0 || !user) return;
     if (question.trim().length < 10) { setError(tx("tooShort")); return; }
     setBusy(true); setError(""); setReport(null);
     try {
       const result = await generate({ data: { question, attachment, language: languages.find(l => l.code === lang)?.name ?? "English", mode, company, website, industry, competitors, focus } });
-      setReport(result); setUsed(used + 1); saveReports(used + 1);
+      setReport(result.report); setUsed(used + 1);
       setTimeout(() => document.getElementById("report-output")?.scrollIntoView({ behavior: "smooth" }), 100);
     } catch (e) { setError(e instanceof Error ? e.message : tx("errorTitle")); }
     finally { setBusy(false); }
   }
-  async function copy() { try { await navigator.clipboard.writeText(reportText); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch { setError("Could not copy. Please select the text manually."); } }
-  function download() { const blob = new Blob([reportText], { type: "text/markdown;charset=utf-8" }); const url = URL.createObjectURL(blob); const a = document.createElement("a"); a.href = url; a.download = "verifai-report.md"; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
   return <div>
     <div className="grid gap-9 lg:grid-cols-[1fr_300px]">
       <div>
