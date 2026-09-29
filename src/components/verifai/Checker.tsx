@@ -1,6 +1,6 @@
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState, type DragEvent, type ReactNode } from "react";
-import { Check, FileSearch, FileText, LoaderCircle, Lock, Trash2, Upload, XCircle } from "lucide-react";
+import { AlertTriangle, ShieldCheck, Check, FileSearch, FileText, LoaderCircle, Lock, Trash2, Upload, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { verifyCitations, type CitationResult } from "@/lib/verify.functions";
