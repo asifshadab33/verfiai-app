@@ -1,5 +1,5 @@
 # VerifAI roadmap
-- [x] Preserve the Crossref citation checker and move it into a separate main-page tab.
+- [x] Preserve the Crossref citation checker in its own tab and restore quick search as a clearly labeled demo tab.
 - [x] Restore the report-first research workspace with live single-model AI, text-file input, report reader and supported exports.
 - [x] Add Features, How It Works, Sample Report, Pricing and FAQ pages with honest capability descriptions.
 - [x] Reuse 12 translated interface dictionaries, language URL selection and visible fallback for seven languages.
