@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { randomBytes } from "crypto";
+import type { ResearchReport } from "./report-schema";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 const idInput = z.object({ id: z.string().uuid() });
@@ -46,5 +47,5 @@ export const getSharedReport = createServerFn({ method: "GET" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: row } = await supabaseAdmin.from("reports").select("title, content, created_at").eq("share_token", data.token).maybeSingle();
     if (!row) return null;
-    return { title: row.title, content: row.content as unknown, created_at: row.created_at };
+    return { title: row.title, content: row.content as unknown as ResearchReport, created_at: row.created_at };
   });
