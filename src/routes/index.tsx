@@ -10,7 +10,7 @@ import { QuickSearch } from "@/components/verifai/QuickSearch";
 import { ReportView } from "@/components/verifai/ReportView";
 import { VoiceButton } from "@/components/verifai/VoiceButton";
 import { useAuth } from "@/hooks/useAuth";
-import { generateReport, getReportUsage, MONTHLY_REPORT_LIMIT, type ResearchReport } from "@/lib/report.functions";
+import { generateReport, generateGuestReport, getReportUsage, MONTHLY_REPORT_LIMIT, type ResearchReport } from "@/lib/report.functions";
 import { isLang, languages, type Lang } from "@/lib/translations";
 import { hasSiteTranslation, siteText } from "@/lib/site-i18n";
 
@@ -50,6 +50,8 @@ function LanguagePicker({ lang, onChange }: { lang: Lang; onChange: (lang: Lang)
 function ReportForm({ lang }: { lang: Lang }) {
   const tx = (key: TextKey) => siteText(lang, key);
   const generate = useServerFn(generateReport);
+  const generateGuest = useServerFn(generateGuestReport);
+  const [guestDone, setGuestDone] = useState(false);
   const fetchUsage = useServerFn(getReportUsage);
   const { user, loading: authLoading } = useAuth();
   const [question, setQuestion] = useState("");
@@ -76,12 +78,13 @@ function ReportForm({ lang }: { lang: Lang }) {
     catch { setFileError(tx("uploadError")); }
   }
   async function submit() {
-    if (busy || left === 0 || !user) return;
+    if (busy || authLoading || (user && left === 0)) return;
     if (question.trim().length < 10) { setError(tx("tooShort")); return; }
     setBusy(true); setError(""); setReport(null);
     try {
-      const result = await generate({ data: { question, attachment, language: languages.find(l => l.code === lang)?.name ?? "English", mode, company, website, industry, competitors, focus } });
-      setReport(result.report); setUsed(used + 1);
+      const payload = { question, attachment, language: languages.find(l => l.code === lang)?.name ?? "English", mode, company, website, industry, competitors, focus };
+      const result = user ? await generate({ data: payload }) : await generateGuest({ data: payload });
+      setReport(result.report); if (user) setUsed(used + 1); else setGuestDone(true);
       setTimeout(() => document.getElementById("report-output")?.scrollIntoView({ behavior: "smooth" }), 100);
     } catch (e) { setError(e instanceof Error ? e.message : tx("errorTitle")); }
     finally { setBusy(false); }
@@ -103,15 +106,15 @@ function ReportForm({ lang }: { lang: Lang }) {
         <details className="group border-b border-border py-5"><summary className="flex cursor-pointer list-none items-center gap-2 font-semibold">{tx("advanced")}<ChevronDown className="size-4 transition-transform group-open:rotate-180" /></summary>
           <div className="mt-5 grid gap-4 sm:grid-cols-2">{([["company", company, setCompany], ["website", website, setWebsite], ["industry", industry, setIndustry], ["competitors", competitors, setCompetitors], ["focus", focus, setFocus]] as const).map(([key, value, setter]) => <label key={key} className="text-sm font-medium">{tx(key)}<Input value={value} maxLength={key === "focus" ? 500 : 200} onChange={e => setter(e.target.value)} className="mt-2 bg-card" /></label>)}<label className="text-sm font-medium">{tx("mode")}<select value={mode} onChange={e => setMode(e.target.value as typeof mode)} className="mt-2 h-9 w-full rounded-md border border-input bg-card px-3">{(["Balanced", "Fast", "Focused", "Comparative"] as const).map((m) => <option key={m} value={m}>{tx(({ Balanced: "modeBalanced", Fast: "modeQuick", Focused: "modeDeep", Comparative: "modeComparative" } as const)[m])}</option>)}</select></label></div>
         </details>
-        {!authLoading && !user ? <div className="mt-6 flex flex-wrap items-center gap-4 border border-border bg-secondary p-5"><p className="text-sm">Sign in with Google or email to generate full reports (2+ pages) and keep them in your library.</p><Button asChild><Link to="/auth">Sign in to generate</Link></Button></div>
-        : <div className="mt-6 flex flex-wrap items-center gap-4"><Button size="lg" className="h-12 px-7" onClick={submit} disabled={busy || left === 0 || authLoading}>{busy ? <LoaderCircle className="animate-spin" /> : <ArrowRight />}{busy ? "Writing your report (about a minute)…" : tx("generate")}</Button><span className="text-sm text-muted-foreground">{left} of {MONTHLY_REPORT_LIMIT} free reports left this month</span></div>}
+        {!authLoading && !user && guestDone ? <div className="mt-6 flex flex-wrap items-center gap-4 border border-border bg-secondary p-5"><p className="text-sm">You've used your free report. Sign in with Google or email for 3 reports a month, saved to your library.</p><Button asChild><Link to="/auth">Sign in to continue</Link></Button></div>
+        : <div className="mt-6 flex flex-wrap items-center gap-4"><Button size="lg" className="h-12 px-7" onClick={submit} disabled={busy || (!!user && left === 0) || authLoading}>{busy ? <LoaderCircle className="animate-spin" /> : <ArrowRight />}{busy ? "Searching the web and writing (1–2 minutes)…" : tx("generate")}</Button><span className="text-sm text-muted-foreground">{user ? `${left} of ${MONTHLY_REPORT_LIMIT} free reports left this month` : <>1 free report without an account · <Link to="/auth" className="text-brand underline">Sign in</Link> for 3 a month</>}</span></div>}
         {user && left === 0 && <p role="status" className="mt-4 text-sm text-muted-foreground">{tx("limit")}</p>}
-        {error && <div role="alert" className="mt-5 flex items-center gap-3 text-sm text-destructive">{error}<Button variant="outline" size="sm" disabled={busy} onClick={submit}>{tx("retry")}</Button></div>}
-        <p className="mt-5 text-xs leading-5 text-muted-foreground">Your question and attached text are sent to an AI provider to write the report. Reports are saved privately to your account. Do not include confidential information. This tool does not browse the live web.</p>
+        {error && <div role="alert" className="mt-5 flex flex-wrap items-center gap-3 text-sm text-destructive">{error}{!/used your/.test(error) && <Button variant="outline" size="sm" disabled={busy} onClick={submit}>{tx("retry")}</Button>}</div>}
+        <p className="mt-5 text-xs leading-5 text-muted-foreground">VerifAI searches the live web and sends your question, attached text and the found excerpts to AI engines to write the report. Signed-in reports are saved privately to your account. Do not include confidential information. VerifAI provides verification support, not definitive truth judgments. Review sources before relying on a result.</p>
       </div>
       <aside className="border-t border-border pt-7 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"><p className="text-xs font-bold uppercase text-brand">{tx("previewLabel")}</p><h3 className="mt-4 font-display text-xl font-bold">{tx("sampleTitle")}</h3><p className="mt-3 text-sm text-muted-foreground">{tx("sampleBadge")}</p><div className="mt-6 space-y-4 border-l-2 border-border pl-4 text-sm"><p className="font-semibold">{tx("sampleTopic")}</p><p className="text-muted-foreground">{tx("sampleSummary")}</p><p className="text-muted-foreground">{tx("sampleFinding")}</p></div><Link to="/sample-report" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-brand hover:underline">{tx("heroSecondary")} <ArrowRight className="size-4" /></Link></aside>
     </div>
-    {report && <div className="mt-16 border-t border-border pt-12 print:mt-0 print:border-0"><ReportView report={report} /><p className="mt-8 text-sm print:hidden"><Link to="/reports" className="font-semibold text-brand hover:underline">Saved to My reports →</Link></p></div>}
+    {report && <div className="mt-16 border-t border-border pt-12 print:mt-0 print:border-0"><ReportView report={report} /><p className="mt-8 text-sm print:hidden">{user ? <Link to="/reports" className="font-semibold text-brand hover:underline">Saved to My reports →</Link> : <>This report isn't saved. Download it now, or <Link to="/auth" className="font-semibold text-brand hover:underline">sign in</Link> to keep future reports.</>}</p></div>}
   </div>;
 }
 
