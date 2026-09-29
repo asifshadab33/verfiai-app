@@ -1,22 +1,26 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState } from "react";
-import { ArrowRight, BookOpen, Check, ChevronDown, Clipboard, Download, FileCheck2, FileText, Globe2, LoaderCircle, Menu, Printer, Search, ShieldCheck, Upload, X } from "lucide-react";
+import { ArrowRight, BookOpen, ChevronDown, FileCheck2, FileText, Globe2, LoaderCircle, Menu, Search, ShieldCheck, Upload, UserRound, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Checker } from "@/components/verifai/Checker";
 import { QuickSearch } from "@/components/verifai/QuickSearch";
-import { generateReport, type ResearchReport } from "@/lib/report.functions";
+import { ReportView } from "@/components/verifai/ReportView";
+import { VoiceButton } from "@/components/verifai/VoiceButton";
+import { useAuth } from "@/hooks/useAuth";
+import { generateReport, getReportUsage, MONTHLY_REPORT_LIMIT, type ResearchReport } from "@/lib/report.functions";
 import { isLang, languages, type Lang } from "@/lib/translations";
 import { hasSiteTranslation, siteText } from "@/lib/site-i18n";
 
 const SITE = "https://verfiai.app";
 const STORE_LANG = "verifai-lang";
-const REPORT_USAGE = "verifai-report-usage";
-const month = () => new Date().toISOString().slice(0, 7);
-function usedReports() { try { const v = JSON.parse(localStorage.getItem(REPORT_USAGE) || "null"); return v?.period === month() ? Number(v.used) || 0 : 0; } catch { return 0; } }
-function saveReports(used: number) { try { localStorage.setItem(REPORT_USAGE, JSON.stringify({ period: month(), used })); } catch { /* optional */ } }
+
+function AccountLink() {
+  const { user } = useAuth();
+  return <Button asChild variant="outline" size="sm"><Link to={user ? "/reports" : "/auth"}><UserRound />{user ? "My reports" : "Sign in"}</Link></Button>;
+}
 const RTL: Lang[] = ["ar", "ur", "fa"];
 
 export const Route = createFileRoute("/")({
@@ -89,6 +93,7 @@ function ReportForm({ lang }: { lang: Lang }) {
         <p className="mt-2 text-sm text-muted-foreground">{tx("formBody")}</p>
         <label htmlFor="research-question" className="mt-7 block text-sm font-semibold">{tx("promptLabel")}</label>
         <Textarea id="research-question" maxLength={4000} value={question} onChange={e => setQuestion(e.target.value)} placeholder={tx("promptPlaceholder")} className="mt-2 min-h-40 border-input bg-card p-4 text-base" />
+        <div className="mt-3"><VoiceButton lang={lang} onText={t => setQuestion(q => (q ? q.trimEnd() + " " : "") + t)} /></div>
         <div className="mt-3 flex flex-wrap gap-2">{(["ex1", "ex2", "ex3"] as const).map(key => <Button key={key} size="sm" variant="outline" className="h-auto max-w-full whitespace-normal text-left" onClick={() => setQuestion(tx(key))}>{tx(key)}</Button>)}</div>
         <div className="mt-7 border-y border-border py-5"><input ref={inputRef} type="file" accept=".txt,.md" className="sr-only" onChange={e => { const f = e.target.files?.[0]; if (f) void readFile(f); e.target.value = ""; }} />
           <div onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); const f = e.dataTransfer.files?.[0]; if (f) void readFile(f); }} className="flex flex-wrap items-center gap-3">
@@ -98,17 +103,15 @@ function ReportForm({ lang }: { lang: Lang }) {
         <details className="group border-b border-border py-5"><summary className="flex cursor-pointer list-none items-center gap-2 font-semibold">{tx("advanced")}<ChevronDown className="size-4 transition-transform group-open:rotate-180" /></summary>
           <div className="mt-5 grid gap-4 sm:grid-cols-2">{([["company", company, setCompany], ["website", website, setWebsite], ["industry", industry, setIndustry], ["competitors", competitors, setCompetitors], ["focus", focus, setFocus]] as const).map(([key, value, setter]) => <label key={key} className="text-sm font-medium">{tx(key)}<Input value={value} maxLength={key === "focus" ? 500 : 200} onChange={e => setter(e.target.value)} className="mt-2 bg-card" /></label>)}<label className="text-sm font-medium">{tx("mode")}<select value={mode} onChange={e => setMode(e.target.value as typeof mode)} className="mt-2 h-9 w-full rounded-md border border-input bg-card px-3">{(["Balanced", "Fast", "Focused", "Comparative"] as const).map((m) => <option key={m} value={m}>{tx(({ Balanced: "modeBalanced", Fast: "modeQuick", Focused: "modeDeep", Comparative: "modeComparative" } as const)[m])}</option>)}</select></label></div>
         </details>
-        <div className="mt-6 flex flex-wrap items-center gap-4"><Button size="lg" className="h-12 px-7" onClick={submit} disabled={busy || left === 0}>{busy ? <LoaderCircle className="animate-spin" /> : <ArrowRight />}{busy ? tx("generating") : tx("generate")}</Button><span className="text-sm text-muted-foreground">{left} {tx("left")}</span></div>
-        {left === 0 && <p role="status" className="mt-4 text-sm text-muted-foreground">{tx("limit")} Browser-based demo allowance; not a secure account limit.</p>}
+        {!authLoading && !user ? <div className="mt-6 flex flex-wrap items-center gap-4 border border-border bg-secondary p-5"><p className="text-sm">Sign in with Google or email to generate full reports (2+ pages) and keep them in your library.</p><Button asChild><Link to="/auth">Sign in to generate</Link></Button></div>
+        : <div className="mt-6 flex flex-wrap items-center gap-4"><Button size="lg" className="h-12 px-7" onClick={submit} disabled={busy || left === 0 || authLoading}>{busy ? <LoaderCircle className="animate-spin" /> : <ArrowRight />}{busy ? "Writing your report (about a minute)…" : tx("generate")}</Button><span className="text-sm text-muted-foreground">{left} of {MONTHLY_REPORT_LIMIT} free reports left this month</span></div>}
+        {user && left === 0 && <p role="status" className="mt-4 text-sm text-muted-foreground">{tx("limit")}</p>}
         {error && <div role="alert" className="mt-5 flex items-center gap-3 text-sm text-destructive">{error}<Button variant="outline" size="sm" disabled={busy} onClick={submit}>{tx("retry")}</Button></div>}
-        <p className="mt-5 text-xs leading-5 text-muted-foreground">Your question and attached text are sent to an AI provider. Do not include confidential information. Reports are not saved to an account. This tool does not browse the live web.</p>
+        <p className="mt-5 text-xs leading-5 text-muted-foreground">Your question and attached text are sent to an AI provider to write the report. Reports are saved privately to your account. Do not include confidential information. This tool does not browse the live web.</p>
       </div>
       <aside className="border-t border-border pt-7 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"><p className="text-xs font-bold uppercase text-brand">{tx("previewLabel")}</p><h3 className="mt-4 font-display text-xl font-bold">{tx("sampleTitle")}</h3><p className="mt-3 text-sm text-muted-foreground">{tx("sampleBadge")}</p><div className="mt-6 space-y-4 border-l-2 border-border pl-4 text-sm"><p className="font-semibold">{tx("sampleTopic")}</p><p className="text-muted-foreground">{tx("sampleSummary")}</p><p className="text-muted-foreground">{tx("sampleFinding")}</p></div><Link to="/sample-report" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-brand hover:underline">{tx("heroSecondary")} <ArrowRight className="size-4" /></Link></aside>
     </div>
-    {report && <article id="report-output" className="mt-16 scroll-mt-28 border-t border-border pt-12 print:mt-0 print:border-0"><div className="flex flex-wrap items-start justify-between gap-4"><div><p className="text-xs font-bold uppercase text-brand">VerifAI · {new Date().toLocaleDateString()}</p><h2 className="mt-2 max-w-3xl font-display text-3xl font-bold">{report.title}</h2></div><div className="flex gap-1 print:hidden"><Button size="icon" variant="outline" aria-label={tx("copy")} title={tx("copy")} onClick={copy}>{copied ? <Check /> : <Clipboard />}</Button><Button size="icon" variant="outline" aria-label={tx("download")} title="Download Markdown" onClick={download}><Download /></Button><Button size="icon" variant="outline" aria-label={tx("print")} title={tx("print")} onClick={() => window.print()}><Printer /></Button></div></div>
-      <p className="mt-5 border-l-2 border-primary bg-secondary p-4 text-sm">{tx("aiLabel")} {tx("noWeb")}</p>
-      <div className="mt-9 grid gap-8 lg:grid-cols-[190px_1fr]"><nav aria-label={tx("toc")} className="flex flex-col gap-3 text-sm text-muted-foreground print:hidden">{[["summary", tx("execSummary")], ["findings", tx("keyFindings")], ["sources", tx("sources")], ["method", tx("methodology")]].map(([id, label]) => <a key={id} href={`#${id}`} className="hover:text-brand">{label}</a>)}</nav><div className="space-y-9 text-sm leading-7"><section id="summary"><h3 className="font-display text-xl font-bold">{tx("execSummary")}</h3><p className="mt-3 whitespace-pre-wrap">{report.summary}</p></section><section id="findings"><h3 className="font-display text-xl font-bold">{tx("keyFindings")}</h3><div className="mt-4 space-y-5">{report.findings.map((f, i) => <div key={i} className="border-l-2 border-border pl-4"><span className="text-xs font-bold uppercase text-brand">{f.status}</span><h4 className="font-semibold">{f.title}</h4><p className="mt-1 text-muted-foreground">{f.detail}</p></div>)}</div></section><section id="sources"><h3 className="font-display text-xl font-bold">{tx("sources")}</h3>{report.sources.length ? <ul className="mt-3 list-inside list-disc space-y-2">{report.sources.map((s, i) => <li key={i}><a href={s.url} target="_blank" rel="noopener noreferrer" className="break-all text-brand underline">{s.title}</a> <span className="text-muted-foreground">— {s.publisher}, {s.date}</span></li>)}</ul> : <p className="mt-2 text-muted-foreground">No source links were confidently identified. Do not treat uncited claims as verified.</p>}</section><section><h3 className="font-display text-xl font-bold">Conflicting evidence</h3><p className="mt-2">{report.conflictingEvidence}</p></section><section id="method"><h3 className="font-display text-xl font-bold">{tx("methodology")}</h3><p className="mt-2">{report.methodology}</p><h3 className="mt-7 font-display text-xl font-bold">{tx("limitations")}</h3><p className="mt-2">{report.limitations}</p><h3 className="mt-7 font-display text-xl font-bold">{tx("conclusion")}</h3><p className="mt-2">{report.conclusion}</p></section></div></div>
-    </article>}
+    {report && <div className="mt-16 border-t border-border pt-12 print:mt-0 print:border-0"><ReportView report={report} /><p className="mt-8 text-sm print:hidden"><Link to="/reports" className="font-semibold text-brand hover:underline">Saved to My reports →</Link></p></div>}
   </div>;
 }
 
