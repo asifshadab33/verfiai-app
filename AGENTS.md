@@ -11,3 +11,6 @@
 - Use the single configured AI Gateway model for reports and label all report sources unverified until opened; additional advertised engines are not connected.
 - Keep brochure sections as separate content routes with leaf metadata because each is independently shareable.
 - Browser-only report and citation allowances are demonstration counters, never authorization or production billing entitlements.
+- Reports require sign-in (Lovable Cloud auth: Google + email); generation, the 3/month limit and saving run server-side in `report.functions.ts` against the `reports` table, because browser counters are not enforceable.
+- Voice input uses the browser's free Web Speech API with `cleanVoiceTranscript`, so no audio leaves the browser via our server.
+- Reports target 1000+ words (~2 pages) with one automatic expansion pass when the draft is short.
