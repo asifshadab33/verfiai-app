@@ -47,7 +47,10 @@ export const generateReport = createServerFn({ method: "POST" })
       let content: unknown;
       try { content = JSON.parse(payload.choices?.[0]?.message?.content ?? ""); }
       catch { throw new Error("The report was incomplete. Please try again."); }
-      return reportSchema.parse(content);
+      const report = reportSchema.parse(content);
+      return { ...report, sources: report.sources.filter(source => {
+        try { return new URL(source.url).protocol === "https:"; } catch { return false; }
+      }) };
     } catch (error) {
       if (error instanceof Error && error.name === "AbortError") throw new Error("The request timed out. Please try again.");
       throw error;

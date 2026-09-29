@@ -171,7 +171,7 @@ export function Checker() {
   }
 
   return (
-    <section id="check" className="mx-auto max-w-6xl scroll-mt-20 px-5 py-20">
+    <section id="check" className="mx-auto max-w-6xl scroll-mt-20">
       <h2 className="font-display text-3xl font-bold">Check your citations</h2>
       <p className="mt-2 max-w-2xl text-muted-foreground">Paste your manuscript or reference list, or upload a file. We check every reference against Crossref.</p>
       <div className="mt-8 rounded-2xl border border-border bg-card p-5 shadow-sm md:p-8">
@@ -186,7 +186,7 @@ export function Checker() {
           <Upload className="size-6 text-brand" />
           <p className="text-sm">Drag a file here or <button type="button" className="font-semibold text-brand underline" onClick={() => inputRef.current?.click()}>browse</button></p>
           <p className="text-xs text-muted-foreground">.docx, .bib, .txt or .md · up to 5 MB</p>
-          <input ref={inputRef} type="file" accept=".docx,.bib,.txt,.md,.pdf" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) void readFile(f); e.target.value = ""; }} />
+          <input ref={inputRef} type="file" accept=".docx,.bib,.txt,.md" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) void readFile(f); e.target.value = ""; }} />
           {fileName && <p className="flex items-center gap-2 text-sm font-medium"><FileText className="size-4" /> {fileName} <button type="button" aria-label="Remove file" onClick={() => { setFileName(null); setText(""); }}><Trash2 className="size-4 text-muted-foreground" /></button></p>}
           {fileError && <p role="alert" className="text-sm text-destructive">{fileError}</p>}
         </div>
