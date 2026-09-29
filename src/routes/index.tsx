@@ -65,6 +65,7 @@ function ReportForm({ lang }: { lang: Lang }) {
   const [focus, setFocus] = useState("");
   const [mode, setMode] = useState<"Balanced" | "Fast" | "Focused" | "Comparative">("Balanced");
   const [report, setReport] = useState<ResearchReport | null>(null);
+  const [reportId, setReportId] = useState<string | undefined>(undefined);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [used, setUsed] = useState(0);
@@ -84,7 +85,7 @@ function ReportForm({ lang }: { lang: Lang }) {
     try {
       const payload = { question, attachment, language: languages.find(l => l.code === lang)?.name ?? "English", mode, company, website, industry, competitors, focus };
       const result = user ? await generate({ data: payload }) : await generateGuest({ data: payload });
-      setReport(result.report); if (user) setUsed(used + 1); else setGuestDone(true);
+      setReport(result.report); setReportId("id" in result ? result.id : undefined); if (user) setUsed(used + 1); else setGuestDone(true);
       setTimeout(() => document.getElementById("report-output")?.scrollIntoView({ behavior: "smooth" }), 100);
     } catch (e) { setError(e instanceof Error ? e.message : tx("errorTitle")); }
     finally { setBusy(false); }
@@ -114,7 +115,7 @@ function ReportForm({ lang }: { lang: Lang }) {
       </div>
       <aside className="border-t border-border pt-7 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"><p className="text-xs font-bold uppercase text-brand">{tx("previewLabel")}</p><h3 className="mt-4 font-display text-xl font-bold">{tx("sampleTitle")}</h3><p className="mt-3 text-sm text-muted-foreground">{tx("sampleBadge")}</p><div className="mt-6 space-y-4 border-l-2 border-border pl-4 text-sm"><p className="font-semibold">{tx("sampleTopic")}</p><p className="text-muted-foreground">{tx("sampleSummary")}</p><p className="text-muted-foreground">{tx("sampleFinding")}</p></div><Link to="/sample-report" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-brand hover:underline">{tx("heroSecondary")} <ArrowRight className="size-4" /></Link></aside>
     </div>
-    {report && <div className="mt-16 border-t border-border pt-12 print:mt-0 print:border-0"><ReportView report={report} /><p className="mt-8 text-sm print:hidden">{user ? <Link to="/reports" className="font-semibold text-brand hover:underline">Saved to My reports →</Link> : <>This report isn't saved. Download it now, or <Link to="/auth" className="font-semibold text-brand hover:underline">sign in</Link> to keep future reports.</>}</p></div>}
+    {report && <div className="mt-16 border-t border-border pt-12 print:mt-0 print:border-0"><ReportView report={report} reportId={reportId} /><p className="mt-8 text-sm print:hidden">{user ? <Link to="/reports" className="font-semibold text-brand hover:underline">Saved to My reports →</Link> : <>This report isn't saved. Download it now, or <Link to="/auth" className="font-semibold text-brand hover:underline">sign in</Link> to keep future reports.</>}</p></div>}
   </div>;
 }
 
