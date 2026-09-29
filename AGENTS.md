@@ -17,3 +17,5 @@
 - Guest reports are limited to one per IP+user-agent hash in `guest_usage`, server-side.
 - All usage limits (scans, fact-checks) go through `usage.server.ts`: signed-in users in `usage_events`, guests one use per kind in `guest_usage`; no browser counters, because they can't be enforced.
 - The quick-search demo tab was replaced by the real fact-checker (`factcheck.functions.ts`).
+- Share links use an unguessable `reports.share_token` read via a public server fn with the admin client (returns only title/content/date), because anon RLS on reports would expose every row.
+- Word export is generated in the browser with `docx` (lazy-loaded) so no server cost.
