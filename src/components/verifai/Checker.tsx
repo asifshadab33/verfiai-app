@@ -3,13 +3,9 @@ import { useEffect, useRef, useState, type DragEvent, type ReactNode } from "rea
 import { AlertTriangle, ShieldCheck, Check, FileSearch, FileText, LoaderCircle, Lock, Trash2, Upload, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { verifyCitations, type CitationResult } from "@/lib/verify.functions";
+import { verifyCitations, getScanUsage, FREE_REF_LIMIT, type CitationResult } from "@/lib/verify.functions";
+import { useAuth } from "@/hooks/useAuth";
 
-const FREE_LIMIT = 3;
-const USAGE_KEY = "verifai-scans";
-const month = () => new Date().toISOString().slice(0, 7);
-function readUsage() { try { const v = JSON.parse(localStorage.getItem(USAGE_KEY) || "null"); return v?.period === month() ? Number(v.used) || 0 : 0; } catch { return 0; } }
-function writeUsage(used: number) { try { localStorage.setItem(USAGE_KEY, JSON.stringify({ period: month(), used })); } catch { /* optional */ } }
 const SAMPLE = `Recent work suggests that social priming strongly affects behaviour (Smith, 2019).
 
 References
@@ -20,7 +16,8 @@ const STAGES = ["Reading your text…", "Identifying citations…", "Checking Cr
 
 const statusStyle = {
   retracted: { label: "Retracted", cls: "bg-danger-soft text-destructive border-destructive/30", mark: "bg-destructive/15 underline decoration-destructive" },
-  unverified: { label: "High fabrication risk", cls: "bg-warning-soft text-warning border-warning/40", mark: "bg-warning/15 underline decoration-warning" },
+  not_found: { label: "Not found", cls: "bg-warning-soft text-warning border-warning/40", mark: "bg-warning/15 underline decoration-warning" },
+  partial: { label: "Partial match", cls: "bg-secondary text-foreground border-border", mark: "bg-secondary underline decoration-dotted" },
   verified: { label: "Verified", cls: "bg-success-soft text-success border-success/30", mark: "bg-success/15" },
 } as const;
 
@@ -49,7 +46,7 @@ function HeroMockup() {
         <div className="mt-3 flex items-center gap-2 text-sm font-semibold"><ShieldCheck className="size-4 text-success" /> Citation report</div>
         <p className="mt-4 font-display text-3xl font-extrabold">92%</p>
         <p className="text-xs text-muted-foreground">Integrity score</p>
-        <div className="mt-3 flex flex-wrap gap-1.5"><Badge s="retracted" /><Badge s="unverified" /><Badge s="verified" /></div>
+        <div className="mt-3 flex flex-wrap gap-1.5"><Badge s="retracted" /><Badge s="not_found" /><Badge s="verified" /></div>
       </div>
     </div>
   );
@@ -76,12 +73,13 @@ function highlight(text: string, results: CitationResult[]) {
   return out;
 }
 
-function Results({ text, results }: { text: string; results: CitationResult[] }) {
+function Results({ text, results, total }: { text: string; results: CitationResult[]; total: number }) {
+  const [filter, setFilter] = useState<"all" | CitationResult["status"]>("all");
   const flagged = results.filter((r) => r.status !== "verified").length;
   const retracted = results.filter((r) => r.status === "retracted").length;
   const score = results.length ? Math.round(((results.length - flagged) / results.length) * 100) : 0;
-  const order = { retracted: 0, unverified: 1, verified: 2 };
-  const sorted = [...results].sort((a, b) => order[a.status] - order[b.status]);
+  const order = { retracted: 0, not_found: 1, partial: 2, verified: 3 };
+  const sorted = [...results].sort((a, b) => order[a.status] - order[b.status]).filter(r => filter === "all" || r.status === filter);
   return (
     <div className="mt-10 space-y-6">
       <div className="grid gap-4 sm:grid-cols-3">
@@ -89,29 +87,25 @@ function Results({ text, results }: { text: string; results: CitationResult[] })
           <div key={l} className="rounded-2xl border border-border bg-card p-5"><p className="text-sm text-muted-foreground">{l}</p><p className="mt-1 font-display text-3xl font-extrabold">{v}</p></div>
         ))}
       </div>
+      {total > results.length && <p role="status" className="rounded-xl bg-brand-soft p-4 text-sm">Your text has {total} references. The free plan checks the first {results.length}; checking up to 200 per scan comes with Pro.</p>}
       {results.length === 0 ? (
-        <p className="rounded-xl bg-secondary p-5 text-sm">No citations were found in this text. Make sure your reference list is included.</p>
-      ) : (
-        <div className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-2xl border border-border bg-card p-5">
-            <h3 className="font-display font-bold">Original text</h3>
-            <div className="mt-3 max-h-[32rem] overflow-auto whitespace-pre-wrap text-sm leading-7 [overflow-wrap:anywhere]">{highlight(text, results)}</div>
-          </div>
-          <div className="rounded-2xl border border-border bg-card p-5">
-            <h3 className="font-display font-bold">Citation checks</h3>
-            <ul className="mt-3 max-h-[32rem] space-y-3 overflow-auto">
-              {sorted.map((r, i) => (
-                <li key={i} className="rounded-xl border border-border p-4">
-                  <div className="flex items-start justify-between gap-3"><p className="text-sm font-semibold [overflow-wrap:anywhere]">{r.title || r.raw}</p><Badge s={r.status} /></div>
-                  <p className="mt-2 text-xs text-muted-foreground">{r.note}</p>
-                  {r.doi && r.status !== "unverified" && <a className="mt-1 inline-block text-xs text-brand underline [overflow-wrap:anywhere]" href={`https://doi.org/${r.doi}`} target="_blank" rel="noreferrer">doi.org/{r.doi}</a>}
-                </li>
-              ))}
-            </ul>
-          </div>
+        <p className="rounded-xl bg-secondary p-5 text-sm">No citations were found in this text. Make sure your reference list is included. This didn't use up a scan.</p>
+      ) : (<>
+        <div className="flex flex-wrap gap-2" role="group" aria-label="Filter results">{(["all", "retracted", "not_found", "partial", "verified"] as const).map(f => <Button key={f} size="sm" variant={filter === f ? "default" : "outline"} onClick={() => setFilter(f)}>{f === "all" ? `All (${results.length})` : `${statusStyle[f].label} (${results.filter(r => r.status === f).length})`}</Button>)}</div>
+        <div className="overflow-x-auto rounded-2xl border border-border bg-card">
+          <table className="w-full min-w-[720px] text-left text-sm">
+            <thead className="border-b border-border text-xs uppercase text-muted-foreground"><tr><th scope="col" className="p-3">Reference</th><th scope="col" className="p-3">Status</th><th scope="col" className="p-3">DOI</th><th scope="col" className="p-3" title="0.4 journal + 0.25 recency + 0.2 citations − 0.15 retraction">Trust</th></tr></thead>
+            <tbody>{sorted.map((r, i) => <tr key={i} className="border-b border-border align-top last:border-0">
+              <td className="p-3"><p className="font-semibold [overflow-wrap:anywhere]">{r.title || r.raw}</p><p className="mt-1 text-xs text-muted-foreground">{[r.author, r.year, r.journal].filter(Boolean).join(" · ")}</p><p className="mt-1 text-xs text-muted-foreground">{r.note}</p>{r.matchedTitle && r.status === "partial" && <p className="mt-1 text-xs">Closest record: <em>{r.matchedTitle}</em></p>}</td>
+              <td className="p-3"><Badge s={r.status} /></td>
+              <td className="p-3 text-xs">{r.doi && r.status !== "not_found" ? <a className="text-brand underline [overflow-wrap:anywhere]" href={`https://doi.org/${r.doi}`} target="_blank" rel="noreferrer">{r.doi}</a> : "—"}</td>
+              <td className="p-3 font-semibold">{r.trust != null && r.status !== "not_found" ? r.trust : "—"}</td>
+            </tr>)}</tbody>
+          </table>
         </div>
-      )}
-      <p className="text-xs text-muted-foreground">Checks use public Crossref records. A "high fabrication risk" flag means we couldn't match the source; please confirm it manually before removing it.</p>
+        <details className="rounded-2xl border border-border bg-card p-5"><summary className="cursor-pointer font-display font-bold">Show citations in your original text</summary><div className="mt-3 max-h-[32rem] overflow-auto whitespace-pre-wrap text-sm leading-7 [overflow-wrap:anywhere]">{highlight(text, results)}</div></details>
+      </>)}
+      <p className="text-xs text-muted-foreground">Checks use public Crossref records: DOI lookup, then fuzzy title, author and year matching (±1 year). The trust score is an approximate guide based on the record type, age and citation count — not a quality judgement. "Not found" means we couldn't match the source; confirm it manually before removing it. VerifAI provides verification support, not definitive truth judgments.</p>
     </div>
   );
 }
@@ -126,10 +120,13 @@ export function Checker() {
   const [error, setError] = useState<string | null>(null);
   const [results, setResults] = useState<CitationResult[] | null>(null);
   const [scanned, setScanned] = useState("");
-  const [used, setUsed] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [usage, setUsage] = useState<{ signedIn: boolean; used: number; limit: number } | null>(null);
+  const { user, loading } = useAuth();
+  const fetchUsage = useServerFn(getScanUsage);
   const inputRef = useRef<HTMLInputElement>(null);
-  useEffect(() => setUsed(readUsage()), []);
-  const left = Math.max(0, FREE_LIMIT - used);
+  useEffect(() => { if (!loading) fetchUsage().then(setUsage).catch(() => {}); }, [user, loading]); // eslint-disable-line react-hooks/exhaustive-deps
+  const left = usage ? Math.max(0, usage.limit - usage.used) : 1;
   const busy = stage >= 0;
 
   async function readFile(f: File) {
@@ -138,7 +135,7 @@ export function Checker() {
     if (f.size > 5 * 1024 * 1024) return setFileError("This file is larger than 5 MB. Please upload a smaller file.");
     try {
       if (ext === "txt" || ext === "md" || ext === "bib") {
-        setText((await f.text()).slice(0, 60000));
+        setText((await f.text()).slice(0, ext === "bib" ? 200000 : 60000));
       } else if (ext === "docx") {
         const mammoth = await import("mammoth");
         const { value } = await mammoth.extractRawText({ arrayBuffer: await f.arrayBuffer() });
@@ -162,9 +159,9 @@ export function Checker() {
     setError(null); setResults(null); setStage(0);
     const timers = [setTimeout(() => setStage(1), 700), setTimeout(() => setStage(2), 4000)];
     try {
-      const { results } = await verify({ data: { text } });
-      setScanned(text); setResults(results);
-      const u = used + 1; setUsed(u); writeUsage(u);
+      const r = await verify({ data: { text } });
+      setScanned(text); setResults(r.results); setTotal(r.total);
+      if (r.results.length) setUsage(u => u ? { ...u, used: u.used + 1 } : u);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong. Please try again.");
     } finally { timers.forEach(clearTimeout); setStage(-1); }
@@ -176,10 +173,10 @@ export function Checker() {
       <p className="mt-2 max-w-2xl text-muted-foreground">Paste your manuscript or reference list, or upload a file. We check every reference against Crossref.</p>
       <div className="mt-8 rounded-2xl border border-border bg-card p-5 shadow-sm md:p-8">
         <label className="block text-sm font-semibold" htmlFor="ms">Manuscript text or reference list</label>
-        <Textarea id="ms" value={text} onChange={(e) => { setText(e.target.value); setFileName(null); }} maxLength={60000} placeholder="Paste your text with its reference list…" className="mt-2 min-h-44" />
+        <Textarea id="ms" value={text} onChange={(e) => { setText(e.target.value); setFileName(null); }} maxLength={200000} placeholder="Paste your text with its reference list…" className="mt-2 min-h-44" />
         <div className="mt-2 flex flex-wrap justify-between gap-2 text-xs text-muted-foreground">
           <button type="button" className="text-brand underline" onClick={() => { setText(SAMPLE); setFileName(null); }}>Try a sample with known problems</button>
-          <span>{text.length.toLocaleString()} / 60,000</span>
+          <span>{text.length.toLocaleString()} / 200,000</span>
         </div>
         <div onDragOver={(e) => { e.preventDefault(); setDrag(true); }} onDragLeave={() => setDrag(false)} onDrop={onDrop}
           className={`mt-5 flex flex-col items-center gap-2 rounded-xl border-2 border-dashed p-6 text-center transition-colors ${drag ? "border-primary bg-brand-soft" : "border-border"}`}>
@@ -194,7 +191,7 @@ export function Checker() {
           <Button size="lg" className="h-12 px-6" onClick={run} disabled={busy || left === 0 || text.trim().length < 20}>
             {busy ? <LoaderCircle className="size-4 animate-spin" /> : <FileSearch className="size-4" />} {busy ? STAGES[stage] : "Verify citations"}
           </Button>
-          <span className="text-xs text-muted-foreground">{left} of {FREE_LIMIT} free scans left this month</span>
+          <span className="text-xs text-muted-foreground">{usage ? (usage.signedIn ? `${left} of ${usage.limit} free scans left this month` : left ? "1 free scan without an account" : "") : ""} · up to {FREE_REF_LIMIT} references per scan</span>
         </div>
         <p className="mt-3 flex items-center gap-2 text-xs text-muted-foreground"><Lock className="size-3.5" /> Text is sent to an AI service to identify citations. Reference details are checked with Crossref; do not submit confidential material.</p>
         {busy && (
@@ -203,9 +200,9 @@ export function Checker() {
           </ol>
         )}
         {error && <div role="alert" className="mt-6 flex flex-wrap items-center gap-3 rounded-xl bg-danger-soft p-4 text-sm text-destructive"><XCircle className="size-4" /> {error} <Button size="sm" variant="outline" onClick={run}>Retry</Button></div>}
-        {left === 0 && !busy && <p className="mt-6 rounded-xl bg-brand-soft p-4 text-sm">You've used this month's demo allowance. Paid scans are not available yet.</p>}
+        {left === 0 && !busy && <p className="mt-6 rounded-xl bg-brand-soft p-4 text-sm">{usage?.signedIn ? "You've used this month's free scans. More scans come with Pro (coming soon)." : <>You've used your free scan. <a href="/auth" className="font-semibold text-brand underline">Sign in</a> for 3 scans every month.</>}</p>}
       </div>
-      {results && <Results text={scanned} results={results} />}
+      {results && <Results text={scanned} results={results} total={total} />}
     </section>
   );
 }
