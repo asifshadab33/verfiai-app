@@ -59,6 +59,7 @@ export type Database = {
           created_at: string
           id: string
           question: string
+          share_token: string | null
           title: string
           user_id: string
         }
@@ -67,6 +68,7 @@ export type Database = {
           created_at?: string
           id?: string
           question: string
+          share_token?: string | null
           title: string
           user_id: string
         }
@@ -75,6 +77,7 @@ export type Database = {
           created_at?: string
           id?: string
           question?: string
+          share_token?: string | null
           title?: string
           user_id?: string
         }
