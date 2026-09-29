@@ -5,11 +5,11 @@ export type CitationStatus = "verified" | "retracted" | "unverified";
 export type CitationResult = {
   raw: string;
   title: string;
-  year?: string;
-  doi?: string;
+  year?: string | undefined;
+  doi?: string | undefined;
   status: CitationStatus;
   note: string;
-  matchedTitle?: string;
+  matchedTitle?: string | undefined;
 };
 
 const UA = "VerifAI/1.0 (https://verfiai.app; mailto:hello@verfiai.app)";
@@ -38,7 +38,7 @@ async function isRetracted(doi: string, title: string) {
   return items.some((it) => (it["update-to"] ?? []).some((u: any) => /retract|withdraw/i.test(u.type ?? "") && String(u.DOI).toLowerCase() === doi.toLowerCase()));
 }
 
-async function checkOne(c: { raw: string; title: string; year?: string; doi?: string }): Promise<CitationResult> {
+async function checkOne(c: { raw: string; title: string; year?: string | undefined; doi?: string | undefined }): Promise<CitationResult> {
   try {
     let doi = c.doi?.replace(/^https?:\/\/(dx\.)?doi\.org\//i, "").trim();
     let found: any = null;
