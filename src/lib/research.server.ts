@@ -9,7 +9,7 @@ const SYNTHESIS_ENGINES = [
 const SEARCH_TTL_MS = 24 * 3600_000;
 const REPORT_TTL_MS = 7 * 24 * 3600_000;
 
-type Source = { title: string; url: string; content: string; published?: string; score: number };
+type Source = { title: string; url: string; content: string; published?: string | undefined; score: number };
 
 export const sha = (s: string) => createHash("sha256").update(s).digest("hex");
 
