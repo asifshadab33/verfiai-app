@@ -10,4 +10,5 @@
 - [ ] Privacy/Terms legal text and contact address — blocked by owner-provided details.
 - [x] Stage 1 of new brief: live web research reports (Tavily + BM25/RRF, DeepSeek→Qwen failover via OpenRouter), DB cache, 1 guest report.
 - [x] Stage 2: claim fact-checker (text/URL, DeepSeek+Qwen consensus, R1 tie-break) and citation cascade (DOI → Jaro-Winkler/phonetic/±1yr, trust score, .bib parsing, server limits).
-- [ ] Next: payments (Stripe Pro $9, 200 refs), Word export, share links, new homepage; later PDF upload, public API + /docs.
+- [x] Word export (watermarked), share links (/r/$token, revocable), new homepage, /methodology, /privacy, JSON-LD.
+- [ ] Next: payments (Stripe Pro $9, 200 refs, unwatermarked exports); later PDF upload, public API + /docs, translating new homepage text.
