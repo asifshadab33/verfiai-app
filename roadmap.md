@@ -5,5 +5,6 @@
 - [x] Reuse 12 translated interface dictionaries, language URL selection and visible fallback for seven languages.
 - [x] Add route metadata and a sitemap.
 - [x] Validate a real single-model report and sample Crossref citation scan in the browser; check desktop and mobile layouts.
-- [ ] Production accounts, server-side limits, payments, saved reports, additional providers and richer files — blocked by backend setup and actual provider/billing configuration.
+- [x] Accounts (Google + email), server-side report limit, saved reports, voice input, 2-page minimum reports.
+- [ ] Payments, saved reports, additional providers and richer files — blocked by backend setup and actual provider/billing configuration.
 - [ ] Privacy/Terms legal text and contact address — blocked by owner-provided details.
