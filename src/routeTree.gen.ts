@@ -21,7 +21,9 @@ import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SampleReportRouteImport } from './routes/sample-report'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as CheckoutSuccessRouteImport } from './routes/checkout/success'
 import { Route as RTokenRouteImport } from './routes/r.$token'
+import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -83,11 +85,22 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
+  id: '/checkout/success',
+  path: '/checkout/success',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RTokenRoute = RTokenRouteImport.update({
   id: '/r/$token',
   path: '/r/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPaymentsWebhookRoute =
+  ApiPublicPaymentsWebhookRouteImport.update({
+    id: '/api/public/payments/webhook',
+    path: '/api/public/payments/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -102,7 +115,9 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/sample-report': typeof SampleReportRoute
   '/terms': typeof TermsRoute
+  '/checkout/success': typeof CheckoutSuccessRoute
   '/r/$token': typeof RTokenRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -117,7 +132,9 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/sample-report': typeof SampleReportRoute
   '/terms': typeof TermsRoute
+  '/checkout/success': typeof CheckoutSuccessRoute
   '/r/$token': typeof RTokenRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -133,7 +150,9 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/sample-report': typeof SampleReportRoute
   '/terms': typeof TermsRoute
+  '/checkout/success': typeof CheckoutSuccessRoute
   '/r/$token': typeof RTokenRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -150,7 +169,9 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sample-report'
     | '/terms'
+    | '/checkout/success'
     | '/r/$token'
+    | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -165,7 +186,9 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sample-report'
     | '/terms'
+    | '/checkout/success'
     | '/r/$token'
+    | '/api/public/payments/webhook'
   id:
     | '__root__'
     | '/'
@@ -180,7 +203,9 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sample-report'
     | '/terms'
+    | '/checkout/success'
     | '/r/$token'
+    | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -196,7 +221,9 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   SampleReportRoute: typeof SampleReportRoute
   TermsRoute: typeof TermsRoute
+  CheckoutSuccessRoute: typeof CheckoutSuccessRoute
   RTokenRoute: typeof RTokenRoute
+  ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -285,11 +312,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout/success': {
+      id: '/checkout/success'
+      path: '/checkout/success'
+      fullPath: '/checkout/success'
+      preLoaderRoute: typeof CheckoutSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/r/$token': {
       id: '/r/$token'
       path: '/r/$token'
       fullPath: '/r/$token'
       preLoaderRoute: typeof RTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/payments/webhook': {
+      id: '/api/public/payments/webhook'
+      path: '/api/public/payments/webhook'
+      fullPath: '/api/public/payments/webhook'
+      preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -308,7 +349,9 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   SampleReportRoute: SampleReportRoute,
   TermsRoute: TermsRoute,
+  CheckoutSuccessRoute: CheckoutSuccessRoute,
   RTokenRoute: RTokenRoute,
+  ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
