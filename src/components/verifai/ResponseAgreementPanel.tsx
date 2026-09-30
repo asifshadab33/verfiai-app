@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { CircleAlert, CircleCheck, CircleHelp, Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
