@@ -23,3 +23,4 @@
 - [ ] Accessibility pass, test matrix, asset/license list
 - [ ] Add existing $9/month Pro product to payments and a checkout; confirm purchase, cancellation, and upgrade/downgrade rules with owner before granting access.
 - [ ] Update policy pages for payments and displayed brand; legal seller name awaiting owner response.
+- [ ] Replace placeholder privacy and terms pages with Paddle-ready policies naming seller verfiai; add a dedicated refund policy and footer link.
