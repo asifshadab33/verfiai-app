@@ -21,3 +21,5 @@
 - [x] .docx/.csv/.pdf uploads up to 5 MB
 - [ ] Pro payments ($9, 50 reports, no watermark) — waiting on user go-ahead for payment setup
 - [ ] Accessibility pass, test matrix, asset/license list
+- [ ] Add existing $9/month Pro product to payments and a checkout; confirm purchase, cancellation, and upgrade/downgrade rules with owner before granting access.
+- [ ] Update policy pages for payments and displayed brand; legal seller name awaiting owner response.
