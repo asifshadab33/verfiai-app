@@ -32,5 +32,5 @@ export async function verifyWebhook(request: Request, env: PaddleEnv) {
   const body = await request.text();
   if (!signature || !body) throw new Error("Missing webhook signature or body");
   const secretName = env === "sandbox" ? "PAYMENTS_SANDBOX_WEBHOOK_SECRET" : "PAYMENTS_LIVE_WEBHOOK_SECRET";
-  return getPaddleClient(env).webhooks.unmarshal(body, secret(secretName), signature);
+  return await getPaddleClient(env).webhooks.unmarshal(body, secret(secretName), signature);
 }

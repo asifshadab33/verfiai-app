@@ -35,7 +35,7 @@ export async function downloadDocx(r: ResearchReport, opts: { watermark: boolean
   const doc = new Document({ sections: [{ ...(footer ? { footers: { default: footer } } : {}), ...(header ? { headers: { default: header } } : {}), children }] });
   const blob = await Packer.toBlob(doc);
   const url = URL.createObjectURL(blob);
-  const a = document.createElement("a"); a.href = url; a.download = `${r.title.replace(/[^\w\- ]+/g, "").slice(0, 60).trim() || "verifai-report"}.docx`; a.click();
+  const a = document.createElement("a"); a.href = url; a.download = `${r.title.replace(/[^\w\- ]+/g, "").slice(0, 60).trim() || "verfi-ai-report"}.docx`; a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
