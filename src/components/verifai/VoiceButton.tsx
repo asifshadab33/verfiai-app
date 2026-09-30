@@ -98,10 +98,10 @@ export function VoiceButton({ lang, onText, disabled }: { lang: string; onText: 
                 </Button>
               </span>
             </TooltipTrigger>
-            <TooltipContent>Voice input not supported in this browser.</TooltipContent>
+            <TooltipContent>Voice input is natively supported in Chrome, Edge, and Safari.</TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        <span className="sr-only">Voice input not supported in this browser.</span>
+        <span className="sr-only">Voice input is natively supported in Chrome, Edge, and Safari.</span>
         {infoIcon}
       </span>
     );
