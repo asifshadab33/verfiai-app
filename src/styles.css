@@ -36,6 +36,11 @@
   --color-warning: var(--warning);
   --color-warning-soft: var(--warning-soft);
   --color-danger-soft: var(--danger-soft);
+  --color-footer: var(--footer-bg);
+  --color-footer-foreground: var(--footer-fg);
+  --color-footer-muted: var(--footer-muted);
+  --color-footer-border: var(--footer-border);
+  --color-footer-badge: var(--footer-badge);
 }
 
 :root {
@@ -66,6 +71,11 @@
   --warning: oklch(0.66 0.16 55);
   --warning-soft: oklch(0.66 0.16 55 / 0.12);
   --danger-soft: oklch(0.56 0.21 27 / 0.1);
+  --footer-bg: oklch(0.22 0.035 262);
+  --footer-fg: oklch(0.96 0.005 255);
+  --footer-muted: oklch(0.72 0.02 258);
+  --footer-border: oklch(0.72 0.02 258 / 0.18);
+  --footer-badge: oklch(0.72 0.02 258 / 0.08);
   --hero-gradient: linear-gradient(180deg, oklch(0.97 0.015 255), oklch(0.99 0.003 250));
 }
 
