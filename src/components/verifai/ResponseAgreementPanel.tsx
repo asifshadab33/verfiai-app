@@ -39,7 +39,7 @@ export function ResponseAgreementPanel() {
 
   useEffect(() => {
     const states: Agreement[] = ["high", "mixed", "disagreement"];
-    const t = window.setTimeout(() => setState(states[Math.floor(Math.random() * states.length)]), 900);
+    const t = window.setTimeout(() => setState(states[Math.floor(Math.random() * states.length)] ?? "mixed"), 900);
     return () => window.clearTimeout(t);
   }, []);
 
