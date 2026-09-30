@@ -13,7 +13,8 @@ const STAGES = ["Reading the text…", "Finding checkable claims…", "Searching
 const style: Record<Verdict, { label: string; cls: string }> = {
   SUPPORTED: { label: "Supported", cls: "bg-success-soft text-success border-success/30" },
   CONTRADICTED: { label: "Contradicted", cls: "bg-danger-soft text-destructive border-destructive/30" },
-  UNVERIFIABLE: { label: "Unverifiable", cls: "bg-warning-soft text-warning border-warning/40" },
+  MIXED: { label: "Mixed evidence", cls: "bg-warning-soft text-warning border-warning/40" },
+  UNVERIFIABLE: { label: "Insufficient evidence", cls: "bg-muted text-muted-foreground border-border" },
 };
 const SAMPLE = "The Great Wall of China is visible from the Moon with the naked eye. Water boils at 100 degrees Celsius at sea level. Humans only use 10 percent of their brains. Mount Everest is the highest mountain above sea level.";
 
@@ -45,7 +46,7 @@ export function FactChecker({ lang }: { lang: Lang }) {
     finally { timers.forEach(clearTimeout); setStage(-1); }
   }
 
-  const counts = claims ? (["SUPPORTED", "CONTRADICTED", "UNVERIFIABLE"] as const).map(v => [v, claims.filter(c => c.verdict === v).length] as const) : [];
+  const counts = claims ? (["SUPPORTED", "CONTRADICTED", "MIXED", "UNVERIFIABLE"] as const).map(v => [v, claims.filter(c => c.verdict === v).length] as const) : [];
   return <div>
     <h2 className="font-display text-2xl font-bold">Fact-check a text or article</h2>
     <p className="mt-2 max-w-2xl text-sm text-muted-foreground">Verfi AI splits the text into individual claims, searches the web for each one, and has two AI engines judge the evidence. If they disagree, a third engine breaks the tie.</p>
