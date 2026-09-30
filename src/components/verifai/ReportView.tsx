@@ -4,6 +4,7 @@ import { Check, Clipboard, Download, FileType2, Link2, Printer } from "lucide-re
 import { Button } from "@/components/ui/button";
 import type { ResearchReport } from "@/lib/report.functions";
 import { downloadDocx } from "@/lib/docx-export";
+import { ResponseAgreementPanel } from "@/components/verifai/ResponseAgreementPanel";
 import { disableShare, enableShare, getShareState } from "@/lib/share.functions";
 
 function SharePanel({ id }: { id: string }) {
@@ -45,6 +46,7 @@ export function ReportView({ report, date, reportId, readOnly }: { report: Resea
   return <article id="report-output" className="scroll-mt-28">
     <div className="flex flex-wrap items-start justify-between gap-4"><div><p className="text-xs font-bold uppercase text-brand">VerifAI · {date ?? new Date().toLocaleDateString()} · ~{Math.max(2, Math.round(words / 500))} pages</p><h2 className="mt-2 max-w-3xl font-display text-3xl font-bold">{report.title}</h2></div>
       <div className="flex gap-1 print:hidden"><Button size="icon" variant="outline" aria-label="Copy" onClick={copy}>{copied ? <Check /> : <Clipboard />}</Button><Button variant="outline" onClick={word} disabled={wordBusy}><FileType2 />Word</Button><Button size="icon" variant="outline" aria-label="Download Markdown" title="Download Markdown" onClick={download}><Download /></Button><Button size="icon" variant="outline" aria-label="Print or save as PDF" onClick={() => window.print()}><Printer /></Button></div></div>
+    <ResponseAgreementPanel />
     {reportId && !readOnly && <SharePanel id={reportId} />}
     <p className="mt-5 flex flex-wrap items-center gap-3 border-l-2 border-primary bg-secondary p-4 text-sm">{report.verification === "web" ? <span className="rounded-full bg-success px-3 py-1 text-xs font-bold text-primary-foreground">Web-Verified</span> : <span className="rounded-full bg-warning px-3 py-1 text-xs font-bold text-primary-foreground">Model Knowledge Only</span>}<span>{report.verification === "web" ? "Written from live web sources fetched for this report." : "No live web sources were used."} VerifAI provides verification support, not definitive truth judgments. Review sources before relying on a result.</span></p>
     <div className="mt-9 grid gap-8 lg:grid-cols-[190px_1fr]">
