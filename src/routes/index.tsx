@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Checker } from "@/components/verifai/Checker";
 import { FactChecker } from "@/components/verifai/FactChecker";
+import { GenerationProgress } from "@/components/verifai/GenerationProgress";
 import { ReportView } from "@/components/verifai/ReportView";
 import { FAQS, FaqSection, FinalCta, HeroMockup, HowItWorksSection, PricingSection, ProductDemo, TrustSection, UseCases } from "@/components/verifai/HomeSections";
 import { SiteFooter } from "@/components/verifai/SiteFooter";
@@ -116,6 +117,7 @@ function ReportForm({ lang }: { lang: Lang }) {
         : <div className="mt-6 flex flex-wrap items-center gap-4"><Button size="lg" className="h-12 px-7" onClick={submit} disabled={busy || (!!user && left === 0) || authLoading}>{busy ? <LoaderCircle className="animate-spin" /> : <ArrowRight />}{busy ? "Searching the web and writing (1–2 minutes)…" : tx("generate")}</Button><span className="text-sm text-muted-foreground">{user ? `${left} of ${MONTHLY_REPORT_LIMIT} free reports left this month` : <>1 free report without an account · <Link to="/auth" className="text-brand underline">Sign in</Link> for 3 a month</>}</span></div>}
         {user && left === 0 && <p role="status" className="mt-4 text-sm text-muted-foreground">{tx("limit")}</p>}
         {error && <div role="alert" className="mt-5 flex flex-wrap items-center gap-3 text-sm text-destructive">{error}{!/used your/.test(error) && <Button variant="outline" size="sm" disabled={busy} onClick={submit}>{tx("retry")}</Button>}</div>}
+        <GenerationProgress active={busy} />
         <p className="mt-5 text-xs leading-5 text-muted-foreground">VerifAI searches the live web and sends your question, attached text and the found excerpts to AI engines to write the report. Signed-in reports are saved privately to your account. Do not include confidential information. VerifAI provides verification support, not definitive truth judgments. Review sources before relying on a result.</p>
       </div>
       <aside className="border-t border-border pt-7 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"><p className="text-xs font-bold uppercase text-brand">{tx("previewLabel")}</p><h3 className="mt-4 font-display text-xl font-bold">{tx("sampleTitle")}</h3><p className="mt-3 text-sm text-muted-foreground">{tx("sampleBadge")}</p><div className="mt-6 space-y-4 border-l-2 border-border pl-4 text-sm"><p className="font-semibold">{tx("sampleTopic")}</p><p className="text-muted-foreground">{tx("sampleSummary")}</p><p className="text-muted-foreground">{tx("sampleFinding")}</p></div><Link to="/sample-report" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-brand hover:underline">{tx("heroSecondary")} <ArrowRight className="size-4" /></Link></aside>
