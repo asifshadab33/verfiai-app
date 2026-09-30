@@ -16,7 +16,6 @@ export type ClaimResult = {
 
 const EXTRACTOR = "qwen/qwen-2.5-72b-instruct";
 const JUDGES = ["deepseek/deepseek-chat", "qwen/qwen-2.5-72b-instruct"];
-const TIEBREAK = "deepseek/deepseek-r1";
 const MAX_CLAIMS = 8;
 
 function parseJson<T>(raw: string): T | null { try { return JSON.parse(raw) as T; } catch { const m = raw.match(/\{[\s\S]*\}/); try { return m ? JSON.parse(m[0]) as T : null; } catch { return null; } } }
