@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
 
-const title = "Privacy Notice | Verfi AI";
+const title = "Privacy Policy & Data Handling | Verfi AI";
 const description = "How verfiai collects, uses, shares and retains data for Verfi AI research and subscriptions.";
 export const Route = createFileRoute("/privacy")({ head: () => ({ meta: [{ title }, { name: "description", content: description }, { property: "og:title", content: title }, { property: "og:description", content: description }, { property: "og:type", content: "article" }, { name: "twitter:card", content: "summary" }], links: [{ rel: "canonical", href: "https://verfiai.app/privacy" }] }), component: Privacy });
 

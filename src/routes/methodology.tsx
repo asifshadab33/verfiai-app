@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
 
-const title = "Methodology — how Verfi AI checks | Verfi AI";
+const title = "Verification Methodology | Verfi AI";
 const description = "How Verfi AI searches the web, ranks evidence, uses multiple AI engines and checks citations against Crossref — and what it cannot determine.";
 
 export const Route = createFileRoute("/methodology")({
