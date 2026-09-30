@@ -9,7 +9,7 @@ import { Checker } from "@/components/verifai/Checker";
 import { FactChecker } from "@/components/verifai/FactChecker";
 import { ReportView } from "@/components/verifai/ReportView";
 import { FAQS, FaqSection, FinalCta, HeroMockup, HowItWorksSection, PricingSection, ProductDemo, TrustSection, UseCases } from "@/components/verifai/HomeSections";
-import { VoiceButton } from "@/components/verifai/VoiceButton";
+import { VoiceButton, isRtlLang } from "@/components/verifai/VoiceButton";
 import { useAuth } from "@/hooks/useAuth";
 import { generateReport, generateGuestReport, getReportUsage, MONTHLY_REPORT_LIMIT, type ResearchReport } from "@/lib/report.functions";
 import { isLang, languages, type Lang } from "@/lib/translations";
