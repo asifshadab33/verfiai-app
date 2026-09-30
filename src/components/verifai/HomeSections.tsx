@@ -70,29 +70,46 @@ export function HowItWorksSection() {
 
 export function UseCases() {
   const cases = [
-    [BookOpenCheck, "Research", "Catch retracted papers and mis-cited references before submission, and get a sourced literature overview in minutes."],
-    [Newspaper, "Journalism", "Check every factual claim in a draft or a viral article, with side-by-side quotes where sources disagree."],
-    [Briefcase, "Business", "Validate market figures and competitor claims before they go into a deck or decision memo."],
-    [Code2, "Developers", "Verify AI-generated answers before showing them to users. A public API is planned."],
+    [BookOpenCheck, "Researchers", "Validate citations and investigate the evidence behind claims before submission."],
+    [Newspaper, "Journalists", "Compare sources and preserve a clear evidence trail for fact-checking workflows."],
+    [Briefcase, "Business teams", "Create cited research briefs to validate market figures for decisions and presentations."],
+    [Code2, "Developers", "Prepare for structured research and verification workflows. API access coming soon."],
   ] as const;
   return <section id="use-cases" aria-labelledby="uc-title" className="mx-auto max-w-7xl scroll-mt-24 px-5 py-16">
-    <h2 id="uc-title" className="font-display text-3xl font-bold">Who it's for</h2>
+    <h2 id="uc-title" className="font-display text-3xl font-bold">Built for research that needs an audit trail</h2>
     <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{cases.map(([Icon, t, b]) => <div key={t} className="rounded-2xl border border-border bg-card p-6"><Icon className="size-6 text-brand" /><h3 className="mt-4 font-display text-lg font-bold">{t}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{b}</p></div>)}</div>
   </section>;
 }
 
 export function TrustSection() {
+  const points = ["Verfi AI searches available sources and evaluates the evidence for each claim.", "Results are labelled Supported, Contradicted, Mixed evidence or Insufficient evidence.", "Confidence reflects the available evidence: source quality, diversity, recency and consistency of assessment.", "AI agreement is one signal, not proof that a claim is definitively true.", "Open the sources, review the context, and apply your own judgment for important decisions."];
+  const flow = ["Question or text", "Claim extraction", "Source research", "Evidence comparison", "Traceable report"];
   return <section aria-labelledby="trust-title" className="border-y border-border bg-secondary/40"><div className="mx-auto grid max-w-7xl gap-10 px-5 py-16 lg:grid-cols-2">
-    <div><h2 id="trust-title" className="font-display text-3xl font-bold">Built for traceable verification</h2>
-      <ul className="mt-6 space-y-4 text-sm">{[[Globe, "Every source is saved with its link, excerpt and fetch time."], [ShieldCheck, "Two independent AI engines per claim, with a tie-breaker."], [BookOpenCheck, "Citations checked against Crossref, including retraction notices."], [Check, "Clear labels when results rely on model knowledge alone."]].map(([Icon, t], i) => { const I = Icon as typeof Check; return <li key={i} className="flex gap-3"><I className="size-5 shrink-0 text-brand" />{t as string}</li>; })}</ul>
-      <Button asChild variant="outline" className="mt-8"><Link to="/methodology">Read our methodology <ArrowRight /></Link></Button></div>
+    <div><h2 id="trust-title" className="font-display text-3xl font-bold">Evidence, not black-box answers</h2>
+      <ul className="mt-6 space-y-4 text-sm">{points.map(t => <li key={t} className="flex gap-3"><Check className="size-5 shrink-0 text-brand" />{t}</li>)}</ul>
+      <ol aria-label="Verification pipeline" className="mt-8 flex flex-wrap items-center gap-2 text-xs font-semibold">{flow.map((f, i) => <li key={f} className="flex items-center gap-2"><span className="rounded-full border border-border bg-card px-3 py-1">{f}</span>{i < flow.length - 1 && <ArrowRight aria-hidden className="size-3 text-muted-foreground" />}</li>)}</ol></div>
     <div className="rounded-2xl border border-border bg-card p-6 text-sm">
-      <h3 className="font-display text-lg font-bold">At a glance</h3>
-      <dl className="mt-4 space-y-4"><div><dt className="font-semibold">What it checks</dt><dd className="mt-1 text-muted-foreground">Factual claims against current web sources; references against Crossref records and retraction notices.</dd></div>
-        <div><dt className="font-semibold">What it can't determine</dt><dd className="mt-1 text-muted-foreground">Opinions, predictions, paywalled or offline facts, and whether a source is itself accurate.</dd></div>
-        <div><dt className="font-semibold">How confidence works</dt><dd className="mt-1 text-muted-foreground">Agreement between engines and multiple independent sources increases confidence; tie-breaks and single sources call for closer review.</dd></div></dl>
+      <h3 className="font-display text-lg font-bold">Designed for transparent verification</h3>
+      <p className="mt-4 leading-6 text-muted-foreground">Verfi AI extracts claims and gathers relevant publicly available evidence, recording source links, excerpts and retrieval times. Two AI engines assess each claim, with a tie-break when they disagree. Outputs are decision support, not definitive truth judgments. Search coverage may be incomplete due to paywalls, indexing limits or recent publication dates.</p>
+      <Button asChild variant="outline" className="mt-6"><Link to="/methodology">Read the methodology <ArrowRight /></Link></Button>
     </div>
   </div></section>;
+}
+
+export function HeroBadges() {
+  return <ul className="mt-6 grid max-w-xl gap-2 text-sm sm:grid-cols-2">{["Live web and Crossref research", "Claim-by-claim evidence verdicts", "Source excerpts and timestamps", "Exportable, shareable reports"].map(t => <li key={t} className="flex items-center gap-2"><CheckCircle2 className="size-4 shrink-0 text-success" />{t}</li>)}</ul>;
+}
+
+export function WorkspaceCards({ onSelect }: { onSelect: (t: "report" | "fact" | "citation") => void }) {
+  const cards = [
+    [ScanSearch, "Claim check", "Paste a statement, article or draft. Verfi AI identifies factual claims and shows evidence that supports, contradicts or needs further review.", "Check a claim", "fact"],
+    [FileSearch, "Research report", "Ask a question and receive a structured, cited research report with key findings, source links, excerpts and limitations.", "Generate a report", "report"],
+    [BookOpenCheck, "Citation scan", "Review references for metadata issues, retractions, missing details and other citation risks.", "Scan citations", "citation"],
+  ] as const;
+  return <section aria-labelledby="ws-title" className="mx-auto max-w-7xl px-5 py-16">
+    <h2 id="ws-title" className="font-display text-3xl font-bold">One workspace for evidence-based research</h2>
+    <div className="mt-8 grid gap-5 md:grid-cols-3">{cards.map(([Icon, t, b, cta, tab]) => <div key={t} className="flex flex-col rounded-2xl border border-border bg-card p-6"><Icon className="size-6 text-brand" /><h3 className="mt-4 font-display text-lg font-bold">{t}</h3><p className="mt-2 flex-1 text-sm leading-6 text-muted-foreground">{b}</p><Button variant="link" className="mt-4 h-11 justify-start px-0" onClick={() => onSelect(tab)}>{cta} <ArrowRight /></Button></div>)}</div>
+  </section>;
 }
 
 export const PLANS = [
@@ -114,13 +131,15 @@ export function PricingSection({ onStart }: { onStart: () => void }) {
 }
 
 export const FAQS = [
-  ["Is Verfi AI always right?", "No. Verfi AI provides verification support, not definitive truth judgments. It shows the evidence it found so you can decide. Review sources before relying on a result."],
-  ["Where does the evidence come from?", "Fact-checks and reports use live web search results; citation checks use Crossref's public records of published papers, including retraction notices."],
-  ["Which AI engines do you use?", "DeepSeek and Qwen (through OpenRouter), with DeepSeek R1 as a tie-breaker. Each report lists the engines used."],
-  ["What does \"Unverifiable\" mean?", "The sources found didn't clearly support or contradict the claim. It isn't a judgement that the claim is false."],
-  ["Is my text stored?", "Reports are saved to your account if you're signed in. Text is sent to AI and search services to run the check. Don't submit confidential material. See our privacy page for details."],
-  ["Can I share or export results?", "Yes — download reports as Word, Markdown or PDF, or create a read-only share link you can turn off at any time."],
-  ["Do I need an account?", "You can try each tool once without one. A free account gives you 3 of each every month and saves your reports."],
+  ["Does Verfi AI tell me what is true?", "No. Verfi AI provides verification support by surfacing available evidence. It does not make definitive truth judgments. Review the sources and apply your own judgment."],
+  ["How are sources selected?", "Fact-checks and reports use live web search, re-ranked by keyword relevance. Citation scans use Crossref's public records of published papers, including retraction notices."],
+  ["What does \"Mixed evidence\" or \"Insufficient evidence\" mean?", "The sources found are ambiguous, conflicting or too thin to clearly support or contradict the claim, so it needs manual review. It isn't a judgement that the claim is false."],
+  ["What does confidence mean?", "It reflects the strength of the available evidence — source quality, diversity, recency and whether the AI engines agreed. It is not a guarantee of truth."],
+  ["Can Verfi AI access paywalled sources?", "No. It can only evaluate publicly accessible content. Paywalled or offline sources cannot be read."],
+  ["How does Verfi AI handle conflicting evidence?", "Two AI engines (DeepSeek and Qwen) judge each claim; if they disagree, DeepSeek R1 breaks the tie, and conflicting excerpts are shown side by side."],
+  ["Is my submitted text private?", "Signed-in reports are saved privately to your account. Your text is sent to search and AI providers to produce results. Don't submit confidential, regulated or unpublished material."],
+  ["What are the free-plan limits?", "A free account gets 3 reports, 3 fact-checks and 3 citation scans a month. You can try each tool once without an account. Pro is $9/month for 50 reports."],
+  ["Can I export or share reports?", "Yes — Word, Markdown or PDF, plus read-only share links you can turn off. Free exports carry a Verfi AI watermark; Pro exports don't."],
 ] as const;
 
 export function FaqSection() {
