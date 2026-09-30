@@ -89,7 +89,7 @@ function SampleReportDialog({ label }: { label: string }) {
     </DialogContent></Dialog>;
 }
 
-function ReportForm({ lang, onLang }: { lang: Lang; onLang: (l: Lang) => void }) {
+export function ReportForm({ lang, onLang }: { lang: Lang; onLang: (l: Lang) => void }) {
   const tx = (key: TextKey) => siteText(lang, key);
   const generate = useServerFn(generateReport);
   const generateGuest = useServerFn(generateGuestReport);
