@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { AlertTriangle } from "lucide-react";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
 
 type MockSource = {
@@ -31,16 +30,15 @@ function Sample() {
     <PageSection title="Methodology and limitations"><p>This illustrative report does not browse or scrape live websites. Its example links and relationship labels are not verified research findings.</p></PageSection>
     <section aria-labelledby="sample-sources-title" className="border-t border-border py-8">
       <h2 id="sample-sources-title" className="font-display text-xl font-bold">Sources &amp; Evidence</h2>
-      <div role="alert" className="mt-4 flex items-start gap-3 border-l-4 border-warning bg-warning-soft p-4 text-sm font-semibold text-foreground">
-        <AlertTriangle aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-warning" />
-        <p><span className="sr-only">Warning: </span>⚠️ AI-generated citations should be independently verified. We do not scrape live websites in this demo.</p>
+      <div role="alert" className="mt-4 border-l-4 border-warning bg-warning-soft p-4 text-sm font-semibold text-foreground">
+        <p>⚠️ AI-generated citations should be independently verified. We do not scrape live websites in this demo.</p>
       </div>
       <ol className="mt-5 max-w-3xl list-decimal space-y-6 pl-6 text-sm leading-7">
         {report.sources.map(source => <li key={source.url} className="pl-1">
           <h3 className="font-semibold text-foreground">{source.title} <span className="font-normal text-muted-foreground">— {source.publisher}</span></h3>
           <dl className="mt-1 text-muted-foreground">
             <div><dt className="inline font-semibold text-foreground">URL: </dt><dd className="inline"><a href={source.url} target="_blank" rel="noopener noreferrer" className="break-all text-brand underline">{source.url}</a></dd></div>
-            <div><dt className="inline font-semibold text-foreground">Retrieval Date: </dt><dd className="inline">Retrieved: {source.retrievalDate}</dd></div>
+            <div><dt className="inline font-semibold text-foreground">Retrieval Date: </dt><dd className="inline">{source.retrievalDate}</dd></div>
             <div><dt className="inline font-semibold text-foreground">Relationship: </dt><dd className="inline">{source.relationship}</dd></div>
             {source.relationship === "Direct Support" && <div><dt className="inline font-semibold text-foreground">Quote: </dt><dd className="inline">“{source.quote}”</dd></div>}
           </dl>
