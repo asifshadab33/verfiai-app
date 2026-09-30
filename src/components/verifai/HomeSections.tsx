@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { AlertTriangle, HelpCircle, ChevronDown, ArrowRight, BookOpenCheck, Briefcase, Check, CheckCircle2, Code2, FileSearch, Globe, Newspaper, ScanSearch, ShieldCheck, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ProCheckoutButton } from "./ProCheckoutButton";
 
 type ClaimState = "supported" | "review" | "conflict" | "insufficient";
 const CLAIM_STYLE: Record<ClaimState, { label: string; cls: string; Icon: typeof Check }> = {
@@ -36,7 +37,7 @@ export function ProductDemo({ onTry }: { onTry: () => void }) {
   const d = MODES[mode];
   return <section aria-labelledby="demo-title" className="mx-auto max-w-7xl px-5 py-16 md:py-20">
     <p className="text-xs font-bold uppercase text-brand">Interactive demo</p>
-    <h2 id="demo-title" className="mt-2 font-display text-3xl font-bold">See what VerifAI checks</h2>
+    <h2 id="demo-title" className="mt-2 font-display text-3xl font-bold">See what Verfi AI checks</h2>
     <div role="tablist" aria-label="Check modes" className="mt-6 flex max-w-full gap-1 overflow-x-auto border-b border-border">
       {(Object.keys(MODES) as Mode[]).map(m => <Button key={m} role="tab" aria-selected={mode === m} variant="ghost" onClick={() => setMode(m)} className={`h-11 shrink-0 rounded-none border-b-2 ${mode === m ? "border-primary text-brand" : "border-transparent text-muted-foreground"}`}>{m}</Button>)}
     </div>
@@ -57,13 +58,13 @@ export function ProductDemo({ onTry }: { onTry: () => void }) {
 export function HowItWorksSection() {
   const steps = [
     [FileSearch, "1. Ingest", "Paste text, a link, a reference list or a question. Speak it if you prefer."],
-    [ScanSearch, "2. Extract", "VerifAI splits text into individual claims or references and searches the web and Crossref for each."],
+    [ScanSearch, "2. Extract", "Verfi AI splits text into individual claims or references and searches the web and Crossref for each."],
     [ShieldCheck, "3. Evaluate", "Two AI engines weigh the evidence independently; disagreements go to a third. Every verdict links to its sources."],
   ] as const;
   return <section aria-labelledby="how-title" className="border-y border-border bg-secondary/40"><div className="mx-auto max-w-7xl px-5 py-16">
     <h2 id="how-title" className="font-display text-3xl font-bold">How it works</h2>
     <div className="mt-8 grid gap-8 md:grid-cols-3">{steps.map(([Icon, t, b]) => <div key={t}><Icon className="size-6 text-brand" /><h3 className="mt-3 font-display text-xl font-bold">{t}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{b}</p></div>)}</div>
-    <p className="mt-8 flex max-w-3xl gap-2 border-l-2 border-warning bg-card p-4 text-sm"><AlertTriangle className="size-4 shrink-0 text-warning" />Limitations: VerifAI can't read paywalled sources, can miss recent events, and AI engines can misread evidence. Treat results as a starting point and open the sources.</p>
+    <p className="mt-8 flex max-w-3xl gap-2 border-l-2 border-warning bg-card p-4 text-sm"><AlertTriangle className="size-4 shrink-0 text-warning" />Limitations: Verfi AI can't read paywalled sources, can miss recent events, and AI engines can misread evidence. Treat results as a starting point and open the sources.</p>
   </div></section>;
 }
 
@@ -95,8 +96,8 @@ export function TrustSection() {
 }
 
 export const PLANS = [
-  { name: "Free", price: "$0", note: "forever", features: ["3 web reports a month", "3 fact-checks a month", "3 citation scans (20 references each)", "Word export and share links, with VerifAI watermark", "1 free try of each without an account"], cta: "Start free", live: true },
-  { name: "Pro", price: "$9", note: "per month · coming soon", features: ["50 reports a month", "Citation scans up to 200 references", "No watermark on exports and share links", "Frontier engines for deep dives", "Developer API key"], cta: "Coming soon", live: false, featured: true },
+  { name: "Free", price: "$0", note: "forever", features: ["3 web reports a month", "3 fact-checks a month", "3 citation scans (20 references each)", "Watermarked Word and PDF exports; share links", "1 free try of each without an account"], cta: "Start free", live: true },
+  { name: "Pro", price: "$9", note: "per month", features: ["50 reports a month", "Watermark-free Word and PDF exports", "Manage or cancel your subscription anytime"], cta: "Get Pro", live: true, featured: true },
   { name: "Teams", price: "Custom", note: "coming later", features: ["Shared report library", "Higher volumes", "Priority support"], cta: "Contact us", live: false },
 ];
 
@@ -106,14 +107,14 @@ export function PricingSection({ onStart }: { onStart: () => void }) {
     <div className="mt-8 grid gap-5 md:grid-cols-3">{PLANS.map(p => <div key={p.name} className={`flex flex-col rounded-2xl border bg-card p-6 ${p.featured ? "border-primary shadow-md" : "border-border"}`}>
       <h3 className="font-display text-lg font-bold">{p.name}</h3><p className="mt-3"><span className="font-display text-4xl font-extrabold">{p.price}</span> <span className="text-sm text-muted-foreground">{p.note}</span></p>
       <ul className="mt-5 flex-1 space-y-2 text-sm">{p.features.map(f => <li key={f} className="flex gap-2"><Check className="size-4 shrink-0 text-success" />{f}</li>)}</ul>
-      {p.live ? <Button className="mt-6" onClick={onStart}>{p.cta}</Button> : p.name === "Teams" ? <Button asChild variant="outline" className="mt-6"><a href="mailto:hello@verfiai.app">{p.cta}</a></Button> : <Button className="mt-6" variant="outline" disabled>{p.cta}</Button>}
+      {p.name === "Pro" ? <div className="mt-6"><ProCheckoutButton /></div> : p.live ? <Button className="mt-6" onClick={onStart}>{p.cta}</Button> : <Button asChild variant="outline" className="mt-6"><a href="mailto:hello@verfiai.app">{p.cta}</a></Button>}
     </div>)}</div>
     <p className="mt-5 text-sm text-muted-foreground">No credit card required for the free plan.</p>
   </section>;
 }
 
 export const FAQS = [
-  ["Is VerifAI always right?", "No. VerifAI provides verification support, not definitive truth judgments. It shows the evidence it found so you can decide. Review sources before relying on a result."],
+  ["Is Verfi AI always right?", "No. Verfi AI provides verification support, not definitive truth judgments. It shows the evidence it found so you can decide. Review sources before relying on a result."],
   ["Where does the evidence come from?", "Fact-checks and reports use live web search results; citation checks use Crossref's public records of published papers, including retraction notices."],
   ["Which AI engines do you use?", "DeepSeek and Qwen (through OpenRouter), with DeepSeek R1 as a tie-breaker. Each report lists the engines used."],
   ["What does \"Unverifiable\" mean?", "The sources found didn't clearly support or contradict the claim. It isn't a judgement that the claim is false."],

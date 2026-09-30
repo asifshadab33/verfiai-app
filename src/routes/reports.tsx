@@ -7,11 +7,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth, signOut } from "@/hooks/useAuth";
 import { ReportView } from "@/components/verifai/ReportView";
 import type { ResearchReport } from "@/lib/report.functions";
+import { getSubscription, getBillingPortal } from "@/lib/payments.functions";
+import { getPaddleEnvironment } from "@/lib/paddle";
+import { useServerFn } from "@tanstack/react-start";
 
 export const Route = createFileRoute("/reports")({
   head: () => ({ meta: [
-    { title: "My reports | VerifAI" }, { name: "description", content: "Your saved VerifAI research reports." },
-    { property: "og:title", content: "My reports | VerifAI" }, { property: "og:description", content: "Your saved VerifAI research reports." },
+    { title: "My reports | Verfi AI" }, { name: "description", content: "Your saved Verfi AI research reports." },
+    { property: "og:title", content: "My reports | Verfi AI" }, { property: "og:description", content: "Your saved Verfi AI research reports." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
   ] }),
   component: Reports,
@@ -22,6 +25,12 @@ function Reports() {
   const navigate = useNavigate();
   const qc = useQueryClient();
   const [openId, setOpenId] = useState<string | null>(null);
+  const [plan, setPlan] = useState<{ isPro: boolean; status: string | null; periodEnd: string | null; cancelAtPeriodEnd: boolean } | null>(null);
+  const [billingError, setBillingError] = useState("");
+  const fetchPlan = useServerFn(getSubscription);
+  const portal = useServerFn(getBillingPortal);
+  useEffect(() => { if (!user) return; fetchPlan({ data: { environment: getPaddleEnvironment() } }).then(setPlan).catch(() => setPlan(null)); }, [user?.id]); // eslint-disable-line react-hooks/exhaustive-deps
+  async function manageBilling() { setBillingError(""); try { const url = await portal({ data: { environment: getPaddleEnvironment() } }); window.open(url, "_blank", "noopener,noreferrer"); } catch { setBillingError("Billing could not open. Please try again."); } }
   useEffect(() => { if (!loading && !user) navigate({ to: "/auth" }); }, [loading, user, navigate]);
   const { data, isLoading } = useQuery({
     queryKey: ["reports", user?.id], enabled: !!user,
@@ -34,6 +43,7 @@ function Reports() {
   return <div className="mx-auto min-h-screen max-w-6xl px-5 py-10">
     <div className="flex flex-wrap items-center justify-between gap-3 print:hidden"><Link to="/" className="inline-flex items-center gap-2 text-sm font-semibold text-brand"><ArrowLeft className="size-4" />Back to workspace</Link><div className="flex items-center gap-3 text-sm text-muted-foreground"><span>{user.email}</span><Button variant="outline" size="sm" onClick={out}>Sign out</Button></div></div>
     <h1 className="mt-8 font-display text-3xl font-bold print:hidden">My reports</h1>
+    {plan?.isPro && <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-y border-border py-4 print:hidden"><p className="text-sm"><strong>Pro active</strong>{plan.status === "past_due" ? " · Payment needs attention" : plan.cancelAtPeriodEnd ? " · Cancels at period end" : " · 50 reports/month, watermark-free exports"}{plan.periodEnd ? ` · Current period ends ${new Date(plan.periodEnd).toLocaleDateString()}` : ""}</p><Button variant="outline" onClick={manageBilling}>Manage billing</Button>{billingError && <p role="alert" className="w-full text-sm text-destructive">{billingError}</p>}</div>}
     {open ? <div className="mt-8"><Button variant="ghost" className="mb-6 print:hidden" onClick={() => setOpenId(null)}><ArrowLeft />All reports</Button><ReportView report={open.content as unknown as ResearchReport} reportId={open.id} date={new Date(open.created_at).toLocaleDateString()} /></div>
       : isLoading ? <LoaderCircle className="mt-8 animate-spin" />
       : !data?.length ? <p className="mt-6 text-muted-foreground">No reports yet. <Link to="/" className="text-brand underline">Generate your first report</Link>.</p>

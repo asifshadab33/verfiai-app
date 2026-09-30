@@ -1,23 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
 
-const title = "Privacy and data handling | VerifAI";
-const description = "What data VerifAI sends to which services, what it stores and how to delete it.";
+const title = "Privacy Notice | Verfi AI";
+const description = "How verfiai collects, uses, shares and retains data for Verfi AI research and subscriptions.";
+export const Route = createFileRoute("/privacy")({ head: () => ({ meta: [{ title }, { name: "description", content: description }, { property: "og:title", content: title }, { property: "og:description", content: description }, { property: "og:type", content: "article" }, { name: "twitter:card", content: "summary" }], links: [{ rel: "canonical", href: "https://verfiai.app/privacy" }] }), component: Privacy });
 
-export const Route = createFileRoute("/privacy")({
-  head: () => ({ meta: [
-    { title }, { name: "description", content: description },
-    { property: "og:title", content: title }, { property: "og:description", content: description },
-    { property: "og:type", content: "article" }, { name: "twitter:card", content: "summary" },
-  ] }),
-  component: Privacy,
-});
-
-function Privacy() {
-  return <ContentPage title="Privacy and data handling" intro="A plain summary of how VerifAI handles your data today. A full privacy policy is being prepared.">
-    <PageSection title="What is sent to other services"><p>Text you submit is sent to AI engines through OpenRouter (DeepSeek, Qwen) and search queries to Tavily in order to produce results. Reference details are looked up in Crossref. Voice input is processed by your browser's speech feature, not by VerifAI's servers.</p></PageSection>
-    <PageSection title="What VerifAI stores"><p>If you sign in, your email, reports you generate, and a count of checks you've used this month. Search results, claim verdicts and citation lookups are cached for up to 30 days so repeated checks are faster; these caches aren't linked to your account. For visitors without an account, a one-way hash of network address and browser type is stored to enforce the free allowance.</p></PageSection>
-    <PageSection title="Sharing"><p>Reports are private unless you create a share link. Anyone with that link can read the report until you press "Stop sharing".</p></PageSection>
-    <PageSection title="Deleting your data"><p>You can delete any report from My reports. Don't submit confidential or personal information.</p></PageSection>
-  </ContentPage>;
-}
+function Privacy() { return <ContentPage title="Privacy Notice" intro="Last updated September 30, 2026. verfiai, trading as Verfi AI, is the controller of personal data described here. Contact us at hello@verfiai.app.">
+  <PageSection title="Information collected"><p>Account details such as email, optional display name and avatar; questions, uploaded document text and saved reports; usage counts, timestamps and share-link settings; support correspondence; and technical data such as IP address, browser information and a hashed visitor identifier used to enforce guest limits. When you subscribe, we store your subscription status, plan, billing period and provider identifiers, but not your card number. Voice recognition uses your browser’s native feature and audio is not sent to our servers.</p></PageSection>
+  <PageSection title="Why and on what basis"><p>We process account details, submitted content, saved reports and subscription state to provide the service you request and fulfill our contract with you. We process usage and technical identifiers to enforce plan limits, prevent abuse and maintain security under our legitimate interests. We respond to support requests under our contractual and legitimate interests and keep records where legally required. We do not use your uploaded material to train our own AI models; third-party provider policies may differ.</p></PageSection>
+  <PageSection title="Who receives information"><p>Questions and extracted document text may be processed by OpenRouter and its AI-model providers (including DeepSeek and Qwen); web searches by Tavily; citation details by Crossref. Lovable Cloud hosts account and report data. Paddle.com is our reseller and Merchant of Record and processes orders, subscription management, payments, taxes, invoicing and refunds under its own notices. We may disclose information to professional advisers or authorities where required by law. Do not submit confidential or sensitive personal information to research tools.</p></PageSection>
+  <PageSection title="Retention and deletion"><p>Signed-in reports remain until you delete them from My reports. Search results are cached for up to 24 hours and generated reports for up to 7 days to avoid repeated processing; some verification caches may persist longer, up to 30 days. Monthly usage records and guest-limit identifiers may remain as needed for quota enforcement and abuse prevention. Account, subscription and support records are kept while necessary to provide the service or meet legal obligations, then deleted or anonymized. Deleting a report does not automatically remove records Paddle must retain for payments or tax.</p></PageSection>
+  <PageSection title="Your choices and rights"><p>You can access and delete saved reports in My reports, and turn off a share link there. Anyone with an active share link can read that report. Depending on your location, you may request access, correction, deletion, restriction, portability or objection to processing, or withdraw consent where applicable. To request an account-data export or deletion, email <a className="text-brand underline" href="mailto:hello@verfiai.app">hello@verfiai.app</a>. If UK or EEA law applies, you may complain to a supervisory authority; we aim to respond to rights requests within one month, subject to lawful extensions. Legal retention obligations can limit deletion requests.</p></PageSection>
+  <PageSection title="Security, transfers and browser storage"><p>We use access controls and encrypted connections to protect data, but no internet system is completely secure. Providers may process data outside your country, including outside the UK or EEA. Where required, transfers rely on applicable safeguards such as adequacy decisions or standard contractual clauses. Essential session storage keeps you signed in; language preferences are stored in your browser and reflected in the page URL. We do not currently use marketing cookies in the app. You can clear browser storage in your browser settings, though doing so may sign you out or reset preferences.</p><p className="mt-3">For purchases, see our <Link to="/terms" className="text-brand underline">Terms</Link> and <Link to="/refunds" className="text-brand underline">Refund Policy</Link>.</p></PageSection>
+ </ContentPage>; }

@@ -1,23 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
 
-const title = "Terms of Service | VerifAI";
-const description = "The terms that apply when you use VerifAI. A full legal agreement is being prepared.";
-
+const title = "Terms of Service | Verfi AI";
+const description = "Terms for using Verfi AI research tools and subscriptions, operated by verfiai.";
 export const Route = createFileRoute("/terms")({
-  head: () => ({ meta: [
-    { title }, { name: "description", content: description },
-    { property: "og:title", content: title }, { property: "og:description", content: description },
-    { property: "og:type", content: "article" }, { name: "twitter:card", content: "summary" },
-  ], links: [{ rel: "canonical", href: "https://verfiai.app/terms" }] }),
+  head: () => ({ meta: [{ title }, { name: "description", content: description }, { property: "og:title", content: title }, { property: "og:description", content: description }, { property: "og:type", content: "article" }, { name: "twitter:card", content: "summary" }], links: [{ rel: "canonical", href: "https://verfiai.app/terms" }] }),
   component: Terms,
 });
-
-function Terms() {
-  return <ContentPage title="Terms of Service" intro="A short, plain summary of the terms that apply today. A complete legal agreement is being prepared and will replace this page.">
-    <PageSection title="What VerifAI is"><p>VerifAI generates research reports and evidence checks with the help of AI models and web search. It provides verification support, not definitive truth judgments. Review every source before relying on a result.</p></PageSection>
-    <PageSection title="Your responsibilities"><p>Do not submit confidential or personal information. Do not use VerifAI to break the law, misrepresent authorship, or present AI output as independently verified fact.</p></PageSection>
-    <PageSection title="Availability and accounts"><p>Free allowances are set per month and reset on the 1st. Paid plans are arranged by contacting us. Accounts exist only to store the reports you choose to save.</p></PageSection>
-    <PageSection title="Questions"><p>Write to <a className="text-brand underline" href="mailto:hello@verfiai.app">hello@verfiai.app</a> about these terms or anything else.</p></PageSection>
-  </ContentPage>;
-}
+function Terms() { return <ContentPage title="Terms of Service" intro="Last updated September 30, 2026. These terms govern the Verfi AI service provided by verfiai (the seller). By accessing or continuing to use the service, you agree to these terms.">
+  <PageSection title="The service and your account"><p>Verfi AI provides AI-assisted research reports, claim checks and citation checks. You are responsible for your account credentials and for information submitted through your account. We may change or discontinue features; the service is not guaranteed to be uninterrupted, error-free or available at all times.</p></PageSection>
+  <PageSection title="AI outputs and decisions"><p>AI-generated material may be incomplete, inaccurate or outdated. Sources and citations should be independently checked. Model agreement is not proof. This service provides information, not legal, financial, investment, medical or tax advice. You are responsible for your prompts, verifying results and how you use or publish outputs.</p></PageSection>
+  <PageSection title="Your content and rights"><p>You retain your rights to material you submit and are responsible for having the rights to use it. You grant verfiai a limited permission to process that material to provide the service. Subject to third-party rights, you may use reports produced for you for lawful internal or commercial purposes. verfiai retains ownership of its software, design, documentation and branding; your subscription grants a limited, non-transferable right to use the service within your plan, not ownership of the service.</p></PageSection>
+  <PageSection title="Acceptable use"><p>Do not use the service for unlawful activity, fraud, spam, impersonation, harmful or abusive material, non-consensual deepfakes, hate speech, malware, infringement of others’ rights, bypassing safeguards or usage limits, scraping, probing, reverse engineering or disrupting security. We may filter or refuse requests, restrict or remove content, and suspend or terminate access for material breach, non-payment, fraud or security risk, or repeated or serious violations. Rights holders can report infringing material to <a className="text-brand underline" href="mailto:hello@verfiai.app">hello@verfiai.app</a>; repeat infringers may lose access.</p></PageSection>
+  <PageSection title="Plans and payments"><p>The Free plan includes 3 reports per month. Pro is $9 USD per month for 50 reports per month and watermark-free exports; any applicable tax is shown at checkout. Subscriptions renew monthly until canceled. Cancellation can be requested through the billing portal linked from My reports and paid access continues until the current paid period ends. Plan changes, if offered, take effect as displayed at checkout or in the billing portal; upgrades are intended to apply immediately and downgrades at the next renewal. Read <Link to="/refunds" className="text-brand underline">our refund policy</Link> and <a className="text-brand underline" href="https://www.paddle.com/legal/checkout-buyer-terms" target="_blank" rel="noopener noreferrer">Paddle’s Buyer Terms</a> for payment, billing, tax, cancellation and refund mechanics.</p><p className="mt-3">Our order process is conducted by our online reseller Paddle.com. Paddle.com is the Merchant of Record for all our orders. Paddle provides all customer service inquiries and handles returns.</p></PageSection>
+  <PageSection title="Responsibility and changes"><p>To the extent permitted by applicable law, the service is provided without implied warranties, and verfiai is not responsible for losses resulting from reliance on unverified output or interruptions. Nothing here excludes rights or liabilities that cannot legally be excluded. We may update these terms and post the revised date here; continued use after changes take effect constitutes acceptance.</p></PageSection>
+  <PageSection title="Contact"><p>Questions or infringement notices: <a className="text-brand underline" href="mailto:hello@verfiai.app">hello@verfiai.app</a>.</p></PageSection>
+ </ContentPage>; }

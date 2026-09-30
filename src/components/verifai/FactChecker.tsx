@@ -48,7 +48,7 @@ export function FactChecker({ lang }: { lang: Lang }) {
   const counts = claims ? (["SUPPORTED", "CONTRADICTED", "UNVERIFIABLE"] as const).map(v => [v, claims.filter(c => c.verdict === v).length] as const) : [];
   return <div>
     <h2 className="font-display text-2xl font-bold">Fact-check a text or article</h2>
-    <p className="mt-2 max-w-2xl text-sm text-muted-foreground">VerifAI splits the text into individual claims, searches the web for each one, and has two AI engines judge the evidence. If they disagree, a third engine breaks the tie.</p>
+    <p className="mt-2 max-w-2xl text-sm text-muted-foreground">Verfi AI splits the text into individual claims, searches the web for each one, and has two AI engines judge the evidence. If they disagree, a third engine breaks the tie.</p>
     <div role="tablist" aria-label="Input type" className="mt-6 inline-flex rounded-lg border border-border p-1">
       {(["text", "url"] as const).map(m => <Button key={m} role="tab" aria-selected={mode === m} size="sm" variant={mode === m ? "default" : "ghost"} onClick={() => setMode(m)}>{m === "text" ? "Paste text" : <><Link2 />Web link</>}</Button>)}
     </div>
@@ -68,7 +68,7 @@ export function FactChecker({ lang }: { lang: Lang }) {
     {busy && <ol role="status" className="mt-6 space-y-2 text-sm">{STAGES.map((s, i) => <li key={s} className={`flex items-center gap-2 ${i > stage ? "text-muted-foreground" : ""}`}>{i < stage ? <Check className="size-4 text-success" /> : i === stage ? <LoaderCircle className="size-4 animate-spin text-brand" /> : <span className="size-4" />}{s}</li>)}</ol>}
     {left === 0 && !busy && <p className="mt-6 rounded-xl bg-brand-soft p-4 text-sm">{usage?.signedIn ? "You've used this month's free fact-checks. More come with Pro (coming soon)." : <>You've used your free fact-check. <a href="/auth" className="font-semibold text-brand underline">Sign in</a> for 3 every month.</>}</p>}
     {error && <div role="alert" className="mt-6 flex flex-wrap items-center gap-3 rounded-xl bg-danger-soft p-4 text-sm text-destructive"><XCircle className="size-4" />{error}{!/used your/.test(error) && <Button size="sm" variant="outline" onClick={submit}>Retry</Button>}</div>}
-    <p className="mt-5 text-xs leading-5 text-muted-foreground">Your text is sent to AI engines and a web search service to check it. Don't submit confidential material. VerifAI provides verification support, not definitive truth judgments. Review sources before relying on a result.</p>
+    <p className="mt-5 text-xs leading-5 text-muted-foreground">Your text is sent to AI engines and a web search service to check it. Don't submit confidential material. Verfi AI provides verification support, not definitive truth judgments. Review sources before relying on a result.</p>
 
     {claims && <section aria-label="Fact-check results" className="mt-10 space-y-5">
       {claims.length === 0 ? <p className="rounded-xl bg-secondary p-5 text-sm">No checkable factual claims were found. Opinions and predictions can't be fact-checked. This didn't use up a check.</p> : <>

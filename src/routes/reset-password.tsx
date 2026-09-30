@@ -6,8 +6,8 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/reset-password")({
   head: () => ({ meta: [
-    { title: "Set a new password | VerifAI" }, { name: "description", content: "Choose a new password for your VerifAI account." },
-    { property: "og:title", content: "Set a new password | VerifAI" }, { property: "og:description", content: "Choose a new password for your VerifAI account." },
+    { title: "Set a new password | Verfi AI" }, { name: "description", content: "Choose a new password for your Verfi AI account." },
+    { property: "og:title", content: "Set a new password | Verfi AI" }, { property: "og:description", content: "Choose a new password for your Verfi AI account." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
   ] }),
   component: Reset,

@@ -73,7 +73,7 @@ export async function callEngine(model: string, system: string, user: string): P
   if (!key) throw new Error("engine-missing");
   const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", "HTTP-Referer": "https://verfiai.app", "X-Title": "VerifAI" },
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", "HTTP-Referer": "https://verfiai.app", "X-Title": "Verfi AI" },
     body: JSON.stringify({ model, temperature: 0.2, response_format: { type: "json_object" }, messages: [{ role: "system", content: system }, { role: "user", content: user }] }),
   });
   if (!res.ok) { console.error("OpenRouter", model, res.status, (await res.text()).slice(0, 300)); throw new Error(res.status === 402 ? "credits" : "engine"); }

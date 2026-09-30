@@ -18,13 +18,13 @@ export const Route = createFileRoute("/api/public/payments/webhook")({
       const data = event.data as SubscriptionEvent;
       if (!event.eventType.startsWith("subscription.")) return Response.json({ received: true });
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-      if (event.eventType === "subscription.created" || event.eventType === "subscription.updated") {
+      if (event.eventType === "subscription.created") {
         // Updated events can arrive before created events. Upsert from either complete payload.
         const item = data.items?.[0];
         const priceId = item?.price?.importMeta?.externalId;
         const productId = item?.product?.importMeta?.externalId;
         const userId = data.customData?.userId;
-        if (!userId || priceId !== "pro_monthly" || productId !== "pro_plan") {
+        if (!userId || !/^[0-9a-f-]{36}$/i.test(userId) || priceId !== "pro_monthly" || productId !== "pro_plan") {
           console.error("Subscription could not be attributed to a Pro account");
           return new Response("Subscription attribution failed", { status: 422 });
         }
@@ -37,9 +37,21 @@ export const Route = createFileRoute("/api/public/payments/webhook")({
           environment: env, updated_at: new Date().toISOString(),
         }, { onConflict: "paddle_subscription_id" });
         if (error) throw error;
+      } else if (event.eventType === "subscription.updated") {
+        const { data: existing, error: lookupError } = await supabaseAdmin.from("subscriptions").select("id")
+          .eq("paddle_subscription_id", data.id).eq("environment", env).maybeSingle();
+        if (lookupError) throw lookupError;
+        if (!existing) return new Response("Subscription has not been created yet", { status: 409 });
+        const { error } = await supabaseAdmin.from("subscriptions").update({ status: data.status,
+          current_period_start: data.currentBillingPeriod?.startsAt ?? null,
+          current_period_end: data.currentBillingPeriod?.endsAt ?? null,
+          cancel_at_period_end: data.scheduledChange?.action === "cancel",
+          updated_at: new Date().toISOString(),
+        }).eq("paddle_subscription_id", data.id).eq("environment", env);
+        if (error) throw error;
       } else if (event.eventType === "subscription.canceled") {
         const { error } = await supabaseAdmin.from("subscriptions").update({ status: "canceled", cancel_at_period_end: false,
-          current_period_end: data.currentBillingPeriod?.endsAt ?? null, updated_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
         }).eq("paddle_subscription_id", data.id).eq("environment", env);
         if (error) throw error;
       }

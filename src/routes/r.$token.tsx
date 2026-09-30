@@ -12,9 +12,9 @@ export const Route = createFileRoute("/r/$token")({
     return row;
   },
   head: ({ loaderData }) => {
-    if (!loaderData) return { meta: [{ title: "Report unavailable | VerifAI" }, { name: "robots", content: "noindex" }] };
+    if (!loaderData) return { meta: [{ title: "Report unavailable | Verfi AI" }, { name: "robots", content: "noindex" }] };
     const r = loaderData.content as ResearchReport;
-    const title = `${loaderData.title} | VerifAI report`;
+    const title = `${loaderData.title} | Verfi AI report`;
     const description = (r.summary ?? "").replace(/\s+/g, " ").slice(0, 155);
     return { meta: [
       { title }, { name: "description", content: description }, { name: "robots", content: "noindex" },
@@ -31,7 +31,7 @@ function Brand() {
 }
 
 function SharedNotFound() {
-  return <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-5 text-center"><Brand /><h1 className="font-display text-2xl font-bold">This report isn't available</h1><p className="text-muted-foreground">The link may be wrong, or the owner stopped sharing it.</p><Button asChild><Link to="/">Go to VerifAI</Link></Button></div>;
+  return <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-5 text-center"><Brand /><h1 className="font-display text-2xl font-bold">This report isn't available</h1><p className="text-muted-foreground">The link may be wrong, or the owner stopped sharing it.</p><Button asChild><Link to="/">Go to Verfi AI</Link></Button></div>;
 }
 
 function SharedReport() {
@@ -42,7 +42,7 @@ function SharedReport() {
       <p className="mb-6 text-xs text-muted-foreground print:hidden">Shared read-only report</p>
       <ReportView report={row.content as ResearchReport} date={new Date(row.created_at).toLocaleDateString()} readOnly />
       <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border border-border bg-secondary p-5">
-        <p className="text-sm"><span className="font-semibold">Made with VerifAI</span> — web-sourced research reports, claim fact-checks and citation checks.</p>
+        <p className="text-sm"><span className="font-semibold">Made with Verfi AI</span> — web-sourced research reports, claim fact-checks and citation checks.</p>
         <Button asChild className="print:hidden"><Link to="/">Try it free</Link></Button>
       </div>
     </main>

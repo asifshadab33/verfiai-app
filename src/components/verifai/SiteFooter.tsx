@@ -8,7 +8,7 @@ export function SiteFooter() {
         <div>
           <Link to="/" className="inline-flex items-center gap-2 font-display text-xl font-extrabold">
             <span className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground"><FileCheck2 className="size-5" /></span>
-            Verif<span className="text-brand">AI</span>
+            Verfi <span className="text-brand">AI</span>
           </Link>
           <p className="mt-4 max-w-xs text-sm leading-6 text-footer-muted">Claim-level evidence checking for research, news and business.</p>
         </div>
@@ -19,10 +19,11 @@ export function SiteFooter() {
             <li><a href="mailto:hello@verfiai.app" className="transition-colors hover:text-footer-foreground hover:underline">Contact Us</a></li>
             <li><Link to="/privacy" className="transition-colors hover:text-footer-foreground hover:underline">Privacy Policy</Link></li>
             <li><Link to="/terms" className="transition-colors hover:text-footer-foreground hover:underline">Terms of Service</Link></li>
+            <li><Link to="/refunds" className="transition-colors hover:text-footer-foreground hover:underline">Refund Policy</Link></li>
           </ul>
         </nav>
         <div>
-          <p className="text-sm text-footer-muted">© 2026 VerifAI. All rights reserved.</p>
+          <p className="text-sm text-footer-muted">© 2026 Verfi AI. All rights reserved.</p>
           <span className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-footer-border bg-footer-badge px-3 py-1.5 text-xs font-medium text-footer-muted"><Lock className="size-3.5" aria-hidden="true" />Voice stays in your browser</span>
         </div>
       </div>
