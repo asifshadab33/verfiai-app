@@ -5,11 +5,11 @@
   "navPricing": "Pricing",
   "navFaq": "FAQ",
   "navCta": "Generate report",
-  "tagline": "Research with Confidence. Report with Clarity.",
-  "heroTitle": "Research you can verify. Reports you can trust.",
-  "heroBody": "Check claims, explore evidence, and turn questions or documents into clear, source-linked research reports.",
-  "heroPrimary": "Try Verfi AI free",
-  "heroSecondary": "View sample report",
+  "tagline": "Evidence-backed research and claim verification",
+  "heroTitle": "Verify claims. Trace the evidence. Generate reports you can audit.",
+  "heroBody": "Analyze statements, validate citations, compare supporting and conflicting evidence, and create source-traceable research reports in one workspace.",
+  "heroPrimary": "Check a claim for free",
+  "heroSecondary": "View a sample report",
   "heroNote": "3 free reports per month · No sign-up needed",
   "previewLabel": "Report preview",
   "formTitle": "Start your research",
@@ -151,5 +151,5 @@
   "privacy": "Privacy policy",
   "terms": "Terms",
   "fallback": "This language currently shows English content.",
-  "seoDescription": "Verfi AI turns questions and documents into AI-generated research reports with cited sources, claim-by-claim evidence labels, and clear limitations."
+  "seoDescription": "Analyze statements, validate citations, compare supporting and conflicting evidence, and create source-traceable research reports in one workspace."
 }
