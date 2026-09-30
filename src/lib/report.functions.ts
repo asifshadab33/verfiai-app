@@ -3,17 +3,27 @@ import { getRequestHeader } from "@tanstack/react-start/server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { MONTHLY_REPORT_LIMIT, reportInput, wordCount } from "./report-schema";
 import { buildReport, sha } from "./research.server";
+import { getRequestHeader as header } from "@tanstack/react-start/server";
 
 export { MONTHLY_REPORT_LIMIT };
 export type { ResearchReport } from "./report-schema";
 
 function monthStart() { const d = new Date(); return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)).toISOString(); }
+function paymentEnv(): "sandbox" | "live" {
+  const host = header("host") ?? "";
+  return host.includes("localhost") || host.includes("-dev.lovable.app") || host.includes("id-preview--") ? "sandbox" : "live";
+}
+async function reportLimit(context: { supabase: { rpc: (name: "has_active_subscription", args: { user_uuid: string; check_env: string }) => PromiseLike<{ data: boolean | null; error: unknown }> }; userId: string }) {
+  const { data, error } = await context.supabase.rpc("has_active_subscription", { user_uuid: context.userId, check_env: paymentEnv() });
+  if (error) throw new Error("Could not check your plan. Please try again.");
+  return data ? 50 : MONTHLY_REPORT_LIMIT;
+}
 
 export const getReportUsage = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const { count } = await context.supabase.from("reports").select("id", { count: "exact", head: true }).gte("created_at", monthStart());
-    return { used: count ?? 0, limit: MONTHLY_REPORT_LIMIT };
+    return { used: count ?? 0, limit: await reportLimit(context) };
   });
 
 export const generateReport = createServerFn({ method: "POST" })
@@ -21,7 +31,8 @@ export const generateReport = createServerFn({ method: "POST" })
   .inputValidator((data) => reportInput.parse(data))
   .handler(async ({ data, context }) => {
     const { count } = await context.supabase.from("reports").select("id", { count: "exact", head: true }).gte("created_at", monthStart());
-    if ((count ?? 0) >= MONTHLY_REPORT_LIMIT) return { limitReached: true as const, message: `You've used your ${MONTHLY_REPORT_LIMIT} free reports this month.` };
+    const limit = await reportLimit(context);
+    if ((count ?? 0) >= limit) return { limitReached: true as const, message: `You've used your ${limit} reports this month.` };
     const report = await buildReport(data);
     const { data: row, error } = await context.supabase.from("reports")
       .insert({ user_id: context.userId, question: data.question, title: report.title, content: report as never })
