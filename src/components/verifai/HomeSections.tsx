@@ -42,7 +42,11 @@ export function ProductDemo({ onTry }: { onTry: () => void }) {
     <div role="tabpanel" className="mt-6 grid gap-5 lg:grid-cols-2">
       <div className="rounded-2xl border border-border bg-card p-5"><p className="text-xs font-bold uppercase text-muted-foreground">Input text</p><p className="mt-3 leading-7">{d.text}</p></div>
       <div className="rounded-2xl border border-border bg-card p-5"><p className="text-xs font-bold uppercase text-muted-foreground">Validation panel</p>
-        <ul className="mt-3 space-y-3">{d.claims.map(([c, s, n]) => <li key={c} className="rounded-xl border border-border p-3 text-sm"><div className="flex items-start justify-between gap-2"><p className="font-medium">{c}</p><Pill s={s} /></div><p className="mt-1 text-xs text-muted-foreground">{n}</p></li>)}</ul>
+        <ul className="mt-3 hidden space-y-3 md:block">{d.claims.map(([c, s, n]) => <li key={c} className="rounded-xl border border-border p-3 text-sm"><div className="flex items-start justify-between gap-2"><p className="font-medium">{c}</p><Pill s={s} /></div><p className="mt-1 text-xs text-muted-foreground">{n}</p></li>)}</ul>
+        <ul className="mt-3 flex flex-col gap-3 md:hidden">{d.claims.map(([c, s, n]) => <li key={c} className={`rounded-lg border border-border border-l-4 bg-background p-3 text-sm ${s === "supported" ? "border-l-success" : s === "review" ? "border-l-warning" : "border-l-destructive"}`}>
+          <div className="flex flex-col gap-2"><Pill s={s} /><p className="font-medium leading-6">{c}</p></div>
+          <details className="group mt-2"><summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 rounded-md text-xs font-semibold text-brand">Show evidence<ChevronDown aria-hidden className="size-4 transition-transform group-open:rotate-180" /></summary><p className="pb-1 text-xs leading-5 text-muted-foreground">{n}</p></details>
+        </li>)}</ul>
       </div>
     </div>
     <div className="mt-6 flex flex-wrap items-center gap-4"><Button onClick={onTry}>Check your own text <ArrowRight /></Button><span className="text-xs text-muted-foreground">Sample data for illustration — real checks show live sources.</span></div>
