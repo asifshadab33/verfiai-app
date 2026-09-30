@@ -21,7 +21,7 @@ export const generateReport = createServerFn({ method: "POST" })
   .inputValidator((data) => reportInput.parse(data))
   .handler(async ({ data, context }) => {
     const { count } = await context.supabase.from("reports").select("id", { count: "exact", head: true }).gte("created_at", monthStart());
-    if ((count ?? 0) >= MONTHLY_REPORT_LIMIT) throw new Error(`You've used your ${MONTHLY_REPORT_LIMIT} free reports this month.`);
+    if ((count ?? 0) >= MONTHLY_REPORT_LIMIT) return { limitReached: true as const, message: `You've used your ${MONTHLY_REPORT_LIMIT} free reports this month.` };
     const report = await buildReport(data);
     const { data: row, error } = await context.supabase.from("reports")
       .insert({ user_id: context.userId, question: data.question, title: report.title, content: report as never })
@@ -39,7 +39,7 @@ export const generateGuestReport = createServerFn({ method: "POST" })
     const fingerprint = sha(`${ip}|${ua}|verifai-guest`);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error: claimErr } = await supabaseAdmin.from("guest_usage").insert({ fingerprint });
-    if (claimErr) throw new Error("You've used your free report. Sign in with Google or email to get 3 more every month.");
+    if (claimErr) return { limitReached: true as const, message: "You've used your free report. Sign in with Google or email to get 3 more every month." };
     try {
       const report = await buildReport(data);
       return { report, words: wordCount(report) };
