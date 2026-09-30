@@ -12,3 +12,12 @@
 - [x] Stage 2: claim fact-checker (text/URL, DeepSeek+Qwen consensus, R1 tie-break) and citation cascade (DOI → Jaro-Winkler/phonetic/±1yr, trust score, .bib parsing, server limits).
 - [x] Word export (watermarked), share links (/r/$token, revocable), new homepage, /methodology, /privacy, JSON-LD.
 - [ ] Next: payments (Stripe Pro $9, 200 refs, unwatermarked exports); later PDF upload, public API + /docs, translating new homepage text.
+
+## Audit follow-up (approved)
+- [x] Remove unproven claims (badge, tagline, random agreement panel)
+- [x] New headline/CTAs + illustrative sample pop-up
+- [x] Two-step research form with Task type + language
+- [x] Four claim labels + disclaimer by Generate
+- [x] .docx/.csv/.pdf uploads up to 5 MB
+- [ ] Pro payments ($9, 50 reports, no watermark) — waiting on user go-ahead for payment setup
+- [ ] Accessibility pass, test matrix, asset/license list
