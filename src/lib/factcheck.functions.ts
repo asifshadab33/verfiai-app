@@ -79,28 +79,26 @@ async function checkClaim(claim: string): Promise<ClaimResult> {
   if (cached) return cached;
   const docs: Source[] = rerank(claim, await webSearch(claim), 4);
   if (!docs.length) return { claim, verdict: "UNVERIFIABLE", explanation: "No relevant web sources were found for this claim.", consensus: "single", sources: [] };
-  const evidence = docs.map((d, i) => `[${i + 1}] ${d.title} (${d.url})\n${d.content}`).join("\n\n");
-  const settled = await Promise.allSettled(JUDGES.map(m => judge(m, claim, evidence)));
-  const votes = settled.flatMap(s => s.status === "fulfilled" ? [s.value] : []);
-  if (!votes.length) throw new Error("The fact-check engines are unavailable right now. Please try again in a minute.");
-  let final = votes[0]!; let consensus: ClaimResult["consensus"] = votes.length === 2 ? "agreed" : "single";
-  if (votes.length === 2 && votes[0]!.verdict !== votes[1]!.verdict) {
-    try { final = await judge(TIEBREAK, claim, evidence); consensus = "tie-break"; }
-    catch { final = { ...votes[0]!, verdict: "UNVERIFIABLE", explanation: `The engines disagreed. ${votes[0]!.explanation}` }; }
-  }
-  // Deterministic verdict: only quotes that really appear in the excerpt count; one site counts once per stance.
+  // Judge each excerpt in isolation (one claim vs one excerpt), then apply the deterministic evidence rules.
+  let perExcerpt: ExcerptJudgment[];
+  try { perExcerpt = await judgeAllExcerpts(claim, docs); }
+  catch { throw new Error("engine"); }
   const excerpts = new Map(docs.map((d, i) => [String(i + 1), d.content]));
   const meta = new Map(docs.map((d, i) => [String(i + 1), sourceMeta(d.url)]));
-  const toStance = (s: string): Stance => (s === "supports" || s === "refutes" ? s : "neutral");
-  const judgments: Judgment[] = Object.entries(final.stances).map(([id, s]) => ({ excerptId: id, stance: toStance(String(s).toLowerCase()), quote: String(final.quotes[id] ?? "") }));
+  const judgments: Judgment[] = perExcerpt.map((j, i) => ({ excerptId: String(i + 1), stance: j.stance, quote: j.quote }));
   const verified = verifyQuotes(judgments, excerpts);
   const verdict = aggregateEvidence(verified, meta);
   const okIds = new Set(verified.map(j => j.excerptId));
-  const note = verdict !== final.verdict ? ` (Final label set by the evidence rules: ${verified.length} verified quote${verified.length === 1 ? "" : "s"} from ${new Set(verified.filter(j => j.stance !== "neutral").map(j => meta.get(j.excerptId)?.originId)).size} independent site(s).)` : "";
+  const notes = perExcerpt.map((j, i) => ({ id: String(i + 1), note: j.note })).filter(n => n.note && okIds.has(n.id)).map(n => n.note);
+  const siteCount = new Set(verified.filter(j => j.stance !== "neutral").map(j => meta.get(j.excerptId)?.originId)).size;
+  const explanation = (notes.length ? notes.join(" ") : "The sources found did not directly address this claim.")
+    + ` (Final label set by the evidence rules: ${verified.length} verified quote${verified.length === 1 ? "" : "s"} from ${siteCount} independent site(s).)`;
+  const sup = verified.find(j => j.stance === "supports")?.quote;
+  const ref = verified.find(j => j.stance === "refutes")?.quote;
   const result: ClaimResult = {
-    claim, verdict, explanation: final.explanation + note, consensus,
-    sources: [...new Set([...final.sources.map(String), ...okIds])].filter(n => docs[Number(n) - 1]).map(s => { const n = Number(s); return { n, title: docs[n - 1]!.title, url: docs[n - 1]!.url, quote: okIds.has(s) ? String(final.quotes[s] ?? "").slice(0, 400) : "" }; }),
-    conflict: verdict === "MIXED" && final.conflict && final.conflict.a && final.conflict.b ? final.conflict : undefined,
+    claim, verdict, explanation, consensus: "single",
+    sources: docs.map((d, i) => ({ n: i + 1, title: d.title, url: d.url, quote: okIds.has(String(i + 1)) ? String(perExcerpt[i]!.quote).slice(0, 400) : "" })),
+    conflict: verdict === "MIXED" && sup && ref ? { a: sup, b: ref } : undefined,
   };
   await cacheSet(ck, "claim", result);
   return result;
