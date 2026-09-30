@@ -27,8 +27,7 @@ export const getSubscription = createServerFn({ method: "POST" })
       .eq("product_id", "pro_plan").order("created_at", { ascending: false });
     if (error) throw error;
     const active = rows?.find(row => ["active", "trialing", "past_due", "canceled"].includes(row.status)
-      && (row.status !== "canceled" || !!row.current_period_end)
-      && (!row.current_period_end || new Date(row.current_period_end).getTime() > Date.now()));
+      && !!row.current_period_end && new Date(row.current_period_end).getTime() > Date.now());
     return { isPro: !!active, status: active?.status ?? null, periodEnd: active?.current_period_end ?? null, cancelAtPeriodEnd: active?.cancel_at_period_end ?? false };
   });
 
