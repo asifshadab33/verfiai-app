@@ -8,7 +8,7 @@
 - Keep locale selection in the URL query as well as browser storage, because server-rendered share metadata must reflect the selected language.
 - Keep report generation on the index route with the citation checker as a separate tab; this preserves the existing Crossref workflow while making research the primary entry point.
 - Keep brochure sections as separate content routes with leaf metadata because each is independently shareable.
-- Reports require sign-in (Lovable Cloud auth: Google + email); generation, the 3/month limit and saving run server-side in `report.functions.ts` against the `reports` table, because browser counters are not enforceable.
+- Reports use Cloud auth (Google + email); generation, plan limits and saving run server-side against reports/subscriptions, because browser counters cannot enforce access.
 - Voice input uses the browser's free Web Speech API with `cleanVoiceTranscript`, so no audio leaves the browser via our server.
 - Reports target 1000+ words (~2 pages) with one automatic expansion pass when the draft is short.
 
@@ -17,5 +17,7 @@
 - Guest reports are limited to one per IP+user-agent hash in `guest_usage`, server-side.
 - All usage limits (scans, fact-checks) go through `usage.server.ts`: signed-in users in `usage_events`, guests one use per kind in `guest_usage`; no browser counters, because they can't be enforced.
 - The quick-search demo tab was replaced by the real fact-checker (`factcheck.functions.ts`).
-- Share links use an unguessable `reports.share_token` read via a public server fn with the admin client (returns only title/content/date), because anon RLS on reports would expose every row.
+- Share links use an unguessable `reports.share_token` read by a public server fn (title/content/date only), because anon RLS would expose every report.
 - Word export is generated in the browser with `docx` (lazy-loaded) so no server cost.
+- Paddle test checkout uses the Pro product; verified server-side subscription rows determine paid access, never browser state.
+- Paddle environment is derived from server request host, not client data, so test purchases cannot unlock live access.
