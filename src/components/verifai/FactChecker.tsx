@@ -79,7 +79,7 @@ export function FactChecker({ lang }: { lang: Lang }) {
           <p className="mt-2 text-sm text-muted-foreground">{c.explanation}</p>
           {c.conflict && <div className="mt-4 grid gap-3 sm:grid-cols-2"><blockquote className="border-l-2 border-success pl-3 text-xs"><span className="font-semibold">One source says:</span> "{c.conflict.a}"</blockquote><blockquote className="border-l-2 border-destructive pl-3 text-xs"><span className="font-semibold">Another source says:</span> "{c.conflict.b}"</blockquote></div>}
           {c.sources.length > 0 && <ol className="mt-4 space-y-2 text-xs">{c.sources.map(s => <li key={s.n}><a href={s.url} target="_blank" rel="noopener noreferrer" className="break-all text-brand underline">[{s.n}] {s.title}</a>{s.quote && <span className="text-muted-foreground"> — "{s.quote}"</span>}</li>)}</ol>}
-          <p className="mt-3 text-xs text-muted-foreground">{c.consensus === "agreed" ? "Both engines agreed." : c.consensus === "tie-break" ? "Engines disagreed; a third engine decided." : "Checked by one engine."}</p>
+          <p className="mt-3 text-xs text-muted-foreground">Each source was checked against the claim one at a time; the label follows the verified quotes.</p>
         </li>)}</ul>
       </>}
     </section>}
