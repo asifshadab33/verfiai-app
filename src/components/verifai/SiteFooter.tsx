@@ -14,6 +14,8 @@ export function SiteFooter() {
         </div>
         <nav aria-label="Footer links">
           <ul className="space-y-2.5 text-sm text-footer-muted">
+            <li><Link to="/about" className="transition-colors hover:text-footer-foreground hover:underline">About</Link></li>
+            <li><Link to="/accuracy" className="transition-colors hover:text-footer-foreground hover:underline">Accuracy &amp; Limitations</Link></li>
             <li><Link to="/pricing" className="transition-colors hover:text-footer-foreground hover:underline">Pricing</Link></li>
             <li><Link to="/how-it-works" className="transition-colors hover:text-footer-foreground hover:underline">How it Works</Link></li>
             <li><a href="mailto:hello@verfiai.app" className="transition-colors hover:text-footer-foreground hover:underline">Contact Us</a></li>
