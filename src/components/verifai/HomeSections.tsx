@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { AlertTriangle, HelpCircle, ChevronDown, ArrowRight, BookOpenCheck, Briefcase, Check, CheckCircle2, Code2, FileSearch, Globe, Newspaper, ScanSearch, ShieldCheck, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ProCheckoutButton } from "./ProCheckoutButton";
 
 type ClaimState = "supported" | "review" | "conflict" | "insufficient";
 const CLAIM_STYLE: Record<ClaimState, { label: string; cls: string; Icon: typeof Check }> = {
@@ -96,7 +97,7 @@ export function TrustSection() {
 
 export const PLANS = [
   { name: "Free", price: "$0", note: "forever", features: ["3 web reports a month", "3 fact-checks a month", "3 citation scans (20 references each)", "Word export and share links, with VerifAI watermark", "1 free try of each without an account"], cta: "Start free", live: true },
-  { name: "Pro", price: "$9", note: "per month · coming soon", features: ["50 reports a month", "Citation scans up to 200 references", "No watermark on exports and share links", "Frontier engines for deep dives", "Developer API key"], cta: "Coming soon", live: false, featured: true },
+  { name: "Pro", price: "$9", note: "per month", features: ["50 reports a month", "Watermark-free Word and PDF exports", "Manage or cancel your subscription anytime"], cta: "Get Pro", live: true, featured: true },
   { name: "Teams", price: "Custom", note: "coming later", features: ["Shared report library", "Higher volumes", "Priority support"], cta: "Contact us", live: false },
 ];
 
@@ -106,7 +107,7 @@ export function PricingSection({ onStart }: { onStart: () => void }) {
     <div className="mt-8 grid gap-5 md:grid-cols-3">{PLANS.map(p => <div key={p.name} className={`flex flex-col rounded-2xl border bg-card p-6 ${p.featured ? "border-primary shadow-md" : "border-border"}`}>
       <h3 className="font-display text-lg font-bold">{p.name}</h3><p className="mt-3"><span className="font-display text-4xl font-extrabold">{p.price}</span> <span className="text-sm text-muted-foreground">{p.note}</span></p>
       <ul className="mt-5 flex-1 space-y-2 text-sm">{p.features.map(f => <li key={f} className="flex gap-2"><Check className="size-4 shrink-0 text-success" />{f}</li>)}</ul>
-      {p.live ? <Button className="mt-6" onClick={onStart}>{p.cta}</Button> : p.name === "Teams" ? <Button asChild variant="outline" className="mt-6"><a href="mailto:hello@verfiai.app">{p.cta}</a></Button> : <Button className="mt-6" variant="outline" disabled>{p.cta}</Button>}
+      {p.name === "Pro" ? <div className="mt-6"><ProCheckoutButton /></div> : p.live ? <Button className="mt-6" onClick={onStart}>{p.cta}</Button> : <Button asChild variant="outline" className="mt-6"><a href="mailto:hello@verfiai.app">{p.cta}</a></Button>}
     </div>)}</div>
     <p className="mt-5 text-sm text-muted-foreground">No credit card required for the free plan.</p>
   </section>;
