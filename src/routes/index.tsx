@@ -91,6 +91,7 @@ function ReportForm({ lang }: { lang: Lang }) {
     try {
       const payload = { question, attachment, language: languages.find(l => l.code === lang)?.name ?? "English", mode, company, website, industry, competitors, focus };
       const result = user ? await generate({ data: payload }) : await generateGuest({ data: payload });
+      if ("limitReached" in result) { setError(result.message ?? ""); if (!user) setGuestDone(true); return; }
       setReport(result.report); setReportId("id" in result ? String(result.id) : undefined); if (user) setUsed(used + 1); else setGuestDone(true);
       setTimeout(() => document.getElementById("report-output")?.scrollIntoView({ behavior: "smooth" }), 100);
     } catch (e) { setError(e instanceof Error ? e.message : tx("errorTitle")); }
