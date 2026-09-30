@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { CircleAlert, CircleCheck, CircleHelp, Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -30,18 +29,9 @@ const STATES: Record<Agreement, { label: string; detail: string; icon: typeof Ci
 
 const TOOLTIP = "This compares how similar the AI engines' answers were to each other. Agreement between models is not evidence that a claim is true — check the sources below.";
 
-/**
- * Mock agreement indicator: randomly assigns one of three states per report
- * to demonstrate the UI. A real cross-model comparison will replace this.
- */
-export function ResponseAgreementPanel() {
-  const [state, setState] = useState<Agreement | null>(null);
+/** Shows a measured agreement state only when one is supplied; never guesses. */
+export function ResponseAgreementPanel({ state = null }: { state?: Agreement | null }) {
 
-  useEffect(() => {
-    const states: Agreement[] = ["high", "mixed", "disagreement"];
-    const t = window.setTimeout(() => setState(states[Math.floor(Math.random() * states.length)] ?? "mixed"), 900);
-    return () => window.clearTimeout(t);
-  }, []);
 
   const info = (
     <TooltipProvider delayDuration={200}>
@@ -65,10 +55,7 @@ export function ResponseAgreementPanel() {
       <p className="mt-1 text-xs text-muted-foreground">Model agreement measures similarity between AI responses. It does not establish factual accuracy.</p>
       <div className="mt-3 flex min-h-9 items-center" aria-live="polite">
         {state === null ? (
-          <div role="status" aria-label="Measuring response agreement" className="flex w-full items-center gap-3">
-            <span className="size-6 animate-pulse rounded-full bg-muted" />
-            <span className="h-4 w-56 max-w-full animate-pulse rounded bg-muted" />
-          </div>
+          <p className="text-sm text-muted-foreground">Not measured for this report — it was written by one engine, so there is no second answer to compare. Check the sources below.</p>
         ) : (() => {
           const s = STATES[state];
           const Icon = s.icon;
