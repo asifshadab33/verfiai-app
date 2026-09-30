@@ -27,7 +27,7 @@ export const Route = createFileRoute("/r/$token")({
 });
 
 function Brand() {
-  return <Link to="/" className="flex items-center gap-2 font-display text-xl font-extrabold"><span className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground"><FileCheck2 className="size-5" /></span>Verif<span className="text-brand">AI</span></Link>;
+  return <Link to="/" className="flex items-center gap-2 font-display text-xl font-extrabold"><span className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground"><FileCheck2 className="size-5" /></span>Verfi <span className="text-brand">AI</span></Link>;
 }
 
 function SharedNotFound() {
