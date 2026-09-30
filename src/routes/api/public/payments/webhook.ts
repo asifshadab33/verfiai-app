@@ -24,7 +24,7 @@ export const Route = createFileRoute("/api/public/payments/webhook")({
         const priceId = item?.price?.importMeta?.externalId;
         const productId = item?.product?.importMeta?.externalId;
         const userId = data.customData?.userId;
-        if (!userId || priceId !== "pro_monthly" || productId !== "pro_plan") {
+        if (!userId || !/^[0-9a-f-]{36}$/i.test(userId) || priceId !== "pro_monthly" || productId !== "pro_plan") {
           console.error("Subscription could not be attributed to a Pro account");
           return new Response("Subscription attribution failed", { status: 422 });
         }
@@ -38,6 +38,10 @@ export const Route = createFileRoute("/api/public/payments/webhook")({
         }, { onConflict: "paddle_subscription_id" });
         if (error) throw error;
       } else if (event.eventType === "subscription.updated") {
+        const { data: existing, error: lookupError } = await supabaseAdmin.from("subscriptions").select("id")
+          .eq("paddle_subscription_id", data.id).eq("environment", env).maybeSingle();
+        if (lookupError) throw lookupError;
+        if (!existing) return new Response("Subscription has not been created yet", { status: 409 });
         const { error } = await supabaseAdmin.from("subscriptions").update({ status: data.status,
           current_period_start: data.currentBillingPeriod?.startsAt ?? null,
           current_period_end: data.currentBillingPeriod?.endsAt ?? null,

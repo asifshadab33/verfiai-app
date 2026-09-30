@@ -29,7 +29,9 @@ export function initializePaddle() {
 export async function openProCheckout(user: { id: string; email?: string }) {
   await initializePaddle();
   const priceId = await resolvePaddlePrice({ data: { priceId: "pro_monthly", environment: getPaddleEnvironment() } });
-  (window as PaddleWindow).Paddle?.Checkout.open({ items: [{ priceId, quantity: 1 }],
+  const paddle = (window as PaddleWindow).Paddle;
+  if (!paddle) throw new Error("Payment window could not open.");
+  paddle.Checkout.open({ items: [{ priceId, quantity: 1 }],
     ...(user.email ? { customer: { email: user.email } } : {}), customData: { userId: user.id },
     settings: { displayMode: "overlay", successUrl: `${location.origin}/checkout/success`, allowLogout: false, variant: "one-page" },
   });

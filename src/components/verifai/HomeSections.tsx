@@ -96,7 +96,7 @@ export function TrustSection() {
 }
 
 export const PLANS = [
-  { name: "Free", price: "$0", note: "forever", features: ["3 web reports a month", "3 fact-checks a month", "3 citation scans (20 references each)", "Word export and share links, with Verfi AI watermark", "1 free try of each without an account"], cta: "Start free", live: true },
+  { name: "Free", price: "$0", note: "forever", features: ["3 web reports a month", "3 fact-checks a month", "3 citation scans (20 references each)", "Watermarked Word and PDF exports; share links", "1 free try of each without an account"], cta: "Start free", live: true },
   { name: "Pro", price: "$9", note: "per month", features: ["50 reports a month", "Watermark-free Word and PDF exports", "Manage or cancel your subscription anytime"], cta: "Get Pro", live: true, featured: true },
   { name: "Teams", price: "Custom", note: "coming later", features: ["Shared report library", "Higher volumes", "Priority support"], cta: "Contact us", live: false },
 ];
