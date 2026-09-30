@@ -6,12 +6,11 @@
 - [x] Add route metadata and a sitemap.
 - [x] Validate a real single-model report and sample Crossref citation scan in the browser; check desktop and mobile layouts.
 - [x] Accounts (Google + email), server-side report limit, saved reports, voice input, 2-page minimum reports.
-- [ ] Payments, saved reports, additional providers and richer files — blocked by backend setup and actual provider/billing configuration.
-- [ ] Privacy/Terms legal text and contact address — blocked by owner-provided details.
+- [x] Saved reports, payment test checkout and policy pages are in place.
 - [x] Stage 1 of new brief: live web research reports (Tavily + BM25/RRF, DeepSeek→Qwen failover via OpenRouter), DB cache, 1 guest report.
 - [x] Stage 2: claim fact-checker (text/URL, DeepSeek+Qwen consensus, R1 tie-break) and citation cascade (DOI → Jaro-Winkler/phonetic/±1yr, trust score, .bib parsing, server limits).
 - [x] Word export (watermarked), share links (/r/$token, revocable), new homepage, /methodology, /privacy, JSON-LD.
-- [ ] Next: payments (Stripe Pro $9, 200 refs, unwatermarked exports); later PDF upload, public API + /docs, translating new homepage text.
+- [ ] Live Paddle payments — blocked by Paddle business verification and live configuration; sandbox checkout opens, but a completed purchase and entitlement update remain unverified.
 
 ## Audit follow-up (approved)
 - [x] Remove unproven claims (badge, tagline, random agreement panel)
@@ -19,8 +18,7 @@
 - [x] Two-step research form with Task type + language
 - [x] Four claim labels + disclaimer by Generate
 - [x] .docx/.csv/.pdf uploads up to 5 MB
-- [ ] Pro payments ($9, 50 reports, no watermark) — waiting on user go-ahead for payment setup
+- [x] Pro payments in sandbox ($9, 50 reports, no watermark); signed-in checkout opens.
 - [ ] Accessibility pass, test matrix, asset/license list
-- [ ] Add existing $9/month Pro product to payments and a checkout; confirm purchase, cancellation, and upgrade/downgrade rules with owner before granting access.
-- [ ] Update policy pages for payments and displayed brand; legal seller name awaiting owner response.
-- [ ] Replace placeholder privacy and terms pages with Paddle-ready policies naming seller verfiai; add a dedicated refund policy and footer link.
+- [x] Add $9/month Pro product, checkout and confirmed subscription rules; displayed brand is Verfi AI.
+- [x] Replace placeholder legal pages naming seller verfiai; add a dedicated refund policy and footer link.
