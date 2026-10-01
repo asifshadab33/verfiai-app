@@ -15,7 +15,7 @@ const Pill = ({ s }: { s: ClaimState }) => { const { label, cls, Icon } = CLAIM_
 
 export function HeroMockup() {
   return <div aria-label="Example verification report" className="rounded-2xl border border-border bg-card p-5 shadow-lg">
-    <div className="flex items-center justify-between border-b border-border pb-3"><p className="text-sm font-semibold">Verification report</p><span className="rounded-full bg-success px-2.5 py-0.5 text-xs font-bold text-primary-foreground">Web-Verified</span></div>
+    <div className="flex items-center justify-between border-b border-border pb-3"><p className="text-sm font-semibold">Verification report</p><span className="rounded-full bg-success px-2.5 py-0.5 text-xs font-bold text-primary-foreground">Evidence-checked</span></div>
     <ul className="mt-4 space-y-3 text-sm">
       {([["Global EV sales passed 10 million in 2022.", "supported", "3 sources"], ["The new battery doubles range at the same cost.", "review", "1 source"], ["Charging stations outnumber petrol stations in Norway.", "conflict", "2 sources disagree"]] as const).map(([c, s, n]) => <li key={c} className="rounded-xl border border-border p-3"><div className="flex items-start justify-between gap-2"><p>{c}</p><Pill s={s} /></div><p className="mt-1 text-xs text-muted-foreground">{n}</p></li>)}
     </ul>
@@ -51,7 +51,7 @@ export function ProductDemo({ onTry }: { onTry: () => void }) {
         </li>)}</ul>
       </div>
     </div>
-    <div className="mt-6 flex flex-wrap items-center gap-4"><Button onClick={onTry}>Check your own text <ArrowRight /></Button><span className="text-xs text-muted-foreground">Sample data for illustration — real checks show live sources.</span></div>
+    <div className="mt-6 flex flex-wrap items-center gap-4"><Button onClick={onTry}>Check a claim free <ArrowRight /></Button><span className="text-xs text-muted-foreground">Sample data for illustration — real checks show live sources.</span></div>
   </section>;
 }
 
@@ -113,7 +113,7 @@ export function WorkspaceCards({ onSelect }: { onSelect: (t: "report" | "fact" |
 }
 
 export const PLANS = [
-  { name: "Free", price: "$0", note: "forever", features: ["3 web reports a month", "3 fact-checks a month", "3 citation scans (20 references each)", "Watermarked Word and PDF exports; share links", "1 free try of each without an account"], cta: "Start free", live: true },
+  { name: "Free", price: "$0", note: "forever", features: ["3 web reports a month", "3 fact-checks a month", "3 citation scans (20 references each)", "Watermarked Word and PDF exports; share links", "1 free try of each without an account"], cta: "Check a claim free", live: true },
   { name: "Pro", price: "$9", note: "per month", features: ["50 reports a month", "Watermark-free Word and PDF exports", "Manage or cancel your subscription anytime"], cta: "Get Pro", live: true, featured: true },
   { name: "Teams", price: "Custom", note: "coming later", features: ["Shared report library", "Higher volumes", "Priority support"], cta: "Contact us", live: false },
 ];
@@ -150,5 +150,5 @@ export function FaqSection() {
 }
 
 export function FinalCta({ onStart }: { onStart: () => void }) {
-  return <section className="mx-auto max-w-7xl px-5 py-16 text-center"><h2 className="font-display text-3xl font-bold">Check your next claim before you publish it</h2><p className="mx-auto mt-3 max-w-xl text-muted-foreground">Free to try. No credit card. Every verdict comes with its sources.</p><Button size="lg" className="mt-6 h-12" onClick={onStart}>Check text free <ArrowRight /></Button></section>;
+  return <section className="mx-auto max-w-7xl px-5 py-16 text-center"><h2 className="font-display text-3xl font-bold">Check your next claim before you publish it</h2><p className="mx-auto mt-3 max-w-xl text-muted-foreground">Free to try. No credit card. Every verdict comes with its sources.</p><Button size="lg" className="mt-6 h-12" onClick={onStart}>Check a claim free <ArrowRight /></Button></section>;
 }
