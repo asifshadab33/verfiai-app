@@ -10,8 +10,15 @@ import fr from "./i18n/fr.json";
 import hi from "./i18n/hi.json";
 import ar from "./i18n/ar.json";
 import zh from "./i18n/zh.json";
+import it_ from "./i18n/it.json";
+import nl_ from "./i18n/nl.json";
+import bn_ from "./i18n/bn.json";
+import ur_ from "./i18n/ur.json";
+import fa_ from "./i18n/fa.json";
+import id_ from "./i18n/id.json";
+import sw_ from "./i18n/sw.json";
 import type { Lang } from "./translations";
 
-const dictionaries: Partial<Record<Lang, Partial<typeof en>>> = { en, de, pt, tr, ru, ja, ko, es, fr, hi, ar, zh };
+const dictionaries: Partial<Record<Lang, Partial<typeof en>>> = { en, de, pt, tr, ru, ja, ko, es, fr, hi, ar, zh, it: it_, nl: nl_, bn: bn_, ur: ur_, fa: fa_, id: id_, sw: sw_ };
 export const hasSiteTranslation = (lang: Lang) => Boolean(dictionaries[lang]);
 export const siteText = (lang: Lang, key: keyof typeof en) => dictionaries[lang]?.[key] ?? en[key];
