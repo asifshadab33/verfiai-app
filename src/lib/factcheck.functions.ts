@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { callEngine, rerank, sha, webSearch, cacheGet, cacheSet, type Source } from "./research.server";
+import { callEngine, rerank, sha, webSearch, crossrefSearch, wikipediaSearch, normalizeQuery, cacheGet, cacheSet, type Source } from "./research.server";
 import { claimUsage, usageFor } from "./usage.server";
 import { aggregateEvidence, sourceMeta, verifyQuotes, type AggVerdict, type Judgment, type Stance } from "./evidence";
 
@@ -73,10 +73,12 @@ async function judgeAllExcerpts(claim: string, docs: Source[]): Promise<ExcerptJ
 }
 
 async function checkClaim(claim: string): Promise<ClaimResult> {
-  const ck = "claim2:" + sha(claim.toLowerCase());
+  const ck = "claim2:" + sha(normalizeQuery(claim));
   const cached = await cacheGet<ClaimResult>(ck, 24 * 3600_000);
   if (cached) return cached;
-  const docs: Source[] = rerank(claim, await webSearch(claim), 4);
+  const safe = (p: Promise<Source[]>) => p.catch(() => [] as Source[]);
+  const [tav, cr, wiki] = await Promise.all([safe(webSearch(claim)), safe(crossrefSearch(claim)), safe(wikipediaSearch(claim))]);
+  const docs: Source[] = rerank(claim, [...tav, ...cr, ...wiki], 4);
   if (!docs.length) return { claim, verdict: "UNVERIFIABLE", explanation: "No relevant web sources were found for this claim.", consensus: "single", sources: [] };
   // Judge each excerpt in isolation (one claim vs one excerpt), then apply the deterministic evidence rules.
   let perExcerpt: ExcerptJudgment[];
