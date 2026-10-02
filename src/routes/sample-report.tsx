@@ -19,7 +19,7 @@ function generateMockReport(): { topic: string; sources: MockSource[] } {
   };
 }
 
-export const Route = createFileRoute("/sample-report")({ head: () => ({ meta: [{ title: "Illustrative sample report | Verfi AI" }, { name: "description", content: "Preview the structure of a Verfi AI report. All sample content is illustrative, not research." }, { property: "og:title", content: "Illustrative sample report | Verfi AI" }, { property: "og:description", content: "See the structure of a report with findings, source links and limitations." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }), component: Sample });
+export const Route = createFileRoute("/sample-report")({ head: () => ({ meta: [{ title: "Illustrative sample report | Verfiai" }, { name: "description", content: "Preview the structure of a Verfiai report. All sample content is illustrative, not research." }, { property: "og:title", content: "Illustrative sample report | Verfiai" }, { property: "og:description", content: "See the structure of a report with findings, source links and limitations." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }), component: Sample });
 
 function Sample() {
   const report = generateMockReport();

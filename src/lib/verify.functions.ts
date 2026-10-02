@@ -20,7 +20,7 @@ export type CitationResult = {
 type Ref = { raw: string; title: string; author?: string | undefined; year?: string | undefined; doi?: string | undefined };
 
 export const FREE_REF_LIMIT = 20;
-const UA = "Verfi AI/1.0 (https://verfiai.app; mailto:hello@verfiai.app)";
+const UA = "Verfiai/1.0 (https://verfiai.app; mailto:hello@verfiai.app)";
 
 const norm = (s: string) => s.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
 

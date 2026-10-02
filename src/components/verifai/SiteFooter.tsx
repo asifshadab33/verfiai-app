@@ -25,7 +25,7 @@ export function SiteFooter() {
           </ul>
         </nav>
         <div>
-          <p className="text-sm text-footer-muted">© 2026 Verfi AI. All rights reserved.</p>
+          <p className="text-sm text-footer-muted">© 2026 Verfiai. All rights reserved.</p>
           <span className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-footer-border bg-footer-badge px-3 py-1.5 text-xs font-medium text-footer-muted"><Lock className="size-3.5" aria-hidden="true" />Voice stays in your browser</span>
         </div>
       </div>
