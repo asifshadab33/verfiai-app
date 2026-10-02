@@ -37,7 +37,7 @@ export function ProductDemo({ onTry }: { onTry: () => void }) {
   const d = MODES[mode];
   return <section aria-labelledby="demo-title" className="mx-auto max-w-7xl px-5 py-16 md:py-20">
     <p className="text-xs font-bold uppercase text-brand">Interactive demo</p>
-    <h2 id="demo-title" className="mt-2 font-display text-3xl font-bold">See what Verfi AI checks</h2>
+    <h2 id="demo-title" className="mt-2 font-display text-3xl font-bold">See what Verfiai checks</h2>
     <div role="tablist" aria-label="Check modes" className="mt-6 flex max-w-full gap-1 overflow-x-auto border-b border-border">
       {(Object.keys(MODES) as Mode[]).map(m => <Button key={m} role="tab" aria-selected={mode === m} variant="ghost" onClick={() => setMode(m)} className={`h-11 shrink-0 rounded-none border-b-2 ${mode === m ? "border-primary text-brand" : "border-transparent text-muted-foreground"}`}>{m}</Button>)}
     </div>
@@ -58,13 +58,13 @@ export function ProductDemo({ onTry }: { onTry: () => void }) {
 export function HowItWorksSection() {
   const steps = [
     [FileSearch, "1. Ingest", "Paste text, a link, a reference list or a question. Speak it if you prefer."],
-    [ScanSearch, "2. Extract", "Verfi AI splits text into individual claims or references and searches the web and Crossref for each."],
+    [ScanSearch, "2. Extract", "Verfiai splits text into individual claims or references and searches the web and Crossref for each."],
     [ShieldCheck, "3. Evaluate", "Two AI engines weigh the evidence independently; disagreements go to a third. Every verdict links to its sources."],
   ] as const;
   return <section aria-labelledby="how-title" className="border-y border-border bg-secondary/40"><div className="mx-auto max-w-7xl px-5 py-16">
     <h2 id="how-title" className="font-display text-3xl font-bold">How it works</h2>
     <div className="mt-8 grid gap-8 md:grid-cols-3">{steps.map(([Icon, t, b]) => <div key={t}><Icon className="size-6 text-brand" /><h3 className="mt-3 font-display text-xl font-bold">{t}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{b}</p></div>)}</div>
-    <p className="mt-8 flex max-w-3xl gap-2 border-l-2 border-warning bg-card p-4 text-sm"><AlertTriangle className="size-4 shrink-0 text-warning" />Limitations: Verfi AI can't read paywalled sources, can miss recent events, and AI engines can misread evidence. Treat results as a starting point and open the sources.</p>
+    <p className="mt-8 flex max-w-3xl gap-2 border-l-2 border-warning bg-card p-4 text-sm"><AlertTriangle className="size-4 shrink-0 text-warning" />Limitations: Verfiai can't read paywalled sources, can miss recent events, and AI engines can misread evidence. Treat results as a starting point and open the sources.</p>
   </div></section>;
 }
 
@@ -82,7 +82,7 @@ export function UseCases() {
 }
 
 export function TrustSection() {
-  const points = ["Verfi AI searches available sources and evaluates the evidence for each claim.", "Results are labelled Supported, Contradicted, Mixed evidence or Insufficient evidence.", "Confidence reflects the available evidence: source quality, diversity, recency and consistency of assessment.", "AI agreement is one signal, not proof that a claim is definitively true.", "Open the sources, review the context, and apply your own judgment for important decisions."];
+  const points = ["Verfiai searches available sources and evaluates the evidence for each claim.", "Results are labelled Supported, Contradicted, Mixed evidence or Insufficient evidence.", "Confidence reflects the available evidence: source quality, diversity, recency and consistency of assessment.", "AI agreement is one signal, not proof that a claim is definitively true.", "Open the sources, review the context, and apply your own judgment for important decisions."];
   const flow = ["Question or text", "Claim extraction", "Source research", "Evidence comparison", "Traceable report"];
   return <section aria-labelledby="trust-title" className="border-y border-border bg-secondary/40"><div className="mx-auto grid max-w-7xl gap-10 px-5 py-16 lg:grid-cols-2">
     <div><h2 id="trust-title" className="font-display text-3xl font-bold">Evidence, not black-box answers</h2>
@@ -90,7 +90,7 @@ export function TrustSection() {
       <ol aria-label="Verification pipeline" className="mt-8 flex flex-wrap items-center gap-2 text-xs font-semibold">{flow.map((f, i) => <li key={f} className="flex items-center gap-2"><span className="rounded-full border border-border bg-card px-3 py-1">{f}</span>{i < flow.length - 1 && <ArrowRight aria-hidden className="size-3 text-muted-foreground" />}</li>)}</ol></div>
     <div className="rounded-2xl border border-border bg-card p-6 text-sm">
       <h3 className="font-display text-lg font-bold">Designed for transparent verification</h3>
-      <p className="mt-4 leading-6 text-muted-foreground">Verfi AI extracts claims and gathers relevant publicly available evidence, recording source links, excerpts and retrieval times. Two AI engines assess each claim, with a tie-break when they disagree. Outputs are decision support, not definitive truth judgments. Search coverage may be incomplete due to paywalls, indexing limits or recent publication dates.</p>
+      <p className="mt-4 leading-6 text-muted-foreground">Verfiai extracts claims and gathers relevant publicly available evidence, recording source links, excerpts and retrieval times. Two AI engines assess each claim, with a tie-break when they disagree. Outputs are decision support, not definitive truth judgments. Search coverage may be incomplete due to paywalls, indexing limits or recent publication dates.</p>
       <Button asChild variant="outline" className="mt-6"><Link to="/methodology">Read the methodology <ArrowRight /></Link></Button>
     </div>
   </div></section>;
@@ -102,7 +102,7 @@ export function HeroBadges() {
 
 export function WorkspaceCards({ onSelect }: { onSelect: (t: "report" | "fact" | "citation") => void }) {
   const cards = [
-    [ScanSearch, "Claim check", "Paste a statement, article or draft. Verfi AI identifies factual claims and shows evidence that supports, contradicts or needs further review.", "Check a claim", "fact"],
+    [ScanSearch, "Claim check", "Paste a statement, article or draft. Verfiai identifies factual claims and shows evidence that supports, contradicts or needs further review.", "Check a claim", "fact"],
     [FileSearch, "Research report", "Ask a question and receive a structured, cited research report with key findings, source links, excerpts and limitations.", "Generate a report", "report"],
     [BookOpenCheck, "Citation scan", "Review references for metadata issues, retractions, missing details and other citation risks.", "Scan citations", "citation"],
   ] as const;
@@ -131,15 +131,15 @@ export function PricingSection({ onStart }: { onStart: () => void }) {
 }
 
 export const FAQS = [
-  ["Does Verfi AI tell me what is true?", "No. Verfi AI provides verification support by surfacing available evidence. It does not make definitive truth judgments. Review the sources and apply your own judgment."],
+  ["Does Verfiai tell me what is true?", "No. Verfiai provides verification support by surfacing available evidence. It does not make definitive truth judgments. Review the sources and apply your own judgment."],
   ["How are sources selected?", "Fact-checks and reports use live web search, re-ranked by keyword relevance. Citation scans use Crossref's public records of published papers, including retraction notices."],
   ["What does \"Mixed evidence\" or \"Insufficient evidence\" mean?", "The sources found are ambiguous, conflicting or too thin to clearly support or contradict the claim, so it needs manual review. It isn't a judgement that the claim is false."],
   ["What does confidence mean?", "It reflects the strength of the available evidence — source quality, diversity, recency and whether the AI engines agreed. It is not a guarantee of truth."],
-  ["Can Verfi AI access paywalled sources?", "No. It can only evaluate publicly accessible content. Paywalled or offline sources cannot be read."],
-  ["How does Verfi AI handle conflicting evidence?", "Two AI engines (DeepSeek and Qwen) judge each claim; if they disagree, DeepSeek R1 breaks the tie, and conflicting excerpts are shown side by side."],
+  ["Can Verfiai access paywalled sources?", "No. It can only evaluate publicly accessible content. Paywalled or offline sources cannot be read."],
+  ["How does Verfiai handle conflicting evidence?", "Two AI engines (DeepSeek and Qwen) judge each claim; if they disagree, DeepSeek R1 breaks the tie, and conflicting excerpts are shown side by side."],
   ["Is my submitted text private?", "Signed-in reports are saved privately to your account. Your text is sent to search and AI providers to produce results. Don't submit confidential, regulated or unpublished material."],
   ["What are the free-plan limits?", "A free account gets 3 reports, 3 fact-checks and 3 citation scans a month. You can try each tool once without an account. Pro is $9/month for 50 reports."],
-  ["Can I export or share reports?", "Yes — Word, Markdown or PDF, plus read-only share links you can turn off. Free exports carry a Verfi AI watermark; Pro exports don't."],
+  ["Can I export or share reports?", "Yes — Word, Markdown or PDF, plus read-only share links you can turn off. Free exports carry a Verfiai watermark; Pro exports don't."],
 ] as const;
 
 export function FaqSection() {

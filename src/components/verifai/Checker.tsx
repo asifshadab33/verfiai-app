@@ -105,7 +105,7 @@ function Results({ text, results, total }: { text: string; results: CitationResu
         </div>
         <details className="rounded-2xl border border-border bg-card p-5"><summary className="cursor-pointer font-display font-bold">Show citations in your original text</summary><div className="mt-3 max-h-[32rem] overflow-auto whitespace-pre-wrap text-sm leading-7 [overflow-wrap:anywhere]">{highlight(text, results)}</div></details>
       </>)}
-      <p className="text-xs text-muted-foreground">Checks use public Crossref records: DOI lookup, then fuzzy title, author and year matching (±1 year). The trust score is an approximate guide based on the record type, age and citation count — not a quality judgement. "Not found" means we couldn't match the source; confirm it manually before removing it. Verfi AI provides verification support, not definitive truth judgments.</p>
+      <p className="text-xs text-muted-foreground">Checks use public Crossref records: DOI lookup, then fuzzy title, author and year matching (±1 year). The trust score is an approximate guide based on the record type, age and citation count — not a quality judgement. "Not found" means we couldn't match the source; confirm it manually before removing it. Verfiai provides verification support, not definitive truth judgments.</p>
     </div>
   );
 }

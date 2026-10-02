@@ -9,9 +9,9 @@ import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({ meta: [
-    { title: "Sign in | Verfi AI" },
-    { name: "description", content: "Sign in to Verfi AI with Google or email to generate and save AI research reports." },
-    { property: "og:title", content: "Sign in | Verfi AI" },
+    { title: "Sign in | Verfiai" },
+    { name: "description", content: "Sign in to Verfiai with Google or email to generate and save AI research reports." },
+    { property: "og:title", content: "Sign in | Verfiai" },
     { property: "og:description", content: "Sign in to generate and save AI research reports." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
   ] }),

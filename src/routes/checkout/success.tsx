@@ -6,7 +6,7 @@ import { getSubscription } from "@/lib/payments.functions";
 import { getPaddleEnvironment } from "@/lib/paddle";
 
 export const Route = createFileRoute("/checkout/success")({
-  head: () => ({ meta: [{ title: "Subscription status | Verfi AI" }, { name: "description", content: "Check your Verfi AI Pro subscription status." }, { property: "og:title", content: "Subscription status | Verfi AI" }, { property: "og:description", content: "Check your Verfi AI Pro subscription status." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Subscription status | Verfiai" }, { name: "description", content: "Check your Verfiai Pro subscription status." }, { property: "og:title", content: "Subscription status | Verfiai" }, { property: "og:description", content: "Check your Verfiai Pro subscription status." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "robots", content: "noindex" }] }),
   component: Success,
 });
 function Success() {

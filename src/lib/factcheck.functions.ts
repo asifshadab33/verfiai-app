@@ -31,7 +31,7 @@ async function fetchArticle(url: string): Promise<string> {
   try { u = new URL(url); } catch { throw new Error("That link isn't a valid web address."); }
   if (u.protocol !== "https:" || !isPublicHost(u.hostname)) throw new Error("Only public https:// links can be checked.");
   let res: Response;
-  try { res = await fetch(u, { headers: { "User-Agent": "Verfi AI/1.0 (+https://verfiai.app)", Accept: "text/html,text/plain" }, redirect: "follow", signal: AbortSignal.timeout(15000) }); }
+  try { res = await fetch(u, { headers: { "User-Agent": "Verfiai/1.0 (+https://verfiai.app)", Accept: "text/html,text/plain" }, redirect: "follow", signal: AbortSignal.timeout(15000) }); }
   catch { throw new Error("We couldn't open that page. It may block automated readers — paste the text instead."); }
   if (!res.ok) throw new Error("We couldn't open that page. It may block automated readers — paste the text instead.");
   const html = (await res.text()).slice(0, 2_000_000);

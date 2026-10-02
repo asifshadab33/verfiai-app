@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
 
-const title = "Accuracy and Limitations | Verfi AI";
-const description = "How Verfi AI's accuracy is measured, what has not been evaluated yet, and the known limitations of claim verification and citation checks.";
+const title = "Accuracy and Limitations | Verfiai";
+const description = "How Verfiai's accuracy is measured, what has not been evaluated yet, and the known limitations of claim verification and citation checks.";
 
 export const Route = createFileRoute("/accuracy")({
   head: () => ({
@@ -27,7 +27,7 @@ function Accuracy() {
     >
       <PageSection title="Public dataset evaluation">
         <p>
-          We plan to evaluate Verfi AI against public claim-verification datasets to monitor performance, and we
+          We plan to evaluate Verfiai against public claim-verification datasets to monitor performance, and we
           will publish the results — dataset, number of claims, accuracy and test date — in this table when that
           evaluation has actually been run.
         </p>
@@ -40,7 +40,7 @@ function Accuracy() {
 
       <PageSection title="Known limitations">
         <ul className="list-disc space-y-2 pl-5">
-          <li>Verfi AI cannot read paywalled, offline, or non-indexed sources.</li>
+          <li>Verfiai cannot read paywalled, offline, or non-indexed sources.</li>
           <li>Search coverage may miss very recent events due to indexing delays.</li>
           <li>Books, preprints, and references without a DOI may not be found during citation scans.</li>
           <li>AI engines can occasionally misinterpret nuanced evidence or context.</li>

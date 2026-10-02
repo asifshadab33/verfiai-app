@@ -6,7 +6,7 @@ import { Checker } from "@/components/verifai/Checker";
 import { ReportForm } from "./index";
 import type { Lang } from "@/lib/translations";
 
-const title = "Research Workspace — Verfi AI";
+const title = "Research Workspace — Verfiai";
 const description = "Check a claim, generate a source-linked research report, or scan citations in one workspace.";
 
 export const Route = createFileRoute("/app")({
@@ -43,7 +43,7 @@ function Workspace() {
         {tab === "claim" ? <FactChecker lang={lang} /> : tab === "report" ? <ReportForm lang={lang} onLang={setLang} /> : <Checker />}
       </div>
       <p className="mt-8 max-w-2xl text-xs text-muted-foreground">
-        Verfi AI provides verification support, not definitive truth judgments. Your submission may be processed by search and AI providers. Do not submit confidential, regulated, or unpublished material.
+        Verfiai provides verification support, not definitive truth judgments. Your submission may be processed by search and AI providers. Do not submit confidential, regulated, or unpublished material.
       </p>
     </ContentPage>
   );

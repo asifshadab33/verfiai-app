@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
-const title = "Refund Policy | Verfi AI";
-const description = "How to request a refund for a Verfi AI Pro subscription through Paddle.";
+const title = "Refund Policy | Verfiai";
+const description = "How to request a refund for a Verfiai Pro subscription through Paddle.";
 export const Route = createFileRoute("/refunds")({ head: () => ({ meta: [{ title }, { name: "description", content: description }, { property: "og:title", content: title }, { property: "og:description", content: description }, { property: "og:type", content: "article" }, { name: "twitter:card", content: "summary" }], links: [{ rel: "canonical", href: "https://verfiai.app/refunds" }] }), component: Refunds });
 function Refunds() { return <ContentPage title="Refund Policy" intro="Last updated September 30, 2026. Pro purchases are processed by Paddle.com, our reseller and Merchant of Record.">
   <PageSection title="Requesting a refund"><p>We offer a 30-day money-back guarantee. If you are not satisfied with your Pro purchase, request a full refund within 30 days of the order date through <a href="https://paddle.net" className="text-brand underline" target="_blank" rel="noopener noreferrer">paddle.net</a> or email <a href="mailto:hello@verfiai.app" className="text-brand underline">hello@verfiai.app</a>. Paddle handles returns and customer service for orders. Your statutory rights remain unaffected. See <a href="https://www.paddle.com/legal/refund-policy" className="text-brand underline" target="_blank" rel="noopener noreferrer">Paddle’s Refund Policy</a> for processing details.</p></PageSection>

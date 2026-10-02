@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
 
-const title = "About Verfi AI";
-const description = "What Verfi AI is, why it was built, and how models and data are handled: providers, retention and training.";
+const title = "About Verfiai";
+const description = "What Verfiai is, why it was built, and how models and data are handled: providers, retention and training.";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -22,12 +22,12 @@ export const Route = createFileRoute("/about")({
 function About() {
   return (
     <ContentPage
-      title="About Verfi AI"
-      intro="Verfi AI is an AI-assisted research and verification tool that helps users verify factual claims, assess citations, search for supporting or conflicting evidence, and generate source-traced reports."
+      title="About Verfiai"
+      intro="Verfiai is an AI-assisted research and verification tool that helps users verify factual claims, assess citations, search for supporting or conflicting evidence, and generate source-traced reports."
     >
       <PageSection title="Why it was built">
         <p>
-          Verfi AI was built to bring transparency and auditability to AI-assisted research. Instead of a single
+          Verfiai was built to bring transparency and auditability to AI-assisted research. Instead of a single
           black-box answer, reports break topics into individual claims, label each one supported, contradicted,
           mixed or insufficiently evidenced, and list the sources behind every judgment so you can check them
           yourself.
@@ -35,7 +35,7 @@ function About() {
       </PageSection>
 
       <PageSection title="Who is behind it">
-        <p>Verfi AI is developed and maintained by the verfiai team.</p>
+        <p>Verfiai is developed and maintained by the verfiai team.</p>
         <p className="mt-2">Legal entity: verfiai</p>
         <p className="mt-2">
           Contact:{" "}
