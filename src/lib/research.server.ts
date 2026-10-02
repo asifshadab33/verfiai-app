@@ -48,17 +48,20 @@ export function rerank(query: string, docs: Source[], top = 6): Source[] {
   return docs.map((d, i) => ({ d, r: rrf[i]! })).sort((a, b) => b.r - a.r).slice(0, top).map(x => x.d);
 }
 
+// Normalizes queries so rephrased-identical inputs share one cache entry.
+export const normalizeQuery = (q: string) => q.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/g, " ").trim();
+
 export async function webSearch(query: string): Promise<Source[]> {
   const key = process.env["TAVILY_API_KEY"];
   if (!key) return [];
-  const ck = "search:" + sha(query.toLowerCase().trim());
+  const ck = "search:" + sha(normalizeQuery(query));
   const cached = await cacheGet<Source[]>(ck, SEARCH_TTL_MS);
   if (cached) return cached;
   try {
     const res = await fetch("https://api.tavily.com/search", {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ query: query.slice(0, 400), search_depth: "advanced", max_results: 20, include_answer: false }),
+      body: JSON.stringify({ query: query.slice(0, 400), search_depth: "basic", max_results: 20, include_answer: false }),
     });
     if (!res.ok) { console.error("Tavily error", res.status); return []; }
     const json = await res.json() as { results?: { title: string; url: string; content: string; score: number; published_date?: string }[] };
@@ -66,6 +69,52 @@ export async function webSearch(query: string): Promise<Source[]> {
     if (out.length) await cacheSet(ck, "search", out);
     return out;
   } catch (e) { console.error("Tavily failed", e); return []; }
+}
+
+const stripTags = (s: string) => s.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+
+export async function crossrefSearch(query: string): Promise<Source[]> {
+  const ck = "crossref:" + sha(normalizeQuery(query));
+  const cached = await cacheGet<Source[]>(ck, SEARCH_TTL_MS);
+  if (cached) return cached;
+  try {
+    const url = `https://api.crossref.org/works?query=${encodeURIComponent(query.slice(0, 400))}&rows=5&select=title,URL,abstract,issued,DOI&mailto=hello@verfiai.app`;
+    const res = await fetch(url, { headers: { "User-Agent": "Verfi AI/1.0 (mailto:hello@verfiai.app)", mailto: "hello@verfiai.app" }, signal: AbortSignal.timeout(10000) });
+    if (!res.ok) return [];
+    const json = await res.json() as { message?: { items?: { title?: string[]; URL?: string; abstract?: string; issued?: { "date-parts"?: number[][] }; DOI?: string }[] } };
+    const out: Source[] = (json.message?.items ?? []).map(it => {
+      const parts = it.issued?.["date-parts"]?.[0];
+      const link = it.URL ?? (it.DOI ? `https://doi.org/${it.DOI}` : "");
+      return { title: it.title?.[0] ?? it.DOI ?? "Untitled", url: link.replace(/^http:/, "https:"), content: stripTags(it.abstract ?? "").slice(0, 1500), published: parts?.length ? parts.map(n => String(n).padStart(2, "0")).join("-") : undefined, score: 0.5 };
+    }).filter(s => s.url.startsWith("https://"));
+    if (out.length) await cacheSet(ck, "crossref", out);
+    return out;
+  } catch { return []; }
+}
+
+export async function wikipediaSearch(query: string): Promise<Source[]> {
+  const ck = "wikipedia:" + sha(normalizeQuery(query));
+  const cached = await cacheGet<Source[]>(ck, SEARCH_TTL_MS);
+  if (cached) return cached;
+  try {
+    const api = "https://en.wikipedia.org/w/api.php";
+    const headers = { "User-Agent": "Verfi AI/1.0 (hello@verfiai.app)" };
+    const sres = await fetch(`${api}?action=query&list=search&format=json&srsearch=${encodeURIComponent(query.slice(0, 300))}&srlimit=3`, { headers, signal: AbortSignal.timeout(10000) });
+    if (!sres.ok) return [];
+    const sjson = await sres.json() as { query?: { search?: { title: string; pageid: number }[] } };
+    const hits = sjson.query?.search ?? [];
+    if (!hits.length) return [];
+    const eres = await fetch(`${api}?action=query&prop=extracts&exintro&explaintext&format=json&pageids=${hits.map(h => h.pageid).join("|")}`, { headers, signal: AbortSignal.timeout(10000) });
+    if (!eres.ok) return [];
+    const ejson = await eres.json() as { query?: { pages?: Record<string, { title?: string; extract?: string }> } };
+    const pages = ejson.query?.pages ?? {};
+    const out: Source[] = hits.map(h => {
+      const p = pages[String(h.pageid)];
+      return { title: p?.title ?? h.title, url: `https://en.wikipedia.org/?curid=${h.pageid}`, content: (p?.extract ?? "").slice(0, 1500), score: 0.6 };
+    }).filter(s => s.content.length > 0);
+    if (out.length) await cacheSet(ck, "wikipedia", out);
+    return out;
+  } catch { return []; }
 }
 
 export async function callEngine(model: string, system: string, user: string): Promise<string> {
