@@ -49,7 +49,9 @@ export function VoiceButton({ lang, onText, disabled }: { lang: string; onText: 
     setPhase("idle");
     setAnnouncement("Listening stopped");
   }
-  function armSilence() { window.clearTimeout(silence.current); silence.current = window.setTimeout(stop, 3000); }
+  // Only armed after speech is actually detected, so the mic never cuts off
+  // before the user has started talking. 6s of silence ends the session.
+  function armSilence() { window.clearTimeout(silence.current); silence.current = window.setTimeout(stop, 6000); }
 
   function start() {
     setError("");
@@ -57,20 +59,39 @@ export function VoiceButton({ lang, onText, disabled }: { lang: string; onText: 
     const SR = w.SpeechRecognition || w.webkitSpeechRecognition;
     if (!SR) { setSupported(false); return; }
     const rec: Rec = new SR();
-    rec.lang = speechLang(lang); rec.continuous = true; rec.interimResults = false;
+    rec.lang = speechLang(lang); rec.continuous = true; rec.interimResults = true;
     rec.onresult = (e: any) => {
-      setPhase("processing");
-      let text = "";
-      for (let i = e.resultIndex; i < e.results.length; i++) if (e.results[i].isFinal) text += e.results[i][0].transcript + " ";
-      const cleaned = cleanVoiceTranscript(text);
+      let finalText = "";
+      let heard = false;
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        heard = true;
+        if (e.results[i].isFinal) finalText += e.results[i][0].transcript + " ";
+      }
+      if (heard) setPhase("processing");
+      const cleaned = cleanVoiceTranscript(finalText);
       if (cleaned) onText(cleaned);
       setPhase("listening");
+      // Speech detected — from here on, 6s of silence stops listening.
       armSilence();
     };
-    rec.onerror = (e: any) => { setError(e?.error === "not-allowed" ? "Microphone access was blocked. Allow it in your browser settings." : "Voice input stopped. Please try again."); setPhase("idle"); setAnnouncement("Listening stopped"); };
+    rec.onerror = (e: any) => {
+      const kind = e?.error;
+      setError(
+        kind === "not-allowed" || kind === "service-not-allowed"
+          ? "Microphone access was blocked. Allow it in your browser settings, then try again."
+          : kind === "no-speech"
+            ? "No speech was heard. Try speaking closer to the microphone."
+            : kind === "network"
+              ? "Voice input needs an internet connection. Check your connection and try again."
+              : "Voice input stopped unexpectedly. Please try again.",
+      );
+      setPhase("idle");
+      setAnnouncement("Listening stopped");
+    };
     rec.onend = () => { setPhase((p) => { if (p !== "idle") setAnnouncement("Listening stopped"); return "idle"; }); };
     recRef.current = rec;
-    try { rec.start(); setPhase("listening"); setAnnouncement("Listening started"); armSilence(); } catch { setError("Voice input could not start."); }
+    // No silence timer here: it starts only once speech is detected.
+    try { rec.start(); setPhase("listening"); setAnnouncement("Listening started"); } catch { setError("Voice input could not start. Please try again."); }
   }
 
   const infoIcon = (
@@ -123,7 +144,7 @@ export function VoiceButton({ lang, onText, disabled }: { lang: string; onText: 
             <span className="absolute inline-flex size-full animate-ping rounded-full bg-destructive opacity-75" />
             <span className="relative inline-flex size-2.5 rounded-full bg-destructive" />
           </span>
-          Listening… stops after 3 seconds of silence (Esc to stop)
+          Listening… stops after 6 seconds of silence (Esc to stop)
         </span>
       )}
       {processing && <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground"><Loader2 className="size-3 animate-spin" />Processing speech…</span>}
