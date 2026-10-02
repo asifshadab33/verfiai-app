@@ -117,6 +117,9 @@ export async function wikipediaSearch(query: string): Promise<Source[]> {
   } catch { return []; }
 }
 
+// Internal error codes — never shown to users. synthesize() maps them to
+// friendly, professional notices so provider details, keys, and account
+// credit state never leak into the UI.
 export async function callEngine(model: string, system: string, user: string): Promise<string> {
   const key = process.env["OPENROUTER_API_KEY"];
   if (!key) throw new Error("engine-missing");
@@ -133,12 +136,11 @@ export async function callEngine(model: string, system: string, user: string): P
 
 // Fails over between engines without exposing provider errors to users.
 async function synthesize(system: string, user: string): Promise<{ raw: string; engine: string }> {
-  let credits = false;
   for (const e of SYNTHESIS_ENGINES) {
     try { return { raw: await callEngine(e.id, system, user), engine: e.label }; }
-    catch (err) { if (err instanceof Error && err.message === "credits") credits = true; }
+    catch { /* try the next engine; details stay in server logs */ }
   }
-  throw new Error(credits ? "Report generation is paused because the AI account has run out of credit. Please try again later." : "The report could not be generated right now. Please try again in a minute.");
+  throw new Error("The report could not be generated right now. Please try again in a few minutes.");
 }
 
 export async function buildReport(data: ReportInput): Promise<ResearchReport> {
