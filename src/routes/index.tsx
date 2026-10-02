@@ -148,8 +148,10 @@ export function ReportForm({ lang, onLang }: { lang: Lang; onLang: (l: Lang) => 
           <label className="text-sm font-semibold">Report language<select value={lang} onChange={e => onLang(e.target.value as Lang)} className="mt-2 h-11 w-full rounded-md border border-input bg-card px-3 font-normal">{languages.map(l => <option key={l.code} value={l.code}>{l.name}</option>)}</select></label>
         </div>
         <label htmlFor="research-question" className="mt-5 block text-sm font-semibold">{tx("promptLabel")}</label>
-        <Textarea id="research-question" dir={isRtlLang(lang) ? "rtl" : "ltr"} maxLength={4000} value={question} onChange={e => setQuestion(e.target.value)} placeholder={tx("promptPlaceholder")} className="mt-2 min-h-40 border-input bg-card p-4 text-base" />
-        <div className="mt-3"><VoiceButton lang={lang} onText={t => setQuestion(q => (q ? q.trimEnd() + " " : "") + t)} /></div>
+        <div className="relative mt-2">
+          <Textarea id="research-question" dir={isRtlLang(lang) ? "rtl" : "ltr"} maxLength={4000} value={question} onChange={e => setQuestion(e.target.value)} placeholder={tx("promptPlaceholder")} className="min-h-40 border-input bg-card p-4 pb-14 text-base" />
+          <div className="absolute bottom-3 right-3"><VoiceButton lang={lang} onText={t => setQuestion(q => (q ? q.trimEnd() + " " : "") + t)} /></div>
+        </div>
         <div className="mt-3 flex flex-wrap gap-2">{(["ex1", "ex2", "ex3"] as const).map(key => <Button key={key} size="sm" variant="outline" className="h-auto max-w-full whitespace-normal text-left" onClick={() => setQuestion(tx(key))}>{tx(key)}</Button>)}</div>
         <div className="mt-7 border-y border-border py-5"><input ref={inputRef} type="file" accept=".txt,.md,.csv,.docx,.pdf" className="sr-only" onChange={e => { const f = e.target.files?.[0]; if (f) void readFile(f); e.target.value = ""; }} />
           <div onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); const f = e.dataTransfer.files?.[0]; if (f) void readFile(f); }} className="flex flex-wrap items-center gap-3">
