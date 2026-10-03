@@ -309,5 +309,12 @@
   "demoModeResearch": "Araştırma",
   "demoModeNews": "Haberler",
   "demoModeAcademic": "Akademik",
-  "demoModeBusiness": "İş"
+  "demoModeBusiness": "İş",
+  "finalHeading": "Bir sonraki iddianızı yayınlamadan önce kontrol edin",
+  "finalBody": "Ücretsiz deneyin. Kredi kartı gerekmez. Her karar kaynaklarıyla birlikte gelir.",
+  "factError": "Bir şeyler yanlış gitti. Lütfen tekrar deneyin.",
+  "factResult": "Doğrulama sonuçları",
+  "demoCheckModes": "Kontrol modları",
+  "flowLabel": "Doğrulama işlem hattı",
+  "sourceDisclaimer": "AI tarafından oluşturulan kaynak metinler yanlış olabilir. Orijinal kaynakları açın."
 }

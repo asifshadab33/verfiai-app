@@ -309,5 +309,12 @@
   "demoModeResearch": "ریسرچ",
   "demoModeNews": "خبریں",
   "demoModeAcademic": "تعلیمی",
-  "demoModeBusiness": "کاروبار"
+  "demoModeBusiness": "کاروبار",
+  "finalHeading": "اپنے اگلے دعوے کو شائع کرنے سے پہلے اس کی تصدیق کریں",
+  "finalBody": "مفت میں آزمائیں۔ کوئی کریڈٹ کارڈ درکار نہیں۔ ہر فیصلے کے ساتھ اس کے ذرائع بھی موجود ہیں۔",
+  "factError": "کچھ غلط ہوا۔ براہ کرم دوبارہ کوشش کریں۔",
+  "factResult": "حقائق کی جانچ کے نتائج",
+  "demoCheckModes": "چیک کرنے کے طریقے",
+  "flowLabel": "تصدیقی پائپ لائن",
+  "sourceDisclaimer": "AI سے تیار کردہ ماخذ متن غلط ہو سکتا ہے۔ اصل ذرائع کو کھولیں۔"
 }

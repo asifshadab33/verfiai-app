@@ -309,5 +309,12 @@
   "demoModeResearch": "Recherche",
   "demoModeNews": "Actualités",
   "demoModeAcademic": "Académique",
-  "demoModeBusiness": "Entreprise"
+  "demoModeBusiness": "Entreprise",
+  "finalHeading": "Vérifiez votre prochaine affirmation avant de la publier",
+  "finalBody": "Essai gratuit. Aucune carte bancaire requise. Chaque verdict inclut ses sources.",
+  "factError": "Un problème est survenu. Veuillez réessayer.",
+  "factResult": "Résultats de la vérification",
+  "demoCheckModes": "Modes de vérification",
+  "flowLabel": "Processus de vérification",
+  "sourceDisclaimer": "Les sources générées par IA peuvent contenir des erreurs. Consultez les sources originales."
 }

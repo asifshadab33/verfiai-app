@@ -309,5 +309,12 @@
   "demoModeResearch": "Utafiti",
   "demoModeNews": "Habari",
   "demoModeAcademic": "Kielimu",
-  "demoModeBusiness": "Biashara"
+  "demoModeBusiness": "Biashara",
+  "finalHeading": "Angalia madai yako yanayofuata kabla ya kuyachapisha",
+  "finalBody": "Bure kujaribu. Hakuna kadi ya mkopo. Kila uamuzi unakuja na vyanzo vyake.",
+  "factError": "Kitu kilikosea. Tafadhali jaribu tena.",
+  "factResult": "Matokeo ya ukaguzi wa ukweli",
+  "demoCheckModes": "Hali za ukaguzi",
+  "flowLabel": "Mfereji wa uthibitisho",
+  "sourceDisclaimer": "Maandishi yanayotokana na AI yanaweza kuwa sahihi. Fungua vyanzo asilia."
 }

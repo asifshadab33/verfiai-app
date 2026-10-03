@@ -309,5 +309,12 @@
   "demoModeResearch": "Ricerca",
   "demoModeNews": "Notizie",
   "demoModeAcademic": "Accademico",
-  "demoModeBusiness": "Business"
+  "demoModeBusiness": "Business",
+  "finalHeading": "Controlla la tua prossima affermazione prima di pubblicarla",
+  "finalBody": "Prova gratuita. Nessuna carta di credito. Ogni verdetto include le sue fonti.",
+  "factError": "Qualcosa è andato storto. Per favore, riprova.",
+  "factResult": "Risultati del fact-checking",
+  "demoCheckModes": "Modalità di controllo",
+  "flowLabel": "Pipeline di verifica",
+  "sourceDisclaimer": "Il testo sorgente generato dall'IA potrebbe essere impreciso. Apri le fonti originali."
 }

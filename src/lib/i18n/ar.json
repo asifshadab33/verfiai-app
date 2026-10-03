@@ -309,5 +309,12 @@
   "demoModeResearch": "بحث",
   "demoModeNews": "أخبار",
   "demoModeAcademic": "أكاديمي",
-  "demoModeBusiness": "أعمال"
+  "demoModeBusiness": "أعمال",
+  "finalHeading": "تحقق من ادعائك القادم قبل نشره",
+  "finalBody": "تجربة مجانية. لا حاجة لبطاقة ائتمان. كل حكم يأتي مع مصادره.",
+  "factError": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+  "factResult": "نتائج التحقق من الحقائق",
+  "demoCheckModes": "أنماط التحقق",
+  "flowLabel": "خطة التحقق",
+  "sourceDisclaimer": "قد يكون النص المصدر الذي تم إنشاؤه بواسطة الذكاء الاصطناعي غير دقيق. افتح المصادر الأصلية."
 }

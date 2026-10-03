@@ -309,5 +309,12 @@
   "demoModeResearch": "リサーチ",
   "demoModeNews": "ニュース",
   "demoModeAcademic": "アカデミック",
-  "demoModeBusiness": "ビジネス"
+  "demoModeBusiness": "ビジネス",
+  "finalHeading": "公開前に次の主張を確認してください",
+  "finalBody": "無料でお試しください。クレジットカード不要です。すべての判定にはその根拠が記載されています。",
+  "factError": "エラーが発生しました。もう一度お試しください。",
+  "factResult": "ファクトチェックの結果",
+  "demoCheckModes": "チェックモード",
+  "flowLabel": "検証パイプライン",
+  "sourceDisclaimer": "AIが生成したソーステキストは不正確な場合があります。元のソースを開いて確認してください。"
 }

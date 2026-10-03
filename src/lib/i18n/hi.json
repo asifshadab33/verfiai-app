@@ -309,5 +309,12 @@
   "demoModeResearch": "अनुसंधान",
   "demoModeNews": "समाचार",
   "demoModeAcademic": "शैक्षणिक",
-  "demoModeBusiness": "व्यवसाय"
+  "demoModeBusiness": "व्यवसाय",
+  "finalHeading": "अपना अगला दावा प्रकाशित करने से पहले जांचें",
+  "finalBody": "मुफ्त में आज़माएं। क्रेडिट कार्ड की आवश्यकता नहीं। हर निर्णय अपने स्रोतों के साथ आता है।",
+  "factError": "कुछ गलत हो गया। कृपया पुनः प्रयास करें।",
+  "factResult": "तथ्य-जांच परिणाम",
+  "demoCheckModes": "जांच मोड",
+  "flowLabel": "सत्यापन पाइपलाइन",
+  "sourceDisclaimer": "AI-जनित स्रोत पाठ गलत हो सकता है। मूल स्रोतों को खोलें।"
 }

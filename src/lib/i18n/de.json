@@ -309,5 +309,12 @@
   "demoModeResearch": "Recherche",
   "demoModeNews": "Nachrichten",
   "demoModeAcademic": "Akademisch",
-  "demoModeBusiness": "Geschäftlich"
+  "demoModeBusiness": "Geschäftlich",
+  "finalHeading": "Überprüfen Sie Ihre nächste Behauptung, bevor Sie sie veröffentlichen",
+  "finalBody": "Kostenlos testen. Keine Kreditkarte erforderlich. Jedes Urteil enthält seine Quellen.",
+  "factError": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+  "factResult": "Ergebnisse der Faktenprüfung",
+  "demoCheckModes": "Prüfmodi",
+  "flowLabel": "Verifizierungspipeline",
+  "sourceDisclaimer": "KI-generierte Quelltexte können ungenau sein. Öffnen Sie die Originalquellen."
 }

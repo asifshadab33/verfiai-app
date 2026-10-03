@@ -309,5 +309,12 @@
   "demoModeResearch": "Onderzoek",
   "demoModeNews": "Nieuws",
   "demoModeAcademic": "Academisch",
-  "demoModeBusiness": "Zakelijk"
+  "demoModeBusiness": "Zakelijk",
+  "finalHeading": "Controleer uw volgende bewering voordat u deze publiceert",
+  "finalBody": "Gratis om te proberen. Geen creditcard nodig. Elk oordeel wordt geleverd met bronnen.",
+  "factError": "Er is iets misgegaan. Probeer het opnieuw.",
+  "factResult": "Feitencontrole-resultaten",
+  "demoCheckModes": "Controlemodi",
+  "flowLabel": "Verificatiepijplijn",
+  "sourceDisclaimer": "AI-gegenereerde brontekst kan onnauwkeurig zijn. Open de originele bronnen."
 }

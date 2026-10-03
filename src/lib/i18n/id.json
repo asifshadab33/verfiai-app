@@ -309,5 +309,12 @@
   "demoModeResearch": "Penelitian",
   "demoModeNews": "Berita",
   "demoModeAcademic": "Akademik",
-  "demoModeBusiness": "Bisnis"
+  "demoModeBusiness": "Bisnis",
+  "finalHeading": "Periksa klaim Anda berikutnya sebelum mempublikasikannya",
+  "finalBody": "Gratis untuk dicoba. Tanpa kartu kredit. Setiap putusan dilengkapi dengan sumbernya.",
+  "factError": "Terjadi kesalahan. Silakan coba lagi.",
+  "factResult": "Hasil pemeriksaan fakta",
+  "demoCheckModes": "Mode pemeriksaan",
+  "flowLabel": "Pipeline verifikasi",
+  "sourceDisclaimer": "Teks sumber yang dihasilkan AI mungkin tidak akurat. Buka sumber aslinya."
 }

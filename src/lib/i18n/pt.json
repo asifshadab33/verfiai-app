@@ -309,5 +309,12 @@
   "demoModeResearch": "Pesquisa",
   "demoModeNews": "Notícias",
   "demoModeAcademic": "Acadêmico",
-  "demoModeBusiness": "Negócios"
+  "demoModeBusiness": "Negócios",
+  "finalHeading": "Verifique sua próxima afirmação antes de publicá-la",
+  "finalBody": "Grátis para testar. Sem cartão de crédito. Cada veredito vem com suas fontes.",
+  "factError": "Algo deu errado. Por favor, tente novamente.",
+  "factResult": "Resultados da verificação de fatos",
+  "demoCheckModes": "Modos de verificação",
+  "flowLabel": "Pipeline de verificação",
+  "sourceDisclaimer": "O texto da fonte gerado por IA pode ser impreciso. Abra as fontes originais."
 }

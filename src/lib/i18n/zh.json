@@ -309,5 +309,12 @@
   "demoModeResearch": "研究",
   "demoModeNews": "新闻",
   "demoModeAcademic": "学术",
-  "demoModeBusiness": "商业"
+  "demoModeBusiness": "商业",
+  "finalHeading": "在发布前检查您的下一个声明",
+  "finalBody": "免费试用。无需信用卡。每个结论均附带其来源。",
+  "factError": "出了点问题。请再试一次。",
+  "factResult": "事实核查结果",
+  "demoCheckModes": "检查模式",
+  "flowLabel": "验证流程",
+  "sourceDisclaimer": "AI生成的源文本可能不准确。请打开原始来源。"
 }
