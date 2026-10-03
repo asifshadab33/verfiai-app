@@ -25,7 +25,7 @@ const SITE = "https://verfiai.app";
 
 function AccountLink({ lang }: { lang: Lang }) {
   const { user } = useAuth();
-  return <Button asChild variant="outline" size="sm"><Link to={user ? "/reports" : "/auth"}><UserRound />{siteText(lang, user ? "navReports" : "navSignIn")}</Link></Button>;
+  return <Button asChild variant="outline" size="sm"><Link to={user ? "/reports" : "/auth"} aria-label={siteText(lang, user ? "navReports" : "navSignIn")}><UserRound /><span className="hidden sm:inline">{siteText(lang, user ? "navReports" : "navSignIn")}</span></Link></Button>;
 }
 
 export const Route = createFileRoute("/")({
