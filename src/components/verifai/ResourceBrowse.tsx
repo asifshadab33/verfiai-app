@@ -199,13 +199,7 @@ export function ResourceBrowse({ kind }: { kind: Kind }) {
               <span>
                 {item.category} · {item.region}
               </span>
-              <span>
-                {item.kind === "library"
-                  ? item.access_level === "analyst"
-                    ? "Analyst"
-                    : "Free preview"
-                  : "Publisher link"}
-              </span>
+              <span>{item.kind === "library" ? "Free preview" : "Publisher link"}</span>
             </div>
             <h2 className="mt-3 font-display text-xl font-bold">
               <Link to="/resources/$slug" params={{ slug: item.slug }} className="hover:text-brand">

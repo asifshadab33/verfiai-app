@@ -35,7 +35,10 @@ function LibraryUsage() {
         .catch(() => setError("Usage could not load right now."));
   }, [user, fetchUsage]);
   return (
-    <ContentPage title="Evidence Library downloads" intro="Your current billing-cycle allowance.">
+    <ContentPage
+      title="Evidence Library downloads"
+      intro="Library downloads are paused; previews remain available."
+    >
       {loading ? (
         <p>Checking your account…</p>
       ) : !user ? (
@@ -52,7 +55,11 @@ function LibraryUsage() {
       ) : usage.active ? (
         <>
           <p className="font-display text-2xl font-bold">
-            Downloads remaining: {usage.remaining} of 50
+            Library downloads are not available yet.
+          </p>
+          <p className="mt-2 text-muted-foreground">
+            Your recorded Analyst allowance: {usage.remaining} of 50. This is not currently usable
+            for downloads.
           </p>
           <p className="mt-3 text-muted-foreground">
             Your allowance resets on:{" "}
@@ -74,8 +81,8 @@ function LibraryUsage() {
       ) : (
         <>
           <p>
-            No active Analyst plan is linked to this account. The Analyst plan is not yet available
-            for checkout; the existing Pro plan remains unchanged.
+            Library downloads and Analyst subscriptions are not available yet. You can browse
+            reviewed previews; the existing Pro plan remains unchanged.
           </p>
           <Link to="/resources" className="mt-4 inline-block text-brand underline">
             Browse library previews

@@ -1,0 +1,2 @@
+REVOKE EXECUTE ON FUNCTION public.claim_library_download(uuid, text) FROM authenticated, anon, service_role, PUBLIC;
+COMMENT ON FUNCTION public.claim_library_download(uuid, text) IS 'PAUSED: Evidence Library is preview-only until Analyst pricing, rights review, and launch approval.';

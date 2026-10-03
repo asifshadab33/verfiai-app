@@ -26,3 +26,4 @@
 - Progress indicators are labeled estimates until an actual server event exists; elapsed time alone cannot certify a completed verification step.
 - Keep the supplied source directory informational and separate from live evidence scoring, because catalog ratings and historical claims have not been independently verified.
 - Generate free professional templates locally as actual PDF/XLSX/DOCX with synthetic illustrative data; do not collect email or claim inbox delivery until a consented delivery service exists.
+- Keep the Evidence Library preview-only and disable all paid downloads at both API and database levels until rights and a paid plan are explicitly approved, because browsing must not imply an available entitlement.
