@@ -404,14 +404,23 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      claim_library_download: {
-        Args: { resource_uuid: string }
-        Returns: {
-          content: string
-          remaining: number
-          resets_at: string
-        }[]
-      }
+      claim_library_download:
+        | {
+            Args: { resource_uuid: string }
+            Returns: {
+              content: string
+              remaining: number
+              resets_at: string
+            }[]
+          }
+        | {
+            Args: { check_env: string; resource_uuid: string }
+            Returns: {
+              content: string
+              remaining: number
+              resets_at: string
+            }[]
+          }
       has_active_subscription: {
         Args: { check_env?: string; user_uuid: string }
         Returns: boolean
