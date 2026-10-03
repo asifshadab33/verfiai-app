@@ -24,3 +24,4 @@
 - Paddle environment is derived from server request host, not client data, so test purchases cannot unlock live access.
 - Evidence strength is derived from verified excerpts for claim checks and conservatively from cited links for reports; report links never imply quote verification, because generated citations can be inaccurate.
 - Progress indicators are labeled estimates until an actual server event exists; elapsed time alone cannot certify a completed verification step.
+- Keep the supplied source directory informational and separate from live evidence scoring, because catalog ratings and historical claims have not been independently verified.

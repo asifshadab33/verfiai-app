@@ -1,9 +1,10 @@
 import { useLocation } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { isLang, type Lang } from "./translations";
+import { translations } from "./i18n/interface";
 
 const STORAGE_KEY = "verifai-lang";
-export const isRtl = (lang: Lang) => lang === "ar" || lang === "fa" || lang === "ur";
+export const isRtl = (lang: Lang) => translations[lang].dir === "rtl";
 
 export function useSiteLocale() {
   const location = useLocation();

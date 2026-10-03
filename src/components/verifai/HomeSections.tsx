@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { AlertTriangle, HelpCircle, ChevronDown, ArrowRight, BookOpenCheck, Briefcase, Check, CheckCircle2, Code2, FileSearch, Globe, Newspaper, ScanSearch, ShieldCheck, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteText } from "@/lib/site-i18n";
+import { translations } from "@/lib/i18n/interface";
 import type { Lang } from "@/lib/translations";
 import { ProCheckoutButton } from "./ProCheckoutButton";
 
@@ -122,9 +123,9 @@ export const PLANS = [
 
 export function PricingSection({ onStart, lang }: { onStart: () => void; lang: Lang }) {
   return <section id="pricing" aria-labelledby="pricing-title" className="mx-auto max-w-7xl scroll-mt-24 px-5 py-16">
-    <h2 id="pricing-title" className="font-display text-3xl font-bold">{siteText(lang, "navPricing")}</h2>
+    <h2 id="pricing-title" className="font-display text-3xl font-bold">{translations[lang].pricing}</h2>
     <div className="mt-8 grid gap-5 md:grid-cols-3">{PLANS.map(p => <div key={p.name} className={`flex flex-col rounded-2xl border bg-card p-6 ${p.featured ? "border-primary shadow-md" : "border-border"}`}>
-      <h3 className="font-display text-lg font-bold">{p.name === "Teams" ? siteText(lang, "teams") : p.name === "Free" ? siteText(lang, "free") : p.name}</h3><p className="mt-3"><span className="font-display text-4xl font-extrabold">{p.price}</span> <span className="text-sm text-muted-foreground">{siteText(lang, ({forever:"priceForever", "per month":"priceMonthly", "coming later":"priceSoon"} as const)[p.note as "forever" | "per month" | "coming later"])}</span></p>
+      <h3 className="font-display text-lg font-bold">{p.name === "Teams" ? siteText(lang, "teams") : p.name === "Free" ? translations[lang].free_plan : translations[lang].pro_plan}</h3><p className="mt-3"><span className="font-display text-4xl font-extrabold">{p.price}</span> <span className="text-sm text-muted-foreground">{p.note === "per month" ? translations[lang].per_month : siteText(lang, p.note === "forever" ? "priceForever" : "priceSoon")}</span></p>
       <ul className="mt-5 flex-1 space-y-2 text-sm">{p.features.map((f, i) => <li key={f} className="flex gap-2"><Check className="size-4 shrink-0 text-success" />{siteText(lang, `${p.name === "Free" ? "priceFree" : p.name === "Pro" ? "pricePro" : "priceTeam"}${i+1}` as Parameters<typeof siteText>[1])}</li>)}</ul>
       {p.name === "Pro" ? <div className="mt-6"><ProCheckoutButton /></div> : p.live ? <Button className="mt-6" onClick={onStart}>{siteText(lang, "heroPrimary")}</Button> : <Button asChild variant="outline" className="mt-6"><a href="mailto:hello@verfiai.app">{siteText(lang, "footerContact")}</a></Button>}
     </div>)}</div>

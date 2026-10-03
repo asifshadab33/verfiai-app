@@ -6,11 +6,14 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  useLocation,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { isLang } from "../lib/translations";
+import { translations } from "../lib/i18n/interface";
 
 function NotFoundComponent() {
   return (
@@ -99,8 +102,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const location = useLocation();
+  const value = new URLSearchParams(location.searchStr).get("lang");
+  const lang = isLang(value) ? value : "en";
   return (
-    <html lang="en">
+    <html lang={lang} dir={translations[lang].dir}>
       <head>
         <HeadContent />
       </head>
