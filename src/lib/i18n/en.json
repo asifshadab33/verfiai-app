@@ -6,7 +6,7 @@
   "navFaq": "FAQ",
   "navCta": "Generate report",
   "tagline": "Evidence-backed research and claim verification",
-  "heroTitle": "Research you can verify. Reports you can trust.",
+  "heroTitle": "Turn claims into source-linked evidence reports",
   "heroBody": "Check claims, explore evidence and turn questions or documents into clear, source-linked research reports.",
   "heroPrimary": "Check a claim free",
   "heroSecondary": "View sample report",
@@ -316,5 +316,10 @@
   "factResult": "Fact-check results",
   "demoCheckModes": "Check modes",
   "flowLabel": "Verification pipeline",
-  "sourceDisclaimer": "AI-generated source text may be inaccurate. Open the original sources."
+  "sourceDisclaimer": "AI-generated source text may be inaccurate. Open the original sources.",
+  "progressExtract": "Extracting checkable claims",
+  "progressFind": "Finding primary sources",
+  "progressCompare": "Comparing supporting and conflicting evidence",
+  "progressPrepare": "Preparing your report",
+  "progressEstimate": "Estimated progress while research runs. Steps are not confirmed until the report is ready."
 }

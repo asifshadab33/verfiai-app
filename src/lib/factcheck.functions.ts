@@ -93,7 +93,7 @@ async function checkClaim(claim: string): Promise<ClaimResult> {
   const okIds = new Set(verified.map(j => j.excerptId));
   const notes = perExcerpt.map((j, i) => ({ id: String(i + 1), note: j.note })).filter(n => n.note && okIds.has(n.id)).map(n => n.note);
   const siteCount = new Set(verified.filter(j => j.stance !== "neutral").map(j => meta.get(j.excerptId)?.originId)).size;
-  const supportingDocs = docs.filter((_, i) => okIds.has(String(i + 1)));
+  const supportingDocs = docs.filter((_, i) => verified.some(j => j.excerptId === String(i + 1) && j.stance !== "neutral"));
   const explanation = (notes.length ? notes.join(" ") : "The sources found did not directly address this claim.")
     + ` (Final label set by the evidence rules: ${verified.length} verified quote${verified.length === 1 ? "" : "s"} from ${siteCount} independent site(s).)`;
   const sup = verified.find(j => j.stance === "supports")?.quote;

@@ -1,4 +1,5 @@
 # VerifAI roadmap
+- [x] Add explainable evidence strength, issue links and limitations; deduplicate claims and syndicated evidence before scoring; simplify the hero and show clearly estimated verification progress.
 - [x] Add a separate VERFI AI cybersecurity concept page with an honest, non-uploading media preview and no unverified certifications.
 - [x] Preserve the Crossref citation checker in its own tab and restore quick search as a clearly labeled demo tab.
 - [x] Restore the report-first research workspace with live single-model AI, text-file input, report reader and supported exports.
