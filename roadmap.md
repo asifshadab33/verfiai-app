@@ -1,4 +1,5 @@
 # VerifAI roadmap
+- [x] Add five synthetic professional templates, local PDF/XLSX/DOCX downloads, an accessible dialog, and homepage/report links.
 - [x] Resolve 19 language codes to names and enforce selected-language report synthesis, including expansion drafts.
 - [x] Enhance /sources with live search, reliability and counted profession filters, catalog trend drawer, copy-prompt action, and registry links.
 - [x] Review the proposed ResearchForm against the existing workflow; add missing live speech transcript feedback without duplicating recognition results.

@@ -10,6 +10,7 @@ import { Checker } from "@/components/verifai/Checker";
 import { FactChecker } from "@/components/verifai/FactChecker";
 import { GenerationProgress } from "@/components/verifai/GenerationProgress";
 import { ReportView } from "@/components/verifai/ReportView";
+import { ResourceLibrary } from "@/components/verifai/ResourceLibrary";
 import { FAQS, FaqSection, FinalCta, HeroBadges, HeroMockup, HowItWorksSection, PricingSection, ProductDemo, TrustSection, UseCases, WorkspaceCards } from "@/components/verifai/HomeSections";
 import { SiteFooter } from "@/components/verifai/SiteFooter";
 import { PaymentTestModeBanner } from "@/components/verifai/PaymentTestModeBanner";
@@ -189,7 +190,7 @@ function Home() {
       <WorkspaceCards lang={lang} onSelect={selectTab} />
       <ProductDemo lang={lang} onTry={() => selectTab("fact")} />
       <section id="studio" className="mx-auto max-w-7xl scroll-mt-24 px-5 py-14 md:py-20"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-bold uppercase text-brand">Verfiai / Workspace</p><h2 className="mt-2 font-display text-3xl font-bold">{tx("workspace")}</h2></div><div className="flex items-center gap-2 text-xs text-muted-foreground"><ShieldCheck className="size-4" /> AI output is not independent verification</div></div><div role="tablist" aria-label={tx("workspaceTools")} className="mt-9 flex max-w-full overflow-x-auto border-b border-border"><Button role="tab" aria-selected={tab === "report"} variant="ghost" onClick={() => setTab("report")} className={`h-12 shrink-0 rounded-none border-b-2 px-4 ${tab === "report" ? "border-primary text-brand" : "border-transparent text-muted-foreground"}`}><BookOpen />{tx("navReport")}</Button><Button role="tab" aria-selected={tab === "fact"} variant="ghost" onClick={() => setTab("fact")} className={`h-12 shrink-0 rounded-none border-b-2 px-4 ${tab === "fact" ? "border-primary text-brand" : "border-transparent text-muted-foreground"}`}><Search />{tx("navFact")}</Button><Button role="tab" aria-selected={tab === "citation"} variant="ghost" onClick={() => setTab("citation")} className={`h-12 shrink-0 rounded-none border-b-2 px-4 ${tab === "citation" ? "border-primary text-brand" : "border-transparent text-muted-foreground"}`}><Search />{tx("navCitation")}</Button></div><div role="tabpanel" className="pt-10">{tab === "report" ? <ReportForm lang={lang} onLang={changeLang} /> : tab === "fact" ? <FactChecker lang={lang} /> : <Checker />}</div></section>
-      <HowItWorksSection lang={lang} /><UseCases lang={lang} /><TrustSection lang={lang} /><PricingSection lang={lang} onStart={() => selectTab("report")} /><FaqSection lang={lang} /><FinalCta lang={lang} onStart={() => selectTab("fact")} /></main>
+      <HowItWorksSection lang={lang} /><UseCases lang={lang} /><ResourceLibrary /><TrustSection lang={lang} /><PricingSection lang={lang} onStart={() => selectTab("report")} /><FaqSection lang={lang} /><FinalCta lang={lang} onStart={() => selectTab("fact")} /></main>
     <SiteFooter lang={lang} />
   </div>;
 }
