@@ -100,5 +100,37 @@
 }
 html { scroll-behavior: smooth; }
 
+/* Isolated palette for the cybersecurity concept; the research site keeps its own theme. */
+.cyber-page {
+  --background: oklch(0.105 0.008 250);
+  --foreground: oklch(0.96 0.004 250);
+  --card: oklch(0.16 0.012 250);
+  --card-foreground: oklch(0.96 0.004 250);
+  --primary: oklch(0.83 0.15 185);
+  --primary-foreground: oklch(0.12 0.02 200);
+  --secondary: oklch(0.19 0.014 250);
+  --secondary-foreground: oklch(0.94 0.005 250);
+  --muted: oklch(0.19 0.014 250);
+  --muted-foreground: oklch(0.68 0.016 250);
+  --accent: oklch(0.24 0.023 210);
+  --accent-foreground: oklch(0.96 0.004 250);
+  --border: oklch(0.32 0.018 250);
+  --input: oklch(0.38 0.018 250);
+  --ring: oklch(0.83 0.15 185);
+  --brand: oklch(0.83 0.15 185);
+  --cyber-alert: oklch(0.68 0.21 25);
+  --cyber-grid: oklch(0.68 0.016 250 / 0.08);
+  background: var(--background);
+  color: var(--foreground);
+}
+.cyber-grid {
+  background-image: linear-gradient(var(--cyber-grid) 1px, transparent 1px), linear-gradient(90deg, var(--cyber-grid) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.cyber-hero-shade {
+  background: linear-gradient(90deg, var(--background) 0%, color-mix(in oklch, var(--background) 92%, transparent) 37%, color-mix(in oklch, var(--background) 42%, transparent) 100%);
+}
+.cyber-alert { color: var(--cyber-alert); }
+
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
 html { scroll-behavior: smooth; }
