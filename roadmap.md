@@ -1,4 +1,5 @@
 # VerifAI roadmap
+- [x] Resolve 19 language codes to names and enforce selected-language report synthesis, including expansion drafts.
 - [x] Enhance /sources with live search, reliability and counted profession filters, catalog trend drawer, copy-prompt action, and registry links.
 - [x] Review the proposed ResearchForm against the existing workflow; add missing live speech transcript feedback without duplicating recognition results.
 - [x] Add the 19-language translation interface and wire its fields into the research workspace with RTL support.
