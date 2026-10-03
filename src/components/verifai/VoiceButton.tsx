@@ -18,7 +18,7 @@ type Rec = { lang: string; continuous: boolean; interimResults: boolean; start()
 
 const PRIVACY_NOTE = "Audio is processed by your browser's speech service and is not saved to our servers.";
 
-export function VoiceButton({ lang, onText, disabled }: { lang: string; onText: (text: string) => void; disabled?: boolean }) {
+export function VoiceButton({ lang, onText, disabled, label = "Speak" }: { lang: string; onText: (text: string) => void; disabled?: boolean; label?: string }) {
   const [supported, setSupported] = useState(true);
   const [phase, setPhase] = useState<"idle" | "listening" | "processing">("idle");
   const [announcement, setAnnouncement] = useState("");
@@ -115,7 +115,7 @@ export function VoiceButton({ lang, onText, disabled }: { lang: string; onText: 
             <TooltipTrigger asChild>
               <span className="inline-flex">
                 <Button type="button" variant="outline" size="sm" disabled aria-hidden="true" className="pointer-events-none opacity-50">
-                  <Mic />Speak
+                  <Mic />{label}
                 </Button>
               </span>
             </TooltipTrigger>
@@ -136,7 +136,7 @@ export function VoiceButton({ lang, onText, disabled }: { lang: string; onText: 
     <span className="inline-flex flex-wrap items-center gap-2">
       <Button type="button" variant={active ? "default" : "outline"} size="sm" disabled={disabled} aria-pressed={active} onClick={active ? stop : start}>
         {listening ? <MicOff /> : processing ? <Loader2 className="animate-spin" /> : <Mic />}
-        {listening ? "Stop listening" : processing ? "Processing…" : "Speak"}
+        {listening ? "Stop listening" : processing ? "Processing…" : label}
       </Button>
       {listening && (
         <span className="inline-flex items-center gap-1.5 text-xs text-brand">

@@ -7,6 +7,7 @@ import { ReportForm } from "./index";
 import { languages } from "@/lib/translations";
 import { siteText } from "@/lib/site-i18n";
 import { useSiteLocale } from "@/lib/locale";
+import { translations } from "@/lib/i18n/interface";
 import { Button } from "@/components/ui/button";
 
 const title = "Research Workspace — Verfiai";
@@ -33,8 +34,8 @@ function Workspace() {
   const [tab, setTab] = useState<(typeof TABS)[number][0]>("claim");
   const { lang, changeLang } = useSiteLocale();
   return (
-    <ContentPage title={siteText(lang, "appTitle")} intro={siteText(lang, "appIntro")}>
-      <label className="mb-5 block text-sm font-semibold">{siteText(lang, "language")} <select aria-label={siteText(lang, "language")} className="ms-2 rounded-md border border-input bg-card p-2" value={lang} onChange={e => changeLang(e.target.value as typeof lang)}>{languages.map(l => <option key={l.code} value={l.code}>{l.name}</option>)}</select></label>
+    <ContentPage title={siteText(lang, "appTitle")} intro={siteText(lang, "appIntro")} lang={lang}>
+      <label className="mb-5 block text-sm font-semibold">{translations[lang].report_language} <select aria-label={translations[lang].report_language} className="ms-2 rounded-md border border-input bg-card p-2" value={lang} onChange={e => changeLang(e.target.value as typeof lang)}>{languages.map(l => <option key={l.code} value={l.code}>{translations[l.code].name}</option>)}</select></label>
       <div role="tablist" aria-label={siteText(lang, "appTools")} className="mb-6 flex gap-4 overflow-x-auto border-b border-border">
         {TABS.map(([id, label]) => (
           <Button key={id} variant="ghost" role="tab" aria-selected={tab === id} onClick={() => setTab(id)}
