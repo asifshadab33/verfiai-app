@@ -29,6 +29,105 @@ export type Database = {
         }
         Relationships: []
       }
+      knowledge_resources: {
+        Row: {
+          access_level: string
+          category: string
+          commercial_reuse_allowed: boolean
+          created_at: string
+          evidence_strength: string | null
+          file_version: string
+          full_content: string | null
+          hosting_allowed: boolean
+          id: string
+          kind: string
+          language: string
+          licence_name: string
+          licence_url: string | null
+          original_url: string
+          permission_reference: string | null
+          preview_content: string
+          published: boolean
+          published_at: string | null
+          publisher: string
+          redistribution_allowed: boolean
+          region: string
+          reuse_conditions: string
+          rights_reviewed_at: string | null
+          rights_status: string
+          slug: string
+          source_count: number
+          summary: string
+          title: string
+          updated_at: string
+          verified_at: string | null
+        }
+        Insert: {
+          access_level?: string
+          category?: string
+          commercial_reuse_allowed?: boolean
+          created_at?: string
+          evidence_strength?: string | null
+          file_version?: string
+          full_content?: string | null
+          hosting_allowed?: boolean
+          id?: string
+          kind?: string
+          language?: string
+          licence_name?: string
+          licence_url?: string | null
+          original_url: string
+          permission_reference?: string | null
+          preview_content?: string
+          published?: boolean
+          published_at?: string | null
+          publisher: string
+          redistribution_allowed?: boolean
+          region?: string
+          reuse_conditions?: string
+          rights_reviewed_at?: string | null
+          rights_status?: string
+          slug: string
+          source_count?: number
+          summary?: string
+          title: string
+          updated_at?: string
+          verified_at?: string | null
+        }
+        Update: {
+          access_level?: string
+          category?: string
+          commercial_reuse_allowed?: boolean
+          created_at?: string
+          evidence_strength?: string | null
+          file_version?: string
+          full_content?: string | null
+          hosting_allowed?: boolean
+          id?: string
+          kind?: string
+          language?: string
+          licence_name?: string
+          licence_url?: string | null
+          original_url?: string
+          permission_reference?: string | null
+          preview_content?: string
+          published?: boolean
+          published_at?: string | null
+          publisher?: string
+          redistribution_allowed?: boolean
+          region?: string
+          reuse_conditions?: string
+          rights_reviewed_at?: string | null
+          rights_status?: string
+          slug?: string
+          source_count?: number
+          summary?: string
+          title?: string
+          updated_at?: string
+          verified_at?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -104,6 +203,133 @@ export type Database = {
         }
         Relationships: []
       }
+      resource_downloads: {
+        Row: {
+          downloaded_at: string
+          file_version: string
+          id: string
+          period_end: string
+          period_start: string
+          resource_id: string
+          subscription_id: string
+          user_id: string
+        }
+        Insert: {
+          downloaded_at?: string
+          file_version: string
+          id?: string
+          period_end: string
+          period_start: string
+          resource_id: string
+          subscription_id: string
+          user_id: string
+        }
+        Update: {
+          downloaded_at?: string
+          file_version?: string
+          id?: string
+          period_end?: string
+          period_start?: string
+          resource_id?: string
+          subscription_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "resource_downloads_resource_id_fkey"
+            columns: ["resource_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_resources"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "resource_downloads_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      resource_issues: {
+        Row: {
+          created_at: string
+          id: string
+          issue_type: string
+          message: string
+          resource_id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          issue_type: string
+          message: string
+          resource_id: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          issue_type?: string
+          message?: string
+          resource_id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "resource_issues_resource_id_fkey"
+            columns: ["resource_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_resources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      resource_sources: {
+        Row: {
+          id: string
+          licence_name: string
+          publisher: string
+          resource_id: string
+          retrieved_at: string
+          reuse_conditions: string
+          title: string
+          url: string
+        }
+        Insert: {
+          id?: string
+          licence_name?: string
+          publisher: string
+          resource_id: string
+          retrieved_at?: string
+          reuse_conditions?: string
+          title: string
+          url: string
+        }
+        Update: {
+          id?: string
+          licence_name?: string
+          publisher?: string
+          resource_id?: string
+          retrieved_at?: string
+          reuse_conditions?: string
+          title?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "resource_sources_resource_id_fkey"
+            columns: ["resource_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_resources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       subscriptions: {
         Row: {
           cancel_at_period_end: boolean
@@ -178,6 +404,23 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      claim_library_download:
+        | {
+            Args: { resource_uuid: string }
+            Returns: {
+              content: string
+              remaining: number
+              resets_at: string
+            }[]
+          }
+        | {
+            Args: { check_env: string; resource_uuid: string }
+            Returns: {
+              content: string
+              remaining: number
+              resets_at: string
+            }[]
+          }
       has_active_subscription: {
         Args: { check_env?: string; user_uuid: string }
         Returns: boolean

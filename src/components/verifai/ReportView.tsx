@@ -82,6 +82,6 @@ export function ReportView({ report, date, reportId, readOnly }: { report: Resea
         {report.engines?.length ? <footer className="border-t border-border pt-4 text-xs text-muted-foreground">Generated with: {report.engines.join(" · ")}</footer> : null}
       </div>
     </div>
-    <aside className="mt-10 border-t border-border pt-5 text-sm print:hidden"><p className="text-muted-foreground">Working on a larger project? Download our free verification templates to structure your next report. <Link to="/" hash="templates" className="font-semibold text-brand underline">Browse free templates</Link></p></aside>
+    <aside className="mt-10 border-t border-border pt-5 text-sm print:hidden"><p className="text-muted-foreground">Working on a larger project? Download our free verification templates to structure your next report. <Link to="/" hash="templates" className="font-semibold text-brand underline">Browse free templates</Link></p><p className="mt-3 text-muted-foreground">Explore original publications in the <Link to="/knowledge" className="font-semibold text-brand underline">Open Knowledge Index</Link> and reviewed briefs in the <Link to="/resources" className="font-semibold text-brand underline">Evidence Library</Link>.</p><p className="mt-3 text-xs text-muted-foreground">Source and rights notice: This Verfiai report is an original evidence synthesis. Linked external sources remain the property of their respective publishers. Reuse of external material is subject to the licence and terms shown for each source.</p></aside>
   </article>;
 }

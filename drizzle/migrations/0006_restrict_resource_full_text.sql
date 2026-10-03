@@ -1,0 +1,2 @@
+REVOKE SELECT ON public.knowledge_resources FROM anon, authenticated;
+GRANT SELECT (id, slug, title, summary, publisher, original_url, category, region, language, published_at, verified_at, licence_name, licence_url, reuse_conditions, rights_status, rights_reviewed_at, permission_reference, hosting_allowed, redistribution_allowed, commercial_reuse_allowed, kind, access_level, preview_content, file_version, source_count, evidence_strength, published, created_at, updated_at) ON public.knowledge_resources TO anon, authenticated;
