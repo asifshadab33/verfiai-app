@@ -214,7 +214,7 @@ export function ResourceBrowse({ kind }: { kind: Kind }) {
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">{item.summary}</p>
             <p className="mt-4 text-xs text-muted-foreground">
-              {item.publisher} · {item.licence_name} · Checked{" "}
+              {item.publisher} · {item.licence_name} · {item.source_count} sources · Checked{" "}
               {item.verified_at
                 ? new Date(item.verified_at).toLocaleDateString()
                 : "not yet recorded"}
