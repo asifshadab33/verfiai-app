@@ -18,17 +18,21 @@ import { Route as CybersecurityConceptRouteImport } from './routes/cybersecurity
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FeaturesRouteImport } from './routes/features'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as KnowledgeRouteImport } from './routes/knowledge'
 import { Route as MethodologyRouteImport } from './routes/methodology'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RefundsRouteImport } from './routes/refunds'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as SampleReportRouteImport } from './routes/sample-report'
 import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as TermsRouteImport } from './routes/terms'
+import { Route as AccountLibraryUsageRouteImport } from './routes/account/library-usage'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout/success'
 import { Route as RTokenRouteImport } from './routes/r.$token'
+import { Route as ResourcesSlugRouteImport } from './routes/resources/$slug'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
 const IndexRoute = IndexRouteImport.update({
@@ -76,6 +80,11 @@ const HowItWorksRoute = HowItWorksRouteImport.update({
   path: '/how-it-works',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KnowledgeRoute = KnowledgeRouteImport.update({
+  id: '/knowledge',
+  path: '/knowledge',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MethodologyRoute = MethodologyRouteImport.update({
   id: '/methodology',
   path: '/methodology',
@@ -106,6 +115,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResourcesRoute = ResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SampleReportRoute = SampleReportRouteImport.update({
   id: '/sample-report',
   path: '/sample-report',
@@ -121,6 +135,11 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccountLibraryUsageRoute = AccountLibraryUsageRouteImport.update({
+  id: '/account/library-usage',
+  path: '/account/library-usage',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
   id: '/checkout/success',
   path: '/checkout/success',
@@ -130,6 +149,11 @@ const RTokenRoute = RTokenRouteImport.update({
   id: '/r/$token',
   path: '/r/$token',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesSlugRoute = ResourcesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ResourcesRoute,
 } as any)
 const ApiPublicPaymentsWebhookRoute =
   ApiPublicPaymentsWebhookRouteImport.update({
@@ -148,17 +172,21 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/knowledge': typeof KnowledgeRoute
   '/methodology': typeof MethodologyRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/refunds': typeof RefundsRoute
   '/reports': typeof ReportsRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/sample-report': typeof SampleReportRoute
   '/sources': typeof SourcesRoute
   '/terms': typeof TermsRoute
+  '/account/library-usage': typeof AccountLibraryUsageRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/r/$token': typeof RTokenRoute
+  '/resources/$slug': typeof ResourcesSlugRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
@@ -171,17 +199,21 @@ export interface FileRoutesByTo {
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/knowledge': typeof KnowledgeRoute
   '/methodology': typeof MethodologyRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/refunds': typeof RefundsRoute
   '/reports': typeof ReportsRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/sample-report': typeof SampleReportRoute
   '/sources': typeof SourcesRoute
   '/terms': typeof TermsRoute
+  '/account/library-usage': typeof AccountLibraryUsageRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/r/$token': typeof RTokenRoute
+  '/resources/$slug': typeof ResourcesSlugRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
@@ -195,17 +227,21 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/knowledge': typeof KnowledgeRoute
   '/methodology': typeof MethodologyRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/refunds': typeof RefundsRoute
   '/reports': typeof ReportsRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/sample-report': typeof SampleReportRoute
   '/sources': typeof SourcesRoute
   '/terms': typeof TermsRoute
+  '/account/library-usage': typeof AccountLibraryUsageRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/r/$token': typeof RTokenRoute
+  '/resources/$slug': typeof ResourcesSlugRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
@@ -220,17 +256,21 @@ export interface FileRouteTypes {
     | '/faq'
     | '/features'
     | '/how-it-works'
+    | '/knowledge'
     | '/methodology'
     | '/pricing'
     | '/privacy'
     | '/refunds'
     | '/reports'
     | '/reset-password'
+    | '/resources'
     | '/sample-report'
     | '/sources'
     | '/terms'
+    | '/account/library-usage'
     | '/checkout/success'
     | '/r/$token'
+    | '/resources/$slug'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -243,17 +283,21 @@ export interface FileRouteTypes {
     | '/faq'
     | '/features'
     | '/how-it-works'
+    | '/knowledge'
     | '/methodology'
     | '/pricing'
     | '/privacy'
     | '/refunds'
     | '/reports'
     | '/reset-password'
+    | '/resources'
     | '/sample-report'
     | '/sources'
     | '/terms'
+    | '/account/library-usage'
     | '/checkout/success'
     | '/r/$token'
+    | '/resources/$slug'
     | '/api/public/payments/webhook'
   id:
     | '__root__'
@@ -266,17 +310,21 @@ export interface FileRouteTypes {
     | '/faq'
     | '/features'
     | '/how-it-works'
+    | '/knowledge'
     | '/methodology'
     | '/pricing'
     | '/privacy'
     | '/refunds'
     | '/reports'
     | '/reset-password'
+    | '/resources'
     | '/sample-report'
     | '/sources'
     | '/terms'
+    | '/account/library-usage'
     | '/checkout/success'
     | '/r/$token'
+    | '/resources/$slug'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
@@ -290,15 +338,18 @@ export interface RootRouteChildren {
   FaqRoute: typeof FaqRoute
   FeaturesRoute: typeof FeaturesRoute
   HowItWorksRoute: typeof HowItWorksRoute
+  KnowledgeRoute: typeof KnowledgeRoute
   MethodologyRoute: typeof MethodologyRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   RefundsRoute: typeof RefundsRoute
   ReportsRoute: typeof ReportsRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  ResourcesRoute: typeof ResourcesRouteWithChildren
   SampleReportRoute: typeof SampleReportRoute
   SourcesRoute: typeof SourcesRoute
   TermsRoute: typeof TermsRoute
+  AccountLibraryUsageRoute: typeof AccountLibraryUsageRoute
   CheckoutSuccessRoute: typeof CheckoutSuccessRoute
   RTokenRoute: typeof RTokenRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
@@ -369,6 +420,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HowItWorksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/knowledge': {
+      id: '/knowledge'
+      path: '/knowledge'
+      fullPath: '/knowledge'
+      preLoaderRoute: typeof KnowledgeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/methodology': {
       id: '/methodology'
       path: '/methodology'
@@ -411,6 +469,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resources': {
+      id: '/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sample-report': {
       id: '/sample-report'
       path: '/sample-report'
@@ -432,6 +497,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/account/library-usage': {
+      id: '/account/library-usage'
+      path: '/account/library-usage'
+      fullPath: '/account/library-usage'
+      preLoaderRoute: typeof AccountLibraryUsageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/checkout/success': {
       id: '/checkout/success'
       path: '/checkout/success'
@@ -446,6 +518,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resources/$slug': {
+      id: '/resources/$slug'
+      path: '/$slug'
+      fullPath: '/resources/$slug'
+      preLoaderRoute: typeof ResourcesSlugRouteImport
+      parentRoute: typeof ResourcesRoute
+    }
     '/api/public/payments/webhook': {
       id: '/api/public/payments/webhook'
       path: '/api/public/payments/webhook'
@@ -455,6 +534,18 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface ResourcesRouteChildren {
+  ResourcesSlugRoute: typeof ResourcesSlugRoute
+}
+
+const ResourcesRouteChildren: ResourcesRouteChildren = {
+  ResourcesSlugRoute: ResourcesSlugRoute,
+}
+
+const ResourcesRouteWithChildren = ResourcesRoute._addFileChildren(
+  ResourcesRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -466,15 +557,18 @@ const rootRouteChildren: RootRouteChildren = {
   FaqRoute: FaqRoute,
   FeaturesRoute: FeaturesRoute,
   HowItWorksRoute: HowItWorksRoute,
+  KnowledgeRoute: KnowledgeRoute,
   MethodologyRoute: MethodologyRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   RefundsRoute: RefundsRoute,
   ReportsRoute: ReportsRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  ResourcesRoute: ResourcesRouteWithChildren,
   SampleReportRoute: SampleReportRoute,
   SourcesRoute: SourcesRoute,
   TermsRoute: TermsRoute,
+  AccountLibraryUsageRoute: AccountLibraryUsageRoute,
   CheckoutSuccessRoute: CheckoutSuccessRoute,
   RTokenRoute: RTokenRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
