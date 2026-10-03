@@ -99,9 +99,7 @@ export const discoverOpenResearch = createServerFn({ method: "GET" })
   });
 
 export const getResource = createServerFn({ method: "GET" })
-  .validator((value) =>
-    z.object({ slug: z.string().regex(/^[a-z0-9-]{1,100}$/) }).parse(value),
-  )
+  .validator((value) => z.object({ slug: z.string().regex(/^[a-z0-9-]{1,100}$/) }).parse(value))
   .handler(async ({ data }) => {
     const { supabase } = await import("@/integrations/supabase/client");
     const { data: item, error } = await supabase
