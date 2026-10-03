@@ -25,6 +25,7 @@ import { Route as RefundsRouteImport } from './routes/refunds'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SampleReportRouteImport } from './routes/sample-report'
+import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout/success'
 import { Route as RTokenRouteImport } from './routes/r.$token'
@@ -110,6 +111,11 @@ const SampleReportRoute = SampleReportRouteImport.update({
   path: '/sample-report',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SourcesRoute = SourcesRouteImport.update({
+  id: '/sources',
+  path: '/sources',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -149,6 +155,7 @@ export interface FileRoutesByFullPath {
   '/reports': typeof ReportsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sample-report': typeof SampleReportRoute
+  '/sources': typeof SourcesRoute
   '/terms': typeof TermsRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/r/$token': typeof RTokenRoute
@@ -171,6 +178,7 @@ export interface FileRoutesByTo {
   '/reports': typeof ReportsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sample-report': typeof SampleReportRoute
+  '/sources': typeof SourcesRoute
   '/terms': typeof TermsRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/r/$token': typeof RTokenRoute
@@ -194,6 +202,7 @@ export interface FileRoutesById {
   '/reports': typeof ReportsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sample-report': typeof SampleReportRoute
+  '/sources': typeof SourcesRoute
   '/terms': typeof TermsRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/r/$token': typeof RTokenRoute
@@ -218,6 +227,7 @@ export interface FileRouteTypes {
     | '/reports'
     | '/reset-password'
     | '/sample-report'
+    | '/sources'
     | '/terms'
     | '/checkout/success'
     | '/r/$token'
@@ -240,6 +250,7 @@ export interface FileRouteTypes {
     | '/reports'
     | '/reset-password'
     | '/sample-report'
+    | '/sources'
     | '/terms'
     | '/checkout/success'
     | '/r/$token'
@@ -262,6 +273,7 @@ export interface FileRouteTypes {
     | '/reports'
     | '/reset-password'
     | '/sample-report'
+    | '/sources'
     | '/terms'
     | '/checkout/success'
     | '/r/$token'
@@ -285,6 +297,7 @@ export interface RootRouteChildren {
   ReportsRoute: typeof ReportsRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SampleReportRoute: typeof SampleReportRoute
+  SourcesRoute: typeof SourcesRoute
   TermsRoute: typeof TermsRoute
   CheckoutSuccessRoute: typeof CheckoutSuccessRoute
   RTokenRoute: typeof RTokenRoute
@@ -405,6 +418,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SampleReportRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sources': {
+      id: '/sources'
+      path: '/sources'
+      fullPath: '/sources'
+      preLoaderRoute: typeof SourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -453,6 +473,7 @@ const rootRouteChildren: RootRouteChildren = {
   ReportsRoute: ReportsRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SampleReportRoute: SampleReportRoute,
+  SourcesRoute: SourcesRoute,
   TermsRoute: TermsRoute,
   CheckoutSuccessRoute: CheckoutSuccessRoute,
   RTokenRoute: RTokenRoute,
