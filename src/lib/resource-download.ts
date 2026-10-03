@@ -22,7 +22,7 @@ export async function downloadResource(resource: ResourceItem) {
     const doc = new Document({ sections: [{ children: [new Paragraph({ text: title, heading: HeadingLevel.TITLE }), new Paragraph(notice), ...resource.sampleContent.map(line => new Paragraph({ text: line, spacing: { before: 250, after: 250 } }))] }] });
     blob = await Packer.toBlob(doc);
   } else {
-    const ExcelJS = (await import('exceljs/dist/exceljs.min.js')).default;
+    const ExcelJS = (await import('exceljs')).default;
     const workbook = new ExcelJS.Workbook();
     const sheet = workbook.addWorksheet('Verification log');
     sheet.addRow(resource.sampleContent);
