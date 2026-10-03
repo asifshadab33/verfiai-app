@@ -1,5 +1,5 @@
 # VerifAI roadmap
-- [ ] Review the proposed ResearchForm against the existing workflow; add missing live speech transcript feedback without duplicating recognition results.
+- [x] Review the proposed ResearchForm against the existing workflow; add missing live speech transcript feedback without duplicating recognition results.
 - [x] Add the 19-language translation interface and wire its fields into the research workspace with RTL support.
 - [x] Add the supplied source catalog and a filterable directory view; label supplied reliability classifications as catalog metadata, not verified endorsements.
 - [x] Add explainable evidence strength, issue links and limitations; deduplicate claims and syndicated evidence before scoring; simplify the hero and show clearly estimated verification progress.
