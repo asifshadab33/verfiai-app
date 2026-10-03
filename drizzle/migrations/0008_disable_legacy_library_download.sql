@@ -1,0 +1,1 @@
+REVOKE EXECUTE ON FUNCTION public.claim_library_download(uuid) FROM authenticated, service_role, PUBLIC;
