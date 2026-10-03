@@ -152,18 +152,6 @@ export const getLibraryUsage = createServerFn({ method: "GET" })
     };
   });
 
-export const downloadLibraryResource = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .validator((value) => z.object({ id: z.string().uuid() }).parse(value))
-  .handler(async ({ data, context }) => {
-    const { data: result, error } = await context.supabase.rpc("claim_library_download", {
-      resource_uuid: data.id,
-      check_env: paymentEnvironment(),
-    });
-    if (error || !result?.[0]) throw new Error(error?.message ?? "Download unavailable.");
-    return result[0];
-  });
-
 export const submitResourceIssue = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((value) =>

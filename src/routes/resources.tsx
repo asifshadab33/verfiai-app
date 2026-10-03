@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
 import { ResourceBrowse } from "@/components/verifai/ResourceBrowse";
 const title = "Evidence Library | Verfiai";
@@ -26,11 +26,8 @@ function Resources() {
       <p className="mb-8 max-w-3xl leading-7 text-muted-foreground">
         Browse source-linked verification reports, research briefs, evidence maps, citation reviews,
         policy summaries, and business intelligence reports created or licensed for use through
-        Verfiai. Resources appear only after review. Analyst access is not yet for sale;{" "}
-        <Link to="/account/library-usage" className="text-brand underline">
-          view your library allowance
-        </Link>
-        .
+         Verfiai. Reviewed previews are available here; library downloads and Analyst subscriptions
+         are not available yet. The existing Pro plan is unchanged.
       </p>
       <ResourceBrowse kind="library" />
       <PageSection title="Source and rights notice">

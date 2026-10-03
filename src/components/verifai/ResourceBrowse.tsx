@@ -200,11 +200,7 @@ export function ResourceBrowse({ kind }: { kind: Kind }) {
                 {item.category} · {item.region}
               </span>
               <span>
-                {item.kind === "library"
-                  ? item.access_level === "analyst"
-                    ? "Analyst"
-                    : "Free preview"
-                  : "Publisher link"}
+                 {item.kind === "library" ? "Free preview" : "Publisher link"}
               </span>
             </div>
             <h2 className="mt-3 font-display text-xl font-bold">
