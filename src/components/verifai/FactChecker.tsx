@@ -9,6 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { VoiceButton } from "./VoiceButton";
 import { siteText } from "@/lib/site-i18n";
 import { languages, type Lang } from "@/lib/translations";
+import { evidenceStrength } from "@/lib/evidence";
 
 const STAGES = ["Reading the text…", "Finding checkable claims…", "Searching the web for evidence…", "Two AI engines are weighing the evidence…"];
 const style: Record<Verdict, { label: string; cls: string }> = {
@@ -79,9 +80,11 @@ export function FactChecker({ lang }: { lang: Lang }) {
         <ul className="space-y-4">{claims.map((c, i) => <li key={i} className="rounded-2xl border border-border bg-card p-5">
           <div className="flex flex-wrap items-start justify-between gap-3"><p className="font-semibold">{c.claim}</p><span className={`shrink-0 rounded-full border px-2.5 py-0.5 text-xs font-semibold ${style[c.verdict].cls}`}>{style[c.verdict].label}</span></div>
           <p className="mt-2 text-sm text-muted-foreground">{c.explanation}</p>
+          {(() => { const rating = c.strength ?? evidenceStrength(c.verdict, []); return <><p className="mt-3 text-sm font-semibold text-brand">{rating.label}</p><details className="mt-2 text-xs"><summary className="flex min-h-11 cursor-pointer items-center font-semibold text-brand">Why this rating?</summary><dl className="space-y-1 text-muted-foreground"><div><dt className="font-semibold">Source authority</dt><dd>{rating.authority}</dd></div><div><dt className="font-semibold">Recency</dt><dd>{rating.recency}</dd></div><div><dt className="font-semibold">Independence</dt><dd>{rating.independence}</dd></div></dl></details></>; })()}
           {c.conflict && <div className="mt-4 grid gap-3 sm:grid-cols-2"><blockquote className="border-s-2 border-success ps-3 text-xs"><span className="font-semibold">{tx("factOneSource")}</span> "{c.conflict.a}"</blockquote><blockquote className="border-s-2 border-destructive ps-3 text-xs"><span className="font-semibold">{tx("factAnotherSource")}</span> "{c.conflict.b}"</blockquote></div>}
           {c.sources.length > 0 && <ol className="mt-4 space-y-2 text-xs">{c.sources.map(s => <li key={s.n}><a href={s.url} target="_blank" rel="noopener noreferrer" className="break-all text-brand underline">[{s.n}] {s.title}</a>{s.quote && <span className="text-muted-foreground"> — "{s.quote}"</span>}</li>)}</ol>}
           <p className="mt-3 text-xs text-muted-foreground">{tx("factSourceNote")}</p>
+          <a href={`mailto:hello@verfiai.app?subject=${encodeURIComponent("Verfiai claim issue")}&body=${encodeURIComponent(`Claim: ${c.claim}\n\nWhat seems wrong? (Do not include confidential material):\n`)}`} className="inline-flex min-h-11 items-center text-xs font-semibold text-brand underline">Report an issue</a>
         </li>)}</ul>
       </>}
     </section>}
