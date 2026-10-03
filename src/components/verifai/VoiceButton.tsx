@@ -23,6 +23,7 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak" }: { lang:
   const [phase, setPhase] = useState<"idle" | "listening" | "processing">("idle");
   const [announcement, setAnnouncement] = useState("");
   const [error, setError] = useState("");
+  const [interim, setInterim] = useState("");
   const recRef = useRef<Rec | null>(null);
   const silence = useRef<number | undefined>(undefined);
   const phaseRef = useRef(phase);
@@ -46,6 +47,7 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak" }: { lang:
   function stop() {
     window.clearTimeout(silence.current);
     recRef.current?.stop();
+    setInterim("");
     setPhase("idle");
     setAnnouncement("Listening stopped");
   }
@@ -55,6 +57,7 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak" }: { lang:
 
   function start() {
     setError("");
+    setInterim("");
     const w = window as any;
     const SR = w.SpeechRecognition || w.webkitSpeechRecognition;
     if (!SR) { setSupported(false); return; }
@@ -62,14 +65,19 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak" }: { lang:
     rec.lang = speechLang(lang); rec.continuous = true; rec.interimResults = true;
     rec.onresult = (e: any) => {
       let finalText = "";
+      let interimText = "";
       let heard = false;
       for (let i = e.resultIndex; i < e.results.length; i++) {
         heard = true;
         if (e.results[i].isFinal) finalText += e.results[i][0].transcript + " ";
       }
+      for (let i = 0; i < e.results.length; i++) {
+        if (!e.results[i].isFinal) interimText += e.results[i][0].transcript + " ";
+      }
       if (heard) setPhase("processing");
       const cleaned = cleanVoiceTranscript(finalText);
       if (cleaned) onText(cleaned);
+      setInterim(interimText.trim());
       setPhase("listening");
       // Speech detected — from here on, 6s of silence stops listening.
       armSilence();
@@ -86,9 +94,10 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak" }: { lang:
               : "Voice input stopped unexpectedly. Please try again.",
       );
       setPhase("idle");
+      setInterim("");
       setAnnouncement("Listening stopped");
     };
-    rec.onend = () => { setPhase((p) => { if (p !== "idle") setAnnouncement("Listening stopped"); return "idle"; }); };
+    rec.onend = () => { window.clearTimeout(silence.current); setInterim(""); setPhase((p) => { if (p !== "idle") setAnnouncement("Listening stopped"); return "idle"; }); };
     recRef.current = rec;
     // No silence timer here: it starts only once speech is detected.
     try { rec.start(); setPhase("listening"); setAnnouncement("Listening started"); } catch { setError("Voice input could not start. Please try again."); }
@@ -148,6 +157,7 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak" }: { lang:
         </span>
       )}
       {processing && <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground"><Loader2 className="size-3 animate-spin" />Processing speech…</span>}
+      {interim && <span role="status" aria-live="polite" className="max-w-48 truncate text-xs text-muted-foreground" title={interim}>{interim}</span>}
       {infoIcon}
       <span aria-live="polite" className="sr-only">{announcement}</span>
       {error && <span role="alert" className="text-xs text-destructive">{error}</span>}
