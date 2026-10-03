@@ -1,5 +1,5 @@
 # VerifAI roadmap
-- [ ] Enhance /sources with live search, reliability and counted profession filters, catalog trend drawer, copy-prompt action, and registry links.
+- [x] Enhance /sources with live search, reliability and counted profession filters, catalog trend drawer, copy-prompt action, and registry links.
 - [x] Review the proposed ResearchForm against the existing workflow; add missing live speech transcript feedback without duplicating recognition results.
 - [x] Add the 19-language translation interface and wire its fields into the research workspace with RTL support.
 - [x] Add the supplied source catalog and a filterable directory view; label supplied reliability classifications as catalog metadata, not verified endorsements.
