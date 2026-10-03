@@ -16,13 +16,9 @@ export function GenerationProgress({ active, lang = "en" }: { active: boolean; l
   }, [active]);
 
   if (!active) return null;
-  const pct = Math.round(((step + 1) / STEPS.length) * 100);
-
   return (
     <div role="status" aria-live="polite" className="animate-fade-in mt-6 min-h-40 border border-border bg-card p-5">
-      <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-        <div className="h-full rounded-full bg-brand transition-all duration-700 ease-out" style={{ width: `${pct}%` }} />
-      </div>
+      <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted" aria-hidden="true"><div className="h-full w-1/3 animate-pulse rounded-full bg-brand motion-reduce:animate-none" /></div>
       <ol className="mt-4 space-y-2.5">
         {STEPS.map((label, i) => {
           const done = false;
