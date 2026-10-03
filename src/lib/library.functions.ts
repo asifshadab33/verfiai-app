@@ -184,14 +184,12 @@ export const submitResourceIssue = createServerFn({ method: "POST" })
       .parse(value),
   )
   .handler(async ({ data, context }) => {
-    const { error } = await context.supabase
-      .from("resource_issues")
-      .insert({
-        resource_id: data.id,
-        user_id: context.userId,
-        issue_type: data.type,
-        message: data.message,
-      });
+    const { error } = await context.supabase.from("resource_issues").insert({
+      resource_id: data.id,
+      user_id: context.userId,
+      issue_type: data.type,
+      message: data.message,
+    });
     if (error) throw new Error("Could not submit your report.");
     return { received: true };
   });
