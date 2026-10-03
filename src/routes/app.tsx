@@ -4,7 +4,10 @@ import { ContentPage } from "@/components/verifai/ContentPage";
 import { FactChecker } from "@/components/verifai/FactChecker";
 import { Checker } from "@/components/verifai/Checker";
 import { ReportForm } from "./index";
-import type { Lang } from "@/lib/translations";
+import { languages } from "@/lib/translations";
+import { siteText } from "@/lib/site-i18n";
+import { useSiteLocale } from "@/lib/locale";
+import { Button } from "@/components/ui/button";
 
 const title = "Research Workspace — Verfiai";
 const description = "Check a claim, generate a source-linked research report, or scan citations in one workspace.";
@@ -28,22 +31,23 @@ const TABS = [["claim", "Claim check"], ["report", "Research report"], ["citatio
 
 function Workspace() {
   const [tab, setTab] = useState<(typeof TABS)[number][0]>("claim");
-  const [lang, setLang] = useState<Lang>("en" as Lang);
+  const { lang, changeLang } = useSiteLocale();
   return (
-    <ContentPage title="Research Workspace" intro="Paste a claim, ask a research question, or scan a reference list.">
-      <div role="tablist" aria-label="Workspace tools" className="mb-6 flex gap-4 overflow-x-auto border-b border-border">
+    <ContentPage title={siteText(lang, "appTitle")} intro={siteText(lang, "appIntro")}>
+      <label className="mb-5 block text-sm font-semibold">{siteText(lang, "language")} <select aria-label={siteText(lang, "language")} className="ms-2 rounded-md border border-input bg-card p-2" value={lang} onChange={e => changeLang(e.target.value as typeof lang)}>{languages.map(l => <option key={l.code} value={l.code}>{l.name}</option>)}</select></label>
+      <div role="tablist" aria-label={siteText(lang, "appTools")} className="mb-6 flex gap-4 overflow-x-auto border-b border-border">
         {TABS.map(([id, label]) => (
-          <button key={id} role="tab" aria-selected={tab === id} onClick={() => setTab(id)}
+          <Button key={id} variant="ghost" role="tab" aria-selected={tab === id} onClick={() => setTab(id)}
             className={`min-h-11 shrink-0 border-b-2 pb-2 font-semibold transition-colors ${tab === id ? "border-primary text-brand" : "border-transparent text-muted-foreground hover:text-foreground"}`}>
-            {label}
-          </button>
+            {siteText(lang, id === "claim" ? "appClaim" : id === "report" ? "appReport" : "appCitation")}
+          </Button>
         ))}
       </div>
       <div role="tabpanel">
-        {tab === "claim" ? <FactChecker lang={lang} /> : tab === "report" ? <ReportForm lang={lang} onLang={setLang} /> : <Checker />}
+        {tab === "claim" ? <FactChecker lang={lang} /> : tab === "report" ? <ReportForm lang={lang} onLang={changeLang} /> : <Checker />}
       </div>
       <p className="mt-8 max-w-2xl text-xs text-muted-foreground">
-        Verfiai provides verification support, not definitive truth judgments. Your submission may be processed by search and AI providers. Do not submit confidential, regulated, or unpublished material.
+        {siteText(lang, "appDisclaimer")}
       </p>
     </ContentPage>
   );
