@@ -22,3 +22,5 @@
 - Word export is generated in the browser with `docx` (lazy-loaded) so no server cost.
 - Paddle test checkout uses the Pro product; verified server-side subscription rows determine paid access, never browser state.
 - Paddle environment is derived from server request host, not client data, so test purchases cannot unlock live access.
+- Evidence strength is derived from verified excerpts for claim checks and conservatively from cited links for reports; report links never imply quote verification, because generated citations can be inaccurate.
+- Progress indicators are labeled estimates until an actual server event exists; elapsed time alone cannot certify a completed verification step.

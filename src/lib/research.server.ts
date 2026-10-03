@@ -1,5 +1,6 @@
 import { createHash } from "crypto";
 import { MIN_WORDS, reportSchema, wordCount, type ReportInput, type ResearchReport } from "./report-schema";
+import { uniqueSources } from "./evidence";
 
 // Engines via OpenRouter (user's key). First entry is primary; the rest are automatic fallbacks.
 const SYNTHESIS_ENGINES = [
@@ -146,7 +147,7 @@ async function synthesize(system: string, user: string): Promise<{ raw: string; 
 export async function buildReport(data: ReportInput): Promise<ResearchReport> {
   const query = [data.question, data.company, data.industry, data.focus].filter(Boolean).join(" ");
   const found = await webSearch(query);
-  const sources = rerank(query, found);
+  const sources = rerank(query, uniqueSources(found));
   const web = sources.length > 0;
   const fetchedAt = new Date().toISOString();
 
