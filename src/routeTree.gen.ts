@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AccuracyRouteImport } from './routes/accuracy'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CybersecurityConceptRouteImport } from './routes/cybersecurity-concept'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FeaturesRouteImport } from './routes/features'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
@@ -52,6 +53,11 @@ const AppRoute = AppRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CybersecurityConceptRoute = CybersecurityConceptRouteImport.update({
+  id: '/cybersecurity-concept',
+  path: '/cybersecurity-concept',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -132,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/accuracy': typeof AccuracyRoute
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
+  '/cybersecurity-concept': typeof CybersecurityConceptRoute
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
   '/how-it-works': typeof HowItWorksRoute
@@ -153,6 +160,7 @@ export interface FileRoutesByTo {
   '/accuracy': typeof AccuracyRoute
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
+  '/cybersecurity-concept': typeof CybersecurityConceptRoute
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
   '/how-it-works': typeof HowItWorksRoute
@@ -175,6 +183,7 @@ export interface FileRoutesById {
   '/accuracy': typeof AccuracyRoute
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
+  '/cybersecurity-concept': typeof CybersecurityConceptRoute
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
   '/how-it-works': typeof HowItWorksRoute
@@ -198,6 +207,7 @@ export interface FileRouteTypes {
     | '/accuracy'
     | '/app'
     | '/auth'
+    | '/cybersecurity-concept'
     | '/faq'
     | '/features'
     | '/how-it-works'
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/accuracy'
     | '/app'
     | '/auth'
+    | '/cybersecurity-concept'
     | '/faq'
     | '/features'
     | '/how-it-works'
@@ -240,6 +251,7 @@ export interface FileRouteTypes {
     | '/accuracy'
     | '/app'
     | '/auth'
+    | '/cybersecurity-concept'
     | '/faq'
     | '/features'
     | '/how-it-works'
@@ -262,6 +274,7 @@ export interface RootRouteChildren {
   AccuracyRoute: typeof AccuracyRoute
   AppRoute: typeof AppRoute
   AuthRoute: typeof AuthRoute
+  CybersecurityConceptRoute: typeof CybersecurityConceptRoute
   FaqRoute: typeof FaqRoute
   FeaturesRoute: typeof FeaturesRoute
   HowItWorksRoute: typeof HowItWorksRoute
@@ -313,6 +326,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cybersecurity-concept': {
+      id: '/cybersecurity-concept'
+      path: '/cybersecurity-concept'
+      fullPath: '/cybersecurity-concept'
+      preLoaderRoute: typeof CybersecurityConceptRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -422,6 +442,7 @@ const rootRouteChildren: RootRouteChildren = {
   AccuracyRoute: AccuracyRoute,
   AppRoute: AppRoute,
   AuthRoute: AuthRoute,
+  CybersecurityConceptRoute: CybersecurityConceptRoute,
   FaqRoute: FaqRoute,
   FeaturesRoute: FeaturesRoute,
   HowItWorksRoute: HowItWorksRoute,
