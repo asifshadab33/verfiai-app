@@ -64,6 +64,13 @@
       "when": 1791043952202,
       "tag": "0008_disable_legacy_library_download",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1791044281978,
+      "tag": "0009_pause_library_downloads_preview_only",
+      "breakpoints": true
     }
   ]
 }
