@@ -33,7 +33,7 @@ function LibraryUsage() {
       fetchUsage()
         .then(setUsage)
         .catch(() => setError("Usage could not load right now."));
-  }, [user?.id]);
+  }, [user, fetchUsage]);
   return (
     <ContentPage title="Evidence Library downloads" intro="Your current billing-cycle allowance.">
       {loading ? (

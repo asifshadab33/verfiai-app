@@ -57,7 +57,7 @@ export function ResourceBrowse({ kind }: { kind: Kind }) {
     return () => {
       active = false;
     };
-  }, [query, category, region, kind]);
+  }, [query, category, region, kind, search]);
   async function lookup() {
     if (query.trim().length < 3) return;
     setBusy(true);

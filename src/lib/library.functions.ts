@@ -34,7 +34,7 @@ const searchInput = z.object({
   kind: z.enum(["index", "library"]),
 });
 export const searchResources = createServerFn({ method: "GET" })
-  .inputValidator((value) => searchInput.parse(value))
+  .validator((value) => searchInput.parse(value))
   .handler(async ({ data }) => {
     const { supabase } = await import("@/integrations/supabase/client");
     let request = supabase
@@ -59,7 +59,7 @@ export const searchResources = createServerFn({ method: "GET" })
 
 const crossrefInput = z.object({ query: z.string().trim().min(3).max(120) });
 export const discoverOpenResearch = createServerFn({ method: "GET" })
-  .inputValidator((value) => crossrefInput.parse(value))
+  .validator((value) => crossrefInput.parse(value))
   .handler(async ({ data }) => {
     const url = `https://api.crossref.org/works?query=${encodeURIComponent(data.query)}&rows=12&select=DOI,title,publisher,URL,published,license,type`;
     try {
@@ -99,7 +99,7 @@ export const discoverOpenResearch = createServerFn({ method: "GET" })
   });
 
 export const getResource = createServerFn({ method: "GET" })
-  .inputValidator((value) =>
+  .validator((value) =>
     z.object({ slug: z.string().regex(/^[a-z0-9-]{1,100}$/) }).parse(value),
   )
   .handler(async ({ data }) => {
@@ -156,7 +156,7 @@ export const getLibraryUsage = createServerFn({ method: "GET" })
 
 export const downloadLibraryResource = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((value) => z.object({ id: z.string().uuid() }).parse(value))
+  .validator((value) => z.object({ id: z.string().uuid() }).parse(value))
   .handler(async ({ data, context }) => {
     const { data: result, error } = await context.supabase.rpc("claim_library_download", {
       resource_uuid: data.id,
@@ -168,7 +168,7 @@ export const downloadLibraryResource = createServerFn({ method: "POST" })
 
 export const submitResourceIssue = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((value) =>
+  .validator((value) =>
     z
       .object({
         id: z.string().uuid(),

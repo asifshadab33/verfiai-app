@@ -57,7 +57,7 @@ function ResourceDetail() {
     return () => {
       active = false;
     };
-  }, [slug]);
+  }, [slug, fetchResource]);
   async function save() {
     if (!data) return;
     setMessage("");
