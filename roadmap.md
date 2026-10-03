@@ -1,4 +1,6 @@
-# VerifAI roadmap
+# Verfiai roadmap
+- [x] Create reviewed-rights Knowledge Index and Evidence Library routes, Crossref metadata discovery, local bookmarks, issue reporting, authenticated download quotas (50/actual Analyst cycle) and usage page; no Analyst checkout until pricing is approved.
+- [ ] Publish verified/rights-reviewed catalog resources and obtain Analyst pricing + webhook product mapping; complete release QA/security/rights review (see docs-knowledge-rollout.md).
 - [x] Add five synthetic professional templates, local PDF/XLSX/DOCX downloads, an accessible dialog, and homepage/report links.
 - [x] Resolve 19 language codes to names and enforce selected-language report synthesis, including expansion drafts.
 - [x] Enhance /sources with live search, reliability and counted profession filters, catalog trend drawer, copy-prompt action, and registry links.
