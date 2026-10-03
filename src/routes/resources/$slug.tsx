@@ -178,9 +178,12 @@ function ResourceDetail() {
           >
             Open publisher <ArrowUpRight className="size-4" />
           </a>
-           {item.kind === "library" && (
-             <p className="text-muted-foreground">Library downloads are not available yet. You can inspect this preview and the publisher’s sources.</p>
-           )}
+          {item.kind === "library" && (
+            <p className="text-muted-foreground">
+              Library downloads are not available yet. You can inspect this preview and the
+              publisher’s sources.
+            </p>
+          )}
           <Button variant="outline" className="w-full" onClick={() => setIssueOpen(!issueOpen)}>
             <Flag />
             Report an issue

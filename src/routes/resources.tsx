@@ -26,8 +26,8 @@ function Resources() {
       <p className="mb-8 max-w-3xl leading-7 text-muted-foreground">
         Browse source-linked verification reports, research briefs, evidence maps, citation reviews,
         policy summaries, and business intelligence reports created or licensed for use through
-         Verfiai. Reviewed previews are available here; library downloads and Analyst subscriptions
-         are not available yet. The existing Pro plan is unchanged.
+        Verfiai. Reviewed previews are available here; library downloads and Analyst subscriptions
+        are not available yet. The existing Pro plan is unchanged.
       </p>
       <ResourceBrowse kind="library" />
       <PageSection title="Source and rights notice">

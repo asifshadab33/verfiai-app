@@ -35,7 +35,10 @@ function LibraryUsage() {
         .catch(() => setError("Usage could not load right now."));
   }, [user, fetchUsage]);
   return (
-    <ContentPage title="Evidence Library downloads" intro="Library downloads are paused; previews remain available.">
+    <ContentPage
+      title="Evidence Library downloads"
+      intro="Library downloads are paused; previews remain available."
+    >
       {loading ? (
         <p>Checking your account…</p>
       ) : !user ? (
@@ -51,8 +54,13 @@ function LibraryUsage() {
         <p role="status">Loading allowance…</p>
       ) : usage.active ? (
         <>
-           <p className="font-display text-2xl font-bold">Library downloads are not available yet.</p>
-           <p className="mt-2 text-muted-foreground">Your recorded Analyst allowance: {usage.remaining} of 50. This is not currently usable for downloads.</p>
+          <p className="font-display text-2xl font-bold">
+            Library downloads are not available yet.
+          </p>
+          <p className="mt-2 text-muted-foreground">
+            Your recorded Analyst allowance: {usage.remaining} of 50. This is not currently usable
+            for downloads.
+          </p>
           <p className="mt-3 text-muted-foreground">
             Your allowance resets on:{" "}
             {usage.resetsAt ? new Date(usage.resetsAt).toLocaleDateString() : "Not available"}
@@ -73,8 +81,8 @@ function LibraryUsage() {
       ) : (
         <>
           <p>
-             Library downloads and Analyst subscriptions are not available yet. You can browse
-             reviewed previews; the existing Pro plan remains unchanged.
+            Library downloads and Analyst subscriptions are not available yet. You can browse
+            reviewed previews; the existing Pro plan remains unchanged.
           </p>
           <Link to="/resources" className="mt-4 inline-block text-brand underline">
             Browse library previews
