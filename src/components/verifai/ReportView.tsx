@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { Check, Clipboard, Download, FileType2, Link2, Printer } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -81,5 +82,6 @@ export function ReportView({ report, date, reportId, readOnly }: { report: Resea
         {report.engines?.length ? <footer className="border-t border-border pt-4 text-xs text-muted-foreground">Generated with: {report.engines.join(" · ")}</footer> : null}
       </div>
     </div>
+    <aside className="mt-10 border-t border-border pt-5 text-sm print:hidden"><p className="text-muted-foreground">Working on a larger project? Download our free verification templates to structure your next report. <Link to="/" hash="templates" className="font-semibold text-brand underline">Browse free templates</Link></p></aside>
   </article>;
 }
