@@ -1,20 +1,17 @@
 import { useEffect, useState } from "react";
 import { CheckCircle2, LoaderCircle } from "lucide-react";
+import { siteText } from "@/lib/site-i18n";
+import type { Lang } from "@/lib/translations";
 
-const STEPS = [
-  "Splitting text into individual claims...",
-  "Searching live web and Crossref for evidence...",
-  "Running independent AI evaluation...",
-  "Resolving disagreements with tie-breaker engine...",
-];
+const STEPS = ["progressExtract", "progressFind", "progressCompare", "progressPrepare"] as const;
 
 /** Cycles one step forward roughly every 2.4 s while generation is running. */
-export function GenerationProgress({ active }: { active: boolean }) {
+export function GenerationProgress({ active, lang = "en" }: { active: boolean; lang?: Lang }) {
   const [step, setStep] = useState(0);
 
   useEffect(() => {
     if (!active) { setStep(0); return; }
-    const timer = window.setInterval(() => setStep(s => Math.min(s + 1, STEPS.length - 1)), 2400);
+    const timer = window.setInterval(() => setStep(s => Math.min(s + 1, STEPS.length - 1)), 12000);
     return () => window.clearInterval(timer);
   }, [active]);
 
@@ -28,7 +25,7 @@ export function GenerationProgress({ active }: { active: boolean }) {
       </div>
       <ol className="mt-4 space-y-2.5">
         {STEPS.map((label, i) => {
-          const done = i < step;
+          const done = false;
           const current = i === step;
           return (
             <li key={label} className={`flex items-center gap-2.5 text-sm ${done ? "text-muted-foreground" : current ? "font-medium text-foreground" : "text-muted-foreground/50"}`}>
@@ -37,13 +34,13 @@ export function GenerationProgress({ active }: { active: boolean }) {
                 : current
                   ? <LoaderCircle className="size-4 shrink-0 animate-spin text-brand" aria-hidden="true" />
                   : <span className="inline-flex size-4 shrink-0 rounded-full border border-border" aria-hidden="true" />}
-              <span>{label}</span>
+              <span>{siteText(lang, label)}</span>
               {current && <span className="sr-only">(in progress)</span>}
             </li>
           );
         })}
       </ol>
-      <p className="mt-4 text-xs text-muted-foreground">Reports take 1–2 minutes because sources are fetched live and checked by independent engines.</p>
+      <p className="mt-4 text-xs text-muted-foreground">{siteText(lang, "progressEstimate")}</p>
     </div>
   );
 }

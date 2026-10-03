@@ -24,6 +24,15 @@ export function evidenceStrength(verdict: AggVerdict, sources: { url: string; pu
   };
 }
 
+/** Report citations are model-generated and have not passed quote verification. Never label them strong. */
+export function reportFindingStrength(status: string, detail: string, sources: { url: string; date: string }[]): EvidenceBreakdown {
+  const indices = [...detail.matchAll(/\[(\d+)\]/g)].map(m => Number(m[1]) - 1);
+  const cited = [...new Set(indices)].map(i => sources[i]).filter((s): s is { url: string; date: string } => Boolean(s));
+  const result = evidenceStrength(status === "disputed" ? "MIXED" : status === "sourced" && cited.length ? "SUPPORTED" : "UNVERIFIABLE", cited.map(s => ({ url: s.url, published: s.date })));
+  return { ...result, label: result.label === "Strong evidence" ? "Moderate evidence" : result.label,
+    independence: `${result.independence} Report citations have not been checked against full source text.` };
+}
+
 export function deduplicateClaims(claims: string[]): string[] {
   const seen = new Set<string>();
   return claims.filter(claim => {

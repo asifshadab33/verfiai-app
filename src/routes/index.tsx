@@ -165,7 +165,7 @@ export function ReportForm({ lang, onLang }: { lang: Lang; onLang: (l: Lang) => 
          : <div className="mt-6 flex flex-wrap items-center gap-4"><Button size="lg" className="h-12 px-7" onClick={submit} disabled={busy || (!!user && left === 0) || authLoading}>{busy ? <LoaderCircle className="animate-spin" /> : <ArrowRight />}{busy ? tx("reportBusy") : tx("generate")}</Button><span className="text-sm text-muted-foreground">{user ? `${left} / ${limit} ${tx("reportRemaining")}` : <>{tx("guestReport")} · <Link to="/auth" className="text-brand underline">{tx("navSignIn")}</Link> {tx("guestMonthly")}</>}</span></div>}
         {user && left === 0 && <p role="status" className="mt-4 text-sm text-muted-foreground">{tx("limit")}</p>}
         {error && <div role="alert" className="mt-5 flex flex-wrap items-center gap-3 text-sm text-destructive">{error}{!/used your/.test(error) && <Button variant="outline" size="sm" disabled={busy} onClick={submit}>{tx("retry")}</Button>}</div>}
-        <GenerationProgress active={busy} />
+        <GenerationProgress active={busy} lang={lang} />
         <p className="mt-5 text-xs leading-5 text-muted-foreground">{tx("reportPrivacy")}</p>
         <p role="note" className="mt-3 border-s-2 border-warning bg-warning-soft p-3 text-xs font-medium leading-5">{tx("reportDisclaimer")}</p>
       </div>
