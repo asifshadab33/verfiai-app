@@ -65,11 +65,11 @@ export function FactChecker({ lang }: { lang: Lang }) {
       <p className="mt-2 text-xs text-muted-foreground">{tx("factLinkHint")}</p>
     </>}
     <div className="mt-6 flex flex-wrap items-center gap-4">
-      <Button size="lg" className="h-12 px-6" onClick={submit} disabled={!ready || busy || left === 0}>{busy ? <LoaderCircle className="animate-spin" /> : <ScanSearch />}{busy ? tx((["factStage1", "factStage2", "factStage3", "factStage4"] as const)[stage] ?? "factStage1") : "Check claims"}</Button>
+      <Button size="lg" className="h-12 px-6" onClick={submit} disabled={!ready || busy || left === 0}>{busy ? <LoaderCircle className="animate-spin" /> : <ScanSearch />}{busy ? tx((["factStage1", "factStage2", "factStage3", "factStage4"] as const)[stage] ?? "factStage1") : tx("factCheck")}</Button>
       <span className="text-xs text-muted-foreground">{usage ? (usage.signedIn ? `${left} / ${usage.limit} ${tx("factRemaining")}` : left ? tx("factGuest") : "") : ""} · {tx("factUpTo")}</span>
     </div>
     {busy && <ol role="status" className="mt-6 space-y-2 text-sm">{STAGES.map((s, i) => <li key={s} className={`flex items-center gap-2 ${i > stage ? "text-muted-foreground" : ""}`}>{i < stage ? <Check className="size-4 text-success" /> : i === stage ? <LoaderCircle className="size-4 animate-spin text-brand" /> : <span className="size-4" />}{tx((["factStage1", "factStage2", "factStage3", "factStage4"] as const)[i] ?? "factStage1")}</li>)}</ol>}
-    {left === 0 && !busy && <p className="mt-6 rounded-xl bg-brand-soft p-4 text-sm">{usage?.signedIn ? tx("factLimit") : <>You've used your free fact-check. <a href="/auth" className="font-semibold text-brand underline">{tx("navSignIn")}</a> for 3 every month.</>}</p>}
+    {left === 0 && !busy && <p className="mt-6 rounded-xl bg-brand-soft p-4 text-sm">{usage?.signedIn ? tx("factLimit") : <>{tx("factGuestLimit")} <a href="/auth" className="font-semibold text-brand underline">{tx("navSignIn")}</a> {tx("factGuestMore")}</>}</p>}
     {error && <div role="alert" className="mt-6 flex flex-wrap items-center gap-3 rounded-xl bg-danger-soft p-4 text-sm text-destructive"><XCircle className="size-4" />{error}{!/used your/.test(error) && <Button size="sm" variant="outline" onClick={submit}>{tx("retry")}</Button>}</div>}
     <p className="mt-5 text-xs leading-5 text-muted-foreground">{tx("factPrivacy")}</p>
 

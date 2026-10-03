@@ -19,6 +19,6 @@ import id_ from "./i18n/id.json";
 import sw_ from "./i18n/sw.json";
 import type { Lang } from "./translations";
 
-const dictionaries: Record<Lang, typeof en> = { en, de, pt, tr, ru, ja, ko, es, fr, hi, ar, zh, it: it_, nl: nl_, bn: bn_, ur: ur_, fa: fa_, id: id_, sw: sw_ };
+const dictionaries: Partial<Record<Lang, Partial<typeof en>>> = { en, de, pt, tr, ru, ja, ko, es, fr, hi, ar, zh, it: it_, nl: nl_, bn: bn_, ur: ur_, fa: fa_, id: id_, sw: sw_ };
 export const hasSiteTranslation = (lang: Lang) => Boolean(dictionaries[lang]);
 export const siteText = (lang: Lang, key: keyof typeof en) => dictionaries[lang]?.[key] ?? en[key];
