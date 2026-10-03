@@ -47,26 +47,26 @@ export function ProductDemo({ onTry, lang }: { onTry: () => void; lang: Lang }) 
       <div className="rounded-2xl border border-border bg-card p-5"><p className="text-xs font-bold uppercase text-muted-foreground">{siteText(lang, "demoInput")}</p><p className="mt-3 leading-7">{d.text}</p></div>
       <div className="rounded-2xl border border-border bg-card p-5"><p className="text-xs font-bold uppercase text-muted-foreground">{siteText(lang, "demoValidation")}</p>
         <ul className="mt-3 hidden space-y-3 md:block">{d.claims.map(([c, s, n]) => <li key={c} className="rounded-xl border border-border p-3 text-sm"><div className="flex items-start justify-between gap-2"><p className="font-medium">{c}</p><Pill s={s} /></div><p className="mt-1 text-xs text-muted-foreground">{n}</p></li>)}</ul>
-        <ul className="mt-3 flex flex-col gap-3 md:hidden">{d.claims.map(([c, s, n]) => <li key={c} className={`rounded-lg border border-border border-l-4 bg-background p-3 text-sm ${s === "supported" ? "border-l-success" : s === "review" ? "border-l-warning" : s === "insufficient" ? "border-l-muted-foreground" : "border-l-destructive"}`}>
+        <ul className="mt-3 flex flex-col gap-3 md:hidden">{d.claims.map(([c, s, n]) => <li key={c} className={`rounded-lg border border-border border-s-4 bg-background p-3 text-sm ${s === "supported" ? "border-s-success" : s === "review" ? "border-s-warning" : s === "insufficient" ? "border-s-muted-foreground" : "border-s-destructive"}`}>
           <div className="flex flex-col items-start gap-2"><Pill s={s} /><p className="font-medium leading-6">{c}</p></div>
           <details className="group mt-2"><summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 rounded-md text-xs font-semibold text-brand">{siteText(lang, "showEvidence")}<ChevronDown aria-hidden className="size-4 transition-transform group-open:rotate-180" /></summary><p className="pb-1 text-xs leading-5 text-muted-foreground">{n}</p></details>
         </li>)}</ul>
       </div>
     </div>
-    <div className="mt-6 flex flex-wrap items-center gap-4"><Button onClick={onTry}>Check a claim free <ArrowRight /></Button><span className="text-xs text-muted-foreground">{siteText(lang, "demoNote")}</span></div>
+    <div className="mt-6 flex flex-wrap items-center gap-4"><Button onClick={onTry}>{siteText(lang, "heroPrimary")} <ArrowRight /></Button><span className="text-xs text-muted-foreground">{siteText(lang, "demoNote")}</span></div>
   </section>;
 }
 
 export function HowItWorksSection({ lang }: { lang: Lang }) {
   const steps = [
-    [FileSearch, "1. Ingest", "Paste text, a link, a reference list or a question. Speak it if you prefer."],
-    [ScanSearch, "2. Extract", "Verfiai splits text into individual claims or references and searches the web and Crossref for each."],
-    [ShieldCheck, "3. Evaluate", "Two AI engines weigh the evidence independently; disagreements go to a third. Every verdict links to its sources."],
+    [FileSearch, siteText(lang, "howIngest"), siteText(lang, "howIngestBody")],
+    [ScanSearch, siteText(lang, "howExtract"), siteText(lang, "howExtractBody")],
+    [ShieldCheck, siteText(lang, "howEvaluate"), siteText(lang, "howEvaluateBody")],
   ] as const;
   return <section aria-labelledby="how-title" className="border-y border-border bg-secondary/40"><div className="mx-auto max-w-7xl px-5 py-16">
     <h2 id="how-title" className="font-display text-3xl font-bold">{siteText(lang, "howTitle")}</h2>
     <div className="mt-8 grid gap-8 md:grid-cols-3">{steps.map(([Icon, t, b]) => <div key={t}><Icon className="size-6 text-brand" /><h3 className="mt-3 font-display text-xl font-bold">{t}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{b}</p></div>)}</div>
-    <p className="mt-8 flex max-w-3xl gap-2 border-l-2 border-warning bg-card p-4 text-sm"><AlertTriangle className="size-4 shrink-0 text-warning" />{siteText(lang, "howLimitations")}</p>
+    <p className="mt-8 flex max-w-3xl gap-2 border-s-2 border-warning bg-card p-4 text-sm"><AlertTriangle className="size-4 shrink-0 text-warning" />{siteText(lang, "howLimitations")}</p>
   </div></section>;
 }
 
@@ -85,7 +85,7 @@ export function UseCases({ lang }: { lang: Lang }) {
 
 export function TrustSection({ lang }: { lang: Lang }) {
   const points = [siteText(lang, "trustPoint1"), siteText(lang, "trustPoint2"), siteText(lang, "trustPoint3"), siteText(lang, "trustPoint4"), siteText(lang, "trustPoint5")];
-  const flow = ["Question or text", "Claim extraction", "Source research", "Evidence comparison", "Traceable report"];
+  const flow = [siteText(lang, "flow1"), siteText(lang, "flow2"), siteText(lang, "flow3"), siteText(lang, "flow4"), siteText(lang, "flow5")];
   return <section aria-labelledby="trust-title" className="border-y border-border bg-secondary/40"><div className="mx-auto grid max-w-7xl gap-10 px-5 py-16 lg:grid-cols-2">
     <div><h2 id="trust-title" className="font-display text-3xl font-bold">{siteText(lang, "trustTitle")}</h2>
       <ul className="mt-6 space-y-4 text-sm">{points.map(t => <li key={t} className="flex gap-3"><Check className="size-5 shrink-0 text-brand" />{t}</li>)}</ul>
@@ -124,9 +124,9 @@ export function PricingSection({ onStart, lang }: { onStart: () => void; lang: L
   return <section id="pricing" aria-labelledby="pricing-title" className="mx-auto max-w-7xl scroll-mt-24 px-5 py-16">
     <h2 id="pricing-title" className="font-display text-3xl font-bold">{siteText(lang, "navPricing")}</h2>
     <div className="mt-8 grid gap-5 md:grid-cols-3">{PLANS.map(p => <div key={p.name} className={`flex flex-col rounded-2xl border bg-card p-6 ${p.featured ? "border-primary shadow-md" : "border-border"}`}>
-      <h3 className="font-display text-lg font-bold">{p.name}</h3><p className="mt-3"><span className="font-display text-4xl font-extrabold">{p.price}</span> <span className="text-sm text-muted-foreground">{p.note}</span></p>
-      <ul className="mt-5 flex-1 space-y-2 text-sm">{p.features.map(f => <li key={f} className="flex gap-2"><Check className="size-4 shrink-0 text-success" />{f}</li>)}</ul>
-      {p.name === "Pro" ? <div className="mt-6"><ProCheckoutButton /></div> : p.live ? <Button className="mt-6" onClick={onStart}>{p.cta}</Button> : <Button asChild variant="outline" className="mt-6"><a href="mailto:hello@verfiai.app">{p.cta}</a></Button>}
+      <h3 className="font-display text-lg font-bold">{p.name === "Teams" ? siteText(lang, "teams") : p.name === "Free" ? siteText(lang, "free") : p.name}</h3><p className="mt-3"><span className="font-display text-4xl font-extrabold">{p.price}</span> <span className="text-sm text-muted-foreground">{siteText(lang, ({forever:"priceForever", "per month":"priceMonthly", "coming later":"priceSoon"} as const)[p.note as "forever" | "per month" | "coming later"])}</span></p>
+      <ul className="mt-5 flex-1 space-y-2 text-sm">{p.features.map((f, i) => <li key={f} className="flex gap-2"><Check className="size-4 shrink-0 text-success" />{siteText(lang, `${p.name === "Free" ? "priceFree" : p.name === "Pro" ? "pricePro" : "priceTeam"}${i+1}` as keyof typeof import("@/lib/i18n/en.json"))}</li>)}</ul>
+      {p.name === "Pro" ? <div className="mt-6"><ProCheckoutButton /></div> : p.live ? <Button className="mt-6" onClick={onStart}>{siteText(lang, "heroPrimary")}</Button> : <Button asChild variant="outline" className="mt-6"><a href="mailto:hello@verfiai.app">{siteText(lang, "footerContact")}</a></Button>}
     </div>)}</div>
     <p className="mt-5 text-sm text-muted-foreground">{siteText(lang, "noCard")}</p>
   </section>;
@@ -152,5 +152,5 @@ export function FaqSection({ lang }: { lang: Lang }) {
 }
 
 export function FinalCta({ onStart, lang }: { onStart: () => void; lang: Lang }) {
-  return <section className="mx-auto max-w-7xl px-5 py-16 text-center"><h2 className="font-display text-3xl font-bold">Check your next claim before you publish it</h2><p className="mx-auto mt-3 max-w-xl text-muted-foreground">Free to try. No credit card. Every verdict comes with its sources.</p><Button size="lg" className="mt-6 h-12" onClick={onStart}>Check a claim free <ArrowRight /></Button></section>;
+  return <section className="mx-auto max-w-7xl px-5 py-16 text-center"><h2 className="font-display text-3xl font-bold">{siteText(lang, "finalHeading")}</h2><p className="mx-auto mt-3 max-w-xl text-muted-foreground">{siteText(lang, "finalBody")}</p><Button size="lg" className="mt-6 h-12" onClick={onStart}>{siteText(lang, "heroPrimary")} <ArrowRight /></Button></section>;
 }

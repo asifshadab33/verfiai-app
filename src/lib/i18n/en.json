@@ -309,5 +309,12 @@
   "demoModeResearch": "Research",
   "demoModeNews": "News",
   "demoModeAcademic": "Academic",
-  "demoModeBusiness": "Business"
+  "demoModeBusiness": "Business",
+  "finalHeading": "Check your next claim before you publish it",
+  "finalBody": "Free to try. No credit card. Every verdict comes with its sources.",
+  "factError": "Something went wrong. Please try again.",
+  "factResult": "Fact-check results",
+  "demoCheckModes": "Check modes",
+  "flowLabel": "Verification pipeline",
+  "sourceDisclaimer": "AI-generated source text may be inaccurate. Open the original sources."
 }

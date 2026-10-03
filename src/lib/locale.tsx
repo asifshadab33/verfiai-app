@@ -1,5 +1,5 @@
 import { useLocation } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { isLang, type Lang } from "./translations";
 
 const STORAGE_KEY = "verifai-lang";

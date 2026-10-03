@@ -18,7 +18,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { generateReport, generateGuestReport, getReportUsage, MONTHLY_REPORT_LIMIT, type ResearchReport } from "@/lib/report.functions";
 import { isLang, languages, type Lang } from "@/lib/translations";
 import { siteText } from "@/lib/site-i18n";
-import { useSiteLocale, isRtl } from "@/lib/locale";
+import { useSiteLocale } from "@/lib/locale";
 
 const SITE = "https://verfiai.app";
 
