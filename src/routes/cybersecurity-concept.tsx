@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ChangeEvent, type DragEvent } from "react";
-import { ArrowRight, AudioLines, Check, ChevronRight, CircleAlert, FileImage, FileText, Fingerprint, Link2, LockKeyhole, ScanFace, Shield, UploadCloud, X } from "lucide-react";
+import { ArrowRight, AudioLines, ChevronRight, CircleAlert, FileImage, FileText, Fingerprint, Link2, LockKeyhole, ScanFace, Shield, UploadCloud, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import forensicImage from "@/assets/cyber-forensics.jpg";
 
@@ -120,9 +120,9 @@ function CybersecurityConcept() {
       </section>
 
       <section className="border-b border-border bg-secondary/70"><div className="mx-auto grid max-w-7xl gap-4 px-5 py-6 sm:grid-cols-3 sm:px-8">
-        <div className="flex items-center gap-3 text-sm text-muted-foreground"><Shield className="size-5 shrink-0 text-primary" /> Security certification status: not verified</div>
-        <div className="flex items-center gap-3 text-sm text-muted-foreground"><LockKeyhole className="size-5 shrink-0 text-primary" /> GDPR compliance: not assessed</div>
-        <div className="flex items-center gap-3 text-sm text-muted-foreground"><FileImage className="size-5 shrink-0 text-primary" /> C2PA support: proposed, not implemented</div>
+        <div className="flex items-center gap-3 text-sm text-muted-foreground"><Shield className="size-5 shrink-0 text-primary" /> Media stays in your browser on this page</div>
+        <div className="flex items-center gap-3 text-sm text-muted-foreground"><LockKeyhole className="size-5 shrink-0 text-primary" /> No media analysis is performed</div>
+        <div className="flex items-center gap-3 text-sm text-muted-foreground"><FileImage className="size-5 shrink-0 text-primary" /> Claim checking is available on the research site</div>
       </div></section>
 
       <section className="cyber-grid border-b border-border bg-background py-16 sm:py-20"><div className="mx-auto max-w-7xl px-5 sm:px-8">
