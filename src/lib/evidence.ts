@@ -4,6 +4,55 @@ export type AggVerdict = "SUPPORTED" | "CONTRADICTED" | "MIXED" | "UNVERIFIABLE"
 export type Judgment = { excerptId: string; stance: Stance; quote: string };
 export type ExcerptMeta = { originId: string; weight: number };
 
+export type EvidenceStrength = "Strong evidence" | "Moderate evidence" | "Limited evidence" | "Conflicting evidence" | "Insufficient evidence";
+export type EvidenceBreakdown = { label: EvidenceStrength; authority: string; recency: string; independence: string };
+
+/** A conservative description of observed evidence, not a probability of truth. */
+export function evidenceStrength(verdict: AggVerdict, sources: { url: string; published?: string | undefined }[], checkedAt = new Date()): EvidenceBreakdown {
+  const hosts = new Set(sources.map(s => sourceMeta(s.url).originId));
+  const authoritative = sources.filter(s => sourceMeta(s.url).weight > 1).length;
+  const dated = sources.filter(s => s.published && !Number.isNaN(Date.parse(s.published))).map(s => new Date(s.published as string).getTime());
+  const recent = dated.some(d => d <= checkedAt.getTime() && checkedAt.getTime() - d < 2 * 365 * 86400000);
+  const label: EvidenceStrength = verdict === "MIXED" ? "Conflicting evidence" : verdict === "UNVERIFIABLE" || !sources.length ? "Insufficient evidence"
+    : hosts.size >= 2 && authoritative > 0 && recent ? "Strong evidence"
+    : hosts.size >= 2 || authoritative > 0 ? "Moderate evidence" : "Limited evidence";
+  return {
+    label,
+    authority: authoritative ? `${authoritative} source${authoritative === 1 ? "" : "s"} from a recognized institutional or journal domain; domain alone does not validate a claim.` : "No institutional or journal domain identified; authority has not been independently verified.",
+    recency: dated.length ? `${dated.length} of ${sources.length} sources have parseable publication dates${recent ? "; at least one is within two years" : "; none is confirmed within two years"}.` : "Publication dates unavailable; freshness cannot be established.",
+    independence: `${hosts.size} distinct publisher domain${hosts.size === 1 ? "" : "s"} after duplicate filtering; shared ownership or reporting may still overlap.`,
+  };
+}
+
+export function deduplicateClaims(claims: string[]): string[] {
+  const seen = new Set<string>();
+  return claims.filter(claim => {
+    const key = claim.toLocaleLowerCase().normalize("NFKC").replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/g, " ").trim();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+/** Removes repeated URLs, publishers, and near-identical syndicated excerpts before ranking or judging. */
+export function uniqueSources<T extends { url: string; title: string; content: string }>(sources: T[]): T[] {
+  const seenUrls = new Set<string>(), seenText = new Set<string>(), seenHosts = new Set<string>();
+  return sources.filter(source => {
+    let url: URL;
+    try { url = new URL(source.url); } catch { return false; }
+    if (url.protocol !== "https:") return false;
+    url.hash = "";
+    for (const key of [...url.searchParams.keys()]) if (/^(utm_|fbclid$|gclid$|mc_)/i.test(key)) url.searchParams.delete(key);
+    const urlKey = url.toString().replace(/\/$/, "");
+    const host = url.hostname.replace(/^www\./, "");
+    const textKey = `${source.title} ${source.content}`.toLocaleLowerCase().replace(/[^\p{L}\p{N}]/gu, "").slice(0, 400);
+    if (seenUrls.has(urlKey) || seenHosts.has(host) || (textKey.length > 80 && seenText.has(textKey))) return false;
+    seenUrls.add(urlKey); seenHosts.add(host);
+    if (textKey.length > 80) seenText.add(textKey);
+    return true;
+  });
+}
+
 export const MIN_EVIDENCE_THRESHOLD = 1.5;
 
 const norm = (s: string) => s.toLowerCase().replace(/[“”]/g, '"').replace(/[‘’]/g, "'").replace(/\s+/g, " ").trim();
