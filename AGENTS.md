@@ -13,7 +13,7 @@
 - Voice input uses the browser's free Web Speech API with `cleanVoiceTranscript`, so no audio leaves the browser via our server.
 - Reports target 1000+ words (~2 pages) with one automatic expansion pass when the draft is short.
 
-- Reports use Tavily web search + local BM25/RRF ranking and OpenRouter engines (DeepSeek primary, Qwen fallback) in `research.server.ts`; keys stay server-side because browser keys can be stolen.
+- Reports and claim checks use Tavily plus free sources (DuckDuckGo Instant Answer API only, never scraped result pages; English + report-language Wikipedia; Crossref; OpenAlex; PubMed) merged via local BM25/RRF ranking and OpenRouter engines (DeepSeek primary, Qwen fallback) in `research.server.ts`; keys stay server-side because browser keys can be stolen.
 - Search and report results are cached in the `research_cache` table (24h / 7d) instead of Redis, since no Redis service is connected.
 - Guest reports are limited to one per IP+user-agent hash in `guest_usage`, server-side.
 - All usage limits (scans, fact-checks) go through `usage.server.ts`: signed-in users in `usage_events`, guests one use per kind in `guest_usage`; no browser counters, because they can't be enforced.
