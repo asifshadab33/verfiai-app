@@ -14,6 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      credit_ledger: {
+        Row: {
+          created_at: string
+          delta: number
+          id: string
+          idempotency_key: string
+          operation: string
+          period_end: string
+          period_start: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          delta: number
+          id?: string
+          idempotency_key: string
+          operation: string
+          period_end: string
+          period_start: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          delta?: number
+          id?: string
+          idempotency_key?: string
+          operation?: string
+          period_end?: string
+          period_start?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      feature_flags: {
+        Row: {
+          admin_only: boolean
+          enabled: boolean
+          key: string
+          org_allowlist: string[]
+          updated_at: string
+          user_allowlist: string[]
+        }
+        Insert: {
+          admin_only?: boolean
+          enabled?: boolean
+          key: string
+          org_allowlist?: string[]
+          updated_at?: string
+          user_allowlist?: string[]
+        }
+        Update: {
+          admin_only?: boolean
+          enabled?: boolean
+          key?: string
+          org_allowlist?: string[]
+          updated_at?: string
+          user_allowlist?: string[]
+        }
+        Relationships: []
+      }
       guest_usage: {
         Row: {
           created_at: string
@@ -399,6 +459,90 @@ export type Database = {
         }
         Relationships: []
       }
+      usage_meter: {
+        Row: {
+          actual_cost_usd: number | null
+          created_at: string
+          estimated_cost_usd: number | null
+          event_type: string
+          guest_fingerprint: string | null
+          id: string
+          idempotency_key: string | null
+          latency_ms: number | null
+          model_route: string | null
+          organization_id: string | null
+          period_end: string
+          period_start: string
+          plan: string
+          provider: string | null
+          quantity: number
+          report_id: string | null
+          resource_id: string | null
+          success: boolean
+          user_id: string | null
+        }
+        Insert: {
+          actual_cost_usd?: number | null
+          created_at?: string
+          estimated_cost_usd?: number | null
+          event_type: string
+          guest_fingerprint?: string | null
+          id?: string
+          idempotency_key?: string | null
+          latency_ms?: number | null
+          model_route?: string | null
+          organization_id?: string | null
+          period_end: string
+          period_start: string
+          plan?: string
+          provider?: string | null
+          quantity?: number
+          report_id?: string | null
+          resource_id?: string | null
+          success?: boolean
+          user_id?: string | null
+        }
+        Update: {
+          actual_cost_usd?: number | null
+          created_at?: string
+          estimated_cost_usd?: number | null
+          event_type?: string
+          guest_fingerprint?: string | null
+          id?: string
+          idempotency_key?: string | null
+          latency_ms?: number | null
+          model_route?: string | null
+          organization_id?: string | null
+          period_end?: string
+          period_start?: string
+          plan?: string
+          provider?: string | null
+          quantity?: number
+          report_id?: string | null
+          resource_id?: string | null
+          success?: boolean
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -421,13 +565,37 @@ export type Database = {
               resets_at: string
             }[]
           }
+      consume_credits: {
+        Args: {
+          _allowance: number
+          _cost: number
+          _key: string
+          _op: string
+          _pend: string
+          _pstart: string
+          _user: string
+        }
+        Returns: {
+          ok: boolean
+          remaining: number
+          replay: boolean
+          used: number
+        }[]
+      }
       has_active_subscription: {
         Args: { check_env?: string; user_uuid: string }
         Returns: boolean
       }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -554,6 +722,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
