@@ -2,20 +2,8 @@
 // Allowlisted users and admins can access a disabled flag for private beta testing.
 import { admin } from "./research.server";
 
-export const FLAG_DEFAULTS = {
-  ANALYST_PLAN_ENABLED: false,
-  ANALYST_WAITLIST_ENABLED: true,
-  EVIDENCE_LIBRARY_ENABLED: false,
-  OPEN_KNOWLEDGE_INDEX_ENABLED: false,
-  RESOURCE_DOWNLOADS_ENABLED: false,
-  RESOURCE_ADMIN_ENABLED: false,
-  DEEP_RESEARCH_ENABLED: false,
-  ADVANCED_SOURCE_SCORING_ENABLED: false,
-  MODEL_ESCALATION_ROUTING_ENABLED: false,
-  PUBLIC_REPORT_SHARING_ENABLED: true,
-} as const;
-export type FlagKey = keyof typeof FLAG_DEFAULTS;
-export const FLAG_KEYS = Object.keys(FLAG_DEFAULTS) as FlagKey[];
+import { FLAG_DEFAULTS, FLAG_KEYS, type FlagKey } from "./flags";
+export { FLAG_DEFAULTS, FLAG_KEYS, type FlagKey };
 
 type Row = { key: string; enabled: boolean; admin_only: boolean; user_allowlist: string[]; org_allowlist: string[] };
 

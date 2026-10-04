@@ -4,7 +4,7 @@ import { Link } from "@tanstack/react-router";
 import { Clock } from "lucide-react";
 import { getFeatureFlags } from "@/lib/flags.functions";
 import { useAuth } from "@/hooks/useAuth";
-import type { FlagKey } from "@/lib/flags.server";
+import type { FlagKey } from "@/lib/flags";
 
 /** Display-only gate. The matching server functions enforce the same flag independently. */
 export function FeatureGate({ flag, title, children }: { flag: FlagKey; title: string; children: ReactNode }) {
