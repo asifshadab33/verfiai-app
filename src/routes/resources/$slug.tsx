@@ -10,6 +10,7 @@ import { useAuth } from "@/hooks/useAuth";
 export const Route = createFileRoute("/resources/$slug")({
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex" },
       { title: "Resource details | Verfiai" },
       {
         name: "description",
