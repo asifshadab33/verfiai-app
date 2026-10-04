@@ -103,12 +103,15 @@ export async function crossrefSearch(query: string): Promise<Source[]> {
   } catch { return []; }
 }
 
-export async function wikipediaSearch(query: string): Promise<Source[]> {
-  const ck = "wikipedia:" + sha(normalizeQuery(query));
+const LANG_CODES: Record<string, string> = { english: "en", spanish: "es", french: "fr", german: "de", portuguese: "pt", italian: "it", dutch: "nl", russian: "ru", turkish: "tr", arabic: "ar", hindi: "hi", bengali: "bn", urdu: "ur", persian: "fa", "mandarin chinese": "zh", chinese: "zh", japanese: "ja", korean: "ko", indonesian: "id", swahili: "sw" };
+export const toLangCode = (v?: string) => { const t = (v ?? "en").trim().toLowerCase(); return /^[a-z]{2}$/.test(t) ? t : LANG_CODES[t] ?? "en"; };
+
+async function wikipediaEdition(query: string, lang: string): Promise<Source[]> {
+  const ck = `wikipedia:${lang}:` + sha(normalizeQuery(query));
   const cached = await cacheGet<Source[]>(ck, SEARCH_TTL_MS);
   if (cached) return cached;
   try {
-    const api = "https://en.wikipedia.org/w/api.php";
+    const api = `https://${lang}.wikipedia.org/w/api.php`;
     const headers = { "User-Agent": "Verfiai/1.0 (hello@verfiai.app)" };
     const sres = await fetch(`${api}?action=query&list=search&format=json&srsearch=${encodeURIComponent(query.slice(0, 300))}&srlimit=3`, { headers, signal: AbortSignal.timeout(10000) });
     if (!sres.ok) return [];
@@ -121,11 +124,90 @@ export async function wikipediaSearch(query: string): Promise<Source[]> {
     const pages = ejson.query?.pages ?? {};
     const out: Source[] = hits.map(h => {
       const p = pages[String(h.pageid)];
-      return { title: p?.title ?? h.title, url: `https://en.wikipedia.org/?curid=${h.pageid}`, content: (p?.extract ?? "").slice(0, 1500), score: 0.6 };
+      return { title: p?.title ?? h.title, url: `https://${lang}.wikipedia.org/?curid=${h.pageid}`, content: (p?.extract ?? "").slice(0, 1500), score: 0.6 };
     }).filter(s => s.content.length > 0);
     if (out.length) await cacheSet(ck, "wikipedia", out);
     return out;
   } catch { return []; }
+}
+
+/** English Wikipedia, plus the report-language edition when it isn't English. */
+export async function wikipediaSearch(query: string, language?: string): Promise<Source[]> {
+  const lang = toLangCode(language);
+  const [en, local] = await Promise.all([wikipediaEdition(query, "en"), lang === "en" ? Promise.resolve([]) : wikipediaEdition(query, lang)]);
+  return [...en, ...local];
+}
+
+// DuckDuckGo official Instant Answer API (free, no key). We do not scrape DDG result pages, per their terms.
+export async function duckduckgoSearch(query: string): Promise<Source[]> {
+  const ck = "ddg:" + sha(normalizeQuery(query));
+  const cached = await cacheGet<Source[]>(ck, SEARCH_TTL_MS);
+  if (cached) return cached;
+  try {
+    const res = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(query.slice(0, 300))}&format=json&no_html=1&skip_disambig=1&t=verfiai`, { headers: { "User-Agent": "Verfiai/1.0 (hello@verfiai.app)" }, signal: AbortSignal.timeout(10000) });
+    if (!res.ok) return [];
+    type Topic = { Text?: string; FirstURL?: string; Topics?: Topic[] };
+    const j = await res.json() as { Heading?: string; AbstractText?: string; AbstractURL?: string; AbstractSource?: string; RelatedTopics?: Topic[] };
+    const out: Source[] = [];
+    if (j.AbstractText && j.AbstractURL?.startsWith("https://")) out.push({ title: `${j.Heading ?? query} (${j.AbstractSource ?? "DuckDuckGo"})`, url: j.AbstractURL, content: j.AbstractText.slice(0, 1500), score: 0.55 });
+    const flat = (j.RelatedTopics ?? []).flatMap(t => t.Topics ?? [t]);
+    for (const t of flat.slice(0, 5)) if (t.Text && t.FirstURL?.startsWith("https://")) out.push({ title: t.Text.slice(0, 120), url: t.FirstURL, content: t.Text.slice(0, 1500), score: 0.4 });
+    if (out.length) await cacheSet(ck, "ddg", out);
+    return out;
+  } catch { return []; }
+}
+
+// OpenAlex scholarly works (free, no key). Abstracts arrive as an inverted index.
+export async function openAlexSearch(query: string): Promise<Source[]> {
+  const ck = "openalex:" + sha(normalizeQuery(query));
+  const cached = await cacheGet<Source[]>(ck, SEARCH_TTL_MS);
+  if (cached) return cached;
+  try {
+    const res = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(query.slice(0, 300))}&per-page=5&filter=has_abstract:true&mailto=hello@verfiai.app`, { signal: AbortSignal.timeout(10000) });
+    if (!res.ok) return [];
+    const j = await res.json() as { results?: { title?: string; doi?: string; id?: string; publication_date?: string; abstract_inverted_index?: Record<string, number[]> }[] };
+    const out: Source[] = (j.results ?? []).map(w => {
+      const words: string[] = [];
+      for (const [word, pos] of Object.entries(w.abstract_inverted_index ?? {})) for (const p of pos) words[p] = word;
+      return { title: w.title ?? "Untitled", url: (w.doi ?? w.id ?? "").replace(/^http:/, "https:"), content: words.filter(Boolean).join(" ").slice(0, 1500), published: w.publication_date, score: 0.55 };
+    }).filter(s => s.url.startsWith("https://") && s.content.length > 0);
+    if (out.length) await cacheSet(ck, "openalex", out);
+    return out;
+  } catch { return []; }
+}
+
+// PubMed via NCBI E-utilities (free, no key; low volume).
+export async function pubmedSearch(query: string): Promise<Source[]> {
+  const ck = "pubmed:" + sha(normalizeQuery(query));
+  const cached = await cacheGet<Source[]>(ck, SEARCH_TTL_MS);
+  if (cached) return cached;
+  try {
+    const base = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils";
+    const tool = "tool=verfiai&email=hello@verfiai.app";
+    const sres = await fetch(`${base}/esearch.fcgi?db=pubmed&retmode=json&retmax=4&${tool}&term=${encodeURIComponent(query.slice(0, 300))}`, { signal: AbortSignal.timeout(10000) });
+    if (!sres.ok) return [];
+    const ids = ((await sres.json()) as { esearchresult?: { idlist?: string[] } }).esearchresult?.idlist ?? [];
+    if (!ids.length) return [];
+    const fres = await fetch(`${base}/efetch.fcgi?db=pubmed&retmode=xml&${tool}&id=${ids.join(",")}`, { signal: AbortSignal.timeout(10000) });
+    if (!fres.ok) return [];
+    const xml = await fres.text();
+    const out: Source[] = xml.split("<PubmedArticle>").slice(1).map(a => {
+      const pmid = a.match(/<PMID[^>]*>(\d+)<\/PMID>/)?.[1] ?? "";
+      const title = stripTags(a.match(/<ArticleTitle>([\s\S]*?)<\/ArticleTitle>/)?.[1] ?? "Untitled");
+      const abs = [...a.matchAll(/<AbstractText[^>]*>([\s\S]*?)<\/AbstractText>/g)].map(m => stripTags(m[1] ?? "")).join(" ");
+      const year = a.match(/<PubDate>[\s\S]*?<Year>(\d{4})<\/Year>/)?.[1];
+      return { title, url: `https://pubmed.ncbi.nlm.nih.gov/${pmid}/`, content: abs.slice(0, 1500), published: year, score: 0.55 };
+    }).filter(s => s.content.length > 0 && /\/\d+\/$/.test(s.url));
+    if (out.length) await cacheSet(ck, "pubmed", out);
+    return out;
+  } catch { return []; }
+}
+
+/** All free sources in parallel; any failure yields [] and never breaks the caller. */
+export async function freeSources(query: string, language?: string): Promise<Source[]> {
+  const safe = (p: Promise<Source[]>) => p.catch(() => [] as Source[]);
+  const r = await Promise.all([crossrefSearch(query), wikipediaSearch(query, language), duckduckgoSearch(query), openAlexSearch(query), pubmedSearch(query)].map(safe));
+  return r.flat();
 }
 
 // Internal error codes — never shown to users. synthesize() maps them to
@@ -161,7 +243,8 @@ export async function buildReport(data: ReportInput): Promise<ResearchReport> {
     ? `CRITICAL LANGUAGE RULE: You MUST generate the ENTIRE response — including all headings, subheadings, bullet points, table headers, summaries, and conclusions — strictly in ${targetLang}. Do NOT use English words, phrases, or headings. If the selected language uses a non-Latin script, use that script exclusively.`
     : '';
   const query = [data.question, data.company, data.industry, data.focus].filter(Boolean).join(" ");
-  const found = await webSearch(query);
+  const [tav, free] = await Promise.all([webSearch(query).catch(() => [] as Source[]), freeSources(query, data.language)]);
+  const found = [...tav, ...free];
   const sources = rerank(query, uniqueSources(found));
   const web = sources.length > 0;
   const fetchedAt = new Date().toISOString();
@@ -193,7 +276,7 @@ export async function buildReport(data: ReportInput): Promise<ResearchReport> {
     ...report,
     sources: sources.map(s => { let host = ""; try { host = new URL(s.url).hostname.replace(/^www\./, ""); } catch { /* */ } return { title: s.title, url: s.url, publisher: host, date: s.published ?? "", snippet: s.content.slice(0, 300), fetchedAt }; }),
     verification: web ? "web" : "model",
-    engines: [engine, ...(web ? ["Tavily web search", "BM25 + RRF ranking"] : [])],
+    engines: [engine, ...(web ? ["Tavily, DuckDuckGo, Wikipedia, Crossref, OpenAlex and PubMed", "BM25 + RRF ranking"] : [])],
   };
   await cacheSet(reportKey, "report", final);
   return final;
