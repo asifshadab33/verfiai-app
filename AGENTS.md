@@ -27,3 +27,5 @@
 - Keep the supplied source directory informational and separate from live evidence scoring, because catalog ratings and historical claims have not been independently verified.
 - Generate free professional templates locally as actual PDF/XLSX/DOCX with synthetic illustrative data; do not collect email or claim inbox delivery until a consented delivery service exists.
 - Keep the Evidence Library preview-only and disable all paid downloads at both API and database levels until rights and a paid plan are explicitly approved, because browsing must not imply an available entitlement.
+- Feature flags are evaluated server-side in `flags.server.ts` (code default < env var < `feature_flags` row, with user/org allowlists and admin-only via `has_role`); UI `FeatureGate` is display-only, because hidden UI cannot enforce access.
+- Credits are consumed atomically and idempotently via the `consume_credits` DB function before expensive work and refunded on failure; every operation is logged to `usage_meter` (never shown raw to users), because client counters can be bypassed.
