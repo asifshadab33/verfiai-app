@@ -29,11 +29,18 @@ export const generateReport = createServerFn({ method: "POST" })
     const { count } = await context.supabase.from("reports").select("id", { count: "exact", head: true }).gte("created_at", monthStart());
     const limit = await reportLimit(context);
     if ((count ?? 0) >= limit) return { limitReached: true as const, message: `You've used your ${limit} reports this month.` };
-    const report = await buildReport(data);
+    const { consumeCredits, meter, CREDIT_COSTS } = await import("./metering.server");
+    const credits = await consumeCredits(context.userId, "report_created", CREDIT_COSTS.report_created, `report:${crypto.randomUUID()}`);
+    const t0 = Date.now();
+    if (data.attachment) void meter({ userId: context.userId, event: "document_upload" });
+    let report;
+    try { report = await buildReport(data); }
+    catch (e) { await credits.refund(); void meter({ userId: context.userId, event: "report_created", success: false, latencyMs: Date.now() - t0 }); throw e; }
     const { data: row, error } = await context.supabase.from("reports")
       .insert({ user_id: context.userId, question: data.question, title: report.title, content: report as never })
       .select("id").single();
     if (error) throw new Error("The report was written but could not be saved. Please try again.");
+    void meter({ userId: context.userId, event: "report_created", reportId: row.id, latencyMs: Date.now() - t0, provider: "openrouter", modelRoute: "deepseek>qwen" });
     return { id: row.id, report, words: wordCount(report) };
   });
 
@@ -49,6 +56,8 @@ export const generateGuestReport = createServerFn({ method: "POST" })
     if (claimErr) return { limitReached: true as const, message: "You've used your free report. Sign in with Google or email to get 3 more every month." };
     try {
       const report = await buildReport(data);
+      const { meter } = await import("./metering.server");
+      void meter({ userId: null, guestFingerprint: fingerprint, event: "report_created", provider: "openrouter" });
       return { report, words: wordCount(report) };
     } catch (e) {
       await supabaseAdmin.from("guest_usage").delete().eq("fingerprint", fingerprint);

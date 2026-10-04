@@ -21,6 +21,8 @@ export const enableShare = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => idInput.parse(d))
   .handler(async ({ data, context }) => {
+    const { requireFlag } = await import("./flags.server");
+    await requireFlag("PUBLIC_REPORT_SHARING_ENABLED", context.userId);
     const row = await ownReport(context.supabase, data.id);
     if (row.share_token) return { token: row.share_token };
     const token = randomBytes(16).toString("base64url");
@@ -44,6 +46,8 @@ export const disableShare = createServerFn({ method: "POST" })
 export const getSharedReport = createServerFn({ method: "GET" })
   .inputValidator((d) => z.object({ token: z.string().min(16).max(64).regex(/^[A-Za-z0-9_-]+$/) }).parse(d))
   .handler(async ({ data }) => {
+    const { isEnabled } = await import("./flags.server");
+    if (!(await isEnabled("PUBLIC_REPORT_SHARING_ENABLED", null))) return null;
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: row } = await supabaseAdmin.from("reports").select("title, content, created_at").eq("share_token", data.token).maybeSingle();
     if (!row) return null;
