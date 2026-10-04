@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
 import { ResourceBrowse } from "@/components/verifai/ResourceBrowse";
+import { FeatureGate } from "@/components/verifai/FeatureGate";
 
 const title = "Open Global Knowledge Index | Verfiai";
 const description =
@@ -8,6 +9,7 @@ const description =
 export const Route = createFileRoute("/knowledge")({
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex" },
       { title },
       { name: "description", content: description },
       { property: "og:title", content: title },
@@ -29,7 +31,7 @@ function Knowledge() {
         and latest verification date. Publisher-search results show only metadata until reviewed;
         they are not hosted here.
       </p>
-      <ResourceBrowse kind="index" />
+      <FeatureGate flag="OPEN_KNOWLEDGE_INDEX_ENABLED" title="The Open Knowledge Index"><ResourceBrowse kind="index" /></FeatureGate>
       <PageSection title="Source and rights">
         <p>
           Links lead to the original publishers. Availability does not grant permission to reproduce

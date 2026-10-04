@@ -27,6 +27,11 @@ type PublicResource = {
 };
 const fields =
   "id,slug,title,summary,publisher,original_url,category,region,language,published_at,verified_at,licence_name,licence_url,reuse_conditions,rights_status,kind,access_level,preview_content,source_count,evidence_strength";
+async function gate(kind: "index" | "library") {
+  const { identify } = await import("./usage.server");
+  const { requireFlag } = await import("./flags.server");
+  await requireFlag(kind === "index" ? "OPEN_KNOWLEDGE_INDEX_ENABLED" : "EVIDENCE_LIBRARY_ENABLED", (await identify()).userId);
+}
 const searchInput = z.object({
   query: z.string().max(160).default(""),
   category: z.string().max(50).default("all"),
@@ -36,6 +41,7 @@ const searchInput = z.object({
 export const searchResources = createServerFn({ method: "GET" })
   .validator((value) => searchInput.parse(value))
   .handler(async ({ data }) => {
+    await gate(data.kind);
     const { supabase } = await import("@/integrations/supabase/client");
     let request = supabase
       .from("knowledge_resources")
@@ -61,6 +67,7 @@ const crossrefInput = z.object({ query: z.string().trim().min(3).max(120) });
 export const discoverOpenResearch = createServerFn({ method: "GET" })
   .validator((value) => crossrefInput.parse(value))
   .handler(async ({ data }) => {
+    await gate("index");
     const url = `https://api.crossref.org/works?query=${encodeURIComponent(data.query)}&rows=12&select=DOI,title,publisher,URL,published,license,type`;
     try {
       const response = await fetch(url, {
@@ -109,6 +116,7 @@ export const getResource = createServerFn({ method: "GET" })
       .eq("published", true)
       .maybeSingle();
     if (error || !item) return null;
+    await gate(item.kind === "library" ? "library" : "index");
     const { data: sources } = await supabase
       .from("resource_sources")
       .select("title,url,publisher,licence_name,reuse_conditions,retrieved_at")

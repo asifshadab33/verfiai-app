@@ -1,12 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
 import { ResourceBrowse } from "@/components/verifai/ResourceBrowse";
+import { FeatureGate } from "@/components/verifai/FeatureGate";
 const title = "Evidence Library | Verfiai";
 const description =
   "Inspect source-linked Verfiai research briefs, citation reviews, and evidence maps with clear rights and limitations.";
 export const Route = createFileRoute("/resources")({
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex" },
       { title },
       { name: "description", content: description },
       { property: "og:title", content: title },
@@ -29,7 +31,7 @@ function Resources() {
         Verfiai. Reviewed previews are available here; library downloads and Analyst subscriptions
         are not available yet. The existing Pro plan is unchanged.
       </p>
-      <ResourceBrowse kind="library" />
+      <FeatureGate flag="EVIDENCE_LIBRARY_ENABLED" title="The Evidence Library"><ResourceBrowse kind="library" /></FeatureGate>
       <PageSection title="Source and rights notice">
         <p>
           Verfiai reports are original evidence syntheses. Linked external sources remain the

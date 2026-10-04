@@ -30,6 +30,7 @@ import { Route as SampleReportRouteImport } from './routes/sample-report'
 import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AccountLibraryUsageRouteImport } from './routes/account/library-usage'
+import { Route as AccountUsageRouteImport } from './routes/account/usage'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout/success'
 import { Route as RTokenRouteImport } from './routes/r.$token'
 import { Route as ResourcesSlugRouteImport } from './routes/resources/$slug'
@@ -140,6 +141,11 @@ const AccountLibraryUsageRoute = AccountLibraryUsageRouteImport.update({
   path: '/account/library-usage',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccountUsageRoute = AccountUsageRouteImport.update({
+  id: '/account/usage',
+  path: '/account/usage',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
   id: '/checkout/success',
   path: '/checkout/success',
@@ -184,6 +190,7 @@ export interface FileRoutesByFullPath {
   '/sources': typeof SourcesRoute
   '/terms': typeof TermsRoute
   '/account/library-usage': typeof AccountLibraryUsageRoute
+  '/account/usage': typeof AccountUsageRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/r/$token': typeof RTokenRoute
   '/resources/$slug': typeof ResourcesSlugRoute
@@ -211,6 +218,7 @@ export interface FileRoutesByTo {
   '/sources': typeof SourcesRoute
   '/terms': typeof TermsRoute
   '/account/library-usage': typeof AccountLibraryUsageRoute
+  '/account/usage': typeof AccountUsageRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/r/$token': typeof RTokenRoute
   '/resources/$slug': typeof ResourcesSlugRoute
@@ -239,6 +247,7 @@ export interface FileRoutesById {
   '/sources': typeof SourcesRoute
   '/terms': typeof TermsRoute
   '/account/library-usage': typeof AccountLibraryUsageRoute
+  '/account/usage': typeof AccountUsageRoute
   '/checkout/success': typeof CheckoutSuccessRoute
   '/r/$token': typeof RTokenRoute
   '/resources/$slug': typeof ResourcesSlugRoute
@@ -268,6 +277,7 @@ export interface FileRouteTypes {
     | '/sources'
     | '/terms'
     | '/account/library-usage'
+    | '/account/usage'
     | '/checkout/success'
     | '/r/$token'
     | '/resources/$slug'
@@ -295,6 +305,7 @@ export interface FileRouteTypes {
     | '/sources'
     | '/terms'
     | '/account/library-usage'
+    | '/account/usage'
     | '/checkout/success'
     | '/r/$token'
     | '/resources/$slug'
@@ -322,6 +333,7 @@ export interface FileRouteTypes {
     | '/sources'
     | '/terms'
     | '/account/library-usage'
+    | '/account/usage'
     | '/checkout/success'
     | '/r/$token'
     | '/resources/$slug'
@@ -350,6 +362,7 @@ export interface RootRouteChildren {
   SourcesRoute: typeof SourcesRoute
   TermsRoute: typeof TermsRoute
   AccountLibraryUsageRoute: typeof AccountLibraryUsageRoute
+  AccountUsageRoute: typeof AccountUsageRoute
   CheckoutSuccessRoute: typeof CheckoutSuccessRoute
   RTokenRoute: typeof RTokenRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
@@ -504,6 +517,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountLibraryUsageRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/account/usage': {
+      id: '/account/usage'
+      path: '/account/usage'
+      fullPath: '/account/usage'
+      preLoaderRoute: typeof AccountUsageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/checkout/success': {
       id: '/checkout/success'
       path: '/checkout/success'
@@ -569,6 +589,7 @@ const rootRouteChildren: RootRouteChildren = {
   SourcesRoute: SourcesRoute,
   TermsRoute: TermsRoute,
   AccountLibraryUsageRoute: AccountLibraryUsageRoute,
+  AccountUsageRoute: AccountUsageRoute,
   CheckoutSuccessRoute: CheckoutSuccessRoute,
   RTokenRoute: RTokenRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
