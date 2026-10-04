@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { callEngine, rerank, sha, webSearch, crossrefSearch, wikipediaSearch, normalizeQuery, cacheGet, cacheSet, getLanguageName, type Source } from "./research.server";
+import { callEngine, rerank, sha, webSearch, freeSources, normalizeQuery, cacheGet, cacheSet, getLanguageName, type Source } from "./research.server";
 import { claimUsage, usageFor } from "./usage.server";
 import { aggregateEvidence, deduplicateClaims, evidenceStrength, sourceMeta, uniqueSources, verifyQuotes, type AggVerdict, type EvidenceBreakdown, type Judgment, type Stance } from "./evidence";
 
@@ -73,13 +73,13 @@ async function judgeAllExcerpts(claim: string, docs: Source[]): Promise<ExcerptJ
   }));
 }
 
-async function checkClaim(claim: string): Promise<ClaimResult> {
-  const ck = "claim3:" + sha(normalizeQuery(claim));
+async function checkClaim(claim: string, language = "en"): Promise<ClaimResult> {
+  const ck = "claim4:" + sha(normalizeQuery(claim) + "|" + language);
   const cached = await cacheGet<ClaimResult>(ck, 24 * 3600_000);
   if (cached) return cached;
   const safe = (p: Promise<Source[]>) => p.catch(() => [] as Source[]);
-  const [tav, cr, wiki] = await Promise.all([safe(webSearch(claim)), safe(crossrefSearch(claim)), safe(wikipediaSearch(claim))]);
-  const docs: Source[] = rerank(claim, uniqueSources([...tav, ...cr, ...wiki]), 4);
+  const [tav, free] = await Promise.all([safe(webSearch(claim)), safe(freeSources(claim, language))]);
+  const docs: Source[] = rerank(claim, uniqueSources([...tav, ...free]), 4);
   if (!docs.length) return { claim, verdict: "UNVERIFIABLE", explanation: "No relevant web sources were found for this claim.", consensus: "single", sources: [] };
   // Judge each excerpt in isolation (one claim vs one excerpt), then apply the deterministic evidence rules.
   let perExcerpt: ExcerptJudgment[];
@@ -127,8 +127,8 @@ export const factCheck = createServerFn({ method: "POST" })
       void meter({ userId: who.userId, guestFingerprint: who.fingerprint, event: "claims_extracted", quantity: claims.length, provider: "openrouter" });
       if (!claims.length) { await release(); await credits?.refund(); return { claims: [] as ClaimResult[], excerpt: source.slice(0, 600) }; }
       const results: ClaimResult[] = [];
-      for (let i = 0; i < claims.length; i += 4) results.push(...await Promise.all(claims.slice(i, i + 4).map(checkClaim)));
-      void meter({ userId: who.userId, guestFingerprint: who.fingerprint, event: "quick_claim_check", latencyMs: Date.now() - t0, provider: "tavily+crossref+wikipedia" });
+      for (let i = 0; i < claims.length; i += 4) results.push(...await Promise.all(claims.slice(i, i + 4).map(c => checkClaim(c, data.language))));
+      void meter({ userId: who.userId, guestFingerprint: who.fingerprint, event: "quick_claim_check", latencyMs: Date.now() - t0, provider: "tavily+ddg+wikipedia+crossref+openalex+pubmed" });
       return { claims: results, excerpt: source.slice(0, 600) };
     } catch (e) {
       await release(); await credits?.refund();
