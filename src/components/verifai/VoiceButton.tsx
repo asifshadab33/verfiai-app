@@ -123,9 +123,15 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak", iconOnly 
           <Tooltip>
             <TooltipTrigger asChild>
               <span className="inline-flex">
-                <Button type="button" variant="outline" size="sm" disabled aria-hidden="true" className="pointer-events-none opacity-50">
-                  <Mic />{label}
-                </Button>
+                {iconOnly ? (
+                  <Button type="button" variant="outline" size="icon" disabled aria-hidden="true" className="pointer-events-none size-10 rounded-full bg-background/95 opacity-50">
+                    <Mic />
+                  </Button>
+                ) : (
+                  <Button type="button" variant="outline" size="sm" disabled aria-hidden="true" className="pointer-events-none opacity-50">
+                    <Mic />{label}
+                  </Button>
+                )}
               </span>
             </TooltipTrigger>
             <TooltipContent>Voice input is natively supported in Chrome, Edge, and Safari.</TooltipContent>
@@ -155,7 +161,7 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak", iconOnly 
                 aria-label={listening ? "Stop listening (Esc)" : processing ? "Processing speech…" : label}
                 aria-pressed={active}
                 onClick={active ? stop : start}
-                className="size-10 rounded-full bg-background/95 shadow-sm"
+                className="relative size-10 rounded-full bg-background/95 shadow-sm"
               >
                 {listening ? <MicOff /> : processing ? <Loader2 className="animate-spin" /> : <Mic />}
                 {listening && (
