@@ -57,7 +57,7 @@ export const generateGuestReport = createServerFn({ method: "POST" })
     const { error: claimErr } = await supabaseAdmin.from("guest_usage").insert({ fingerprint });
     if (claimErr) return { limitReached: true as const, message: "You've used your free report. Sign in with Google or email to get 3 more every month." };
     try {
-      const report = await buildReport(data);
+      const report = await buildReport(data, { userId: null, guestFingerprint: fingerprint });
       const { meter } = await import("./metering.server");
       void meter({ userId: null, guestFingerprint: fingerprint, event: "report_created", provider: "openrouter" });
       return { report, words: wordCount(report) };

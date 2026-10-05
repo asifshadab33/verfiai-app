@@ -1,9 +1,9 @@
 // Research pipeline. Orchestration only: sources come from the SearchProvider,
 // model calls from the ModelProvider, and every lookup is checked against the
 // CacheProvider first. Ranking (BM25 + RRF) stays local.
-import { cached, sha, CACHE_TTL } from "./cache.server";
+import { cached, sha, CACHE_TTL, type CallMeta } from "./cache.server";
 import { searchAll, type Source } from "./search.server";
-import { synthesize } from "./model.server";
+import { synthesize, type CallMeta as ModelMeta } from "./model.server";
 import { MIN_WORDS, reportSchema, wordCount, type ReportInput, type ResearchReport } from "./report-schema";
 import { uniqueSources } from "./evidence";
 
@@ -11,6 +11,7 @@ export type { Source };
 export { searchAll, webSearch, crossrefSearch, wikipediaSearch, duckduckgoSearch, openAlexSearch, pubmedSearch } from "./search.server";
 export { callEngine, runRoute, synthesize as synthesizeRoute } from "./model.server";
 export { cacheGet, cacheSet, sha, normalizeQuery, cacheKey, CACHE_TTL, cached } from "./cache.server";
+export type { CallMeta };
 
 export const getLanguageName = (codeOrName: string) => {
   const names: Record<string, string> = {
