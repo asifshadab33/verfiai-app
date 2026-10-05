@@ -2,7 +2,8 @@ import { createServerFn } from "@tanstack/react-start";
 import { getRequestHeader } from "@tanstack/react-start/server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { MONTHLY_REPORT_LIMIT, reportInput, wordCount } from "./report-schema";
-import { buildReport, sha } from "./research.server";
+import { buildReport } from "./research.server";
+import { sha } from "./cache.server";
 import { paymentEnvironment } from "./payments-env.server";
 
 export { MONTHLY_REPORT_LIMIT };

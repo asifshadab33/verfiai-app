@@ -1,6 +1,6 @@
 // Server-side feature flags. Code defaults < env var (e.g. DEEP_RESEARCH_ENABLED=true) < feature_flags table row.
 // Allowlisted users and admins can access a disabled flag for private beta testing.
-import { admin } from "./research.server";
+import { admin } from "./db.server";
 
 import { FLAG_DEFAULTS, FLAG_KEYS, type FlagKey } from "./flags";
 export { FLAG_DEFAULTS, FLAG_KEYS, type FlagKey };

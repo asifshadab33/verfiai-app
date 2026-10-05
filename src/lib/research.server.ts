@@ -1,7 +1,7 @@
 // Research pipeline. Orchestration only: sources come from the SearchProvider,
 // model calls from the ModelProvider, and every lookup is checked against the
 // CacheProvider first. Ranking (BM25 + RRF) stays local.
-import { cached, cacheGet, cacheSet, sha } from "./cache.server";
+import { cached, sha, CACHE_TTL } from "./cache.server";
 import { searchAll, type Source } from "./search.server";
 import { synthesize } from "./model.server";
 import { MIN_WORDS, reportSchema, wordCount, type ReportInput, type ResearchReport } from "./report-schema";
