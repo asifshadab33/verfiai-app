@@ -75,7 +75,7 @@ async function generateReport(
   let report: ResearchReport | null = null;
   let engine = "";
   for (let attempt = 0; attempt < 2; attempt++) {
-    const out = await synthesize(system, user);
+    const out = await synthesize(system, user, meta);
     let parsed: ResearchReport;
     try { parsed = reportSchema.parse({ sources: [], ...JSON.parse(out.raw) }); }
     catch { if (report) break; if (attempt === 1) throw new Error("The report was incomplete. Please try again."); continue; }
