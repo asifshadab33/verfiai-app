@@ -18,7 +18,7 @@ type Rec = { lang: string; continuous: boolean; interimResults: boolean; start()
 
 const PRIVACY_NOTE = "Audio is processed by your browser's speech service and is not saved to our servers.";
 
-export function VoiceButton({ lang, onText, disabled, label = "Speak" }: { lang: string; onText: (text: string) => void; disabled?: boolean; label?: string }) {
+export function VoiceButton({ lang, onText, disabled, label = "Speak", iconOnly = false }: { lang: string; onText: (text: string) => void; disabled?: boolean; label?: string; iconOnly?: boolean }) {
   const [supported, setSupported] = useState(true);
   const [phase, setPhase] = useState<"idle" | "listening" | "processing">("idle");
   const [announcement, setAnnouncement] = useState("");
@@ -123,9 +123,15 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak" }: { lang:
           <Tooltip>
             <TooltipTrigger asChild>
               <span className="inline-flex">
-                <Button type="button" variant="outline" size="sm" disabled aria-hidden="true" className="pointer-events-none opacity-50">
-                  <Mic />{label}
-                </Button>
+                {iconOnly ? (
+                  <Button type="button" variant="outline" size="icon" disabled aria-hidden="true" className="pointer-events-none size-10 rounded-full bg-background/95 opacity-50">
+                    <Mic />
+                  </Button>
+                ) : (
+                  <Button type="button" variant="outline" size="sm" disabled aria-hidden="true" className="pointer-events-none opacity-50">
+                    <Mic />{label}
+                  </Button>
+                )}
               </span>
             </TooltipTrigger>
             <TooltipContent>Voice input is natively supported in Chrome, Edge, and Safari.</TooltipContent>
@@ -140,6 +146,40 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak" }: { lang:
   const listening = phase === "listening";
   const processing = phase === "processing";
   const active = phase !== "idle";
+
+  if (iconOnly) {
+    return (
+      <span className="inline-flex items-center">
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                type="button"
+                variant={active ? "default" : "outline"}
+                size="icon"
+                disabled={disabled}
+                aria-label={listening ? "Stop listening (Esc)" : processing ? "Processing speech…" : label}
+                aria-pressed={active}
+                onClick={active ? stop : start}
+                className="relative size-10 rounded-full bg-background/95 shadow-sm"
+              >
+                {listening ? <MicOff /> : processing ? <Loader2 className="animate-spin" /> : <Mic />}
+                {listening && (
+                  <span aria-hidden="true" className="absolute end-0 top-0 flex size-3 -translate-y-1/2 translate-x-1/2">
+                    <span className="absolute inline-flex size-full animate-ping rounded-full bg-destructive opacity-75" />
+                    <span className="relative inline-flex size-3 rounded-full border-2 border-background bg-destructive" />
+                  </span>
+                )}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-64">{listening ? "Stop listening (Esc)" : processing ? "Processing speech…" : label}</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        <span aria-live="polite" className="sr-only">{announcement}</span>
+        {error && <span role="alert" className="sr-only">{error}</span>}
+      </span>
+    );
+  }
 
   return (
     <span className="inline-flex flex-wrap items-center gap-2">

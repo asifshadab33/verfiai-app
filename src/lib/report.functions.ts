@@ -2,7 +2,8 @@ import { createServerFn } from "@tanstack/react-start";
 import { getRequestHeader } from "@tanstack/react-start/server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { MONTHLY_REPORT_LIMIT, reportInput, wordCount } from "./report-schema";
-import { buildReport, sha } from "./research.server";
+import { buildReport } from "./research.server";
+import { sha } from "./cache.server";
 import { paymentEnvironment } from "./payments-env.server";
 
 export { MONTHLY_REPORT_LIMIT };
@@ -26,6 +27,7 @@ export const generateReport = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => reportInput.parse(data))
   .handler(async ({ data, context }) => {
+    const meta = { userId: context.userId as string | undefined };
     const { count } = await context.supabase.from("reports").select("id", { count: "exact", head: true }).gte("created_at", monthStart());
     const limit = await reportLimit(context);
     if ((count ?? 0) >= limit) return { limitReached: true as const, message: `You've used your ${limit} reports this month.` };
@@ -34,7 +36,7 @@ export const generateReport = createServerFn({ method: "POST" })
     const t0 = Date.now();
     if (data.attachment) void meter({ userId: context.userId, event: "document_upload" });
     let report;
-    try { report = await buildReport(data); }
+    try { report = await buildReport(data, meta); }
     catch (e) { await credits.refund(); void meter({ userId: context.userId, event: "report_created", success: false, latencyMs: Date.now() - t0 }); throw e; }
     const { data: row, error } = await context.supabase.from("reports")
       .insert({ user_id: context.userId, question: data.question, title: report.title, content: report as never })
@@ -55,7 +57,7 @@ export const generateGuestReport = createServerFn({ method: "POST" })
     const { error: claimErr } = await supabaseAdmin.from("guest_usage").insert({ fingerprint });
     if (claimErr) return { limitReached: true as const, message: "You've used your free report. Sign in with Google or email to get 3 more every month." };
     try {
-      const report = await buildReport(data);
+      const report = await buildReport(data, { userId: null, guestFingerprint: fingerprint });
       const { meter } = await import("./metering.server");
       void meter({ userId: null, guestFingerprint: fingerprint, event: "report_created", provider: "openrouter" });
       return { report, words: wordCount(report) };
