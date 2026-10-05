@@ -32,3 +32,8 @@
 - [ ] Accessibility pass, test matrix, asset/license list
 - [x] Add $9/month Pro product, checkout and confirmed subscription rules; displayed brand is Verfi AI.
 - [x] Replace placeholder legal pages naming seller verfiai; add a dedicated refund policy and footer link.
+
+## Staff-engineer brief (in progress)
+- [x] Stage 1: server-side feature flags + credit/usage metering (flags.server.ts, metering.server.ts, FeatureGate, account usage).
+- [x] Voice input: compact floating mic icon in Research Question field; remove Focus textarea voice button.
+- [ ] Stage 2A: CacheProvider (research_cache, normalized+hashed keys, TTL) + provider abstraction layer (SearchProvider, ModelProvider, CitationProvider, PageExtractionProvider) wired into research/fact-check pipeline.
