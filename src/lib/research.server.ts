@@ -1,9 +1,9 @@
 // Research pipeline. Orchestration only: sources come from the SearchProvider,
 // model calls from the ModelProvider, and every lookup is checked against the
 // CacheProvider first. Ranking (BM25 + RRF) stays local.
-import { cached, sha, CACHE_TTL, type CallMeta } from "./cache.server";
+import { cached, sha, CACHE_TTL } from "./cache.server";
 import { searchAll, type Source } from "./search.server";
-import { synthesize, type CallMeta as ModelMeta } from "./model.server";
+import { synthesize, type CallMeta } from "./model.server";
 import { MIN_WORDS, reportSchema, wordCount, type ReportInput, type ResearchReport } from "./report-schema";
 import { uniqueSources } from "./evidence";
 
@@ -41,7 +41,7 @@ export function rerank(query: string, docs: Source[], top = 6): Source[] {
   return docs.map((d, i) => ({ d, r: rrf[i]! })).sort((a, b) => b.r - a.r).slice(0, top).map(x => x.d);
 }
 
-export async function buildReport(data: ReportInput): Promise<ResearchReport> {
+export async function buildReport(data: ReportInput, meta?: CallMeta): Promise<ResearchReport> {
   const targetLang = getLanguageName(data.language);
   const isEnglish = targetLang.toLowerCase() === 'english';
   const languageInstruction = !isEnglish
@@ -56,16 +56,16 @@ export async function buildReport(data: ReportInput): Promise<ResearchReport> {
 
   const reportKey = "report:" + sha(JSON.stringify([data, sources.map(s => s.url)]));
   const report = await cached({
-    key: reportKey, kind: "report", ttlMs: CACHE_TTL.report(), compute: () => generateReport(data, { sources, web, fetchedAt, targetLang, languageInstruction }),
+    key: reportKey, kind: "report", ttlMs: CACHE_TTL.report(), compute: () => generateReport(data, { sources, web, fetchedAt, targetLang, languageInstruction, meta }),
   });
   return report;
 }
 
 async function generateReport(
   data: ReportInput,
-  ctx: { sources: Source[]; web: boolean; fetchedAt: string; targetLang: string; languageInstruction: string },
+  ctx: { sources: Source[]; web: boolean; fetchedAt: string; targetLang: string; languageInstruction: string; meta?: CallMeta },
 ): Promise<ResearchReport> {
-  const { sources, web, fetchedAt, targetLang, languageInstruction } = ctx;
+  const { sources, web, fetchedAt, targetLang, languageInstruction, meta } = ctx;
   const evidence = web ? sources.map((s, i) => `[${i + 1}] ${s.title}\nURL: ${s.url}\nPublished: ${s.published ?? "unknown"}\nExcerpt: ${s.content}`).join("\n\n") : "";
   const system = `${languageInstruction} You write thorough, professional research reports in ${targetLang}. The report MUST be at least ${MIN_WORDS + 200} words — aim for 1300-1800. Return ONLY a JSON object with keys: title, summary (2-3 paragraphs), background (2-3 paragraphs), analysis (3-5 paragraphs), findings (6-8 items of {title, detail, status}; each detail 80+ words; status one of sourced, inference, disputed, unverified), conflictingEvidence (1-2 paragraphs; quote the conflicting sources side by side when they disagree), methodology (1 paragraph), limitations (1-2 paragraphs), conclusion (2 paragraphs). Keep JSON field names and status codes exactly as specified for parsing; the language rule applies to all human-readable values. Separate paragraphs with a blank line. ${web
     ? `Base factual claims on the numbered web excerpts provided and cite them inline like [2]. Mark a finding "sourced" only if an excerpt directly supports it; otherwise use inference or unverified. Mark "disputed" when excerpts disagree.`
