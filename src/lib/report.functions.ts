@@ -27,6 +27,7 @@ export const generateReport = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => reportInput.parse(data))
   .handler(async ({ data, context }) => {
+    const meta = { userId: context.userId as string | undefined };
     const { count } = await context.supabase.from("reports").select("id", { count: "exact", head: true }).gte("created_at", monthStart());
     const limit = await reportLimit(context);
     if ((count ?? 0) >= limit) return { limitReached: true as const, message: `You've used your ${limit} reports this month.` };
@@ -35,7 +36,7 @@ export const generateReport = createServerFn({ method: "POST" })
     const t0 = Date.now();
     if (data.attachment) void meter({ userId: context.userId, event: "document_upload" });
     let report;
-    try { report = await buildReport(data); }
+    try { report = await buildReport(data, meta); }
     catch (e) { await credits.refund(); void meter({ userId: context.userId, event: "report_created", success: false, latencyMs: Date.now() - t0 }); throw e; }
     const { data: row, error } = await context.supabase.from("reports")
       .insert({ user_id: context.userId, question: data.question, title: report.title, content: report as never })
