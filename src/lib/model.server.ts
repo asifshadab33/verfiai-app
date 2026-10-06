@@ -44,11 +44,11 @@ export async function callEngine(model: string, system: string, user: string, me
     if (!res.ok) { console.error("OpenRouter", model, res.status, (await res.text()).slice(0, 300)); throw new Error(res.status === 402 ? "credits" : "engine"); }
     const json = await res.json() as { choices?: { message?: { content?: string } }[] };
     const txt = (json.choices?.[0]?.message?.content ?? "").replace(/^```(?:json)?\s*|\s*```$/g, "");
-    void meter({ userId: meta?.userId ?? null, guestFingerprint: meta?.guestFingerprint, event: "ai_model_call", provider: "openrouter", modelRoute: model, latencyMs: Date.now() - t0, success: true, estimatedCostUsd: estimate(txt.length) });
+    void meter({ userId: meta?.userId ?? null, ...(meta?.guestFingerprint ? { guestFingerprint: meta.guestFingerprint } : {}), event: "ai_model_call", provider: "openrouter", modelRoute: model, latencyMs: Date.now() - t0, success: true, estimatedCostUsd: estimate(txt.length) });
     return txt;
   } catch (e) {
     if (!(e instanceof Error && e.message === "engine-missing"))
-      void meter({ userId: meta?.userId ?? null, guestFingerprint: meta?.guestFingerprint, event: "ai_model_call", provider: "openrouter", modelRoute: model, latencyMs: Date.now() - t0, success: false, estimatedCostUsd: estimate(0) });
+      void meter({ userId: meta?.userId ?? null, ...(meta?.guestFingerprint ? { guestFingerprint: meta.guestFingerprint } : {}), event: "ai_model_call", provider: "openrouter", modelRoute: model, latencyMs: Date.now() - t0, success: false, estimatedCostUsd: estimate(0) });
     throw e;
   }
 }

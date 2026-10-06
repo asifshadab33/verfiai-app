@@ -172,6 +172,7 @@ export function Checker() {
       <h2 className="font-display text-3xl font-bold">Check your citations</h2>
       <p className="mt-2 max-w-2xl text-muted-foreground">Paste your manuscript or reference list, or upload a file. We check every reference against Crossref.</p>
       <div className="mt-8 rounded-2xl border border-border bg-card p-5 shadow-sm md:p-8">
+        <p className="mb-3 text-xs leading-5 text-muted-foreground">Your submission may be processed by search and AI providers. Do not submit confidential, regulated, or unpublished material. Read our <a href="/privacy" className="text-brand underline">privacy notice</a> and <a href="/methodology" className="text-brand underline">methodology</a>.</p>
         <label className="block text-sm font-semibold" htmlFor="ms">Manuscript text or reference list</label>
         <Textarea id="ms" value={text} onChange={(e) => { setText(e.target.value); setFileName(null); }} maxLength={200000} placeholder="Paste your text with its reference list…" className="mt-2 min-h-44" />
         <div className="mt-2 flex flex-wrap justify-between gap-2 text-xs text-muted-foreground">

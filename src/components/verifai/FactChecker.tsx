@@ -56,8 +56,9 @@ export function FactChecker({ lang }: { lang: Lang }) {
     <div role="tablist" aria-label={tx("factInputType")} className="mt-6 inline-flex rounded-lg border border-border p-1">
       {(["text", "url"] as const).map(m => <Button key={m} role="tab" aria-selected={mode === m} size="sm" variant={mode === m ? "default" : "ghost"} onClick={() => setMode(m)}>{m === "text" ? "Paste text" : <><Link2 />{tx("factLink")}</>}</Button>)}
     </div>
+    <p className="mt-5 text-xs leading-5 text-muted-foreground">Your submission may be processed by search and AI providers. Do not submit confidential, regulated, or unpublished material. Read our <a href="/privacy" className="text-brand underline">privacy notice</a> and <a href="/methodology" className="text-brand underline">methodology</a>.</p>
     {mode === "text" ? <>
-      <label htmlFor="fact-text" className="mt-5 block text-sm font-semibold">{tx("factText")}</label>
+      <label htmlFor="fact-text" className="mt-3 block text-sm font-semibold">{tx("factText")}</label>
       <Textarea id="fact-text" value={text} maxLength={15000} onChange={e => setText(e.target.value)} placeholder={tx("factPlaceholder")} className="mt-2 min-h-40 bg-card" dir="auto" />
       <div className="mt-3 flex flex-wrap items-center gap-3"><VoiceButton lang={lang} onText={t => setText(q => (q ? q.trimEnd() + " " : "") + t)} /><button type="button" className="text-xs text-brand underline" onClick={() => setText(SAMPLE)}>{tx("factSample")}</button><span className="ms-auto text-xs text-muted-foreground">{text.length.toLocaleString()} / 15,000</span></div>
     </> : <>

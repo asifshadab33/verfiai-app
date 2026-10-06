@@ -1,4 +1,5 @@
 # Verfiai roadmap
+- [x] Priority 1 trust infrastructure: expand About, Methodology, and Accuracy; add trust navigation, input disclosures, verdict feedback, and footer feedback.
 - [x] Create reviewed-rights Knowledge Index and preview-only Evidence Library routes, Crossref metadata discovery, local bookmarks, issue reporting and usage page; pause downloads and keep Analyst checkout unavailable.
 - [ ] Publish verified/rights-reviewed catalog resources and complete release QA/security/rights review; enable Analyst only if later approved with pricing and payment mapping (see docs-knowledge-rollout.md).
 - [x] Add five synthetic professional templates, local PDF/XLSX/DOCX downloads, an accessible dialog, and homepage/report links.

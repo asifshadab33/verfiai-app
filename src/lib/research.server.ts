@@ -56,7 +56,7 @@ export async function buildReport(data: ReportInput, meta?: CallMeta): Promise<R
 
   const reportKey = "report:" + sha(JSON.stringify([data, sources.map(s => s.url)]));
   const report = await cached({
-    key: reportKey, kind: "report", ttlMs: CACHE_TTL.report(), compute: () => generateReport(data, { sources, web, fetchedAt, targetLang, languageInstruction, meta }),
+    key: reportKey, kind: "report", ttlMs: CACHE_TTL.report(), compute: () => generateReport(data, { sources, web, fetchedAt, targetLang, languageInstruction, ...(meta ? { meta } : {}) }),
   });
   return report;
 }

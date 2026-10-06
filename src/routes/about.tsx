@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
 
 const title = "About Verfiai";
-const description = "What Verfiai is, why it was built, and how models and data are handled: providers, retention and training.";
+const description = "What Verfiai is, why this AI verification tool was built, and who develops it.";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -25,6 +25,13 @@ function About() {
       title="About Verfiai"
       intro="Verfiai is an AI-assisted research and verification tool that helps users verify factual claims, assess citations, search for supporting or conflicting evidence, and generate source-traced reports."
     >
+      <PageSection title="What Verfiai is">
+        <p>
+          Verfiai is an AI verification tool for checking factual claims and citations against source-linked
+          evidence. It organizes what it finds into reviewable findings rather than presenting its output as an
+          infallible truth judgment.
+        </p>
+      </PageSection>
       <PageSection title="Why it was built">
         <p>
           Verfiai was built to bring transparency and auditability to AI-assisted research. Instead of a single
@@ -35,8 +42,7 @@ function About() {
       </PageSection>
 
       <PageSection title="Who is behind it">
-        <p>Verfiai is developed and maintained by the verfiai team.</p>
-        <p className="mt-2">Legal entity: verfiai</p>
+        <p>Verfiai is developed and maintained by the Verfiai team.</p>
         <p className="mt-2">
           Contact:{" "}
           <a className="text-brand underline" href="mailto:hello@verfiai.app">
@@ -45,26 +51,11 @@ function About() {
         </p>
       </PageSection>
 
-      <PageSection title="Model and data handling">
+      <PageSection title="Learn how verification works">
         <p>
-          Submitted text and documents are processed by AI model providers accessed through OpenRouter (including
-          DeepSeek and Qwen) to generate reports and verification checks. Web searches are performed by Tavily and
-          citation lookups by Crossref.
-        </p>
-        <p className="mt-4">
-          Regarding data retention and training: your submitted text is <strong>not</strong> used to train our own AI
-          models. To avoid repeating identical work, search results are cached for up to 24 hours and generated
-          reports for up to 7 days; verification caches may persist up to 30 days. Monthly usage records and a hashed
-          guest identifier are kept only as needed to enforce plan limits and prevent abuse. Third-party providers
-          process your content under their own policies, which may differ.
-        </p>
-        <p className="mt-4">
-          Generated reports are stored in your account until you delete them from My reports. Guests do not have
-          accounts, so guest reports are not saved. Deleting a report does not remove records our payment provider
-          must retain for billing and tax purposes.
-        </p>
-        <p className="mt-4">
-          Full details are in our{" "}
+          Our{" "}<Link to="/methodology" className="text-brand underline">methodology</Link>{" "}
+          explains source discovery, evidence assessment, model and data handling, limitations, and your role in
+          reviewing results. Full privacy details are in our{" "}
           <Link to="/privacy" className="text-brand underline">
             Privacy Notice
           </Link>
