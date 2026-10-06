@@ -31,11 +31,13 @@ function Accuracy() {
           will publish the results — dataset, number of claims, accuracy and test date — in this table when that
           evaluation has actually been run.
         </p>
-        <p className="mt-4">
-          <strong>No public-dataset evaluation has been completed yet.</strong> Any accuracy figure we quoted before
-          running one would be invented, so this table is intentionally empty rather than filled with placeholder
-          numbers.
-        </p>
+        <div className="mt-5 overflow-x-auto border border-border">
+          <table className="w-full min-w-[620px] text-left text-sm">
+            <thead className="border-b border-border bg-secondary"><tr><th className="p-3">Dataset name</th><th className="p-3">Number of claims</th><th className="p-3">Accuracy</th><th className="p-3">Date tested</th></tr></thead>
+            <tbody><tr><td className="p-3">[TO BE FILLED]</td><td className="p-3">[TO BE FILLED]</td><td className="p-3">[TO BE FILLED]</td><td className="p-3">[TO BE FILLED]</td></tr></tbody>
+          </table>
+        </div>
+        <p className="mt-4 text-sm"><strong>No public-dataset evaluation has been completed yet.</strong> These placeholders are not results and must not be interpreted as performance claims.</p>
       </PageSection>
 
       <PageSection title="Known limitations">
