@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { z } from "zod";
 import { gatewayFetch } from "./paddle.server";
+import { assertMonetizationEnabled } from "./community";
 import { paymentEnvironment } from "./payments-env.server";
 
 const environment = z.enum(["sandbox", "live"]);
@@ -9,6 +10,7 @@ export const resolvePaddlePrice = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data) => z.object({ priceId: z.literal("pro_monthly"), environment }).parse(data))
   .handler(async ({ data }) => {
+    assertMonetizationEnabled();
     const response = await gatewayFetch(paymentEnvironment(), `/prices?external_id=${encodeURIComponent(data.priceId)}`);
     if (!response.ok) throw new Error("Unable to load the price. Please try again.");
     const result = await response.json() as { data?: { id: string }[] };

@@ -1,4 +1,5 @@
 # Verfiai roadmap
+- [x] Day 2: disable new paid checkouts, replace paid offers with Community Access and one-year free pledge, persist a consented Pro/Teams email waitlist, and verify signup storage plus checkout policy tests.
 - [x] Priority 1 trust infrastructure: expand About, Methodology, and Accuracy; add trust navigation, input disclosures, verdict feedback, and footer feedback.
 - [x] Create reviewed-rights Knowledge Index and preview-only Evidence Library routes, Crossref metadata discovery, local bookmarks, issue reporting and usage page; pause downloads and keep Analyst checkout unavailable.
 - [ ] Publish verified/rights-reviewed catalog resources and complete release QA/security/rights review; enable Analyst only if later approved with pricing and payment mapping (see docs-knowledge-rollout.md).
@@ -21,7 +22,7 @@
 - [x] Stage 1 of new brief: live web research reports (Tavily + BM25/RRF, DeepSeek→Qwen failover via OpenRouter), DB cache, 1 guest report.
 - [x] Stage 2: claim fact-checker (text/URL, DeepSeek+Qwen consensus, R1 tie-break) and citation cascade (DOI → Jaro-Winkler/phonetic/±1yr, trust score, .bib parsing, server limits).
 - [x] Word export (watermarked), share links (/r/$token, revocable), new homepage, /methodology, /privacy, JSON-LD.
-- [ ] Live Paddle payments — blocked by Paddle business verification and live configuration; sandbox checkout opens, but a completed purchase and entitlement update remain unverified.
+- Deferred: new Paddle payments are intentionally disabled during community access; existing billing management remains available.
 
 ## Audit follow-up (approved)
 - [x] Remove unproven claims (badge, tagline, random agreement panel)

@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { COMMUNITY_LABELS } from "@/lib/community";
 import { siteText } from "@/lib/site-i18n";
 import type { Lang } from "@/lib/translations";
 import { FileCheck2, Lock } from "lucide-react";
@@ -23,7 +24,7 @@ export function SiteFooter({ lang }: { lang?: Lang }) {
             <li><Link to="/sources" className="transition-colors hover:text-footer-foreground hover:underline">Source directory</Link></li>
             <li><Link to="/knowledge" className="transition-colors hover:text-footer-foreground hover:underline">Open Knowledge Index</Link></li>
             <li><Link to="/resources" className="transition-colors hover:text-footer-foreground hover:underline">Evidence Library</Link></li>
-            <li><Link to="/pricing" className="transition-colors hover:text-footer-foreground hover:underline">{tx("navPricing")}</Link></li>
+            <li><Link to="/pricing" className="transition-colors hover:text-footer-foreground hover:underline">{COMMUNITY_LABELS[lang ?? "en"]}</Link></li>
             <li><Link to="/how-it-works" className="transition-colors hover:text-footer-foreground hover:underline">{tx("navHow")}</Link></li>
             <li><a href="mailto:hello@verfiai.app" className="transition-colors hover:text-footer-foreground hover:underline">{tx("footerContact")}</a></li>
             <li><a href="mailto:hello@verfiai.app?subject=Verfiai%20feedback" className="transition-colors hover:text-footer-foreground hover:underline">Share feedback</a></li>

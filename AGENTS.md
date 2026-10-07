@@ -21,7 +21,7 @@
 - The quick-search demo tab was replaced by the real fact-checker (`factcheck.functions.ts`).
 - Share links use an unguessable `reports.share_token` read by a public server fn (title/content/date only), because anon RLS would expose every report.
 - Word export is generated in the browser with `docx` (lazy-loaded) so no server cost.
-- Paddle test checkout uses the Pro product; verified server-side subscription rows determine paid access, never browser state.
+- New checkout is hard-disabled in a shared policy and at the server price resolver; retain billing management and verified subscription handling for existing customers so hiding offers never prevents cancellation.
 - Paddle environment is derived from server request host, not client data, so test purchases cannot unlock live access.
 - Evidence strength is derived from verified excerpts for claim checks and conservatively from cited links for reports; report links never imply quote verification, because generated citations can be inaccurate.
 - Progress indicators are labeled estimates until an actual server event exists; elapsed time alone cannot certify a completed verification step.
@@ -30,3 +30,5 @@
 - Keep the Evidence Library preview-only and disable all paid downloads at both API and database levels until rights and a paid plan are explicitly approved, because browsing must not imply an available entitlement.
 - Feature flags are evaluated server-side in `flags.server.ts` (code default < env var < `feature_flags` row, with user/org allowlists and admin-only via `has_role`); UI `FeatureGate` is display-only, because hidden UI cannot enforce access.
 - Credits are consumed atomically and idempotently via the `consume_credits` DB function before expensive work and refunded on failure; every operation is logged to `usage_meter` (never shown raw to users), because client counters can be bypassed.
+
+- Community waitlist signups use a public validated server function and a service-role-only atomic database function with consent records and per-IP request throttling; never expose the email list to clients.

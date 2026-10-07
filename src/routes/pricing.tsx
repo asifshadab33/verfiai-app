@@ -1,6 +1,25 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
-import { ProCheckoutButton } from "@/components/verifai/ProCheckoutButton";
-import { PaymentTestModeBanner } from "@/components/verifai/PaymentTestModeBanner";
-export const Route = createFileRoute("/pricing")({ head: () => ({ meta: [{ title: "Pricing | Verfiai" }, { name: "description", content: "Free research tools and Verfiai Pro at $9/month for 50 reports and clean exports." }, { property: "og:title", content: "Pricing | Verfiai" }, { property: "og:description", content: "Free research tools and Pro at $9/month for 50 reports and clean exports." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }), component: Pricing });
-function Pricing() { return <><PaymentTestModeBanner /><ContentPage title="Pricing" intro="Start free — no credit card required. Pro costs $9 per month."><div className="grid gap-8 md:grid-cols-2"><PageSection title="Free · $0"><p>3 web research reports, 3 fact-checks and 3 citation scans (up to 20 references each) every month with a free account. Try each tool once without an account. Free exports include a Verfiai watermark. <Link to="/" className="text-brand underline">Start now</Link>.</p></PageSection><PageSection title="Pro · $9/month"><p>50 reports a month and watermark-free Word and PDF exports. Fact-check and citation scan limits remain the same as Free. Tax may be added at checkout based on your location.</p><div className="mt-4"><ProCheckoutButton /></div></PageSection></div><PageSection title="Billing questions"><p>Manage payment details or cancel in the billing portal from My reports. Cancellation retains access through the paid period. For refunds, see our <Link to="/refunds" className="text-brand underline">30-day refund policy</Link>; Paddle handles payment and refunds.</p></PageSection></ContentPage></>; }
+import { CommunityWaitlist } from "@/components/verifai/CommunityWaitlist";
+import { Button } from "@/components/ui/button";
+
+const title = "Community Access — Free for the Next Year | Verfiai";
+const description = "Verfiai is 100% free for everyone for the next year, with fair-use limits and extended-access requests for researchers and educators.";
+export const Route = createFileRoute("/pricing")({
+  head: () => ({ meta: [{ title }, { name: "description", content: description }, { property: "og:title", content: title }, { property: "og:description", content: description }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
+  component: CommunityAccess,
+});
+
+function CommunityAccess() {
+  return <ContentPage title="Free Access for the Community" intro="Verfiai is 100% free for everyone for the next year. No credit card, paid plan or checkout required.">
+    <div className="grid gap-10 md:grid-cols-2">
+      <div>
+        <PageSection title="Our one-year free pledge"><p>Research should be open to everyone. Use Verfiai’s research reports, factual claim checks and citation checker without paying during our community free-access year.</p></PageSection>
+        <PageSection title="Fair use keeps Verfiai available"><p>Reasonable rate limits apply to protect service availability. Current allowances are 3 reports, 3 fact-checks and 3 citation scans per month with a free account, with up to 20 references per scan. You can try each tool once without an account. These safeguards remain in place; free access is not unlimited access.</p><p className="mt-3">Community exports retain the Verfiai watermark.</p></PageSection>
+        <Button asChild><Link to="/">Start researching free</Link></Button>
+      </div>
+      <div className="border-t border-border pt-8"><CommunityWaitlist /></div>
+    </div>
+    <PageSection title="Extended access for research and education"><p>Academic, educator and high-volume research users can reach out to <a href="mailto:hello@verfiai.app" className="text-brand underline">hello@verfiai.app</a> to request extended access. Tell us about your research needs and expected volume.</p></PageSection>
+  </ContentPage>;
+}

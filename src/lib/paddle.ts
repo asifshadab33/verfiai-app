@@ -1,3 +1,4 @@
+import { assertMonetizationEnabled } from "./community";
 import { resolvePaddlePrice } from "./payments.functions";
 
 type PaddleWindow = Window & { Paddle?: {
@@ -9,6 +10,7 @@ const token = import.meta.env['VITE_PAYMENTS_CLIENT_TOKEN'] as string | undefine
 export function getPaddleEnvironment(): "sandbox" | "live" { return token?.startsWith("test_") ? "sandbox" : "live"; }
 let ready: Promise<void> | undefined;
 export function initializePaddle() {
+  assertMonetizationEnabled();
   if (!token) return Promise.reject(new Error("Payments are unavailable right now."));
   ready ??= new Promise<void>((resolve, reject) => {
     const script = document.createElement("script");
@@ -27,6 +29,7 @@ export function initializePaddle() {
   return ready;
 }
 export async function openProCheckout(user: { id: string; email?: string }) {
+  assertMonetizationEnabled();
   await initializePaddle();
   const priceId = await resolvePaddlePrice({ data: { priceId: "pro_monthly", environment: getPaddleEnvironment() } });
   const paddle = (window as PaddleWindow).Paddle;
