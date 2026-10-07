@@ -1,14 +1,15 @@
-import { getRequestHeader, setResponseHeader, setResponseStatus } from "@tanstack/react-start/server";
+import { getRequestHeader, getRequestUrl, setResponseHeader, setResponseStatus } from "@tanstack/react-start/server";
 import { admin } from "./db.server";
 import { sha } from "./cache.server";
-import { normalizeVerificationInput, verificationCacheFresh } from "./verification-policy";
+import { normalizeVerificationInput, verificationCacheFresh, VERIFICATION_TTL_MS } from "./verification-policy";
 
 type Caller = { userId: string | null; fingerprint: string };
 
 /** Shared atomic ceiling across reports, fact checks and citation scans, including cache hits. */
 export async function guardVerificationRequest(who: Caller) {
   // Never include user-agent: changing it must not reset the guest rate bucket.
-  const ip = getRequestHeader("cf-connecting-ip") ?? getRequestHeader("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  const local = ["localhost", "127.0.0.1"].includes(new URL(getRequestUrl()).hostname);
+  const ip = getRequestHeader("cf-connecting-ip") ?? (local ? getRequestHeader("x-forwarded-for")?.split(",")[0]?.trim() : undefined) ?? "unknown";
   const subject = who.userId ? `user:${who.userId}` : `ip:${ip}`;
   const db = await admin();
   const { data, error } = await db.rpc("reserve_verification_request", {
@@ -47,6 +48,6 @@ export async function saveVerificationResponse(key: string, result: unknown) {
     const db = await admin();
     await db.from("verification_cache").upsert({ claim_hash: key, result: result as never, created_at: new Date().toISOString() });
     // Bound retained private content: expired responses are removed opportunistically.
-    await db.from("verification_cache").delete().lt("created_at", new Date(Date.now() - 24 * 3600_000).toISOString());
+    await db.from("verification_cache").delete().lt("created_at", new Date(Date.now() - VERIFICATION_TTL_MS).toISOString());
   } catch { /* Cache failure does not discard a completed verification. */ }
 }

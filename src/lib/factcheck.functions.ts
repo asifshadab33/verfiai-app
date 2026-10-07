@@ -4,7 +4,8 @@ import { rerank, getLanguageName } from "./research.server";
 import { searchAll, type Source } from "./search.server";
 import { runRoute, type CallMeta } from "./model.server";
 import { fetchArticle } from "./page.server";
-import { cacheGet, cacheSet, cacheKey, CACHE_TTL } from "./cache.server";
+import { cacheGet, cacheSet, sha } from "./cache.server";
+import { normalizeVerificationInput, VERIFICATION_TTL_MS } from "./verification-policy";
 import { claimUsage, usageFor } from "./usage.server";
 import { guardVerificationRequest, getVerificationResponse, saveVerificationResponse, verificationResponseKey } from "./verification-guard.server";
 import { aggregateEvidence, deduplicateClaims, evidenceStrength, sourceMeta, uniqueSources, verifyQuotes, type AggVerdict, type EvidenceBreakdown, type Judgment, type Stance } from "./evidence";
@@ -52,8 +53,8 @@ async function judgeAllExcerpts(claim: string, docs: Source[], meta?: CallMeta):
 }
 
 async function checkClaim(claim: string, language = "en", meta?: CallMeta): Promise<ClaimResult> {
-  const ck = cacheKey("claim", [claim, language]);
-  const cachedResult = await cacheGet<ClaimResult>(ck, CACHE_TTL.claim());
+  const ck = `claim-v3:${sha(JSON.stringify([normalizeVerificationInput(claim), language.trim().toLowerCase()]))}`;
+  const cachedResult = await cacheGet<ClaimResult>(ck, VERIFICATION_TTL_MS);
   if (cachedResult) return cachedResult;
   // CacheProvider is checked inside each SearchProvider engine before any external call.
   const docs: Source[] = rerank(claim, uniqueSources(await searchAll(claim, language)), 4);

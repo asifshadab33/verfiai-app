@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { VERIFICATION_REQUEST_LIMITS, VERIFICATION_TTL_MS, normalizeVerificationInput, verificationCacheFresh } from "./verification-policy";
 
 describe("Day 3 policy", () => {
