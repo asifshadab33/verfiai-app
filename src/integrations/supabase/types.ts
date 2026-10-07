@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      community_waitlist: {
+        Row: {
+          consent_version: string
+          created_at: string
+          email: string
+          id: string
+        }
+        Insert: {
+          consent_version?: string
+          created_at?: string
+          email: string
+          id?: string
+        }
+        Update: {
+          consent_version?: string
+          created_at?: string
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      community_waitlist_rate_limits: {
+        Row: {
+          attempts: number
+          fingerprint: string
+          window_start: string
+        }
+        Insert: {
+          attempts?: number
+          fingerprint: string
+          window_start?: string
+        }
+        Update: {
+          attempts?: number
+          fingerprint?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
       credit_ledger: {
         Row: {
           created_at: string
@@ -592,6 +631,10 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      join_community_waitlist: {
+        Args: { p_email: string; p_fingerprint: string }
+        Returns: undefined
       }
     }
     Enums: {
