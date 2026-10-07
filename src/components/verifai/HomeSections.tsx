@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { siteText } from "@/lib/site-i18n";
 import { translations } from "@/lib/i18n/interface";
 import type { Lang } from "@/lib/translations";
-import { ProCheckoutButton } from "./ProCheckoutButton";
+import { CommunityWaitlist } from "./CommunityWaitlist";
+import { COMMUNITY_LABELS } from "@/lib/community";
 
 type ClaimState = "supported" | "review" | "conflict" | "insufficient";
 const CLAIM_STYLE: Record<ClaimState, { label: string; cls: string; Icon: typeof Check }> = {
@@ -115,21 +116,14 @@ export function WorkspaceCards({ onSelect, lang }: { onSelect: (t: "report" | "f
   </section>;
 }
 
-export const PLANS = [
-  { name: "Free", price: "$0", note: "forever", features: ["3 web reports a month", "3 fact-checks a month", "3 citation scans (20 references each)", "Watermarked Word and PDF exports; share links", "1 free try of each without an account"], cta: "Check a claim free", live: true },
-  { name: "Pro", price: "$9", note: "per month", features: ["50 reports a month", "Watermark-free Word and PDF exports", "Manage or cancel your subscription anytime"], cta: "Get Pro", live: true, featured: true },
-  { name: "Teams", price: "Custom", note: "coming later", features: ["Shared report library", "Higher volumes", "Priority support"], cta: "Contact us", live: false },
-];
-
 export function PricingSection({ onStart, lang }: { onStart: () => void; lang: Lang }) {
   return <section id="pricing" aria-labelledby="pricing-title" className="mx-auto max-w-7xl scroll-mt-24 px-5 py-16">
-    <h2 id="pricing-title" className="font-display text-3xl font-bold">{translations[lang].pricing}</h2>
-    <div className="mt-8 grid gap-5 md:grid-cols-3">{PLANS.map(p => <div key={p.name} className={`flex flex-col rounded-2xl border bg-card p-6 ${p.featured ? "border-primary shadow-md" : "border-border"}`}>
-      <h3 className="font-display text-lg font-bold">{p.name === "Teams" ? siteText(lang, "teams") : p.name === "Free" ? translations[lang].free_plan : translations[lang].pro_plan}</h3><p className="mt-3"><span className="font-display text-4xl font-extrabold">{p.price}</span> <span className="text-sm text-muted-foreground">{p.note === "per month" ? translations[lang].per_month : siteText(lang, p.note === "forever" ? "priceForever" : "priceSoon")}</span></p>
-      <ul className="mt-5 flex-1 space-y-2 text-sm">{p.features.map((f, i) => <li key={f} className="flex gap-2"><Check className="size-4 shrink-0 text-success" />{siteText(lang, `${p.name === "Free" ? "priceFree" : p.name === "Pro" ? "pricePro" : "priceTeam"}${i+1}` as Parameters<typeof siteText>[1])}</li>)}</ul>
-      {p.name === "Pro" ? <div className="mt-6"><ProCheckoutButton /></div> : p.live ? <Button className="mt-6" onClick={onStart}>{siteText(lang, "heroPrimary")}</Button> : <Button asChild variant="outline" className="mt-6"><a href="mailto:hello@verfiai.app">{siteText(lang, "footerContact")}</a></Button>}
-    </div>)}</div>
-    <p className="mt-5 text-sm text-muted-foreground">{siteText(lang, "noCard")}</p>
+    <p className="text-xs font-bold uppercase text-brand">{COMMUNITY_LABELS[lang]}</p>
+    <h2 id="pricing-title" className="mt-2 font-display text-3xl font-bold">Free Access for the Community</h2>
+    <div className="mt-8 grid gap-10 md:grid-cols-2">
+      <div><p className="font-display text-4xl font-bold">100% free</p><p className="mt-4 leading-7 text-muted-foreground">Verfiai is 100% free for everyone for the next year. No paid plan or checkout is available during our community free-access pledge.</p><p className="mt-4 text-sm leading-6 text-muted-foreground">Reasonable rate limits apply to protect service availability. Current fair-use allowances remain in place; free access does not mean unlimited requests.</p><p className="mt-4 text-sm leading-6 text-muted-foreground">Academic, educator and high-volume research users can request extended access at <a href="mailto:hello@verfiai.app" className="text-brand underline">hello@verfiai.app</a>.</p><div className="mt-6 flex flex-wrap items-center gap-4"><Button onClick={onStart}>{siteText(lang, "heroPrimary")}<ArrowRight /></Button><Link to="/pricing" className="text-sm font-semibold text-brand underline">Community access details</Link></div></div>
+      <CommunityWaitlist />
+    </div>
   </section>;
 }
 
@@ -141,8 +135,8 @@ export const FAQS = [
   ["Can Verfiai access paywalled sources?", "No. It can only evaluate publicly accessible content. Paywalled or offline sources cannot be read."],
   ["How does Verfiai handle conflicting evidence?", "Two AI engines (DeepSeek and Qwen) judge each claim; if they disagree, DeepSeek R1 breaks the tie, and conflicting excerpts are shown side by side."],
   ["Is my submitted text private?", "Signed-in reports are saved privately to your account. Your text is sent to search and AI providers to produce results. Don't submit confidential, regulated or unpublished material."],
-  ["What are the free-plan limits?", "A free account gets 3 reports, 3 fact-checks and 3 citation scans a month. You can try each tool once without an account. Pro is $9/month for 50 reports."],
-  ["Can I export or share reports?", "Yes — Word, Markdown or PDF, plus read-only share links you can turn off. Free exports carry a Verfiai watermark; Pro exports don't."],
+  ["What are the free-plan limits?", "A free account gets 3 reports, 3 fact-checks and 3 citation scans a month. You can try each tool once without an account. Verfiai is 100% free for everyone for the next year, subject to fair-use limits. Academic, educator and high-volume users can request extended access at hello@verfiai.app."],
+  ["Can I export or share reports?", "Yes — Word, Markdown or PDF, plus read-only share links you can turn off. Community exports carry a Verfiai watermark. Paid checkout is currently unavailable."],
 ] as const;
 
 export function FaqSection({ lang }: { lang: Lang }) {
