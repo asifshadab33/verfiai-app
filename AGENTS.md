@@ -32,3 +32,5 @@
 - Credits are consumed atomically and idempotently via the `consume_credits` DB function before expensive work and refunded on failure; every operation is logged to `usage_meter` (never shown raw to users), because client counters can be bypassed.
 
 - Community waitlist signups use a public validated server function and a service-role-only atomic database function with consent records and per-IP request throttling; never expose the email list to clients.
+- Verification response caching is caller-scoped and versioned in a private table; preserve punctuation/numbers in normalization to avoid incorrect verdict reuse. Provider caches remain in research_cache.
+- All verification entry points reserve an atomic database request slot before cache reads or expensive work; guest buckets ignore user-agent, cache hits still count toward abuse limits but do not consume monthly quota or credits. Use TanStack server functions, not separate edge functions.

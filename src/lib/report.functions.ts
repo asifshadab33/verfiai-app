@@ -5,6 +5,7 @@ import { MONTHLY_REPORT_LIMIT, reportInput, wordCount } from "./report-schema";
 import { buildReport } from "./research.server";
 import { sha } from "./cache.server";
 import { paymentEnvironment } from "./payments-env.server";
+import { guardVerificationRequest } from "./verification-guard.server";
 
 export { MONTHLY_REPORT_LIMIT };
 export type { ResearchReport } from "./report-schema";
@@ -28,6 +29,7 @@ export const generateReport = createServerFn({ method: "POST" })
   .inputValidator((data) => reportInput.parse(data))
   .handler(async ({ data, context }) => {
     const meta = { userId: context.userId };
+    await guardVerificationRequest({ userId: context.userId, fingerprint: "" });
     const { count } = await context.supabase.from("reports").select("id", { count: "exact", head: true }).gte("created_at", monthStart());
     const limit = await reportLimit(context);
     if ((count ?? 0) >= limit) return { limitReached: true as const, message: `You've used your ${limit} reports this month.` };
@@ -53,6 +55,7 @@ export const generateGuestReport = createServerFn({ method: "POST" })
     const ip = getRequestHeader("cf-connecting-ip") ?? getRequestHeader("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
     const ua = getRequestHeader("user-agent") ?? "";
     const fingerprint = sha(`${ip}|${ua}|verifai-guest`);
+    await guardVerificationRequest({ userId: null, fingerprint });
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error: claimErr } = await supabaseAdmin.from("guest_usage").insert({ fingerprint });
     if (claimErr) return { limitReached: true as const, message: "You've used your free report. Sign in with Google or email to get 3 more every month." };

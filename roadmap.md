@@ -1,4 +1,5 @@
 # Verfiai roadmap
+- [x] Day 3: add private 24-hour SHA-256 verification response caching and atomic guest 5/hour, signed-in 20/day guardrails; verify real citation caching, HTTP 429, concurrent limits and reset windows.
 - [x] Day 2: disable new paid checkouts, replace paid offers with Community Access and one-year free pledge, persist a consented Pro/Teams email waitlist, and verify signup storage plus checkout policy tests.
 - [x] Priority 1 trust infrastructure: expand About, Methodology, and Accuracy; add trust navigation, input disclosures, verdict feedback, and footer feedback.
 - [x] Create reviewed-rights Knowledge Index and preview-only Evidence Library routes, Crossref metadata discovery, local bookmarks, issue reporting and usage page; pause downloads and keep Analyst checkout unavailable.

@@ -38,13 +38,13 @@ export function FactChecker({ lang }: { lang: Lang }) {
   const ready = mode === "text" ? text.trim().length >= 30 : /^https:\/\//i.test(url.trim());
 
   async function submit() {
-    if (!ready || busy || left === 0) return;
+    if (!ready || busy) return;
     setError(""); setClaims(null); setStage(0);
     const timers = [setTimeout(() => setStage(1), 1500), setTimeout(() => setStage(2), 6000), setTimeout(() => setStage(3), 14000)];
     try {
       const r = await run({ data: { ...(mode === "text" ? { text } : { url: url.trim() }), language: languages.find(l => l.code === lang)?.name ?? "English" } });
       setClaims(r.claims);
-      if (r.claims.length) setUsage(u => u ? { ...u, used: u.used + 1 } : u);
+      if (r.claims.length) setUsage(await fetchUsage());
     } catch (e) { setError(e instanceof Error ? e.message : tx("factError")); }
     finally { timers.forEach(clearTimeout); setStage(-1); }
   }
@@ -67,7 +67,7 @@ export function FactChecker({ lang }: { lang: Lang }) {
       <p className="mt-2 text-xs text-muted-foreground">{tx("factLinkHint")}</p>
     </>}
     <div className="mt-6 flex flex-wrap items-center gap-4">
-      <Button size="lg" className="h-12 px-6" onClick={submit} disabled={!ready || busy || left === 0}>{busy ? <LoaderCircle className="animate-spin" /> : <ScanSearch />}{busy ? tx((["factStage1", "factStage2", "factStage3", "factStage4"] as const)[stage] ?? "factStage1") : tx("factCheck")}</Button>
+      <Button size="lg" className="h-12 px-6" onClick={submit} disabled={!ready || busy}>{busy ? <LoaderCircle className="animate-spin" /> : <ScanSearch />}{busy ? tx((["factStage1", "factStage2", "factStage3", "factStage4"] as const)[stage] ?? "factStage1") : tx("factCheck")}</Button>
       <span className="text-xs text-muted-foreground">{usage ? (usage.signedIn ? `${left} / ${usage.limit} ${tx("factRemaining")}` : left ? tx("factGuest") : "") : ""} · {tx("factUpTo")}</span>
     </div>
     {busy && <ol role="status" className="mt-6 space-y-2 text-sm">{STAGES.map((s, i) => <li key={s} className={`flex items-center gap-2 ${i > stage ? "text-muted-foreground" : ""}`}>{i < stage ? <Check className="size-4 text-success" /> : i === stage ? <LoaderCircle className="size-4 animate-spin text-brand" /> : <span className="size-4" />}{tx((["factStage1", "factStage2", "factStage3", "factStage4"] as const)[i] ?? "factStage1")}</li>)}</ol>}

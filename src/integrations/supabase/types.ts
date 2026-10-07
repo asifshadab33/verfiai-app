@@ -582,6 +582,42 @@ export type Database = {
         }
         Relationships: []
       }
+      verification_cache: {
+        Row: {
+          claim_hash: string
+          created_at: string
+          result: Json
+        }
+        Insert: {
+          claim_hash: string
+          created_at?: string
+          result: Json
+        }
+        Update: {
+          claim_hash?: string
+          created_at?: string
+          result?: Json
+        }
+        Relationships: []
+      }
+      verification_rate_limits: {
+        Row: {
+          attempts: number
+          subject_hash: string
+          window_start: string
+        }
+        Insert: {
+          attempts?: number
+          subject_hash: string
+          window_start?: string
+        }
+        Update: {
+          attempts?: number
+          subject_hash?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -635,6 +671,14 @@ export type Database = {
       join_community_waitlist: {
         Args: { p_email: string; p_fingerprint: string }
         Returns: undefined
+      }
+      reserve_verification_request: {
+        Args: { p_authenticated: boolean; p_subject_hash: string }
+        Returns: {
+          allowed: boolean
+          remaining: number
+          resets_at: string
+        }[]
       }
     }
     Enums: {

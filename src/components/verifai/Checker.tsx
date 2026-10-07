@@ -155,13 +155,13 @@ export function Checker() {
   function onDrop(e: DragEvent) { e.preventDefault(); setDrag(false); const f = e.dataTransfer.files?.[0]; if (f) void readFile(f); }
 
   async function run() {
-    if (text.trim().length < 20 || busy || left === 0) return;
+    if (text.trim().length < 20 || busy) return;
     setError(null); setResults(null); setStage(0);
     const timers = [setTimeout(() => setStage(1), 700), setTimeout(() => setStage(2), 4000)];
     try {
       const r = await verify({ data: { text } });
       setScanned(text); setResults(r.results); setTotal(r.total);
-      if (r.results.length) setUsage(u => u ? { ...u, used: u.used + 1 } : u);
+      if (r.results.length) setUsage(await fetchUsage());
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong. Please try again.");
     } finally { timers.forEach(clearTimeout); setStage(-1); }
@@ -189,7 +189,7 @@ export function Checker() {
           {fileError && <p role="alert" className="text-sm text-destructive">{fileError}</p>}
         </div>
         <div className="mt-6 flex flex-wrap items-center gap-4">
-          <Button size="lg" className="h-12 px-6" onClick={run} disabled={busy || left === 0 || text.trim().length < 20}>
+          <Button size="lg" className="h-12 px-6" onClick={run} disabled={busy || text.trim().length < 20}>
             {busy ? <LoaderCircle className="size-4 animate-spin" /> : <FileSearch className="size-4" />} {busy ? STAGES[stage] : "Verify citations"}
           </Button>
           <span className="text-xs text-muted-foreground">{usage ? (usage.signedIn ? `${left} of ${usage.limit} free scans left this month` : left ? "1 free scan without an account" : "") : ""} · up to {FREE_REF_LIMIT} references per scan</span>
