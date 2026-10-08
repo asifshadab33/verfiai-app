@@ -2,7 +2,7 @@
 // model calls from the ModelProvider, and every lookup is checked against the
 // CacheProvider first. Ranking (BM25 + RRF) stays local.
 import { cached, sha, CACHE_TTL } from "./cache.server";
-import { searchAll, type Source } from "./search.server";
+import { dualAngleSearch, type Source } from "./search.server";
 import { synthesize, type CallMeta } from "./model.server";
 import { MIN_WORDS, reportSchema, wordCount, type ReportInput, type ResearchReport } from "./report-schema";
 import { uniqueSources } from "./evidence";
@@ -49,7 +49,7 @@ export async function buildReport(data: ReportInput, meta?: CallMeta): Promise<R
     : '';
   const query = [data.question, data.company, data.industry, data.focus].filter(Boolean).join(" ");
   // CacheProvider is checked inside each SearchProvider engine before any external call.
-  const found = await searchAll(query, data.language);
+  const found = await dualAngleSearch(query, data.language);
   const sources = rerank(query, uniqueSources(found));
   const web = sources.length > 0;
   const fetchedAt = new Date().toISOString();
@@ -89,6 +89,6 @@ async function generateReport(
     ...report,
     sources: sources.map(s => { let host = ""; try { host = new URL(s.url).hostname.replace(/^www\./, ""); } catch { /* */ } return { title: s.title, url: s.url, publisher: host, date: s.published ?? "", snippet: s.content.slice(0, 300), fetchedAt }; }),
     verification: web ? "web" : "model",
-    engines: [engine, ...(web ? ["Tavily, DuckDuckGo, Wikipedia, Crossref, OpenAlex and PubMed", "BM25 + RRF ranking"] : [])],
+    engines: [engine, ...(web ? ["Tavily, Brave, GDELT, DuckDuckGo, Wikipedia, Crossref, OpenAlex and PubMed", "BM25 + RRF ranking"] : [])],
   };
 }

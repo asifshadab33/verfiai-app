@@ -25,6 +25,34 @@ const tavily: SearchEngine = { id: "tavily", run: async (query) => {
   return (json.results ?? []).filter(r => r.url?.startsWith("https://")).map(r => ({ title: r.title, url: r.url, content: (r.content ?? "").slice(0, 1500), published: r.published_date, score: r.score }));
 } };
 
+// Brave Search API (optional key; skipped when BRAVE_SEARCH_API_KEY is unset).
+const brave: SearchEngine = { id: "brave", run: async (query) => {
+  const key = process.env["BRAVE_SEARCH_API_KEY"];
+  if (!key) return [];
+  const res = await fetch(`https://api.search.brave.com/res/v1/web/search?q=${encodeURIComponent(query.slice(0, 380))}&count=10`, { headers: { "X-Subscription-Token": key, Accept: "application/json" }, signal: AbortSignal.timeout(10000) });
+  if (!res.ok) { console.error("Brave error", res.status); return []; }
+  const j = await res.json() as { web?: { results?: { title: string; url: string; description?: string; page_age?: string }[] } };
+  return (j.web?.results ?? []).filter(r => r.url?.startsWith("https://")).map(r => ({ title: stripTags(r.title), url: r.url, content: stripTags(r.description ?? "").slice(0, 1500), published: r.page_age, score: 0.6 }));
+} };
+
+// GDELT DOC 2.0 news (free, no key). GDELT asks for at most one request per 5 seconds,
+// so a shared timestamp in research_cache throttles calls across workers; throttled calls return [].
+export const GDELT_MIN_INTERVAL_MS = 5000;
+const gdelt: SearchEngine = { id: "gdelt", run: async (query) => {
+  const { admin } = await import("./db.server");
+  const db = await admin();
+  const { data } = await db.from("research_cache").select("created_at").eq("key", "throttle:gdelt").maybeSingle();
+  if (data && Date.now() - new Date(data.created_at).getTime() < GDELT_MIN_INTERVAL_MS) return [];
+  await db.from("research_cache").upsert({ key: "throttle:gdelt", kind: "throttle", payload: {} as never, created_at: new Date().toISOString() });
+  const q = query.replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/g, " ").trim().slice(0, 250);
+  const res = await fetch(`https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(q)}&mode=artlist&maxrecords=15&format=json&sort=hybridrel`, { headers: { "User-Agent": "Verfiai/1.0 (hello@verfiai.app)" }, signal: AbortSignal.timeout(10000) });
+  if (!res.ok) return [];
+  const text = await res.text();
+  let j: { articles?: { title?: string; url?: string; seendate?: string; domain?: string }[] };
+  try { j = JSON.parse(text); } catch { return []; }
+  return (j.articles ?? []).filter(a => a.url?.startsWith("https://") && a.title).map(a => ({ title: a.title!, url: a.url!, content: `${a.title} (${a.domain ?? "news"})`, published: a.seendate?.replace(/^(\d{4})(\d{2})(\d{2}).*/, "$1-$2-$3"), score: 0.45 }));
+} };
+
 // Crossref scholarly metadata (free, no key).
 const crossref: SearchEngine = { id: "crossref", run: async (query) => {
   const url = `https://api.crossref.org/works?query=${encodeURIComponent(query.slice(0, 400))}&rows=5&select=title,URL,abstract,issued,DOI&mailto=hello@verfiai.app`;
@@ -111,7 +139,7 @@ const pubmed: SearchEngine = { id: "pubmed", run: async (query) => {
   }).filter(s => s.content.length > 0 && /\/\d+\/$/.test(s.url));
 } };
 
-const ENGINES: Record<string, SearchEngine> = { tavily, crossref, wikipedia, ddg: duckduckgo, openalex, pubmed };
+const ENGINES: Record<string, SearchEngine> = { tavily, brave, gdelt, crossref, wikipedia, ddg: duckduckgo, openalex, pubmed };
 
 /** Runs one engine through the CacheProvider; failures return [] and never break the caller. */
 export async function engineSearch(engineId: string, query: string, language?: string): Promise<Source[]> {
@@ -130,7 +158,25 @@ export const pubmedSearch = (query: string) => engineSearch("pubmed", query);
 export const wikipediaSearch = (query: string, language?: string) => engineSearch("wikipedia", query, language);
 
 /** All engines in parallel; any failure yields [] and never breaks the caller. */
-export async function searchAll(query: string, language?: string, engineIds: string[] = ["tavily", "crossref", "wikipedia", "ddg", "openalex", "pubmed"]): Promise<Source[]> {
+export async function searchAll(query: string, language?: string, engineIds: string[] = DEFAULT_ENGINES): Promise<Source[]> {
   const results = await Promise.all(engineIds.map(id => engineSearch(id, query, language)));
   return results.flat();
+}
+
+export const DEFAULT_ENGINES = ["tavily", "brave", "gdelt", "crossref", "wikipedia", "ddg", "openalex", "pubmed"];
+/** Web/news engines that also receive the counter-angle query (scholarly sources stay single-angle). */
+export const COUNTER_ENGINES = ["tavily", "brave"];
+
+/** Counter-angle query used to surface rebuttals and fact checks alongside affirmative results. */
+export const counterQuery = (query: string) => `${query.trim().slice(0, 300)} debunked OR false OR misleading OR "fact check"`;
+
+/**
+ * Dual-angle search: the affirmative query on every engine plus a counter/debunk
+ * query on web engines, interleaved so neither angle dominates ranking.
+ */
+export async function dualAngleSearch(query: string, language?: string): Promise<Source[]> {
+  const [pro, con] = await Promise.all([searchAll(query, language), searchAll(counterQuery(query), language, COUNTER_ENGINES)]);
+  const out: Source[] = [];
+  for (let i = 0; i < Math.max(pro.length, con.length); i++) { if (pro[i]) out.push(pro[i]!); if (con[i]) out.push(con[i]!); }
+  return out;
 }
