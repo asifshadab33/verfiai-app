@@ -12,6 +12,9 @@ const RATES: Record<string, { in: number; out: number }> = {
 const FALLBACK_RATES = { in: 0.35, out: 0.35 };
 
 const LABELS: Record<string, string> = {
+  "groq:llama-3.3-70b-versatile": "Llama 3.3 70B (Groq)",
+  "gemini:gemini-2.0-flash": "Gemini 2.0 Flash",
+  "github:gpt-4o-mini": "GPT-4o mini (GitHub Models)",
   "deepseek/deepseek-chat": "DeepSeek V3",
   "qwen/qwen-2.5-72b-instruct": "Qwen 2.5 72B",
 };
@@ -19,16 +22,32 @@ const LABELS: Record<string, string> = {
 /** Route tables; overridable server-side via env (comma-separated model ids). */
 export function getRoute(name: "triage" | "evaluation"): string[] {
   const envKey = name === "triage" ? "MODEL_ROUTE_TRIAGE" : "MODEL_ROUTE_EVALUATION";
-  const dflt = name === "triage" ? "qwen/qwen-2.5-72b-instruct" : "deepseek/deepseek-chat,qwen/qwen-2.5-72b-instruct";
+  // Free-tier cascade first (Groq → Gemini → GitHub Models); OpenRouter engines stay as the paid last resort.
+  const dflt = name === "triage" ? "qwen/qwen-2.5-72b-instruct" : "groq:llama-3.3-70b-versatile,gemini:gemini-2.0-flash,github:gpt-4o-mini,deepseek/deepseek-chat,qwen/qwen-2.5-72b-instruct";
   const list = (process.env[envKey] ?? dflt).split(",").map(s => s.trim()).filter(Boolean);
   return list.length ? list : ["qwen/qwen-2.5-72b-instruct"];
 }
+
+/** OpenAI-compatible endpoints per provider prefix; a missing key skips that provider. */
+const PROVIDERS: Record<string, { url: string; keyEnv: string; json: boolean }> = {
+  groq: { url: "https://api.groq.com/openai/v1/chat/completions", keyEnv: "GROQ_API_KEY", json: true },
+  gemini: { url: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", keyEnv: "GEMINI_API_KEY", json: true },
+  github: { url: "https://models.github.ai/inference/chat/completions", keyEnv: "GITHUB_MODELS_TOKEN", json: true },
+  openrouter: { url: "https://openrouter.ai/api/v1/chat/completions", keyEnv: "OPENROUTER_API_KEY", json: true },
+};
+export function resolveModel(id: string) {
+  const m = id.match(/^(groq|gemini|github):(.+)$/);
+  return m ? { provider: m[1]!, model: m[2]! } : { provider: "openrouter", model: id };
+}
+const timeoutMs = () => { const n = Number(process.env["MODEL_TIMEOUT_MS"]); return Number.isFinite(n) && n > 0 ? n : 45000; };
 
 export type CallMeta = { userId?: string | null; guestFingerprint?: string; reportId?: string; purpose?: string };
 
 // Internal error codes — never shown to users; callers map them to friendly notices.
 export async function callEngine(model: string, system: string, user: string, meta?: CallMeta): Promise<string> {
-  const key = process.env["OPENROUTER_API_KEY"];
+  const { provider, model: providerModel } = resolveModel(model);
+  const cfg = PROVIDERS[provider]!;
+  const key = process.env[cfg.keyEnv];
   if (!key) throw new Error("engine-missing");
   const t0 = Date.now();
   const estimate = (outLen: number) => {
@@ -36,19 +55,22 @@ export async function callEngine(model: string, system: string, user: string, me
     return ((system.length + user.length) / 4 * r.in + outLen / 4 * r.out) / 1e6;
   };
   try {
-    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    const res = await fetch(cfg.url, {
       method: "POST",
-      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", "HTTP-Referer": "https://verfiai.app", "X-Title": "Verfiai" },
-      body: JSON.stringify({ model, temperature: 0.2, response_format: { type: "json_object" }, messages: [{ role: "system", content: system }, { role: "user", content: user }] }),
+      signal: AbortSignal.timeout(timeoutMs()),
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", ...(provider === "openrouter" ? { "HTTP-Referer": "https://verfiai.app", "X-Title": "Verfiai" } : {}) },
+      body: JSON.stringify({ model: providerModel, temperature: 0.2, response_format: { type: "json_object" }, messages: [{ role: "system", content: system }, { role: "user", content: user }] }),
     });
-    if (!res.ok) { console.error("OpenRouter", model, res.status, (await res.text()).slice(0, 300)); throw new Error(res.status === 402 ? "credits" : "engine"); }
+    if (!res.ok) { console.error("OpenRouter", model, res.status, (await res.text()).slice(0, 300)); throw new Error(res.status === 402 ? "credits" : res.status === 429 ? "rate-limited" : "engine"); }
     const json = await res.json() as { choices?: { message?: { content?: string } }[] };
-    const txt = (json.choices?.[0]?.message?.content ?? "").replace(/^```(?:json)?\s*|\s*```$/g, "");
-    void meter({ userId: meta?.userId ?? null, ...(meta?.guestFingerprint ? { guestFingerprint: meta.guestFingerprint } : {}), event: "ai_model_call", provider: "openrouter", modelRoute: model, latencyMs: Date.now() - t0, success: true, estimatedCostUsd: estimate(txt.length) });
+    const txt0 = (json.choices?.[0]?.message?.content ?? "").replace(/^```(?:json)?\s*|\s*```$/g, "");
+    const txt = txt0.trim();
+    if (!txt) throw new Error("engine-empty");
+    void meter({ userId: meta?.userId ?? null, ...(meta?.guestFingerprint ? { guestFingerprint: meta.guestFingerprint } : {}), event: "ai_model_call", provider, modelRoute: model, latencyMs: Date.now() - t0, success: true, estimatedCostUsd: estimate(txt.length) });
     return txt;
   } catch (e) {
     if (!(e instanceof Error && e.message === "engine-missing"))
-      void meter({ userId: meta?.userId ?? null, ...(meta?.guestFingerprint ? { guestFingerprint: meta.guestFingerprint } : {}), event: "ai_model_call", provider: "openrouter", modelRoute: model, latencyMs: Date.now() - t0, success: false, estimatedCostUsd: estimate(0) });
+      void meter({ userId: meta?.userId ?? null, ...(meta?.guestFingerprint ? { guestFingerprint: meta.guestFingerprint } : {}), event: "ai_model_call", provider, modelRoute: model, latencyMs: Date.now() - t0, success: false, estimatedCostUsd: estimate(0) });
     throw e;
   }
 }
