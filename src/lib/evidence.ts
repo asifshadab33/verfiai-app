@@ -44,8 +44,16 @@ export function deduplicateClaims(claims: string[]): string[] {
 }
 
 /** Removes repeated URLs, publishers, and near-identical syndicated excerpts before ranking or judging. */
+/** Headline tokens without wire-service tags, for syndicated-story detection. */
+export function headlineTokens(title: string): Set<string> {
+  const t = title.toLowerCase().replace(/\b(ap|reuters|afp|associated press|update \d+|exclusive|breaking)\b/g, " ").replace(/\s[-|–—]\s[^-|–—]{2,40}$/, " ");
+  return new Set(t.replace(/[^\p{L}\p{N}\s]/gu, " ").split(/\s+/).filter(w => w.length > 2));
+}
+export const jaccard = (a: Set<string>, b: Set<string>) => { let i = 0; for (const w of a) if (b.has(w)) i++; return i / Math.max(1, a.size + b.size - i); };
+
 export function uniqueSources<T extends { url: string; title: string; content: string }>(sources: T[]): T[] {
   const seenUrls = new Set<string>(), seenText = new Set<string>(), seenHosts = new Set<string>();
+  const seenHeads: Set<string>[] = [];
   return sources.filter(source => {
     let url: URL;
     try { url = new URL(source.url); } catch { return false; }
@@ -55,7 +63,11 @@ export function uniqueSources<T extends { url: string; title: string; content: s
     const urlKey = url.toString().replace(/\/$/, "");
     const host = url.hostname.replace(/^www\./, "");
     const textKey = `${source.title} ${source.content}`.toLocaleLowerCase().replace(/[^\p{L}\p{N}]/gu, "").slice(0, 400);
+    const head = headlineTokens(source.title);
     if (seenUrls.has(urlKey) || seenHosts.has(host) || (textKey.length > 80 && seenText.has(textKey))) return false;
+    // Syndicated wire stories: near-identical headlines on different hosts count once.
+    if (head.size >= 4 && seenHeads.some(h => jaccard(h, head) >= 0.8)) return false;
+    if (head.size >= 4) seenHeads.push(head);
     seenUrls.add(urlKey); seenHosts.add(host);
     if (textKey.length > 80) seenText.add(textKey);
     return true;

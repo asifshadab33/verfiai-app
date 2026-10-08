@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { rerank, getLanguageName } from "./research.server";
-import { searchAll, type Source } from "./search.server";
+import { dualAngleSearch, type Source } from "./search.server";
 import { runRoute, type CallMeta } from "./model.server";
 import { fetchArticle } from "./page.server";
 import { cacheGet, cacheSet, sha } from "./cache.server";
@@ -57,7 +57,7 @@ async function checkClaim(claim: string, language = "en", meta?: CallMeta): Prom
   const cachedResult = await cacheGet<ClaimResult>(ck, VERIFICATION_TTL_MS);
   if (cachedResult) return cachedResult;
   // CacheProvider is checked inside each SearchProvider engine before any external call.
-  const docs: Source[] = rerank(claim, uniqueSources(await searchAll(claim, language)), 4);
+  const docs: Source[] = rerank(claim, uniqueSources(await dualAngleSearch(claim, language)), 4);
   if (!docs.length) return { claim, verdict: "UNVERIFIABLE", explanation: "No relevant web sources were found for this claim.", consensus: "single", sources: [] };
   // Judge each excerpt in isolation (one claim vs one excerpt), then apply the deterministic evidence rules.
   let perExcerpt: ExcerptJudgment[];
