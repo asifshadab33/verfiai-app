@@ -19,6 +19,7 @@ function CommunityAccess() {
         <Button asChild><Link to="/">Start researching free</Link></Button>
       </div>
       <div className="border-t border-border pt-8"><CommunityWaitlist /></div>
+      <div id="analyst" className="border-t border-border pt-8"><CommunityWaitlist interest="analyst" /></div>
     </div>
     <PageSection title="Extended access for research and education"><p>Academic, educator and high-volume research users can reach out to <a href="mailto:hello@verfiai.app" className="text-brand underline">hello@verfiai.app</a> to request extended access. Tell us about your research needs and expected volume.</p></PageSection>
   </ContentPage>;
