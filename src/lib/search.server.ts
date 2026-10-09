@@ -29,7 +29,7 @@ const tavily: SearchEngine = { id: "tavily", run: async (query) => {
 const brave: SearchEngine = { id: "brave", run: async (query) => {
   const key = process.env["BRAVE_SEARCH_API_KEY"];
   if (!key) return [];
-  const res = await fetch(`https://api.search.brave.com/res/v1/web/search?q=${encodeURIComponent(query.slice(0, 380))}&count=10`, { headers: { "X-Subscription-Token": key, Accept: "application/json" }, signal: AbortSignal.timeout(10000) });
+  const res = await fetch(`https://api.search.brave.com/res/v1/web/search?q=${encodeURIComponent(query.slice(0, 380))}&count=10`, { headers: { "X-Subscription-Token": key, Accept: "application/json" }, signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
   if (!res.ok) { console.error("Brave error", res.status); return []; }
   const j = await res.json() as { web?: { results?: { title: string; url: string; description?: string; page_age?: string }[] } };
   return (j.web?.results ?? []).filter(r => r.url?.startsWith("https://")).map(r => ({ title: stripTags(r.title), url: r.url, content: stripTags(r.description ?? "").slice(0, 1500), published: r.page_age, score: 0.6 }));
@@ -40,7 +40,7 @@ const searxng: SearchEngine = { id: "searxng", run: async (query, language) => {
   const base = process.env["SEARXNG_BASE_URL"]?.trim().replace(/\/+$/, "");
   if (!base) return [];
   const lang = toLangCode(language);
-  const res = await fetch(`${base}/search?q=${encodeURIComponent(query.slice(0, 380))}&format=json&language=${lang}`, { headers: { Accept: "application/json", "User-Agent": "Verfiai/1.0 (hello@verfiai.app)" }, signal: AbortSignal.timeout(10000) });
+  const res = await fetch(`${base}/search?q=${encodeURIComponent(query.slice(0, 380))}&format=json&language=${lang}`, { headers: { Accept: "application/json", "User-Agent": "Verfiai/1.0 (hello@verfiai.app)" }, signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
   if (!res.ok) { console.error("SearXNG error", res.status); return []; }
   const j = await res.json() as { results?: { title?: string; url?: string; content?: string; publishedDate?: string }[] };
   return (j.results ?? []).filter(r => r.url?.startsWith("https://") && r.title).slice(0, 10).map(r => ({ title: r.title!, url: r.url!, content: stripTags(r.content ?? "").slice(0, 1500), published: r.publishedDate, score: 0.6 }));
@@ -48,6 +48,8 @@ const searxng: SearchEngine = { id: "searxng", run: async (query, language) => {
 
 // GDELT DOC 2.0 news (free, no key). GDELT asks for at most one request per 5 seconds,
 // so a shared timestamp in research_cache throttles calls across workers; throttled calls return [].
+// Day 9: every search provider gets a hard 5-second boundary; a slow provider returns [] instead of stalling the check.
+export const PROVIDER_TIMEOUT_MS = 5000;
 export const GDELT_MIN_INTERVAL_MS = 5000;
 const gdelt: SearchEngine = { id: "gdelt", run: async (query) => {
   const { admin } = await import("./db.server");
@@ -56,7 +58,7 @@ const gdelt: SearchEngine = { id: "gdelt", run: async (query) => {
   if (data && Date.now() - new Date(data.created_at).getTime() < GDELT_MIN_INTERVAL_MS) return [];
   await db.from("research_cache").upsert({ key: "throttle:gdelt", kind: "throttle", payload: {} as never, created_at: new Date().toISOString() });
   const q = query.replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/g, " ").trim().slice(0, 250);
-  const res = await fetch(`https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(q)}&mode=artlist&maxrecords=15&format=json&sort=hybridrel`, { headers: { "User-Agent": "Verfiai/1.0 (hello@verfiai.app)" }, signal: AbortSignal.timeout(10000) });
+  const res = await fetch(`https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(q)}&mode=artlist&maxrecords=15&format=json&sort=hybridrel`, { headers: { "User-Agent": "Verfiai/1.0 (hello@verfiai.app)" }, signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
   if (!res.ok) return [];
   const text = await res.text();
   let j: { articles?: { title?: string; url?: string; seendate?: string; domain?: string }[] };
@@ -67,7 +69,7 @@ const gdelt: SearchEngine = { id: "gdelt", run: async (query) => {
 // Crossref scholarly metadata (free, no key).
 const crossref: SearchEngine = { id: "crossref", run: async (query) => {
   const url = `https://api.crossref.org/works?query=${encodeURIComponent(query.slice(0, 400))}&rows=5&select=title,URL,abstract,issued,DOI&mailto=hello@verfiai.app`;
-  const res = await fetch(url, { headers: { "User-Agent": "Verfiai/1.0 (mailto:hello@verfiai.app)", mailto: "hello@verfiai.app" }, signal: AbortSignal.timeout(10000) });
+  const res = await fetch(url, { headers: { "User-Agent": "Verfiai/1.0 (mailto:hello@verfiai.app)", mailto: "hello@verfiai.app" }, signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
   if (!res.ok) return [];
   const json = await res.json() as { message?: { items?: { title?: string[]; URL?: string; abstract?: string; issued?: { "date-parts"?: number[][] }; DOI?: string }[] } };
   return (json.message?.items ?? []).map(it => {
@@ -80,12 +82,12 @@ const crossref: SearchEngine = { id: "crossref", run: async (query) => {
 async function wikipediaEdition(query: string, lang: string): Promise<Source[]> {
   const api = `https://${lang}.wikipedia.org/w/api.php`;
   const headers = { "User-Agent": "Verfiai/1.0 (hello@verfiai.app)" };
-  const sres = await fetch(`${api}?action=query&list=search&format=json&srsearch=${encodeURIComponent(query.slice(0, 300))}&srlimit=3`, { headers, signal: AbortSignal.timeout(10000) });
+  const sres = await fetch(`${api}?action=query&list=search&format=json&srsearch=${encodeURIComponent(query.slice(0, 300))}&srlimit=3`, { headers, signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
   if (!sres.ok) return [];
   const sjson = await sres.json() as { query?: { search?: { title: string; pageid: number }[] } };
   const hits = sjson.query?.search ?? [];
   if (!hits.length) return [];
-  const eres = await fetch(`${api}?action=query&prop=extracts&exintro&explaintext&format=json&pageids=${hits.map(h => h.pageid).join("|")}`, { headers, signal: AbortSignal.timeout(10000) });
+  const eres = await fetch(`${api}?action=query&prop=extracts&exintro&explaintext&format=json&pageids=${hits.map(h => h.pageid).join("|")}`, { headers, signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
   if (!eres.ok) return [];
   const ejson = await eres.json() as { query?: { pages?: Record<string, { title?: string; extract?: string }> } };
   const pages = ejson.query?.pages ?? {};
@@ -107,7 +109,7 @@ const wikipedia: SearchEngine = { id: "wikipedia", run: async (query, language) 
 
 // DuckDuckGo official Instant Answer API (free, no key). We do not scrape DDG result pages, per their terms.
 const duckduckgo: SearchEngine = { id: "ddg", run: async (query) => {
-  const res = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(query.slice(0, 300))}&format=json&no_html=1&skip_disambig=1&t=verfiai`, { headers: { "User-Agent": "Verfiai/1.0 (hello@verfiai.app)" }, signal: AbortSignal.timeout(10000) });
+  const res = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(query.slice(0, 300))}&format=json&no_html=1&skip_disambig=1&t=verfiai`, { headers: { "User-Agent": "Verfiai/1.0 (hello@verfiai.app)" }, signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
   if (!res.ok) return [];
   type Topic = { Text?: string; FirstURL?: string; Topics?: Topic[] };
   const j = await res.json() as { Heading?: string; AbstractText?: string; AbstractURL?: string; AbstractSource?: string; RelatedTopics?: Topic[] };
@@ -120,7 +122,7 @@ const duckduckgo: SearchEngine = { id: "ddg", run: async (query) => {
 
 // OpenAlex scholarly works (free, no key). Abstracts arrive as an inverted index.
 const openalex: SearchEngine = { id: "openalex", run: async (query) => {
-  const res = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(query.slice(0, 300))}&per-page=5&filter=has_abstract:true&mailto=hello@verfiai.app`, { signal: AbortSignal.timeout(10000) });
+  const res = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(query.slice(0, 300))}&per-page=5&filter=has_abstract:true&mailto=hello@verfiai.app`, { signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
   if (!res.ok) return [];
   const j = await res.json() as { results?: { title?: string; doi?: string; id?: string; publication_date?: string; abstract_inverted_index?: Record<string, number[]> }[] };
   return (j.results ?? []).map(w => {
@@ -134,11 +136,11 @@ const openalex: SearchEngine = { id: "openalex", run: async (query) => {
 const pubmed: SearchEngine = { id: "pubmed", run: async (query) => {
   const base = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils";
   const tool = "tool=verfiai&email=hello@verfiai.app";
-  const sres = await fetch(`${base}/esearch.fcgi?db=pubmed&retmode=json&retmax=4&${tool}&term=${encodeURIComponent(query.slice(0, 300))}`, { signal: AbortSignal.timeout(10000) });
+  const sres = await fetch(`${base}/esearch.fcgi?db=pubmed&retmode=json&retmax=4&${tool}&term=${encodeURIComponent(query.slice(0, 300))}`, { signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
   if (!sres.ok) return [];
   const ids = ((await sres.json()) as { esearchresult?: { idlist?: string[] } }).esearchresult?.idlist ?? [];
   if (!ids.length) return [];
-  const fres = await fetch(`${base}/efetch.fcgi?db=pubmed&retmode=xml&${tool}&id=${ids.join(",")}`, { signal: AbortSignal.timeout(10000) });
+  const fres = await fetch(`${base}/efetch.fcgi?db=pubmed&retmode=xml&${tool}&id=${ids.join(",")}`, { signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
   if (!fres.ok) return [];
   const xml = await fres.text();
   return xml.split("<PubmedArticle>").slice(1).map(a => {
