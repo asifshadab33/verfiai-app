@@ -34,3 +34,7 @@
 - Community waitlist signups use a public validated server function and a service-role-only atomic database function with consent records and per-IP request throttling; never expose the email list to clients.
 - Verification response caching is caller-scoped and versioned in a private table; preserve punctuation/numbers in normalization to avoid incorrect verdict reuse. Provider caches remain in research_cache.
 - All verification entry points reserve an atomic database request slot before cache reads or expensive work; guest buckets ignore user-agent, cache hits still count toward abuse limits but do not consume monthly quota or credits. Use TanStack server functions, not separate edge functions.
+- OCR runs in the browser with lazy-loaded Tesseract.js; images never go to our server, because OCR must stay zero-cost and private.
+- Extended Reports use three synthesis passes with a deterministic citation-marker guard and a server-built search audit log, because model-written audit trails cannot be trusted.
+- Private media lives in the `report-media` bucket under `<userId>/` and is served only via 15-minute signed URLs from `media.functions.ts`, because permanent links would leak attachments.
+- Rights/DMCA notices are composed as email to hello@verfiai.app and not stored, until a reviewed takedown workflow exists.
