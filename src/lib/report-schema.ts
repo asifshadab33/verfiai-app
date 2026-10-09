@@ -20,7 +20,7 @@ export type ReportFormat = "standard" | "extended";
 // Extended Report target length in characters (all human-readable text).
 export const EXTENDED_MIN_CHARS = 4000;
 export const EXTENDED_MAX_CHARS = 20000;
-export type ReportInput = z.input<typeof reportInput>;
+export type ReportInput = z.infer<typeof reportInput>;
 
 export const reportSchema = z.object({
   title: z.string(), summary: z.string(), background: z.string().default(""), analysis: z.string().default(""),
