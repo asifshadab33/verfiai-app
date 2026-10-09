@@ -15,6 +15,7 @@ const LABELS: Record<string, string> = {
   "groq:llama-3.3-70b-versatile": "Llama 3.3 70B (Groq)",
   "gemini:gemini-2.0-flash": "Gemini 2.0 Flash",
   "github:gpt-4o-mini": "GPT-4o mini (GitHub Models)",
+  "mistral:mistral-small-latest": "Mistral Small",
   "deepseek/deepseek-chat": "DeepSeek V3",
   "qwen/qwen-2.5-72b-instruct": "Qwen 2.5 72B",
 };
@@ -23,7 +24,7 @@ const LABELS: Record<string, string> = {
 export function getRoute(name: "triage" | "evaluation"): string[] {
   const envKey = name === "triage" ? "MODEL_ROUTE_TRIAGE" : "MODEL_ROUTE_EVALUATION";
   // Free-tier cascade first (Groq → Gemini → GitHub Models); OpenRouter engines stay as the paid last resort.
-  const dflt = name === "triage" ? "qwen/qwen-2.5-72b-instruct" : "groq:llama-3.3-70b-versatile,gemini:gemini-2.0-flash,github:gpt-4o-mini,deepseek/deepseek-chat,qwen/qwen-2.5-72b-instruct";
+  const dflt = name === "triage" ? "qwen/qwen-2.5-72b-instruct" : "groq:llama-3.3-70b-versatile,gemini:gemini-2.0-flash,github:gpt-4o-mini,mistral:mistral-small-latest,deepseek/deepseek-chat,qwen/qwen-2.5-72b-instruct";
   const list = (process.env[envKey] ?? dflt).split(",").map(s => s.trim()).filter(Boolean);
   return list.length ? list : ["qwen/qwen-2.5-72b-instruct"];
 }
@@ -33,10 +34,11 @@ const PROVIDERS: Record<string, { url: string; keyEnv: string; json: boolean }> 
   groq: { url: "https://api.groq.com/openai/v1/chat/completions", keyEnv: "GROQ_API_KEY", json: true },
   gemini: { url: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", keyEnv: "GEMINI_API_KEY", json: true },
   github: { url: "https://models.github.ai/inference/chat/completions", keyEnv: "GITHUB_MODELS_TOKEN", json: true },
+  mistral: { url: "https://api.mistral.ai/v1/chat/completions", keyEnv: "MISTRAL_API_KEY", json: true },
   openrouter: { url: "https://openrouter.ai/api/v1/chat/completions", keyEnv: "OPENROUTER_API_KEY", json: true },
 };
 export function resolveModel(id: string) {
-  const m = id.match(/^(groq|gemini|github):(.+)$/);
+  const m = id.match(/^(groq|gemini|github|mistral):(.+)$/);
   return m ? { provider: m[1]!, model: m[2]! } : { provider: "openrouter", model: id };
 }
 const timeoutMs = () => { const n = Number(process.env["MODEL_TIMEOUT_MS"]); return Number.isFinite(n) && n > 0 ? n : 45000; };
