@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Checker } from "@/components/verifai/Checker";
 import { FactChecker } from "@/components/verifai/FactChecker";
+import { useImageOcr } from "@/components/verifai/useImageOcr";
 import { GenerationProgress } from "@/components/verifai/GenerationProgress";
 import { ReportView } from "@/components/verifai/ReportView";
 import { ResourceLibrary } from "@/components/verifai/ResourceLibrary";
@@ -109,6 +110,8 @@ export function ReportForm({ lang, onLang }: { lang: Lang; onLang: (l: Lang) => 
   const [industry, setIndustry] = useState("");
   const [competitors, setCompetitors] = useState("");
   const [focus, setFocus] = useState("");
+  const [format, setFormat] = useState<"standard" | "extended">("standard");
+  const ocr = useImageOcr(lang, t => setQuestion(q => ((q ? q.trimEnd() + "\n\n" : "") + t).slice(0, 4000)));
   const [mode, setMode] = useState<"Balanced" | "Fast" | "Focused" | "Comparative">("Balanced");
   const [report, setReport] = useState<ResearchReport | null>(null);
   const [reportId, setReportId] = useState<string | undefined>(undefined);
@@ -133,7 +136,7 @@ export function ReportForm({ lang, onLang }: { lang: Lang; onLang: (l: Lang) => 
     if (question.trim().length < 10) { setError(tx("tooShort")); return; }
     setBusy(true); setError(""); setReport(null);
     try {
-      const payload = { task, question, attachment, language: languages.find(l => l.code === lang)?.name ?? "English", mode, company, website, industry, competitors, focus };
+      const payload = { task, question, attachment, language: languages.find(l => l.code === lang)?.name ?? "English", mode, company, website, industry, competitors, focus, format };
       const result = user ? await generate({ data: payload }) : await generateGuest({ data: payload });
       if ("limitReached" in result) { setError(result.message ?? ""); if (!user) setGuestDone(true); return; }
       setReport(result.report); setReportId("id" in result ? String(result.id) : undefined); if (user) setUsed(used + 1); else setGuestDone(true);
@@ -152,9 +155,13 @@ export function ReportForm({ lang, onLang }: { lang: Lang; onLang: (l: Lang) => 
         </div>
         <label htmlFor="research-question" className="mt-5 block text-sm font-semibold">{translations[lang].research_question}</label>
         <div className="relative mt-2">
-          <Textarea id="research-question" dir="auto" maxLength={4000} value={question} onChange={e => setQuestion(e.target.value)} placeholder={translations[lang].placeholder_question} className="min-h-40 border-input bg-card p-4 pb-14 text-base" />
+          <Textarea id="research-question" {...ocr.handlers} aria-describedby="question-ocr" dir="auto" maxLength={4000} value={question} onChange={e => setQuestion(e.target.value)} placeholder={translations[lang].placeholder_question} className={`min-h-40 border-input bg-card p-4 pb-14 text-base ${ocr.over ? "ring-2 ring-brand" : ""}`} />
           <div className="absolute bottom-3 end-3"><VoiceButton iconOnly lang={lang} label={translations[lang].speak_request} onText={t => setQuestion(q => (q ? q.trimEnd() + " " : "") + t)} /></div>
         </div>
+        <div id="question-ocr">{ocr.status}</div>
+        <fieldset className="mt-5"><legend className="text-sm font-semibold">Report format</legend>
+          <div className="mt-2 grid gap-2 sm:grid-cols-2">{([["standard", "Standard Brief", "About 2 pages. Fastest."], ["extended", "Extended Report", "4,000–20,000 characters with background, procedural guidance, timeline, blind spots and a search audit log. Three writing passes; takes longer and uses 3× report credits."]] as const).map(([v, l, d]) => <label key={v} className={`flex min-h-11 cursor-pointer gap-3 rounded-md border p-3 text-sm ${format === v ? "border-brand bg-secondary" : "border-input bg-card"}`}><input type="radio" name="report-format" value={v} checked={format === v} onChange={() => setFormat(v)} className="mt-1" /><span><span className="font-semibold">{l}</span><span className="mt-0.5 block text-xs text-muted-foreground">{d}</span></span></label>)}</div>
+        </fieldset>
         <div className="mt-3 flex flex-wrap gap-2">{(["ex1", "ex2", "ex3"] as const).map(key => <Button key={key} size="sm" variant="outline" className="h-auto max-w-full whitespace-normal text-start" onClick={() => setQuestion(tx(key))}>{tx(key)}</Button>)}</div>
         <div className="mt-7 border-y border-border py-5"><input ref={inputRef} type="file" accept=".txt,.md,.csv,.docx,.pdf" className="sr-only" onChange={e => { const f = e.target.files?.[0]; if (f) void readFile(f); e.target.value = ""; }} />
           <div onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); const f = e.dataTransfer.files?.[0]; if (f) void readFile(f); }} className="flex flex-wrap items-center gap-3">

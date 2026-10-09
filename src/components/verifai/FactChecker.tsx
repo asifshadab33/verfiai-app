@@ -8,11 +8,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { factCheck, getFactUsage, type ClaimResult, type Verdict } from "@/lib/factcheck.functions";
 import { useAuth } from "@/hooks/useAuth";
 import { VoiceButton } from "./VoiceButton";
+import { useImageOcr } from "./useImageOcr";
 import { siteText } from "@/lib/site-i18n";
 import { languages, type Lang } from "@/lib/translations";
 import { evidenceStrength } from "@/lib/evidence";
 
-const STAGES = ["Reading the text…", "Finding checkable claims…", "Searching the web for evidence…", "Two AI engines are weighing the evidence…"];
+const STAGES = ["Extracting claims…", "Searching providers…", "Cross-checking sources…", "Synthesizing verdict…"];
 const style: Record<Verdict, { label: string; cls: string }> = {
   SUPPORTED: { label: "Supported", cls: "bg-success-soft text-success border-success/30" },
   CONTRADICTED: { label: "Contradicted", cls: "bg-danger-soft text-destructive border-destructive/30" },
@@ -35,6 +36,7 @@ export function FactChecker({ lang }: { lang: Lang }) {
   const [usage, setUsage] = useState<{ signedIn: boolean; used: number; limit: number } | null>(null);
   useEffect(() => { if (!loading) fetchUsage().then(setUsage).catch(() => {}); }, [user, loading]); // eslint-disable-line react-hooks/exhaustive-deps
   const left = usage ? Math.max(0, usage.limit - usage.used) : 1;
+  const ocr = useImageOcr(lang, t => setText(q => ((q ? q.trimEnd() + "\n\n" : "") + t).slice(0, 15000)));
   const busy = stage >= 0;
   const ready = mode === "text" ? text.trim().length >= 30 : /^https:\/\//i.test(url.trim());
 
@@ -60,7 +62,8 @@ export function FactChecker({ lang }: { lang: Lang }) {
     <p className="mt-5 text-xs leading-5 text-muted-foreground">Your submission may be processed by search and AI providers. Do not submit confidential, regulated, or unpublished material. Read our <a href="/privacy" className="text-brand underline">privacy notice</a> and <a href="/methodology" className="text-brand underline">methodology</a>.</p>
     {mode === "text" ? <>
       <label htmlFor="fact-text" className="mt-3 block text-sm font-semibold">{tx("factText")}</label>
-      <Textarea id="fact-text" value={text} maxLength={15000} onChange={e => setText(e.target.value)} placeholder={tx("factPlaceholder")} className="mt-2 min-h-40 bg-card" dir="auto" />
+      <Textarea id="fact-text" {...ocr.handlers} aria-describedby="fact-ocr" value={text} maxLength={15000} onChange={e => setText(e.target.value)} placeholder={tx("factPlaceholder")} className={`mt-2 min-h-40 bg-card ${ocr.over ? "ring-2 ring-brand" : ""}`} dir="auto" />
+      <div id="fact-ocr">{ocr.status}</div>
       <div className="mt-3 flex flex-wrap items-center gap-3"><VoiceButton lang={lang} onText={t => setText(q => (q ? q.trimEnd() + " " : "") + t)} /><button type="button" className="text-xs text-brand underline" onClick={() => setText(SAMPLE)}>{tx("factSample")}</button><span className="ms-auto text-xs text-muted-foreground">{text.length.toLocaleString()} / 15,000</span></div>
     </> : <>
       <label htmlFor="fact-url" className="mt-5 block text-sm font-semibold">{tx("factArticle")}</label>
