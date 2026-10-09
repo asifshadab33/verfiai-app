@@ -19,6 +19,7 @@ const tavily: SearchEngine = { id: "tavily", run: async (query) => {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
     body: JSON.stringify({ query: query.slice(0, 400), search_depth: "basic", max_results: 20, include_answer: false }),
+    signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS),
   });
   if (!res.ok) { console.error("Tavily error", res.status); return []; }
   const json = await res.json() as { results?: { title: string; url: string; content: string; score: number; published_date?: string }[] };
