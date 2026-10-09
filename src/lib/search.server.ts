@@ -150,7 +150,7 @@ const pubmed: SearchEngine = { id: "pubmed", run: async (query) => {
   }).filter(s => s.content.length > 0 && /\/\d+\/$/.test(s.url));
 } };
 
-const ENGINES: Record<string, SearchEngine> = { tavily, brave, gdelt, crossref, wikipedia, ddg: duckduckgo, openalex, pubmed };
+const ENGINES: Record<string, SearchEngine> = { tavily, brave, searxng, gdelt, crossref, wikipedia, ddg: duckduckgo, openalex, pubmed };
 
 /** Runs one engine through the CacheProvider; failures return [] and never break the caller. */
 export async function engineSearch(engineId: string, query: string, language?: string): Promise<Source[]> {
@@ -174,9 +174,9 @@ export async function searchAll(query: string, language?: string, engineIds: str
   return results.flat();
 }
 
-export const DEFAULT_ENGINES = ["tavily", "brave", "gdelt", "crossref", "wikipedia", "ddg", "openalex", "pubmed"];
+export const DEFAULT_ENGINES = ["tavily", "brave", "searxng", "gdelt", "crossref", "wikipedia", "ddg", "openalex", "pubmed"];
 /** Web/news engines that also receive the counter-angle query (scholarly sources stay single-angle). */
-export const COUNTER_ENGINES = ["tavily", "brave"];
+export const COUNTER_ENGINES = ["tavily", "brave", "searxng"];
 
 /** Counter-angle query used to surface rebuttals and fact checks alongside affirmative results. */
 export const counterQuery = (query: string) => `${query.trim().slice(0, 300)} debunked OR false OR misleading OR "fact check"`;
