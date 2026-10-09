@@ -40,3 +40,7 @@
 - [x] Stage 1: server-side feature flags + credit/usage metering (flags.server.ts, metering.server.ts, FeatureGate, account usage).
 - [x] Voice input: compact floating mic icon in Research Question field; remove Focus textarea voice button.
 - [x] Stage 2A: CacheProvider (research_cache, normalized+hashed keys, TTL) + provider abstraction layer (SearchProvider, ModelProvider, CitationProvider, PageExtractionProvider) wired into research/fact-check pipeline.
+- [x] Day 8: RTL citation markers (LTR-isolated) + in-browser Tesseract.js OCR (paste/drop) on claim and research inputs.
+- [x] Day 9: Four named progress stages (estimates) + 5-second per-provider search timeouts.
+- [x] Day 10–11: Standard Brief vs Extended Report (4k–20k chars) with 3-pass synthesis (outline → draft → citation audit) and server-built search audit log.
+- [x] Day 12: Analyst waitlist, private report-media bucket with 15-minute owner-only signed URLs, Report Rights Issue dialog (email-based).

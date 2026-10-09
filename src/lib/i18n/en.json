@@ -317,9 +317,9 @@
   "demoCheckModes": "Check modes",
   "flowLabel": "Verification pipeline",
   "sourceDisclaimer": "AI-generated source text may be inaccurate. Open the original sources.",
-  "progressExtract": "Extracting checkable claims",
-  "progressFind": "Finding primary sources",
-  "progressCompare": "Comparing supporting and conflicting evidence",
-  "progressPrepare": "Preparing your report",
+  "progressExtract": "Extracting claims",
+  "progressFind": "Searching providers",
+  "progressCompare": "Cross-checking sources",
+  "progressPrepare": "Synthesizing verdict",
   "progressEstimate": "Estimated progress while research runs. Steps are not confirmed until the report is ready."
 }

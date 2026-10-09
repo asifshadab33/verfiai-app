@@ -20,18 +20,21 @@ export type Database = {
           created_at: string
           email: string
           id: string
+          interests: string[]
         }
         Insert: {
           consent_version?: string
           created_at?: string
           email: string
           id?: string
+          interests?: string[]
         }
         Update: {
           consent_version?: string
           created_at?: string
           email?: string
           id?: string
+          interests?: string[]
         }
         Relationships: []
       }
@@ -669,7 +672,7 @@ export type Database = {
         Returns: boolean
       }
       join_community_waitlist: {
-        Args: { p_email: string; p_fingerprint: string }
+        Args: { p_email: string; p_fingerprint: string; p_interest?: string }
         Returns: undefined
       }
       reserve_verification_request: {
