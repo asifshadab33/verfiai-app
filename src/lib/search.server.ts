@@ -35,6 +35,17 @@ const brave: SearchEngine = { id: "brave", run: async (query) => {
   return (j.web?.results ?? []).filter(r => r.url?.startsWith("https://")).map(r => ({ title: stripTags(r.title), url: r.url, content: stripTags(r.description ?? "").slice(0, 1500), published: r.page_age, score: 0.6 }));
 } };
 
+// SearXNG (self-hosted metasearch; skipped when SEARXNG_BASE_URL is unset).
+const searxng: SearchEngine = { id: "searxng", run: async (query, language) => {
+  const base = process.env["SEARXNG_BASE_URL"]?.trim().replace(/\/+$/, "");
+  if (!base) return [];
+  const lang = toLangCode(language);
+  const res = await fetch(`${base}/search?q=${encodeURIComponent(query.slice(0, 380))}&format=json&language=${lang}`, { headers: { Accept: "application/json", "User-Agent": "Verfiai/1.0 (hello@verfiai.app)" }, signal: AbortSignal.timeout(10000) });
+  if (!res.ok) { console.error("SearXNG error", res.status); return []; }
+  const j = await res.json() as { results?: { title?: string; url?: string; content?: string; publishedDate?: string }[] };
+  return (j.results ?? []).filter(r => r.url?.startsWith("https://") && r.title).slice(0, 10).map(r => ({ title: r.title!, url: r.url!, content: stripTags(r.content ?? "").slice(0, 1500), published: r.publishedDate, score: 0.6 }));
+} };
+
 // GDELT DOC 2.0 news (free, no key). GDELT asks for at most one request per 5 seconds,
 // so a shared timestamp in research_cache throttles calls across workers; throttled calls return [].
 export const GDELT_MIN_INTERVAL_MS = 5000;
@@ -139,7 +150,7 @@ const pubmed: SearchEngine = { id: "pubmed", run: async (query) => {
   }).filter(s => s.content.length > 0 && /\/\d+\/$/.test(s.url));
 } };
 
-const ENGINES: Record<string, SearchEngine> = { tavily, brave, gdelt, crossref, wikipedia, ddg: duckduckgo, openalex, pubmed };
+const ENGINES: Record<string, SearchEngine> = { tavily, brave, searxng, gdelt, crossref, wikipedia, ddg: duckduckgo, openalex, pubmed };
 
 /** Runs one engine through the CacheProvider; failures return [] and never break the caller. */
 export async function engineSearch(engineId: string, query: string, language?: string): Promise<Source[]> {
@@ -163,9 +174,9 @@ export async function searchAll(query: string, language?: string, engineIds: str
   return results.flat();
 }
 
-export const DEFAULT_ENGINES = ["tavily", "brave", "gdelt", "crossref", "wikipedia", "ddg", "openalex", "pubmed"];
+export const DEFAULT_ENGINES = ["tavily", "brave", "searxng", "gdelt", "crossref", "wikipedia", "ddg", "openalex", "pubmed"];
 /** Web/news engines that also receive the counter-angle query (scholarly sources stay single-angle). */
-export const COUNTER_ENGINES = ["tavily", "brave"];
+export const COUNTER_ENGINES = ["tavily", "brave", "searxng"];
 
 /** Counter-angle query used to surface rebuttals and fact checks alongside affirmative results. */
 export const counterQuery = (query: string) => `${query.trim().slice(0, 300)} debunked OR false OR misleading OR "fact check"`;
