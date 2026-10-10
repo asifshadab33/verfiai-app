@@ -47,20 +47,15 @@ const searxng: SearchEngine = { id: "searxng", run: async (query, language) => {
   return (j.results ?? []).filter(r => r.url?.startsWith("https://") && r.title).slice(0, 10).map(r => ({ title: r.title!, url: r.url!, content: stripTags(r.content ?? "").slice(0, 1500), published: r.publishedDate, score: 0.6 }));
 } };
 
-// GDELT DOC 2.0 news (free, no key). GDELT asks for at most one request per 5 seconds,
-// so a shared timestamp in research_cache throttles calls across workers; throttled calls return [].
 // Day 9: every search provider gets a hard 5-second boundary; a slow provider returns [] instead of stalling the check.
 export const PROVIDER_TIMEOUT_MS = 5000;
-export const GDELT_MIN_INTERVAL_MS = 5000;
+
+// GDELT DOC 2.0 news (free, no key), routed through the 2-second queue with backoff retries.
 const gdelt: SearchEngine = { id: "gdelt", run: async (query) => {
-  const { admin } = await import("./db.server");
-  const db = await admin();
-  const { data } = await db.from("research_cache").select("created_at").eq("key", "throttle:gdelt").maybeSingle();
-  if (data && Date.now() - new Date(data.created_at).getTime() < GDELT_MIN_INTERVAL_MS) return [];
-  await db.from("research_cache").upsert({ key: "throttle:gdelt", kind: "throttle", payload: {} as never, created_at: new Date().toISOString() });
+  const { gdeltFetch } = await import("./gdelt-queue.server");
   const q = query.replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/g, " ").trim().slice(0, 250);
-  const res = await fetch(`https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(q)}&mode=artlist&maxrecords=15&format=json&sort=hybridrel`, { headers: { "User-Agent": "Verfiai/1.0 (hello@verfiai.app)" }, signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
-  if (!res.ok) return [];
+  const res = await gdeltFetch(`https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(q)}&mode=artlist&maxrecords=15&format=json&sort=hybridrel`, { headers: { "User-Agent": "Verfiai/1.0 (hello@verfiai.app)" } });
+  if (!res?.ok) return [];
   const text = await res.text();
   let j: { articles?: { title?: string; url?: string; seendate?: string; domain?: string }[] };
   try { j = JSON.parse(text); } catch { return []; }

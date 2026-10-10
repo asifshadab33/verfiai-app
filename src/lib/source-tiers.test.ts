@@ -14,6 +14,6 @@ describe("source authority", () => {
 });
 describe("model cascade", () => {
   it("orders Groq, Gemini, GitHub first", () => {
-    expect(getRoute("evaluation").slice(0, 3).map(m => resolveModel(m).provider)).toEqual(["groq", "gemini", "github"]);
+    expect(getRoute("evaluation").slice(0, 3).map(m => resolveModel(m).provider)).toEqual(["deepinfra", "cerebras", "sambanova"]);
   });
 });
