@@ -25,6 +25,7 @@ import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RefundsRouteImport } from './routes/refunds'
 import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as ResearchRouteImport } from './routes/research'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as SampleReportRouteImport } from './routes/sample-report'
@@ -119,6 +120,11 @@ const ReportsRoute = ReportsRouteImport.update({
   path: '/reports',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResearchRoute = ResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -203,6 +209,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/refunds': typeof RefundsRoute
   '/reports': typeof ReportsRoute
+  '/research': typeof ResearchRoute
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRouteWithChildren
   '/sample-report': typeof SampleReportRoute
@@ -234,6 +241,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/refunds': typeof RefundsRoute
   '/reports': typeof ReportsRoute
+  '/research': typeof ResearchRoute
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRouteWithChildren
   '/sample-report': typeof SampleReportRoute
@@ -266,6 +274,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/refunds': typeof RefundsRoute
   '/reports': typeof ReportsRoute
+  '/research': typeof ResearchRoute
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRouteWithChildren
   '/sample-report': typeof SampleReportRoute
@@ -299,6 +308,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/refunds'
     | '/reports'
+    | '/research'
     | '/reset-password'
     | '/resources'
     | '/sample-report'
@@ -330,6 +340,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/refunds'
     | '/reports'
+    | '/research'
     | '/reset-password'
     | '/resources'
     | '/sample-report'
@@ -361,6 +372,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/refunds'
     | '/reports'
+    | '/research'
     | '/reset-password'
     | '/resources'
     | '/sample-report'
@@ -393,6 +405,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   RefundsRoute: typeof RefundsRoute
   ReportsRoute: typeof ReportsRoute
+  ResearchRoute: typeof ResearchRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ResourcesRoute: typeof ResourcesRouteWithChildren
   SampleReportRoute: typeof SampleReportRoute
@@ -521,6 +534,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReportsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/research': {
+      id: '/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof ResearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -644,6 +664,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   RefundsRoute: RefundsRoute,
   ReportsRoute: ReportsRoute,
+  ResearchRoute: ResearchRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ResourcesRoute: ResourcesRouteWithChildren,
   SampleReportRoute: SampleReportRoute,
