@@ -15,6 +15,7 @@ import { Route as AccuracyRouteImport } from './routes/accuracy'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CybersecurityConceptRouteImport } from './routes/cybersecurity-concept'
+import { Route as FactChecksRouteImport } from './routes/fact-checks'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FeaturesRouteImport } from './routes/features'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
@@ -27,11 +28,13 @@ import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as SampleReportRouteImport } from './routes/sample-report'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AccountLibraryUsageRouteImport } from './routes/account/library-usage'
 import { Route as AccountUsageRouteImport } from './routes/account/usage'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout/success'
+import { Route as FactCheckSlugRouteImport } from './routes/fact-check/$slug'
 import { Route as RTokenRouteImport } from './routes/r.$token'
 import { Route as ResourcesSlugRouteImport } from './routes/resources/$slug'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
@@ -64,6 +67,11 @@ const AuthRoute = AuthRouteImport.update({
 const CybersecurityConceptRoute = CybersecurityConceptRouteImport.update({
   id: '/cybersecurity-concept',
   path: '/cybersecurity-concept',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FactChecksRoute = FactChecksRouteImport.update({
+  id: '/fact-checks',
+  path: '/fact-checks',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -126,6 +134,11 @@ const SampleReportRoute = SampleReportRouteImport.update({
   path: '/sample-report',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SourcesRoute = SourcesRouteImport.update({
   id: '/sources',
   path: '/sources',
@@ -149,6 +162,11 @@ const AccountUsageRoute = AccountUsageRouteImport.update({
 const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
   id: '/checkout/success',
   path: '/checkout/success',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FactCheckSlugRoute = FactCheckSlugRouteImport.update({
+  id: '/fact-check/$slug',
+  path: '/fact-check/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RTokenRoute = RTokenRouteImport.update({
@@ -175,6 +193,7 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/cybersecurity-concept': typeof CybersecurityConceptRoute
+  '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
   '/how-it-works': typeof HowItWorksRoute
@@ -187,11 +206,13 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRouteWithChildren
   '/sample-report': typeof SampleReportRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sources': typeof SourcesRoute
   '/terms': typeof TermsRoute
   '/account/library-usage': typeof AccountLibraryUsageRoute
   '/account/usage': typeof AccountUsageRoute
   '/checkout/success': typeof CheckoutSuccessRoute
+  '/fact-check/$slug': typeof FactCheckSlugRoute
   '/r/$token': typeof RTokenRoute
   '/resources/$slug': typeof ResourcesSlugRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -203,6 +224,7 @@ export interface FileRoutesByTo {
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/cybersecurity-concept': typeof CybersecurityConceptRoute
+  '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
   '/how-it-works': typeof HowItWorksRoute
@@ -215,11 +237,13 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRouteWithChildren
   '/sample-report': typeof SampleReportRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sources': typeof SourcesRoute
   '/terms': typeof TermsRoute
   '/account/library-usage': typeof AccountLibraryUsageRoute
   '/account/usage': typeof AccountUsageRoute
   '/checkout/success': typeof CheckoutSuccessRoute
+  '/fact-check/$slug': typeof FactCheckSlugRoute
   '/r/$token': typeof RTokenRoute
   '/resources/$slug': typeof ResourcesSlugRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -232,6 +256,7 @@ export interface FileRoutesById {
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/cybersecurity-concept': typeof CybersecurityConceptRoute
+  '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
   '/how-it-works': typeof HowItWorksRoute
@@ -244,11 +269,13 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRouteWithChildren
   '/sample-report': typeof SampleReportRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sources': typeof SourcesRoute
   '/terms': typeof TermsRoute
   '/account/library-usage': typeof AccountLibraryUsageRoute
   '/account/usage': typeof AccountUsageRoute
   '/checkout/success': typeof CheckoutSuccessRoute
+  '/fact-check/$slug': typeof FactCheckSlugRoute
   '/r/$token': typeof RTokenRoute
   '/resources/$slug': typeof ResourcesSlugRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -262,6 +289,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/auth'
     | '/cybersecurity-concept'
+    | '/fact-checks'
     | '/faq'
     | '/features'
     | '/how-it-works'
@@ -274,11 +302,13 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/resources'
     | '/sample-report'
+    | '/sitemap.xml'
     | '/sources'
     | '/terms'
     | '/account/library-usage'
     | '/account/usage'
     | '/checkout/success'
+    | '/fact-check/$slug'
     | '/r/$token'
     | '/resources/$slug'
     | '/api/public/payments/webhook'
@@ -290,6 +320,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/auth'
     | '/cybersecurity-concept'
+    | '/fact-checks'
     | '/faq'
     | '/features'
     | '/how-it-works'
@@ -302,11 +333,13 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/resources'
     | '/sample-report'
+    | '/sitemap.xml'
     | '/sources'
     | '/terms'
     | '/account/library-usage'
     | '/account/usage'
     | '/checkout/success'
+    | '/fact-check/$slug'
     | '/r/$token'
     | '/resources/$slug'
     | '/api/public/payments/webhook'
@@ -318,6 +351,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/auth'
     | '/cybersecurity-concept'
+    | '/fact-checks'
     | '/faq'
     | '/features'
     | '/how-it-works'
@@ -330,11 +364,13 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/resources'
     | '/sample-report'
+    | '/sitemap.xml'
     | '/sources'
     | '/terms'
     | '/account/library-usage'
     | '/account/usage'
     | '/checkout/success'
+    | '/fact-check/$slug'
     | '/r/$token'
     | '/resources/$slug'
     | '/api/public/payments/webhook'
@@ -347,6 +383,7 @@ export interface RootRouteChildren {
   AppRoute: typeof AppRoute
   AuthRoute: typeof AuthRoute
   CybersecurityConceptRoute: typeof CybersecurityConceptRoute
+  FactChecksRoute: typeof FactChecksRoute
   FaqRoute: typeof FaqRoute
   FeaturesRoute: typeof FeaturesRoute
   HowItWorksRoute: typeof HowItWorksRoute
@@ -359,11 +396,13 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   ResourcesRoute: typeof ResourcesRouteWithChildren
   SampleReportRoute: typeof SampleReportRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SourcesRoute: typeof SourcesRoute
   TermsRoute: typeof TermsRoute
   AccountLibraryUsageRoute: typeof AccountLibraryUsageRoute
   AccountUsageRoute: typeof AccountUsageRoute
   CheckoutSuccessRoute: typeof CheckoutSuccessRoute
+  FactCheckSlugRoute: typeof FactCheckSlugRoute
   RTokenRoute: typeof RTokenRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
@@ -410,6 +449,13 @@ declare module '@tanstack/react-router' {
       path: '/cybersecurity-concept'
       fullPath: '/cybersecurity-concept'
       preLoaderRoute: typeof CybersecurityConceptRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fact-checks': {
+      id: '/fact-checks'
+      path: '/fact-checks'
+      fullPath: '/fact-checks'
+      preLoaderRoute: typeof FactChecksRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -496,6 +542,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SampleReportRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sources': {
       id: '/sources'
       path: '/sources'
@@ -529,6 +582,13 @@ declare module '@tanstack/react-router' {
       path: '/checkout/success'
       fullPath: '/checkout/success'
       preLoaderRoute: typeof CheckoutSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fact-check/$slug': {
+      id: '/fact-check/$slug'
+      path: '/fact-check/$slug'
+      fullPath: '/fact-check/$slug'
+      preLoaderRoute: typeof FactCheckSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/r/$token': {
@@ -574,6 +634,7 @@ const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRoute,
   AuthRoute: AuthRoute,
   CybersecurityConceptRoute: CybersecurityConceptRoute,
+  FactChecksRoute: FactChecksRoute,
   FaqRoute: FaqRoute,
   FeaturesRoute: FeaturesRoute,
   HowItWorksRoute: HowItWorksRoute,
@@ -586,11 +647,13 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   ResourcesRoute: ResourcesRouteWithChildren,
   SampleReportRoute: SampleReportRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   SourcesRoute: SourcesRoute,
   TermsRoute: TermsRoute,
   AccountLibraryUsageRoute: AccountLibraryUsageRoute,
   AccountUsageRoute: AccountUsageRoute,
   CheckoutSuccessRoute: CheckoutSuccessRoute,
+  FactCheckSlugRoute: FactCheckSlugRoute,
   RTokenRoute: RTokenRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
