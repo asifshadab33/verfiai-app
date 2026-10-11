@@ -36,6 +36,18 @@ const brave: SearchEngine = { id: "brave", run: async (query) => {
   return (j.web?.results ?? []).filter(r => r.url?.startsWith("https://")).map(r => ({ title: stripTags(r.title), url: r.url, content: stripTags(r.description ?? "").slice(0, 1500), published: r.page_age, score: 0.6 }));
 } };
 
+// You.com Search API (optional key; skipped when YDC_API_KEY is unset).
+const youcom: SearchEngine = { id: "youcom", run: async (query) => {
+  const key = process.env["YDC_API_KEY"];
+  if (!key) return [];
+  const res = await fetch(`https://api.ydc-index.io/v1/search?query=${encodeURIComponent(query.slice(0, 380))}&count=10`, { headers: { "X-API-Key": key, Accept: "application/json" }, signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
+  if (!res.ok) { console.error("You.com error", res.status); return []; }
+  type Hit = { title?: string; url?: string; description?: string; snippets?: string[]; page_age?: string };
+  const j = await res.json() as { results?: { web?: Hit[]; news?: Hit[] }; hits?: Hit[] };
+  const hits = [...(j.results?.web ?? []), ...(j.results?.news ?? []), ...(j.hits ?? [])];
+  return hits.filter(h => h.url?.startsWith("https://") && h.title).map(h => ({ title: stripTags(h.title!), url: h.url!, content: stripTags([h.description, ...(h.snippets ?? [])].filter(Boolean).join(" ")).slice(0, 1500), published: h.page_age, score: 0.6 }));
+} };
+
 // SearXNG (self-hosted metasearch; skipped when SEARXNG_BASE_URL is unset).
 const searxng: SearchEngine = { id: "searxng", run: async (query, language) => {
   const base = process.env["SEARXNG_BASE_URL"]?.trim().replace(/\/+$/, "");
@@ -148,7 +160,7 @@ const pubmed: SearchEngine = { id: "pubmed", run: async (query) => {
   }).filter(s => s.content.length > 0 && /\/\d+\/$/.test(s.url));
 } };
 
-const ENGINES: Record<string, SearchEngine> = { tavily, brave, searxng, gdelt, crossref, wikipedia, ddg: duckduckgo, openalex, pubmed };
+const ENGINES: Record<string, SearchEngine> = { tavily, brave, youcom, searxng, gdelt, crossref, wikipedia, ddg: duckduckgo, openalex, pubmed };
 
 /** Runs one engine through the CacheProvider; failures return [] and never break the caller. */
 export async function engineSearch(engineId: string, query: string, language?: string): Promise<Source[]> {
@@ -172,9 +184,9 @@ export async function searchAll(query: string, language?: string, engineIds: str
   return results.flat();
 }
 
-export const DEFAULT_ENGINES = ["tavily", "brave", "searxng", "gdelt", "crossref", "wikipedia", "ddg", "openalex", "pubmed"];
+export const DEFAULT_ENGINES = ["tavily", "brave", "youcom", "searxng", "gdelt", "crossref", "wikipedia", "ddg", "openalex", "pubmed"];
 /** Web/news engines that also receive the counter-angle query (scholarly sources stay single-angle). */
-export const COUNTER_ENGINES = ["tavily", "brave", "searxng"];
+export const COUNTER_ENGINES = ["tavily", "brave", "youcom", "searxng"];
 
 /** Counter-angle query used to surface rebuttals and fact checks alongside affirmative results. */
 export const counterQuery = (query: string) => `${query.trim().slice(0, 300)} debunked OR false OR misleading OR "fact check"`;
