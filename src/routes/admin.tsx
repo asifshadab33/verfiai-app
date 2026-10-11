@@ -20,7 +20,7 @@ export const Route = createFileRoute("/admin")({
 
 type Health = Awaited<ReturnType<typeof getSystemHealth>>;
 type Usage = Awaited<ReturnType<typeof getUsageAnalytics>>;
-type ModelResult = Awaited<ReturnType<typeof testModel>>;
+type ModelResult = { ok: boolean; latencyMs: number; output: string; error: string };
 type SearchResult = Awaited<ReturnType<typeof testSearch>>;
 
 const Dot = ({ ok }: { ok: boolean }) => <span className={`inline-block size-2.5 rounded-full ${ok ? "bg-success" : "bg-destructive"}`} aria-label={ok ? "ok" : "not ok"} />;
