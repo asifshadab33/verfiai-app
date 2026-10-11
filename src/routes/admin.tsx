@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,7 +24,7 @@ type ModelResult = Awaited<ReturnType<typeof testModel>>;
 type SearchResult = Awaited<ReturnType<typeof testSearch>>;
 
 const Dot = ({ ok }: { ok: boolean }) => <span className={`inline-block size-2.5 rounded-full ${ok ? "bg-success" : "bg-destructive"}`} aria-label={ok ? "ok" : "not ok"} />;
-const Card = ({ title, children }: { title: string; children: React.ReactNode }) => <section className="mt-8 border border-border bg-card p-5"><h2 className="font-display text-xl font-bold">{title}</h2><div className="mt-4">{children}</div></section>;
+const Card = ({ title, children }: { title: string; children: ReactNode }) => <section className="mt-8 border border-border bg-card p-5"><h2 className="font-display text-xl font-bold">{title}</h2><div className="mt-4">{children}</div></section>;
 
 function AdminPage() {
   const { user, loading } = useAuth();
