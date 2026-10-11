@@ -43,6 +43,8 @@ export async function billingContext(userId: string | null) {
 
 /** Atomically consumes credits before expensive work. Same idempotency key = no double charge on retries. */
 export async function consumeCredits(userId: string, operation: string, cost: number, idempotencyKey: string) {
+  const { isAdminUser } = await import("./db.server");
+  if (await isAdminUser(userId)) return { remaining: Number.MAX_SAFE_INTEGER, refund: async () => {} };
   const ctx = await billingContext(userId);
   const db = await admin();
   const { data, error } = await db.rpc("consume_credits", {

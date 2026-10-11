@@ -39,6 +39,8 @@ export async function usageFor(kind: UsageKind) {
 export async function claimUsage(kind: UsageKind): Promise<{ signedIn: boolean; release: () => Promise<void> }> {
   const who = await identify();
   const db = await admin();
+  const { isAdminUser } = await import("./db.server");
+  if (await isAdminUser(who.userId)) return { signedIn: true, release: async () => {} };
   if (who.userId) {
     const { count } = await db.from("usage_events").select("id", { count: "exact", head: true }).eq("user_id", who.userId).eq("kind", kind).gte("created_at", monthStart());
     if ((count ?? 0) >= LIMITS[kind]) throw new Error(`You've used your ${LIMITS[kind]} free ${kind === "scan" ? "citation scans" : "fact-checks"} this month.`);
