@@ -44,3 +44,4 @@
 - [x] Day 9: Four named progress stages (estimates) + 5-second per-provider search timeouts.
 - [x] Day 10–11: Standard Brief vs Extended Report (4k–20k chars) with 3-pass synthesis (outline → draft → citation audit) and server-built search audit log.
 - [x] Day 12: Analyst waitlist, private report-media bucket with 15-minute owner-only signed URLs, Report Rights Issue dialog (email-based).
+- [x] You.com search (YDC_API_KEY) + zero type errors (Oct 11)
