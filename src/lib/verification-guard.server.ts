@@ -7,6 +7,8 @@ type Caller = { userId: string | null; fingerprint: string };
 
 /** Shared atomic ceiling across reports, fact checks and citation scans, including cache hits. */
 export async function guardVerificationRequest(who: Caller) {
+  const { isAdminUser } = await import("./db.server");
+  if (await isAdminUser(who.userId)) return;
   // Never include user-agent: changing it must not reset the guest rate bucket.
   const local = ["localhost", "127.0.0.1"].includes(new URL(getRequestUrl()).hostname);
   const ip = getRequestHeader("cf-connecting-ip") ?? (local ? getRequestHeader("x-forwarded-for")?.split(",")[0]?.trim() : undefined) ?? "unknown";

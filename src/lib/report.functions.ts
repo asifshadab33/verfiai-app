@@ -12,6 +12,8 @@ export type { ResearchReport } from "./report-schema";
 
 function monthStart() { const d = new Date(); return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)).toISOString(); }
 async function reportLimit(context: { supabase: { rpc: (name: "has_active_subscription", args: { user_uuid: string; check_env: string }) => PromiseLike<{ data: boolean | null; error: unknown }> }; userId: string }) {
+  const { isAdminUser } = await import("./db.server");
+  if (await isAdminUser(context.userId)) return 100000;
   const { data, error } = await context.supabase.rpc("has_active_subscription", { user_uuid: context.userId, check_env: paymentEnvironment() });
   if (error) throw new Error("Could not check your plan. Please try again.");
   return data ? 50 : MONTHLY_REPORT_LIMIT;
