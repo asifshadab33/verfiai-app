@@ -316,5 +316,10 @@
   "factResult": "Matokeo ya ukaguzi wa ukweli",
   "demoCheckModes": "Hali za ukaguzi",
   "flowLabel": "Mfereji wa uthibitisho",
-  "sourceDisclaimer": "Maandishi yanayotokana na AI yanaweza kuwa sahihi. Fungua vyanzo asilia."
+  "sourceDisclaimer": "Maandishi yanayotokana na AI yanaweza kuwa sahihi. Fungua vyanzo asilia.",
+  "progressExtract": "Inatoa madai",
+  "progressFind": "Inatafuta kwenye vyanzo",
+  "progressCompare": "Inalinganisha vyanzo",
+  "progressPrepare": "Inaandaa hitimisho",
+  "progressEstimate": "Maendeleo yanayokadiriwa wakati utafiti unaendelea. Hatua hazithibitishwi hadi ripoti iwe tayari."
 }

@@ -316,5 +316,10 @@
   "factResult": "Résultats de la vérification",
   "demoCheckModes": "Modes de vérification",
   "flowLabel": "Processus de vérification",
-  "sourceDisclaimer": "Les sources générées par IA peuvent contenir des erreurs. Consultez les sources originales."
+  "sourceDisclaimer": "Les sources générées par IA peuvent contenir des erreurs. Consultez les sources originales.",
+  "progressExtract": "Extraction des affirmations",
+  "progressFind": "Recherche dans les sources",
+  "progressCompare": "Recoupement des sources",
+  "progressPrepare": "Rédaction du verdict",
+  "progressEstimate": "Progression estimée pendant la recherche. Les étapes ne sont confirmées qu'une fois le rapport prêt."
 }

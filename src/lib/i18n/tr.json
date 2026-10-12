@@ -316,5 +316,10 @@
   "factResult": "Doğrulama sonuçları",
   "demoCheckModes": "Kontrol modları",
   "flowLabel": "Doğrulama işlem hattı",
-  "sourceDisclaimer": "AI tarafından oluşturulan kaynak metinler yanlış olabilir. Orijinal kaynakları açın."
+  "sourceDisclaimer": "AI tarafından oluşturulan kaynak metinler yanlış olabilir. Orijinal kaynakları açın.",
+  "progressExtract": "İddialar çıkarılıyor",
+  "progressFind": "Kaynaklarda aranıyor",
+  "progressCompare": "Kaynaklar karşılaştırılıyor",
+  "progressPrepare": "Sonuç hazırlanıyor",
+  "progressEstimate": "Araştırma sürerken tahmini ilerleme. Rapor hazır olana kadar adımlar kesinleşmez."
 }

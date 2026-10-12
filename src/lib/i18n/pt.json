@@ -316,5 +316,10 @@
   "factResult": "Resultados da verificação de fatos",
   "demoCheckModes": "Modos de verificação",
   "flowLabel": "Pipeline de verificação",
-  "sourceDisclaimer": "O texto da fonte gerado por IA pode ser impreciso. Abra as fontes originais."
+  "sourceDisclaimer": "O texto da fonte gerado por IA pode ser impreciso. Abra as fontes originais.",
+  "progressExtract": "Extraindo alegações",
+  "progressFind": "Pesquisando nas fontes",
+  "progressCompare": "Cruzando fontes",
+  "progressPrepare": "Elaborando o veredito",
+  "progressEstimate": "Progresso estimado durante a pesquisa. As etapas só são confirmadas quando o relatório estiver pronto."
 }
