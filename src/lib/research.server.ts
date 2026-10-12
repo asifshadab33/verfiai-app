@@ -121,7 +121,11 @@ export async function buildReport(data: ReportInput, meta?: CallMeta): Promise<R
   const query = [data.question, data.company, data.industry, data.focus].filter(Boolean).join(" ");
   // CacheProvider is checked inside each SearchProvider engine before any external call.
   const found = await dualAngleSearch(query, data.language);
-  const sources = rerank(query, uniqueSources(found), data.format === "extended" ? 10 : 6);
+  const want = data.format === "extended" ? 10 : 6;
+  // Over-fetch, then drop dead links (live HTTP check) so the report never cites a broken URL.
+  const { filterLiveSources } = await import("./link-check.server");
+  const { kept: sources, dead: deadLinks } = await filterLiveSources(rerank(query, uniqueSources(found), want + 6), want);
+  if (deadLinks.length) console.info("report: excluded dead source links", deadLinks.length);
   const web = sources.length > 0;
   const fetchedAt = new Date().toISOString();
 
