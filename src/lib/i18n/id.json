@@ -316,5 +316,10 @@
   "factResult": "Hasil pemeriksaan fakta",
   "demoCheckModes": "Mode pemeriksaan",
   "flowLabel": "Pipeline verifikasi",
-  "sourceDisclaimer": "Teks sumber yang dihasilkan AI mungkin tidak akurat. Buka sumber aslinya."
+  "sourceDisclaimer": "Teks sumber yang dihasilkan AI mungkin tidak akurat. Buka sumber aslinya.",
+  "progressExtract": "Mengekstrak klaim",
+  "progressFind": "Mencari di sumber",
+  "progressCompare": "Memeriksa silang sumber",
+  "progressPrepare": "Menyusun kesimpulan",
+  "progressEstimate": "Perkiraan kemajuan selama riset berjalan. Langkah belum dikonfirmasi sampai laporan siap."
 }

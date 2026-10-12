@@ -316,5 +316,10 @@
   "factResult": "事实核查结果",
   "demoCheckModes": "检查模式",
   "flowLabel": "验证流程",
-  "sourceDisclaimer": "AI生成的源文本可能不准确。请打开原始来源。"
+  "sourceDisclaimer": "AI生成的源文本可能不准确。请打开原始来源。",
+  "progressExtract": "正在提取论点",
+  "progressFind": "正在检索来源",
+  "progressCompare": "正在交叉核对来源",
+  "progressPrepare": "正在形成结论",
+  "progressEstimate": "研究进行中的预估进度。报告完成前，各步骤均未确认。"
 }

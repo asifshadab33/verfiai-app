@@ -30,9 +30,9 @@ const LABELS: Record<string, string> = {
 
 export const ROUTES = {
   // Cheap, fast claim extraction.
-  triage: ["cerebras:llama-3.3-70b", "deepinfra:Qwen/Qwen2.5-72B-Instruct", "groq:llama-3.3-70b-versatile", "gemini:gemini-2.0-flash", "github:openai/gpt-4o-mini", "qwen/qwen-2.5-72b-instruct"],
+  triage: ["cerebras:llama-3.3-70b", "deepinfra:Qwen/Qwen2.5-72B-Instruct", "groq:llama-3.3-70b-versatile", "gemini:gemini-2.0-flash", "github:openai/gpt-4o-mini", "qwen/qwen-2.5-72b-instruct", "qwen/qwen-2.5-72b-instruct:free", "meta-llama/llama-3.3-70b-instruct:free"],
   // Synthesis and consensus evaluation.
-  evaluation: ["deepinfra:Qwen/Qwen2.5-72B-Instruct", "cerebras:deepseek-r1-distill-llama-70b", "sambanova:Meta-Llama-3.3-70B-Instruct", "nvidia:meta/llama-3.3-70b-instruct", "nvidia:deepseek-ai/deepseek-r1", "groq:llama-3.3-70b-versatile", "gemini:gemini-2.0-flash", "mistral:mistral-small-latest", "deepseek:deepseek-chat", "dashscope:qwen-plus", "github:openai/gpt-4o-mini", "deepseek/deepseek-chat", "qwen/qwen-2.5-72b-instruct"],
+  evaluation: ["deepinfra:Qwen/Qwen2.5-72B-Instruct", "cerebras:deepseek-r1-distill-llama-70b", "sambanova:Meta-Llama-3.3-70B-Instruct", "nvidia:meta/llama-3.3-70b-instruct", "nvidia:deepseek-ai/deepseek-r1", "groq:llama-3.3-70b-versatile", "gemini:gemini-2.0-flash", "mistral:mistral-small-latest", "deepseek:deepseek-chat", "dashscope:qwen-plus", "github:openai/gpt-4o-mini", "deepseek/deepseek-chat", "qwen/qwen-2.5-72b-instruct", "qwen/qwen-2.5-72b-instruct:free", "meta-llama/llama-3.3-70b-instruct:free"],
 } as const;
 
 /** Route tables; overridable server-side via env (comma-separated model ids). Providers without keys are skipped at call time. */
@@ -70,7 +70,7 @@ const timeoutMs = () => { const n = Number(process.env["MODEL_TIMEOUT_MS"]); ret
 export type CallMeta = { userId?: string | null; guestFingerprint?: string; reportId?: string; purpose?: string };
 
 // Internal error codes — never shown to users; callers map them to friendly notices.
-export async function callEngine(model: string, system: string, user: string, meta?: CallMeta): Promise<string> {
+export async function callEngine(model: string, system: string, user: string, meta?: CallMeta, maxTokens = 3500): Promise<string> {
   const { provider, model: providerModel } = resolveModel(model);
   const cfg = PROVIDERS[provider]!;
   const key = process.env[cfg.keyEnv];
@@ -85,7 +85,7 @@ export async function callEngine(model: string, system: string, user: string, me
       method: "POST",
       signal: AbortSignal.timeout(timeoutMs()),
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", ...(provider === "openrouter" ? { "HTTP-Referer": "https://verfiai.app", "X-Title": "Verfiai" } : {}) },
-      body: JSON.stringify({ model: providerModel, temperature: 0.2, ...(cfg.json ? { response_format: { type: "json_object" } } : {}), messages: [{ role: "system", content: system }, { role: "user", content: user }] }),
+      body: JSON.stringify({ model: providerModel, temperature: 0.2, max_tokens: maxTokens, ...(cfg.json ? { response_format: { type: "json_object" } } : {}), messages: [{ role: "system", content: system }, { role: "user", content: user }] }),
     });
     if (!res.ok) {
       console.error("model provider", provider, providerModel, res.status, (await res.text()).slice(0, 300));
@@ -109,7 +109,7 @@ export async function runRoute(name: "triage" | "evaluation", system: string, us
   const models = getRoute(name).filter(hasKey);
   let lastErr: unknown;
   for (const m of models) {
-    try { return await callEngine(m, system, user, meta); }
+    try { return await callEngine(m, system, user, meta, name === "triage" ? 2500 : 3500); }
     catch (e) { lastErr = e; /* try the next model; details stay in server logs */ }
   }
   throw lastErr instanceof Error ? lastErr : new Error("engine");

@@ -316,5 +316,10 @@
   "factResult": "ファクトチェックの結果",
   "demoCheckModes": "チェックモード",
   "flowLabel": "検証パイプライン",
-  "sourceDisclaimer": "AIが生成したソーステキストは不正確な場合があります。元のソースを開いて確認してください。"
+  "sourceDisclaimer": "AIが生成したソーステキストは不正確な場合があります。元のソースを開いて確認してください。",
+  "progressExtract": "主張を抽出中",
+  "progressFind": "情報源を検索中",
+  "progressCompare": "情報源を照合中",
+  "progressPrepare": "判定をまとめています",
+  "progressEstimate": "調査中の推定進捗です。レポートが完成するまで各ステップは確定しません。"
 }

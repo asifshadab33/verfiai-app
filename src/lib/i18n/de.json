@@ -316,5 +316,10 @@
   "factResult": "Ergebnisse der Faktenprüfung",
   "demoCheckModes": "Prüfmodi",
   "flowLabel": "Verifizierungspipeline",
-  "sourceDisclaimer": "KI-generierte Quelltexte können ungenau sein. Öffnen Sie die Originalquellen."
+  "sourceDisclaimer": "KI-generierte Quelltexte können ungenau sein. Öffnen Sie die Originalquellen.",
+  "progressExtract": "Aussagen werden extrahiert",
+  "progressFind": "Quellen werden durchsucht",
+  "progressCompare": "Quellen werden abgeglichen",
+  "progressPrepare": "Bewertung wird erstellt",
+  "progressEstimate": "Geschätzter Fortschritt während der Recherche. Schritte gelten erst als abgeschlossen, wenn der Bericht fertig ist."
 }

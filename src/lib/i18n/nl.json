@@ -316,5 +316,10 @@
   "factResult": "Feitencontrole-resultaten",
   "demoCheckModes": "Controlemodi",
   "flowLabel": "Verificatiepijplijn",
-  "sourceDisclaimer": "AI-gegenereerde brontekst kan onnauwkeurig zijn. Open de originele bronnen."
+  "sourceDisclaimer": "AI-gegenereerde brontekst kan onnauwkeurig zijn. Open de originele bronnen.",
+  "progressExtract": "Beweringen extraheren",
+  "progressFind": "Bronnen doorzoeken",
+  "progressCompare": "Bronnen vergelijken",
+  "progressPrepare": "Oordeel opstellen",
+  "progressEstimate": "Geschatte voortgang tijdens het onderzoek. Stappen zijn pas bevestigd als het rapport klaar is."
 }

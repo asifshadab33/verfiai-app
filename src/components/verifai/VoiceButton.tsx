@@ -24,10 +24,14 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak", iconOnly 
   const [announcement, setAnnouncement] = useState("");
   const [error, setError] = useState("");
   const [interim, setInterim] = useState("");
+  const [showUnsupported, setShowUnsupported] = useState(false);
   const recRef = useRef<Rec | null>(null);
   const silence = useRef<number | undefined>(undefined);
   const phaseRef = useRef(phase);
   phaseRef.current = phase;
+  // True while the user wants to keep listening; lets us restart on browsers that end sessions early (Safari, mobile).
+  const wantRef = useRef(false);
+  const restarts = useRef(0);
 
   useEffect(() => {
     const w = window as any;
@@ -45,6 +49,7 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak", iconOnly 
   }, []);
 
   function stop() {
+    wantRef.current = false;
     window.clearTimeout(silence.current);
     recRef.current?.stop();
     setInterim("");
@@ -55,14 +60,37 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak", iconOnly 
   // before the user has started talking. 6s of silence ends the session.
   function armSilence() { window.clearTimeout(silence.current); silence.current = window.setTimeout(stop, 6000); }
 
-  function start() {
+  async function start() {
     setError("");
     setInterim("");
     const w = window as any;
     const SR = w.SpeechRecognition || w.webkitSpeechRecognition;
     if (!SR) { setSupported(false); return; }
+    // Ask for the microphone first so the browser shows its permission prompt.
+    if (navigator.mediaDevices?.getUserMedia) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        stream.getTracks().forEach(t => t.stop());
+      } catch (err: any) {
+        const name = err?.name;
+        setError(name === "NotAllowedError" || name === "SecurityError"
+          ? "Microphone access was blocked. Allow the microphone for this site in your browser settings (the icon next to the address bar), then try again."
+          : name === "NotFoundError" ? "No microphone was found. Connect one and try again."
+          : "The microphone couldn't be opened. Close other apps using it and try again.");
+        return;
+      }
+    }
+    wantRef.current = true;
+    restarts.current = 0;
+    begin(SR);
+  }
+
+  function begin(SR: any) {
     const rec: Rec = new SR();
-    rec.lang = speechLang(lang); rec.continuous = true; rec.interimResults = true;
+    const ua = navigator.userAgent;
+    // Safari and mobile browsers abort continuous sessions; use single-utterance mode and restart on end.
+    const noContinuous = /iPhone|iPad|iPod|Android/i.test(ua) || (/Safari/i.test(ua) && !/Chrome|Chromium|Edg/i.test(ua));
+    rec.lang = speechLang(lang); rec.continuous = !noContinuous; rec.interimResults = true;
     rec.onresult = (e: any) => {
       let finalText = "";
       let interimText = "";
@@ -84,9 +112,14 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak", iconOnly 
     };
     rec.onerror = (e: any) => {
       const kind = e?.error;
+      // "no-speech"/"aborted" during an auto-restart are normal on mobile; keep listening quietly.
+      if ((kind === "no-speech" || kind === "aborted") && wantRef.current && restarts.current < 20) return;
+      wantRef.current = false;
       setError(
         kind === "not-allowed" || kind === "service-not-allowed"
           ? "Microphone access was blocked. Allow it in your browser settings, then try again."
+          : kind === "audio-capture"
+            ? "No microphone was found. Connect one and try again."
           : kind === "no-speech"
             ? "No speech was heard. Try speaking closer to the microphone."
             : kind === "network"
@@ -97,10 +130,15 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak", iconOnly 
       setInterim("");
       setAnnouncement("Listening stopped");
     };
-    rec.onend = () => { window.clearTimeout(silence.current); setInterim(""); setPhase((p) => { if (p !== "idle") setAnnouncement("Listening stopped"); return "idle"; }); };
+    rec.onend = () => {
+      if (wantRef.current && restarts.current < 20) { restarts.current++; try { begin(SR); return; } catch { /* fall through */ } }
+      wantRef.current = false;
+      window.clearTimeout(silence.current); setInterim(""); setPhase((p) => { if (p !== "idle") setAnnouncement("Listening stopped"); return "idle"; });
+    };
     recRef.current = rec;
     // No silence timer here: it starts only once speech is detected.
-    try { rec.start(); setPhase("listening"); setAnnouncement("Listening started"); } catch { setError("Voice input could not start. Please try again."); }
+    try { rec.start(); setPhase("listening"); if (!restarts.current) setAnnouncement("Listening started"); }
+    catch { wantRef.current = false; setPhase("idle"); setError("Voice input could not start. Please try again."); }
   }
 
   const infoIcon = (
@@ -118,26 +156,26 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak", iconOnly 
 
   if (!supported) {
     return (
-      <span className="inline-flex items-center gap-2">
+      <span className="relative inline-flex items-center gap-2">
         <TooltipProvider delayDuration={200}>
           <Tooltip>
             <TooltipTrigger asChild>
               <span className="inline-flex">
                 {iconOnly ? (
-                  <Button type="button" variant="outline" size="icon" disabled aria-hidden="true" className="pointer-events-none size-10 rounded-full bg-background/95 opacity-50">
+                  <Button type="button" variant="outline" size="icon" aria-label="Voice input unavailable" onClick={() => setShowUnsupported(v => !v)} className="size-10 rounded-full bg-background/95 opacity-60">
                     <Mic />
                   </Button>
                 ) : (
-                  <Button type="button" variant="outline" size="sm" disabled aria-hidden="true" className="pointer-events-none opacity-50">
+                  <Button type="button" variant="outline" size="sm" onClick={() => setShowUnsupported(v => !v)} className="opacity-60">
                     <Mic />{label}
                   </Button>
                 )}
               </span>
             </TooltipTrigger>
-            <TooltipContent>Voice input is natively supported in Chrome, Edge, and Safari.</TooltipContent>
+            <TooltipContent className="max-w-64">Voice input isn't available in this browser. Use Chrome, Edge or Safari — in Firefox it isn't supported, and Brave may block it (turn Shields off or enable speech services).</TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        <span className="sr-only">Voice input is natively supported in Chrome, Edge, and Safari.</span>
+        {showUnsupported ? <span role="status" className="absolute end-0 top-full z-20 mt-2 w-64 rounded-md border border-border bg-popover p-2 text-xs text-popover-foreground shadow-md">Voice input isn't available in this browser. Use Chrome, Edge or Safari — in Firefox it isn't supported, and Brave may block it (turn Shields off or enable speech services).</span> : <span className="sr-only">Voice input isn't available in this browser. Use Chrome, Edge or Safari — in Firefox it isn't supported, and Brave may block it (turn Shields off or enable speech services).</span>}
         {infoIcon}
       </span>
     );
@@ -149,7 +187,7 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak", iconOnly 
 
   if (iconOnly) {
     return (
-      <span className="inline-flex items-center">
+      <span className="relative inline-flex items-center">
         <TooltipProvider delayDuration={200}>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -176,7 +214,7 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak", iconOnly 
           </Tooltip>
         </TooltipProvider>
         <span aria-live="polite" className="sr-only">{announcement}</span>
-        {error && <span role="alert" className="sr-only">{error}</span>}
+        {error && <span role="alert" className="absolute end-0 top-full z-20 mt-2 flex w-64 items-start gap-2 rounded-md border border-destructive/40 bg-popover p-2 text-start text-xs text-destructive shadow-md"><span className="flex-1">{error}</span><button type="button" aria-label="Dismiss" onClick={() => setError("")} className="font-bold">×</button></span>}
       </span>
     );
   }

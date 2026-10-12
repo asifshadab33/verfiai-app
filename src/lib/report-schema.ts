@@ -18,8 +18,8 @@ export const reportInput = z.object({
 });
 export type ReportFormat = "standard" | "extended";
 // Extended Report target length in characters (all human-readable text).
-export const EXTENDED_MIN_CHARS = 4000;
-export const EXTENDED_MAX_CHARS = 20000;
+export const EXTENDED_MIN_CHARS = 2000;
+export const EXTENDED_MAX_CHARS = 4000;
 export type ReportInput = z.infer<typeof reportInput>;
 
 export const reportSchema = z.object({
@@ -49,14 +49,20 @@ export function charCount(r: ResearchReport) {
     ...r.findings.map(f => `${f.title} ${f.detail}`), ...(r.timeline ?? []).map(t => `${t.date} ${t.event}`)].join(" ").length;
 }
 
-/** Trim an extended report so its prose never exceeds the 20,000-character ceiling. */
+/** Trim an extended report so its prose never exceeds the EXTENDED_MAX_CHARS ceiling. */
 export function clampExtended(r: ResearchReport): ResearchReport {
-  let over = charCount(r) - EXTENDED_MAX_CHARS;
-  if (over <= 0) return r;
-  const out = { ...r };
-  for (const k of ["analysis", "background", "conflictingEvidence", "proceduralGuidance", "blindSpots"] as const) {
-    const v = out[k] ?? ""; if (over <= 0 || v.length < 800) continue;
-    const cut = Math.min(over, v.length - 800); out[k] = v.slice(0, v.length - cut).replace(/\s+\S*$/, "") + "…"; over -= cut;
+  const out: ResearchReport = { ...r, findings: r.findings.map(f => ({ ...f })), timeline: r.timeline?.map(t => ({ ...t })) };
+  const cutText = (v: string, by: number, floor: number) => { const keep = Math.max(floor, v.length - by); return keep >= v.length ? v : v.slice(0, keep).replace(/\s+\S*$/, "") + "…"; };
+  const keys = ["analysis", "background", "conflictingEvidence", "proceduralGuidance", "blindSpots", "summary", "limitations", "methodology", "conclusion"] as const;
+  // Pass 1 trims long sections down to a 150-char floor; pass 2 removes the floor so the ceiling is strict.
+  for (const floor of [150, 0]) {
+    for (const k of keys) {
+      const over = charCount(out) - EXTENDED_MAX_CHARS; if (over <= 0) return out;
+      const v = out[k] ?? ""; if (v) out[k] = cutText(v, over, floor);
+    }
+    while (charCount(out) > EXTENDED_MAX_CHARS && (out.timeline?.length ?? 0) > 0) out.timeline = out.timeline!.slice(0, -1);
+    while (charCount(out) > EXTENDED_MAX_CHARS && out.findings.length > 1) out.findings = out.findings.slice(0, -1);
   }
+  for (const f of out.findings) { const over = charCount(out) - EXTENDED_MAX_CHARS; if (over <= 0) break; f.detail = cutText(f.detail, over, 0); }
   return out;
 }

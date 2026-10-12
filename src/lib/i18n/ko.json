@@ -316,5 +316,10 @@
   "factResult": "팩트 체크 결과",
   "demoCheckModes": "체크 모드",
   "flowLabel": "검증 파이프라인",
-  "sourceDisclaimer": "AI가 생성한 출처 텍스트는 부정확할 수 있습니다. 원본 출처를 확인하세요."
+  "sourceDisclaimer": "AI가 생성한 출처 텍스트는 부정확할 수 있습니다. 원본 출처를 확인하세요.",
+  "progressExtract": "주장 추출 중",
+  "progressFind": "출처 검색 중",
+  "progressCompare": "출처 교차 확인 중",
+  "progressPrepare": "판정 작성 중",
+  "progressEstimate": "조사 중 예상 진행 상황입니다. 보고서가 준비될 때까지 단계는 확정되지 않습니다."
 }

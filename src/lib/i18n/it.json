@@ -316,5 +316,10 @@
   "factResult": "Risultati del fact-checking",
   "demoCheckModes": "Modalità di controllo",
   "flowLabel": "Pipeline di verifica",
-  "sourceDisclaimer": "Il testo sorgente generato dall'IA potrebbe essere impreciso. Apri le fonti originali."
+  "sourceDisclaimer": "Il testo sorgente generato dall'IA potrebbe essere impreciso. Apri le fonti originali.",
+  "progressExtract": "Estrazione delle affermazioni",
+  "progressFind": "Ricerca nelle fonti",
+  "progressCompare": "Confronto delle fonti",
+  "progressPrepare": "Elaborazione del verdetto",
+  "progressEstimate": "Avanzamento stimato durante la ricerca. I passaggi non sono confermati finché il rapporto non è pronto."
 }
