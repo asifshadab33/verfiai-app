@@ -71,7 +71,7 @@ export function HowItWorksSection({ lang }: { lang: Lang }) {
   const shown = steps.map((st, i) => (lang === "en" ? [st[0], EN[i]![0], EN[i]![1]] : st) as readonly [typeof FileSearch, string, string]);
   return <section aria-labelledby="how-title" className="border-y border-border bg-secondary/40"><div className="mx-auto max-w-7xl px-5 py-16">
     <h2 id="how-title" className="font-display text-3xl font-bold">{siteText(lang, "howTitle")}</h2>
-    <ol className="mt-8 grid gap-8 md:grid-cols-4">{shown.map(([Icon, t, b], i) => <div key={t}><Icon className="size-6 text-brand" /><h3 className="mt-3 font-display text-xl font-bold">{t}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{b}</p></div>)}</div>
+    <ol className="mt-8 grid gap-8 md:grid-cols-4">{shown.map(([Icon, t, b], i) => <li key={i}><Icon className="size-6 text-brand" aria-hidden /><h3 className="mt-3 font-display text-xl font-bold">{i + 1}. {t}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{b}</p></li>)}</ol>
     <p className="mt-8 flex max-w-3xl gap-2 border-s-2 border-warning bg-card p-4 text-sm"><AlertTriangle className="size-4 shrink-0 text-warning" />{siteText(lang, "howLimitations")}</p>
   </div></section>;
 }
@@ -153,4 +153,46 @@ export function FaqSection({ lang }: { lang: Lang }) {
 
 export function FinalCta({ onStart, lang }: { onStart: () => void; lang: Lang }) {
   return <section className="mx-auto max-w-7xl px-5 py-16 text-center"><h2 className="font-display text-3xl font-bold">{siteText(lang, "finalHeading")}</h2><p className="mx-auto mt-3 max-w-xl text-muted-foreground">{siteText(lang, "finalBody")}</p><Button size="lg" className="mt-6 h-12" onClick={onStart}>Check a claim free <ArrowRight /></Button><p className="mx-auto mt-4 max-w-xl text-sm text-muted-foreground">{FREE_TRY_LINE}</p></section>;
+}
+
+const SAMPLE_CLAIMS: { claim: string; s: ClaimState; strength: string; count: number; quality: string; excerpt: string; pub: string; conflict?: string }[] = [
+  { claim: "Global EV sales passed 10 million in 2022.", s: "supported", strength: "Strong", count: 3, quality: "Government or intergovernmental source", excerpt: "“Electric car sales exceeded 10 million in 2022.”", pub: "Example intergovernmental agency · 2023-04-26" },
+  { claim: "The new battery doubles range at the same cost.", s: "insufficient", strength: "Weak", count: 1, quality: "Organization/publication source", excerpt: "“Prototype cells showed promising density gains.”", pub: "Example company blog · 2024-02-01" },
+  { claim: "Charging stations outnumber petrol stations in Norway.", s: "review", strength: "Moderate", count: 2, quality: "Reputable news source", excerpt: "“Public chargers now exceed fuel pumps in several regions.”", pub: "Example news outlet · 2024-06-10", conflict: "“Nationwide, fuel stations still outnumber charging sites.” — Example statistics office · 2024-05-02" },
+  { claim: "EVs produce zero lifetime emissions.", s: "conflict", strength: "Strong", count: 4, quality: "Peer-reviewed source", excerpt: "“Manufacturing emissions mean lifetime emissions are lower, not zero.”", pub: "Example journal · 2022-11-15" },
+];
+
+/** Illustrative only: every value below is synthetic sample data, not a real verification. */
+export function ReportProofSection() {
+  return <section aria-labelledby="proof-title" className="mx-auto max-w-7xl px-5 py-16">
+    <h2 id="proof-title" className="font-display text-3xl font-bold">What a real Verfiai report includes</h2>
+    <p className="mt-2 text-sm text-muted-foreground"><strong>Illustrative sample</strong> — synthetic example data showing the layout, not a real check.</p>
+    <div className="mt-6 rounded-2xl border border-border bg-card p-5 text-sm">
+      <dl className="grid gap-3 border-b border-border pb-4 sm:grid-cols-3">
+        <div><dt className="text-xs font-bold uppercase text-muted-foreground">Original question</dt><dd className="mt-1">Are electric vehicles really cleaner and more practical in 2024?</dd></div>
+        <div><dt className="text-xs font-bold uppercase text-muted-foreground">Retrieved</dt><dd className="mt-1">2024-07-01 09:30 UTC (sample)</dd></div>
+        <div><dt className="text-xs font-bold uppercase text-muted-foreground">Sources</dt><dd className="mt-1">10 sources, 8 independent domains</dd></div>
+      </dl>
+      <h3 className="mt-4 font-display text-lg font-bold">Extracted claims</h3>
+      <ul className="mt-3 space-y-4">{SAMPLE_CLAIMS.map(c => <li key={c.claim} className="border-s-2 border-border ps-4">
+        <div className="flex flex-wrap items-center gap-2"><Pill s={c.s} /><span className="text-xs font-semibold">Evidence strength: {c.strength}</span><span className="text-xs text-muted-foreground">· {c.count} source{c.count > 1 ? "s" : ""} · {c.quality}</span></div>
+        <p className="mt-1 font-medium">{c.claim}</p>
+        <div className={c.conflict ? "mt-2 grid gap-2 md:grid-cols-2" : "mt-2"}>
+          <blockquote className="border border-border bg-background p-2 text-xs text-muted-foreground">{c.excerpt}<span className="mt-1 block">{c.pub}</span></blockquote>
+          {c.conflict && <blockquote className="border border-destructive/30 bg-background p-2 text-xs text-muted-foreground"><span className="font-semibold text-destructive">Conflicting excerpt: </span>{c.conflict}</blockquote>}
+        </div>
+      </li>)}</ul>
+      <h3 className="mt-5 font-display text-lg font-bold">Limitations and open questions</h3>
+      <p className="mt-1 text-muted-foreground">Paywalled studies were not read; regional charging data may lag by months.</p>
+      <p className="mt-4 flex flex-wrap gap-2 text-xs font-semibold"><span className="rounded-full border border-border px-3 py-1">Export: Word · Markdown · PDF</span><span className="rounded-full border border-border px-3 py-1">Share link</span></p>
+    </div>
+  </section>;
+}
+
+export function CitationFeature({ onScan }: { onScan: () => void }) {
+  return <section aria-labelledby="cite-title" className="border-y border-border bg-secondary/40"><div className="mx-auto max-w-7xl px-5 py-16">
+    <h2 id="cite-title" className="font-display text-3xl font-bold">Check references before submission</h2>
+    <p className="mt-3 max-w-2xl text-muted-foreground">Paste a reference list or upload a document. Verfiai checks metadata, missing details, retraction notices, and citation risks using Crossref records.</p>
+    <Button className="mt-6" onClick={onScan}>Scan a reference list <ArrowRight /></Button>
+  </div></section>;
 }
