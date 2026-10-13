@@ -65,10 +65,13 @@ export function HowItWorksSection({ lang }: { lang: Lang }) {
     [FileSearch, siteText(lang, "howIngest"), siteText(lang, "howIngestBody")],
     [ScanSearch, siteText(lang, "howExtract"), siteText(lang, "howExtractBody")],
     [ShieldCheck, siteText(lang, "howEvaluate"), siteText(lang, "howEvaluateBody")],
+    [Globe, lang === "en" ? "Review and export" : siteText(lang, "howEvaluate"), "Open sources, inspect conflicting evidence, and export a traceable report."],
   ] as const;
+  const EN: Record<number, [string, string]> = { 0: ["Ingest", "Paste text, a link, a reference list, or a question."], 1: ["Extract", "Verfiai identifies individual claims or references."], 2: ["Research and evaluate", "Verfiai searches available public sources and evaluates the evidence."], 3: ["Review and export", "Open sources, inspect conflicting evidence, and export a traceable report."] };
+  const shown = steps.map((st, i) => (lang === "en" ? [st[0], EN[i]![0], EN[i]![1]] : st) as readonly [typeof FileSearch, string, string]);
   return <section aria-labelledby="how-title" className="border-y border-border bg-secondary/40"><div className="mx-auto max-w-7xl px-5 py-16">
     <h2 id="how-title" className="font-display text-3xl font-bold">{siteText(lang, "howTitle")}</h2>
-    <div className="mt-8 grid gap-8 md:grid-cols-3">{steps.map(([Icon, t, b]) => <div key={t}><Icon className="size-6 text-brand" /><h3 className="mt-3 font-display text-xl font-bold">{t}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{b}</p></div>)}</div>
+    <ol className="mt-8 grid gap-8 md:grid-cols-4">{shown.map(([Icon, t, b], i) => <div key={t}><Icon className="size-6 text-brand" /><h3 className="mt-3 font-display text-xl font-bold">{t}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{b}</p></div>)}</div>
     <p className="mt-8 flex max-w-3xl gap-2 border-s-2 border-warning bg-card p-4 text-sm"><AlertTriangle className="size-4 shrink-0 text-warning" />{siteText(lang, "howLimitations")}</p>
   </div></section>;
 }
@@ -108,8 +111,8 @@ export function HeroBadges({ lang }: { lang: Lang }) {
 export function WorkspaceCards({ onSelect, lang }: { onSelect: (t: "report" | "fact" | "citation") => void; lang: Lang }) {
   const cards = [
     [ScanSearch, siteText(lang, "appClaim"), siteText(lang, "cardClaimBody"), siteText(lang, "cardClaimCta"), "fact"],
-    [FileSearch, siteText(lang, "appReport"), siteText(lang, "cardReportBody"), siteText(lang, "cardReportCta"), "report"],
-    [BookOpenCheck, siteText(lang, "appCitation"), siteText(lang, "cardCitationBody"), siteText(lang, "cardCitationCta"), "citation"],
+    [FileSearch, lang === "en" ? "Create a research report" : siteText(lang, "appReport"), lang === "en" ? "Ask a question and receive a cited report." : siteText(lang, "cardReportBody"), siteText(lang, "cardReportCta"), "report"],
+    [BookOpenCheck, lang === "en" ? "Scan citations" : siteText(lang, "appCitation"), lang === "en" ? "Check references for metadata, retraction, and citation risks." : siteText(lang, "cardCitationBody"), siteText(lang, "cardCitationCta"), "citation"],
   ] as const;
   return <section aria-labelledby="ws-title" className="mx-auto max-w-7xl px-5 py-16">
     <h2 id="ws-title" className="font-display text-3xl font-bold">{siteText(lang, "workspaceCardsTitle")}</h2>
