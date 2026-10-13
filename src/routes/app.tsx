@@ -49,7 +49,7 @@ function Workspace() {
         ))}
       </div>
       <div role="tabpanel">
-        {tab === "claim" ? <FactChecker lang={lang} /> : tab === "report" ? <ReportForm lang={lang} onLang={changeLang} /> : tab === "citation" ? <Checker lang={lang} /> : <DossierForm language={translations[lang].name} />}
+        {tab === "claim" ? <FactChecker lang={lang} /> : tab === "report" ? <ReportForm lang={lang} onLang={changeLang} /> : tab === "citation" ? <Checker lang={lang} /> : <DossierForm language={lang} />}
       </div>
       <p className="mt-8 max-w-2xl text-xs text-muted-foreground">
         {siteText(lang, "appDisclaimer")}
