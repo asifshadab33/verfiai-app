@@ -68,10 +68,10 @@ export function HowItWorksSection({ lang }: { lang: Lang }) {
     [Globe, lang === "en" ? "Review and export" : siteText(lang, "howEvaluate"), "Open sources, inspect conflicting evidence, and export a traceable report."],
   ] as const;
   const EN: Record<number, [string, string]> = { 0: ["Ingest", "Paste text, a link, a reference list, or a question."], 1: ["Extract", "Verfiai identifies individual claims or references."], 2: ["Research and evaluate", "Verfiai searches available public sources and evaluates the evidence."], 3: ["Review and export", "Open sources, inspect conflicting evidence, and export a traceable report."] };
-  const shown = steps.map((st, i) => (lang === "en" ? [st[0], EN[i]![0], EN[i]![1]] : st) as readonly [typeof FileSearch, string, string]);
+  const shown = steps.map((st, i) => ({ Icon: st[0], t: lang === "en" ? EN[i]![0] : st[1], b: lang === "en" ? EN[i]![1] : st[2] }));
   return <section aria-labelledby="how-title" className="border-y border-border bg-secondary/40"><div className="mx-auto max-w-7xl px-5 py-16">
     <h2 id="how-title" className="font-display text-3xl font-bold">{siteText(lang, "howTitle")}</h2>
-    <ol className="mt-8 grid gap-8 md:grid-cols-4">{shown.map(([Icon, t, b], i) => <li key={i}><Icon className="size-6 text-brand" aria-hidden /><h3 className="mt-3 font-display text-xl font-bold">{i + 1}. {t}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{b}</p></li>)}</ol>
+    <ol className="mt-8 grid gap-8 md:grid-cols-4">{shown.map(({ Icon, t, b }, i) => <li key={i}><Icon className="size-6 text-brand" aria-hidden /><h3 className="mt-3 font-display text-xl font-bold">{i + 1}. {t}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{b}</p></li>)}</ol>
     <p className="mt-8 flex max-w-3xl gap-2 border-s-2 border-warning bg-card p-4 text-sm"><AlertTriangle className="size-4 shrink-0 text-warning" />{siteText(lang, "howLimitations")}</p>
   </div></section>;
 }
