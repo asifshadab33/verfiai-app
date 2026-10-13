@@ -46,6 +46,11 @@ function isH3SwallowedErrorBody(body: string): boolean {
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    // Canonical host: permanently redirect www to the apex domain, keeping path and query.
+    const url = new URL(request.url);
+    if (url.hostname === "www.verfiai.app") {
+      return Response.redirect(`https://verfiai.app${url.pathname}${url.search}`, 301);
+    }
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);

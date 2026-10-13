@@ -6,7 +6,8 @@ import { siteText } from "@/lib/site-i18n";
 import { translations } from "@/lib/i18n/interface";
 import type { Lang } from "@/lib/translations";
 import { CommunityWaitlist } from "./CommunityWaitlist";
-import { COMMUNITY_LABELS } from "@/lib/community";
+import { COMMUNITY_LABELS, FREE_ACCESS_END, FREE_TRY_LINE, IS_FREE_Q, IS_FREE_A } from "@/lib/community";
+import { PricingTiers } from "./PricingTiers";
 
 type ClaimState = "supported" | "review" | "conflict" | "insufficient";
 const CLAIM_STYLE: Record<ClaimState, { label: string; cls: string; Icon: typeof Check }> = {
@@ -121,21 +122,22 @@ export function PricingSection({ onStart, lang }: { onStart: () => void; lang: L
     <p className="text-xs font-bold uppercase text-brand">{COMMUNITY_LABELS[lang]}</p>
     <h2 id="pricing-title" className="mt-2 font-display text-3xl font-bold">Free Access for the Community</h2>
     <div className="mt-8 grid gap-10 md:grid-cols-2">
-      <div><p className="font-display text-4xl font-bold">100% free</p><p className="mt-4 leading-7 text-muted-foreground">Verfiai is 100% free for everyone for the next year. No paid plan or checkout is available during our community free-access pledge.</p><p className="mt-4 text-sm leading-6 text-muted-foreground">Reasonable rate limits apply to protect service availability. Current fair-use allowances remain in place; free access does not mean unlimited requests.</p><p className="mt-4 text-sm leading-6 text-muted-foreground">Academic, educator and high-volume research users can request extended access at <a href="mailto:hello@verfiai.app" className="text-brand underline">hello@verfiai.app</a>.</p><div className="mt-6 flex flex-wrap items-center gap-4"><Button onClick={onStart}>{siteText(lang, "heroPrimary")}<ArrowRight /></Button><Link to="/pricing" className="text-sm font-semibold text-brand underline">Community access details</Link></div></div>
+      <div><p className="font-display text-4xl font-bold">Free until {FREE_ACCESS_END}</p><p className="mt-4 leading-7 text-muted-foreground">All current features are free during the launch period. No credit card required.</p><div className="mt-6 text-sm"><PricingTiers /></div><p className="mt-4 text-sm leading-6 text-muted-foreground">Reasonable rate limits apply to protect service availability. Current fair-use allowances remain in place; free access does not mean unlimited requests.</p><p className="mt-4 text-sm leading-6 text-muted-foreground">Academic, educator and high-volume research users can request extended access at <a href="mailto:hello@verfiai.app" className="text-brand underline">hello@verfiai.app</a>.</p><div className="mt-6 flex flex-wrap items-center gap-4"><Button onClick={onStart}>{siteText(lang, "heroPrimary")}<ArrowRight /></Button><Link to="/pricing" className="text-sm font-semibold text-brand underline">Community access details</Link></div></div>
       <CommunityWaitlist />
     </div>
   </section>;
 }
 
 export const FAQS = [
+  [IS_FREE_Q, IS_FREE_A],
   ["Does Verfiai tell me what is true?", "No. Verfiai provides verification support by surfacing available evidence. It does not make definitive truth judgments. Review the sources and apply your own judgment."],
   ["How are sources selected?", "Fact-checks and reports use live web search, re-ranked by keyword relevance. Citation scans use Crossref's public records of published papers, including retraction notices."],
   ["What does \"Mixed evidence\" or \"Insufficient evidence\" mean?", "The sources found are ambiguous, conflicting or too thin to clearly support or contradict the claim, so it needs manual review. It isn't a judgement that the claim is false."],
   ["What does confidence mean?", "It reflects the strength of the available evidence — source quality, diversity, recency and whether the AI engines agreed. It is not a guarantee of truth."],
   ["Can Verfiai access paywalled sources?", "No. It can only evaluate publicly accessible content. Paywalled or offline sources cannot be read."],
-  ["How does Verfiai handle conflicting evidence?", "Two AI engines (DeepSeek and Qwen) judge each claim; if they disagree, DeepSeek R1 breaks the tie, and conflicting excerpts are shown side by side."],
+  ["How does Verfiai handle conflicting evidence?", "Two AI engines review the same retrieved excerpts. If they materially disagree, a third engine reviews the conflicting evidence, and conflicting excerpts are shown side by side. AI agreement is one input to confidence, not proof of accuracy."],
   ["Is my submitted text private?", "Signed-in reports are saved privately to your account. Your text is sent to search and AI providers to produce results. Don't submit confidential, regulated or unpublished material."],
-  ["What are the free-plan limits?", "A free account gets 3 reports, 3 fact-checks and 3 citation scans a month. You can try each tool once without an account. Verfiai is 100% free for everyone for the next year, subject to fair-use limits. Academic, educator and high-volume users can request extended access at hello@verfiai.app."],
+  ["What are the free-plan limits?", "A free account gets 3 reports, 3 fact-checks and 3 citation scans a month. You can try each tool once without an account. Verfiai is free until October 13, 2027, subject to fair-use limits. Academic, educator and high-volume users can request extended access at hello@verfiai.app."],
   ["Can I export or share reports?", "Yes — Word, Markdown or PDF, plus read-only share links you can turn off. Community exports carry a Verfiai watermark. Paid checkout is currently unavailable."],
 ] as const;
 
@@ -147,5 +149,5 @@ export function FaqSection({ lang }: { lang: Lang }) {
 }
 
 export function FinalCta({ onStart, lang }: { onStart: () => void; lang: Lang }) {
-  return <section className="mx-auto max-w-7xl px-5 py-16 text-center"><h2 className="font-display text-3xl font-bold">{siteText(lang, "finalHeading")}</h2><p className="mx-auto mt-3 max-w-xl text-muted-foreground">{siteText(lang, "finalBody")}</p><Button size="lg" className="mt-6 h-12" onClick={onStart}>{siteText(lang, "heroPrimary")} <ArrowRight /></Button></section>;
+  return <section className="mx-auto max-w-7xl px-5 py-16 text-center"><h2 className="font-display text-3xl font-bold">{siteText(lang, "finalHeading")}</h2><p className="mx-auto mt-3 max-w-xl text-muted-foreground">{siteText(lang, "finalBody")}</p><Button size="lg" className="mt-6 h-12" onClick={onStart}>Check a claim free <ArrowRight /></Button><p className="mx-auto mt-4 max-w-xl text-sm text-muted-foreground">{FREE_TRY_LINE}</p></section>;
 }
