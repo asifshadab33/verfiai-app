@@ -49,3 +49,14 @@
 - [x] VoiceButton: visible errors, getUserMedia permission, Safari/mobile, unsupported notice
 - [x] Live HTTP check of report source URLs
 - [x] Extended Report: move to Advanced options checkbox, 2000–4000 chars; max_tokens; :free fallback models
+- [ ] Deep Dossier tab (search→dedup→3-pass synthesis→annotated bibliography, ≤50 sources, docx/PDF)
+- [ ] P1 www→apex 301, canonical/brand consistency
+- [ ] P2 free-until-Oct-13-2027 banner, pricing tiers, FAQ, remove "forever/next year"
+- [ ] P3 hero CTAs + 3 tool cards + try-line
+- [ ] P4 sample report section + 4-step how it works
+- [ ] P5 evidence transparency + AI consensus explainer
+- [ ] P6 citation scanner feature section
+- [ ] P7 upload privacy notice, footer links (/security, /contact), privacy page detail
+- [ ] P8 verdict feedback buttons stored server-side
+- [ ] P9 JSON-LD SoftwareApplication/Organization/FAQPage, sitemap/robots
+- [ ] P10 finish citation checker translations (blocked earlier by AI credits)
