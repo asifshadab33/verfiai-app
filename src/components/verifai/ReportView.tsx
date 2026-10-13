@@ -13,6 +13,7 @@ import { getSubscription } from "@/lib/payments.functions";
 import { getPaddleEnvironment } from "@/lib/paddle";
 import { reportFindingStrength } from "@/lib/evidence";
 import { RightsIssueDialog } from "./RightsIssueDialog";
+import { AI_CONSENSUS_NOTE } from "@/lib/community";
 
 const ISSUE_EMAIL = "hello@verfiai.app";
 const LIMITATION = "Evidence labels are aids to review, not proof. Search coverage is incomplete; source dates, independence and quoted claims may be inaccurate. Open the original sources before relying on a finding.";
@@ -76,6 +77,7 @@ export function ReportView({ report, date, reportId, readOnly }: { report: Resea
     {reportId && !readOnly && <SharePanel id={reportId} />}
     <p className="mt-5 flex flex-wrap items-center gap-3 border-s-2 border-primary bg-secondary p-4 text-sm">{report.verification === "web" ? <span className="rounded-full bg-success px-3 py-1 text-xs font-bold text-primary-foreground">Evidence-checked</span> : <span className="rounded-full bg-warning px-3 py-1 text-xs font-bold text-primary-foreground">Model Knowledge Only</span>}<span>{report.verification === "web" ? "Written from live web sources fetched for this report." : "No live web sources were used."} Verfiai provides verification support, not definitive truth judgments. Review sources before relying on a result.</span></p>
     <p role="note" className="mt-4 border-s-2 border-warning bg-warning-soft p-4 text-sm">{LIMITATION}</p>
+    <p className="mt-3 text-xs text-muted-foreground">{AI_CONSENSUS_NOTE}</p>
     <div className="mt-9 grid gap-8 lg:grid-cols-[190px_1fr]">
       <nav aria-label="Contents" className="flex flex-col gap-3 text-sm text-muted-foreground print:hidden">{[["summary", "Summary"], ["background", "Background"], ["findings", "Key findings"], ["analysis", "Analysis"], ...(report.themes?.length ? [["themes", "Core themes"]] : []), ...(report.bibliography?.length ? [["bibliography", "Annotated bibliography"]] : []), ...(report.format === "extended" || report.format === "dossier" ? [["procedural", "Procedural guidance"], ["timeline", "Timeline"], ["blindspots", "Blind spots"]] : []), ["sources", "Sources"], ...(report.searchAudit?.length ? [["audit", "Search audit log"]] : []), ["method", "Method & limits"]].map(([id, l]) => <a key={id} href={`#${id}`} className="hover:text-brand">{l}</a>)}</nav>
       <div className="space-y-9 text-sm leading-7">
