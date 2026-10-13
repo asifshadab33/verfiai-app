@@ -26,7 +26,8 @@ export function SiteFooter({ lang }: { lang?: Lang }) {
             <li><Link to="/resources" className="transition-colors hover:text-footer-foreground hover:underline">Evidence Library</Link></li>
             <li><Link to="/pricing" className="transition-colors hover:text-footer-foreground hover:underline">{COMMUNITY_LABELS[lang ?? "en"]}</Link></li>
             <li><Link to="/how-it-works" className="transition-colors hover:text-footer-foreground hover:underline">{tx("navHow")}</Link></li>
-            <li><a href="mailto:hello@verfiai.app" className="transition-colors hover:text-footer-foreground hover:underline">{tx("footerContact")}</a></li>
+            <li><Link to="/contact" className="transition-colors hover:text-footer-foreground hover:underline">{tx("footerContact")}</Link></li>
+            <li><Link to="/security" className="transition-colors hover:text-footer-foreground hover:underline">Security</Link></li>
             <li><a href="mailto:hello@verfiai.app?subject=Verfiai%20feedback" className="transition-colors hover:text-footer-foreground hover:underline">Share feedback</a></li>
             <li><Link to="/privacy" className="transition-colors hover:text-footer-foreground hover:underline">{tx("privacy")}</Link></li>
             <li><Link to="/terms" className="transition-colors hover:text-footer-foreground hover:underline">{tx("footerTerms")}</Link></li>
