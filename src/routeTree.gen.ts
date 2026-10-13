@@ -15,6 +15,7 @@ import { Route as AccuracyRouteImport } from './routes/accuracy'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CybersecurityConceptRouteImport } from './routes/cybersecurity-concept'
 import { Route as FactChecksRouteImport } from './routes/fact-checks'
 import { Route as FaqRouteImport } from './routes/faq'
@@ -30,6 +31,7 @@ import { Route as ResearchRouteImport } from './routes/research'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as SampleReportRouteImport } from './routes/sample-report'
+import { Route as SecurityRouteImport } from './routes/security'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as TermsRouteImport } from './routes/terms'
@@ -69,6 +71,11 @@ const AppRoute = AppRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CybersecurityConceptRoute = CybersecurityConceptRouteImport.update({
@@ -146,6 +153,11 @@ const SampleReportRoute = SampleReportRouteImport.update({
   path: '/sample-report',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SecurityRoute = SecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -205,6 +217,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
   '/cybersecurity-concept': typeof CybersecurityConceptRoute
   '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
@@ -220,6 +233,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRouteWithChildren
   '/sample-report': typeof SampleReportRoute
+  '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sources': typeof SourcesRoute
   '/terms': typeof TermsRoute
@@ -238,6 +252,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
   '/cybersecurity-concept': typeof CybersecurityConceptRoute
   '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
@@ -253,6 +268,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRouteWithChildren
   '/sample-report': typeof SampleReportRoute
+  '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sources': typeof SourcesRoute
   '/terms': typeof TermsRoute
@@ -272,6 +288,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
+  '/contact': typeof ContactRoute
   '/cybersecurity-concept': typeof CybersecurityConceptRoute
   '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
@@ -287,6 +304,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/resources': typeof ResourcesRouteWithChildren
   '/sample-report': typeof SampleReportRoute
+  '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sources': typeof SourcesRoute
   '/terms': typeof TermsRoute
@@ -307,6 +325,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/auth'
+    | '/contact'
     | '/cybersecurity-concept'
     | '/fact-checks'
     | '/faq'
@@ -322,6 +341,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/resources'
     | '/sample-report'
+    | '/security'
     | '/sitemap.xml'
     | '/sources'
     | '/terms'
@@ -340,6 +360,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/auth'
+    | '/contact'
     | '/cybersecurity-concept'
     | '/fact-checks'
     | '/faq'
@@ -355,6 +376,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/resources'
     | '/sample-report'
+    | '/security'
     | '/sitemap.xml'
     | '/sources'
     | '/terms'
@@ -373,6 +395,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/auth'
+    | '/contact'
     | '/cybersecurity-concept'
     | '/fact-checks'
     | '/faq'
@@ -388,6 +411,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/resources'
     | '/sample-report'
+    | '/security'
     | '/sitemap.xml'
     | '/sources'
     | '/terms'
@@ -407,6 +431,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   AppRoute: typeof AppRoute
   AuthRoute: typeof AuthRoute
+  ContactRoute: typeof ContactRoute
   CybersecurityConceptRoute: typeof CybersecurityConceptRoute
   FactChecksRoute: typeof FactChecksRoute
   FaqRoute: typeof FaqRoute
@@ -422,6 +447,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   ResourcesRoute: typeof ResourcesRouteWithChildren
   SampleReportRoute: typeof SampleReportRoute
+  SecurityRoute: typeof SecurityRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SourcesRoute: typeof SourcesRoute
   TermsRoute: typeof TermsRoute
@@ -475,6 +501,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cybersecurity-concept': {
@@ -582,6 +615,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SampleReportRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/security': {
+      id: '/security'
+      path: '/security'
+      fullPath: '/security'
+      preLoaderRoute: typeof SecurityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -674,6 +714,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   AppRoute: AppRoute,
   AuthRoute: AuthRoute,
+  ContactRoute: ContactRoute,
   CybersecurityConceptRoute: CybersecurityConceptRoute,
   FactChecksRoute: FactChecksRoute,
   FaqRoute: FaqRoute,
@@ -689,6 +730,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   ResourcesRoute: ResourcesRouteWithChildren,
   SampleReportRoute: SampleReportRoute,
+  SecurityRoute: SecurityRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SourcesRoute: SourcesRoute,
   TermsRoute: TermsRoute,

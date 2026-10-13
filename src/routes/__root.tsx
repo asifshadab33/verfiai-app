@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { isLang } from "../lib/translations";
 import { translations } from "../lib/i18n/interface";
+import { FreeAccessBanner } from "../components/verifai/FreeAccessBanner";
 
 function NotFoundComponent() {
   return (
@@ -124,6 +125,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+      <FreeAccessBanner />
       <Outlet />
     </QueryClientProvider>
   );

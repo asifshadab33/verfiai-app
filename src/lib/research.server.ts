@@ -162,3 +162,5 @@ async function generateReport(
 
   return { ...finalize(report, sources, web, fetchedAt, [engine]), format: "standard" };
 }
+
+export { generateDeepDossier, dedupeSyndicated, DOSSIER_MAX_SOURCES } from "./dossier.server";

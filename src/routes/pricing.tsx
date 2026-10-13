@@ -2,19 +2,21 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
 import { CommunityWaitlist } from "@/components/verifai/CommunityWaitlist";
 import { Button } from "@/components/ui/button";
+import { PricingTiers } from "@/components/verifai/PricingTiers";
 
-const title = "Community Access — Free for the Next Year | Verfiai";
-const description = "Verfiai is 100% free for everyone for the next year, with fair-use limits and extended-access requests for researchers and educators.";
+const title = "Community Access — Free until October 13, 2027 | Verfiai";
+const description = "Verfiai is free until October 13, 2027 under fair-use limits and extended-access requests for researchers and educators.";
 export const Route = createFileRoute("/pricing")({
-  head: () => ({ meta: [{ title }, { name: "description", content: description }, { property: "og:title", content: title }, { property: "og:description", content: description }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
+  head: () => ({ meta: [{ title }, { name: "description", content: description }, { property: "og:title", content: title }, { property: "og:description", content: description }, { property: "og:type", content: "website" }, { property: "og:url", content: "https://verfiai.app/pricing" }, { name: "twitter:card", content: "summary" }], links: [{ rel: "canonical", href: "https://verfiai.app/pricing" }] }),
   component: CommunityAccess,
 });
 
 function CommunityAccess() {
-  return <ContentPage title="Free Access for the Community" intro="Verfiai is 100% free for everyone for the next year. No credit card, paid plan or checkout required.">
+  return <ContentPage title="Free Access for the Community" intro="All current features are free from October 13, 2026 until October 13, 2027. Fair-use limits apply. No credit card required.">
     <div className="grid gap-10 md:grid-cols-2">
       <div>
-        <PageSection title="Our one-year free pledge"><p>Research should be open to everyone. Use Verfiai’s research reports, factual claim checks and citation checker without paying during our community free-access year.</p></PageSection>
+        <PageSection title="Plans during the launch period"><PricingTiers /></PageSection>
+        <PageSection title="Our one-year free pledge"><p>Research should be open to everyone. Use Verfiai’s research reports, factual claim checks and citation checker without paying until October 13, 2027.</p></PageSection>
         <PageSection title="Fair use keeps Verfiai available"><p>Reasonable rate limits apply to protect service availability. Current allowances are 3 reports, 3 fact-checks and 3 citation scans per month with a free account, with up to 20 references per scan. You can try each tool once without an account. These safeguards remain in place; free access is not unlimited access.</p><p className="mt-3">Community exports retain the Verfiai watermark.</p></PageSection>
         <Button asChild><Link to="/">Start researching free</Link></Button>
       </div>

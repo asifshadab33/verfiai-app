@@ -1,3 +1,4 @@
+import { UploadNotice } from "./UploadNotice";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState, type DragEvent, type ReactNode } from "react";
 import { AlertTriangle, ShieldCheck, Check, FileSearch, FileText, LoaderCircle, Lock, Trash2, Upload, XCircle } from "lucide-react";
@@ -191,8 +192,9 @@ function CheckerInner() {
           <button type="button" className="text-brand underline" onClick={() => { setText(SAMPLE); setFileName(null); }}>{t("sample")}</button>
           <span>{text.length.toLocaleString()} / 200,000</span>
         </div>
+        <div className="mt-5"><UploadNotice /></div>
         <div onDragOver={(e) => { e.preventDefault(); setDrag(true); }} onDragLeave={() => setDrag(false)} onDrop={onDrop}
-          className={`mt-5 flex flex-col items-center gap-2 rounded-xl border-2 border-dashed p-6 text-center transition-colors ${drag ? "border-primary bg-brand-soft" : "border-border"}`}>
+          className={`flex flex-col items-center gap-2 rounded-xl border-2 border-dashed p-6 text-center transition-colors ${drag ? "border-primary bg-brand-soft" : "border-border"}`}>
           <Upload className="size-6 text-brand" />
           <p className="text-sm">{t("dragOr")} <button type="button" className="font-semibold text-brand underline" onClick={() => inputRef.current?.click()}>{t("browse")}</button></p>
           <p className="text-xs text-muted-foreground">{t("fileTypes")}</p>

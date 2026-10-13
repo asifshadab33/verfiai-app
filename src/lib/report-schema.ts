@@ -25,17 +25,20 @@ export type ReportInput = z.infer<typeof reportInput>;
 export const reportSchema = z.object({
   title: z.string(), summary: z.string(), background: z.string().default(""), analysis: z.string().default(""),
   findings: z.array(z.object({ title: z.string(), detail: z.string(), status: z.enum(["sourced", "inference", "disputed", "unverified"]) })).max(10),
-  sources: z.array(z.object({ title: z.string(), url: z.string(), publisher: z.string(), date: z.string(), snippet: z.string().optional(), fetchedAt: z.string().optional() })).max(12),
+  sources: z.array(z.object({ title: z.string(), url: z.string(), publisher: z.string(), date: z.string(), snippet: z.string().optional(), fetchedAt: z.string().optional() })).max(50),
   conflictingEvidence: z.string(), methodology: z.string(), limitations: z.string(), conclusion: z.string(),
   verification: z.enum(["web", "model"]).optional(),
   engines: z.array(z.string()).optional(),
-  format: z.enum(["standard", "extended"]).optional(),
+  format: z.enum(["standard", "extended", "dossier"]).optional(),
   // Extended Report sections (Day 10). Absent on Standard Briefs.
   proceduralGuidance: z.string().optional(),
   timeline: z.array(z.object({ date: z.string(), event: z.string() })).max(20).optional(),
   blindSpots: z.string().optional(),
   searchAudit: z.array(z.string()).max(30).optional(),
   passes: z.array(z.string()).max(5).optional(),
+  // Deep Dossier sections: themes and an annotated bibliography (links + short contribution notes only, never article text).
+  themes: z.array(z.object({ title: z.string(), summary: z.string() })).max(5).optional(),
+  bibliography: z.array(z.object({ title: z.string(), url: z.string(), publisher: z.string(), date: z.string(), tier: z.string(), annotation: z.string() })).max(50).optional(),
 });
 export type ResearchReport = z.infer<typeof reportSchema>;
 
