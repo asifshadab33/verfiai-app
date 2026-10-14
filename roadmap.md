@@ -60,3 +60,9 @@
 - [ ] P8 verdict feedback buttons stored server-side
 - [ ] P9 JSON-LD SoftwareApplication/Organization/FAQPage, sitemap/robots
 - [ ] P10 finish citation checker translations (blocked earlier by AI credits)
+- [ ] Homepage studio Deep Dossier tab
+- [ ] Document sources: Scribd (oEmbed metadata only), Unpaywall, Semantic Scholar, CORE; dedup prefers OA over Scribd; 15-20 doc cap
+- [ ] Dossier helper/warning copy update (30-60s)
+- [ ] Admin search tests include new sources
+- [ ] Sitemap /security /contact
+- [ ] i18n sync for new strings
