@@ -160,7 +160,13 @@ const pubmed: SearchEngine = { id: "pubmed", run: async (query) => {
   }).filter(s => s.content.length > 0 && /\/\d+\/$/.test(s.url));
 } };
 
-const ENGINES: Record<string, SearchEngine> = { tavily, brave, youcom, searxng, gdelt, crossref, wikipedia, ddg: duckduckgo, openalex, pubmed };
+const docEngine = (id: string, fn: (q: string) => Promise<Source[]>): SearchEngine => ({ id, run: fn });
+const ENGINES: Record<string, SearchEngine> = { tavily, brave, youcom, searxng, gdelt, crossref, wikipedia, ddg: duckduckgo, openalex, pubmed,
+  unpaywall: docEngine("unpaywall", async q => (await import("./providers/documents.server")).unpaywallSearch(q)),
+  semanticscholar: docEngine("semanticscholar", async q => (await import("./providers/documents.server")).semanticScholarSearch(q)),
+  core: docEngine("core", async q => (await import("./providers/documents.server")).coreSearch(q)),
+  scribd: docEngine("scribd", async q => (await import("./providers/documents.server")).scribdSearch(q, w => tavily.run(w))),
+};
 
 /** Runs one engine through the CacheProvider; failures return [] and never break the caller. */
 export async function engineSearch(engineId: string, query: string, language?: string): Promise<Source[]> {
