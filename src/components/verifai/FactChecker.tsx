@@ -11,7 +11,9 @@ import { VoiceButton } from "./VoiceButton";
 import { useImageOcr } from "./useImageOcr";
 import { siteText } from "@/lib/site-i18n";
 import { languages, type Lang } from "@/lib/translations";
-import { evidenceStrength } from "@/lib/evidence";
+import { evidenceStrength, qualitativeStrength, sourceQuality } from "@/lib/evidence";
+import { VerdictFeedback } from "./VerdictFeedback";
+import { AI_CONSENSUS_NOTE } from "@/lib/community";
 
 const STAGES = ["Extracting claims…", "Searching providers…", "Cross-checking sources…", "Synthesizing verdict…"];
 const style: Record<Verdict, { label: string; cls: string }> = {
@@ -81,13 +83,15 @@ export function FactChecker({ lang }: { lang: Lang }) {
 
     {claims && <section aria-label={tx("factResults")} className="mt-10 space-y-5">
       {claims.length === 0 ? <p className="rounded-xl bg-secondary p-5 text-sm">{tx("factEmpty")}</p> : <>
+        <p className="text-xs text-muted-foreground">{AI_CONSENSUS_NOTE}</p>
         <div className="grid gap-4 sm:grid-cols-3">{counts.map(([v, n]) => <div key={v} className="rounded-2xl border border-border bg-card p-5"><p className="text-sm text-muted-foreground">{style[v].label}</p><p className="mt-1 font-display text-3xl font-extrabold">{n}</p></div>)}</div>
         <ul className="space-y-4">{claims.map((c, i) => <li key={i} className="rounded-2xl border border-border bg-card p-5">
           <div className="flex flex-wrap items-start justify-between gap-3"><p className="font-semibold">{c.claim}</p><span className={`shrink-0 rounded-full border px-2.5 py-0.5 text-xs font-semibold ${style[c.verdict].cls}`}>{style[c.verdict].label}</span></div>
           <p className="mt-2 text-sm text-muted-foreground">{c.explanation}</p>
-          {(() => { const rating = c.strength ?? evidenceStrength(c.verdict, c.sources.filter(s => s.quote)); return <><div className="mt-3"><StrengthBadge label={rating.label} /></div><details className="mt-2 text-xs"><summary className="flex min-h-11 cursor-pointer items-center font-semibold text-brand">Why this rating?</summary><dl className="space-y-1 text-muted-foreground"><div><dt className="font-semibold">Source authority</dt><dd>{rating.authority}</dd></div><div><dt className="font-semibold">Recency</dt><dd>{rating.recency}</dd></div><div><dt className="font-semibold">Independence</dt><dd>{rating.independence}</dd></div></dl></details></>; })()}
+          {(() => { const rating = c.strength ?? evidenceStrength(c.verdict, c.sources.filter(s => s.quote)); return <><div className="mt-3 flex flex-wrap items-center gap-2"><StrengthBadge label={rating.label} /><span className="text-xs font-semibold">Evidence strength: {qualitativeStrength(rating.label)}</span><span className="text-xs text-muted-foreground">· {c.sources.length} source{c.sources.length === 1 ? "" : "s"}</span></div><details className="mt-2 text-xs"><summary className="flex min-h-11 cursor-pointer items-center font-semibold text-brand">Why this rating?</summary><dl className="space-y-1 text-muted-foreground"><div><dt className="font-semibold">Source authority</dt><dd>{rating.authority}</dd></div><div><dt className="font-semibold">Recency</dt><dd>{rating.recency}</dd></div><div><dt className="font-semibold">Independence</dt><dd>{rating.independence}</dd></div></dl></details></>; })()}
           {c.conflict && <div className="mt-4 grid gap-3 sm:grid-cols-2"><blockquote className="border-s-2 border-success ps-3 text-xs"><span className="font-semibold">{tx("factOneSource")}</span> "{c.conflict.a}"</blockquote><blockquote className="border-s-2 border-destructive ps-3 text-xs"><span className="font-semibold">{tx("factAnotherSource")}</span> "{c.conflict.b}"</blockquote></div>}
-          {c.sources.length > 0 && <ol className="mt-4 space-y-2 text-xs">{c.sources.map(s => <li key={s.n}><a href={s.url} target="_blank" rel="noopener noreferrer" className="break-all text-brand underline">[{s.n}] {s.title}</a>{s.quote && <span className="text-muted-foreground"> — "{s.quote}"</span>}</li>)}</ol>}
+          {c.sources.length > 0 && <ol className="mt-4 space-y-2 text-xs">{c.sources.map(s => <li key={s.n}><a href={s.url} target="_blank" rel="noopener noreferrer" className="break-all text-brand underline">[{s.n}] {s.title}</a><span className="ms-2 rounded-full border border-border px-2 py-0.5 text-[11px] text-muted-foreground">{sourceQuality(s.url)}</span>{s.quote && <span className="text-muted-foreground"> — "{s.quote}"</span>}</li>)}</ol>}
+          <VerdictFeedback claim={c.claim} verdict={c.verdict} explanation={`${c.explanation} ${AI_CONSENSUS_NOTE}`} />
           <p className="mt-3 text-xs text-muted-foreground">{tx("factSourceNote")}</p>
           <a href={`mailto:hello@verfiai.app?subject=${encodeURIComponent("Verfiai claim issue")}&body=${encodeURIComponent(`Claim: ${c.claim}\n\nWhat seems wrong? (Do not include confidential material):\n`)}`} className="inline-flex min-h-11 items-center text-xs font-semibold text-brand underline">Report an issue</a>
         </li>)}</ul>

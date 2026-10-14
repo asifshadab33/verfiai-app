@@ -141,3 +141,24 @@ export function sourceMeta(url: string): ExcerptMeta {
   const tier = sourceTier(host);
   return { originId: baseDomain(host), weight: TIER_WEIGHT[tier], tier };
 }
+
+/** Qualitative three-step strength shown to users. Conflicting evidence stays explicit. */
+export function qualitativeStrength(label: EvidenceStrength): "Strong" | "Moderate" | "Weak" | "Conflicting" {
+  return label === "Strong evidence" ? "Strong" : label === "Moderate evidence" ? "Moderate" : label === "Conflicting evidence" ? "Conflicting" : "Weak";
+}
+
+const PEER = /(doi\.org|nature\.com|science\.org|thelancet\.com|nejm\.org|bmj\.com|springer\.com|wiley\.com|sciencedirect\.com|plos\.org|arxiv\.org|jstor\.org|cochrane\.org|pubmed|ncbi\.nlm\.nih\.gov|openalex\.org|semanticscholar\.org|core\.ac\.uk)$/i;
+const GOV = /\.(gov|mil|int)(\.[a-z]{2})?$|\.(gov|gob|go)\.[a-z]{2}$|^(europa\.eu|un\.org|who\.int|worldbank\.org|imf\.org|oecd\.org)$/i;
+export type SourceQuality = "Primary/official source" | "Peer-reviewed source" | "Government or intergovernmental source" | "Reputable news source" | "Organization/publication source" | "Low-authority or unverified source";
+
+/** User-facing source-quality label derived from the domain; independent of internal weights. */
+export function sourceQuality(url: string): SourceQuality {
+  let h = ""; try { h = new URL(url).hostname.replace(/^www\./, "").toLowerCase(); } catch { return "Low-authority or unverified source"; }
+  if (PEER.test(h)) return "Peer-reviewed source";
+  if (GOV.test(h)) return "Government or intergovernmental source";
+  if (/\.edu(\.[a-z]{2})?$|\.ac\.[a-z]{2}$/.test(h)) return "Primary/official source";
+  const t = sourceTier(h);
+  if (t === 2) return "Reputable news source";
+  if (t === 1) return "Primary/official source";
+  return /\.(org|com|net)$/.test(h) && !/(medium|substack|blogspot|wordpress|reddit|quora|x|twitter|facebook|tiktok|youtube)\./.test(h + ".") ? "Organization/publication source" : "Low-authority or unverified source";
+}
