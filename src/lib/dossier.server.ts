@@ -1,7 +1,8 @@
 // Deep Dossier: tier-focused search → n-gram dedup (syndication filter) → 3-pass synthesis
 // (themes, book chapter, annotated bibliography). Only excerpts/metadata are sent to the model and
 // only links + short contribution notes are returned — never article full text.
-import { searchAll, type Source } from "./search.server";
+import { searchAll, engineSearch, type Source } from "./search.server";
+import type { DocSource } from "./providers/documents.server";
 import { synthesize, type CallMeta } from "./model.server";
 import { sourceTier } from "./evidence";
 import { reportSchema, type ResearchReport } from "./report-schema";
@@ -62,15 +63,23 @@ export async function generateDeepDossier(topic: string, opts: { strict: boolean
   // Step A: tier-focused search (academic + institutional + major press angles).
   const queries = [topic, `${topic} study OR review OR report`, `${topic} site:.gov OR site:.edu OR site:.int`];
   const found = (await Promise.all(queries.map((q, i) => searchAll(q, lang, i === 0 ? DOSSIER_ENGINES : ["tavily", "brave", "youcom", "crossref", "openalex"])))).flat();
+  // Document discovery (open access + Scribd metadata), deduplicated and capped separately.
+  const { dedupeDocuments } = await import("./deduplication.server");
+  const rawDocs = (await Promise.all(["unpaywall", "semanticscholar", "core", "scribd"].map(e => engineSearch(e, topic)))).flat() as DocSource[];
+  const docs = dedupeDocuments(rawDocs.map(d => ({ ...d, kind: d.kind ?? "core" })));
+  const docUrls = new Set(docs.map(d => d.url));
   // Prefer Tier 1/2; keep Tier 3 only when needed to reach the target.
-  const deduped = dedupeSyndicated(found, opts.strict, DOSSIER_MAX_SOURCES * 2);
+  const deduped = dedupeSyndicated(found.filter(f => !docUrls.has(f.url)), opts.strict, DOSSIER_MAX_SOURCES * 2);
   const highTier = deduped.filter(s => tierOf(s.url) <= 2);
   const pool = highTier.length >= DOSSIER_MIN_TARGET ? highTier : [...highTier, ...deduped.filter(s => tierOf(s.url) > 2)];
   const { filterLiveSources } = await import("./link-check.server");
-  const { kept: sources } = await filterLiveSources(pool.slice(0, DOSSIER_MAX_SOURCES + 10), DOSSIER_MAX_SOURCES);
+  const { kept: webKept } = await filterLiveSources(pool.slice(0, DOSSIER_MAX_SOURCES - docs.length + 10), Math.max(0, DOSSIER_MAX_SOURCES - docs.length));
+  const sources: (Source & Partial<DocSource>)[] = [...docs, ...webKept].slice(0, DOSSIER_MAX_SOURCES);
   if (!sources.length) throw new Error("We couldn't find enough public sources for this topic. Try a broader question.");
 
-  const evidence = sources.map((s, i) => `[${i + 1}] ${s.title} — ${hostOf(s.url)} (Tier ${tierOf(s.url)}, ${s.published ?? "date unknown"})\n${s.content.slice(0, 500)}`).join("\n\n");
+  const line = (s: Source & Partial<DocSource>, i: number) => `[${i + 1}] ${s.title}${s.authors ? ` — ${s.authors}` : ""} — ${hostOf(s.url)} (Tier ${tierOf(s.url)}, ${s.published ?? "date unknown"})\nLink: ${s.url}\nSnippet: ${s.content.slice(0, 500)}`;
+  const nDocs = docs.length;
+  const evidence = `DOCUMENT CONTEXT (open-access papers and public document metadata):\n${sources.slice(0, nDocs).map(line).join("\n\n") || "None found."}\n\nVERIFIAI SOURCE CONTEXT (web, news and reference sources):\n${sources.slice(nDocs).map((s, i) => line(s, i + nDocs)).join("\n\n") || "None found."}`;
   const passes: string[] = [];
 
   // Pass 1: group into 3–5 themes.
@@ -111,6 +120,7 @@ export async function generateDeepDossier(topic: string, opts: { strict: boolean
     searchAudit: [
       `Searched at ${fetchedAt} (UTC).`, `Topic: "${topic.slice(0, 200)}"`, `Queries: ${queries.length} (topic, scholarly, institutional).`,
       `Results returned: ${found.length}; after ${opts.strict ? "strict n-gram (>80%) syndication" : "URL"} deduplication: ${deduped.length}; analysed after live link checks: ${sources.length} (max ${DOSSIER_MAX_SOURCES}).`,
+      `Documents (Unpaywall, Semantic Scholar, CORE, Scribd metadata): ${rawDocs.length} found, ${nDocs} kept after dedup (max 20).`,
       `Source mix: Tier 1 ${tiers[0]}, Tier 2 ${tiers[1]}, Tier 3 ${tiers[2]}.`,
     ],
   };
