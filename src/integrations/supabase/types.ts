@@ -585,6 +585,39 @@ export type Database = {
         }
         Relationships: []
       }
+      verdict_feedback: {
+        Row: {
+          claim: string
+          created_at: string
+          guest_hash: string | null
+          id: string
+          kind: string
+          note: string | null
+          user_id: string | null
+          verdict: string | null
+        }
+        Insert: {
+          claim: string
+          created_at?: string
+          guest_hash?: string | null
+          id?: string
+          kind: string
+          note?: string | null
+          user_id?: string | null
+          verdict?: string | null
+        }
+        Update: {
+          claim?: string
+          created_at?: string
+          guest_hash?: string | null
+          id?: string
+          kind?: string
+          note?: string | null
+          user_id?: string | null
+          verdict?: string | null
+        }
+        Relationships: []
+      }
       verification_cache: {
         Row: {
           claim_hash: string
