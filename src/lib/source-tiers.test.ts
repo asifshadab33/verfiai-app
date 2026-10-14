@@ -17,3 +17,19 @@ describe("model cascade", () => {
     expect(getRoute("evaluation").slice(0, 3).map(m => resolveModel(m).provider)).toEqual(["deepinfra", "cerebras", "sambanova"]);
   });
 });
+
+import { qualitativeStrength, sourceQuality } from "./evidence";
+describe("user-facing evidence labels", () => {
+  it("maps strength to Strong/Moderate/Weak", () => {
+    expect(qualitativeStrength("Strong evidence")).toBe("Strong");
+    expect(qualitativeStrength("Moderate evidence")).toBe("Moderate");
+    expect(qualitativeStrength("Limited evidence")).toBe("Weak");
+    expect(qualitativeStrength("Insufficient evidence")).toBe("Weak");
+  });
+  it("labels source quality by domain", () => {
+    expect(sourceQuality("https://www.nature.com/a")).toBe("Peer-reviewed source");
+    expect(sourceQuality("https://www.cdc.gov/x")).toBe("Government or intergovernmental source");
+    expect(sourceQuality("https://www.reuters.com/x")).toBe("Reputable news source");
+    expect(sourceQuality("https://foo.substack.com/p")).toBe("Low-authority or unverified source");
+  });
+});

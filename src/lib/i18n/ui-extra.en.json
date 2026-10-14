@@ -1,0 +1,22 @@
+{
+  "dossierTab": "Deep Dossier",
+  "dossierHelp": "Generates a comprehensive, synthesized report from top-tier sources. Strictly deduplicated to avoid repeated content. (Max 50 sources analyzed).",
+  "dossierTopic": "Research Topic or Niche Question",
+  "dossierStrict": "Strict Deduplication Mode (Removes syndicated/repeated content)",
+  "dossierWarn": "This performs multi-pass synthesis. Please allow 30-60 seconds. Only publicly available, high-credibility sources are analyzed.",
+  "dossierGenerate": "Generate Deep Dossier",
+  "dossierBusy": "Building dossier…",
+  "dossierSignIn": "Sign in free to generate a dossier",
+  "heroCheck": "Check a claim free",
+  "heroReport": "Generate a research report",
+  "heroCite": "Scan citations",
+  "tryLine": "Try 1 report without an account. Create a free account for 3 reports, 3 fact-checks, and 3 citation scans monthly.",
+  "fbCorrect": "This verdict is correct",
+  "fbReview": "This needs review",
+  "fbIrrelevant": "Source is irrelevant",
+  "fbBetter": "Suggest a better source",
+  "fbExplain": "Explain this result",
+  "fbThanks": "Thanks — your feedback was saved.",
+  "strengthLabel": "Evidence strength",
+  "consensus": "Two AI engines review the same retrieved excerpts. If they materially disagree, a third engine reviews the conflicting evidence. AI agreement is one input to confidence, not proof of accuracy."
+}

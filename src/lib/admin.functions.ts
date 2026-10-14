@@ -11,7 +11,7 @@ async function assertAdmin(context: { supabase: { rpc: (n: "has_role", a: { _use
 export const getAdminStatus = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth])
   .handler(async ({ context }) => { const { data } = await context.supabase.rpc("has_role", { _user_id: context.userId, _role: "admin" }); return { isAdmin: data === true }; });
 
-const SEARCH_KEYS: Record<string, string | null> = { tavily: "TAVILY_API_KEY", brave: "BRAVE_SEARCH_API_KEY", youcom: "YDC_API_KEY", searxng: "SEARXNG_BASE_URL", gdelt: null, crossref: null, wikipedia: null, ddg: null, openalex: null, pubmed: null };
+const SEARCH_KEYS: Record<string, string | null> = { tavily: "TAVILY_API_KEY", brave: "BRAVE_SEARCH_API_KEY", youcom: "YDC_API_KEY", searxng: "SEARXNG_BASE_URL", gdelt: null, crossref: null, wikipedia: null, ddg: null, openalex: null, pubmed: null, unpaywall: null, semanticscholar: null, core: "CORE_API_KEY", scribd: "TAVILY_API_KEY" };
 
 /** Which providers are configured (true/false only — never key values) and database reachability. */
 export const getSystemHealth = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth])

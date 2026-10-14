@@ -54,9 +54,15 @@
 - [x] P2 free-until-Oct-13-2027 banner, pricing tiers, FAQ, remove "forever/next year"
 - [x] P3 hero CTAs + 3 tool cards + try-line
 - [x] P4 sample report section + 4-step how it works
-- [ ] P5 evidence transparency + AI consensus explainer
+- [x] P5 evidence transparency + AI consensus explainer
 - [x] P6 citation scanner feature section
 - [x] P7 upload privacy notice, footer links (/security, /contact), privacy page detail
-- [ ] P8 verdict feedback buttons stored server-side
-- [ ] P9 JSON-LD SoftwareApplication/Organization/FAQPage, sitemap/robots
+- [x] P8 verdict feedback buttons stored server-side
+- [x] P9 JSON-LD SoftwareApplication/Organization/FAQPage, sitemap/robots
 - [ ] P10 finish citation checker translations (blocked earlier by AI credits)
+- [x] Homepage studio Deep Dossier tab
+- [x] Document sources: Scribd (oEmbed metadata only), Unpaywall, Semantic Scholar, CORE; dedup prefers OA over Scribd; 15-20 doc cap
+- [x] Dossier helper/warning copy update (30-60s)
+- [x] Admin search tests include new sources
+- [x] Sitemap /security /contact
+- [ ] i18n sync for new strings + citation checker (blocked: AI translation credits/provider keys failing)
