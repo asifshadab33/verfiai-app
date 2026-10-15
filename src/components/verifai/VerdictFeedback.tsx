@@ -1,14 +1,18 @@
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
+import { useLocation } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { sendVerdictFeedback, FEEDBACK_KINDS } from "@/lib/feedback.functions";
+import { uiText, type UiExtraKey } from "@/lib/ui-extra-i18n";
 
-const LABEL: Record<(typeof FEEDBACK_KINDS)[number], string> = {
-  correct: "This verdict is correct", needs_review: "This needs review", irrelevant_source: "Source is irrelevant",
-  better_source: "Suggest a better source", explain: "Explain this result",
+const KEY: Record<(typeof FEEDBACK_KINDS)[number], UiExtraKey> = {
+  correct: "fbCorrect", needs_review: "fbReview", irrelevant_source: "fbIrrelevant",
+  better_source: "fbBetter", explain: "fbExplain",
 };
 
 export function VerdictFeedback({ claim, verdict, explanation }: { claim: string; verdict: string; explanation?: string }) {
+  const lang = new URLSearchParams(useLocation().searchStr).get("lang") ?? "en";
+  const LABEL = Object.fromEntries(FEEDBACK_KINDS.map(k => [k, uiText(lang, KEY[k])])) as Record<(typeof FEEDBACK_KINDS)[number], string>;
   const send = useServerFn(sendVerdictFeedback);
   const [sent, setSent] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
