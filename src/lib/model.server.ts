@@ -70,6 +70,9 @@ export const hasKey = (id: string) => !!process.env[PROVIDERS[resolveModel(id).p
 export const SENTINEL_STATUSES = [402, 429, 503] as const;
 const timeoutMs = () => { const n = Number(process.env["MODEL_TIMEOUT_MS"]); return Number.isFinite(n) && n > 0 ? n : 45000; };
 
+/** JSON mode providers require the word "json" somewhere in the messages. */
+export const withJsonWord = (system: string, user: string) => /json/i.test(system + user) ? system : `${system}\n\nRespond with a single valid JSON object.`;
+
 export type CallMeta = { userId?: string | null; guestFingerprint?: string; reportId?: string; purpose?: string };
 
 // Internal error codes — never shown to users; callers map them to friendly notices.
@@ -84,7 +87,7 @@ export async function callEngine(model: string, system: string, user: string, me
     return ((system.length + user.length) / 4 * r.in + outLen / 4 * r.out) / 1e6;
   };
   // JSON mode (e.g. Groq) rejects requests whose messages never mention "json" with HTTP 400.
-  const sys = cfg.json && !/json/i.test(system + user) ? `${system}\n\nRespond with a single valid JSON object.` : system;
+  const sys = cfg.json ? withJsonWord(system, user) : system;
   try {
     const res = await fetch(cfg.url, {
       method: "POST",
