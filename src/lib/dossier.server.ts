@@ -65,7 +65,7 @@ export async function generateDeepDossier(topic: string, opts: { strict: boolean
   const found = (await Promise.all(queries.map((q, i) => searchAll(q, lang, i === 0 ? DOSSIER_ENGINES : ["tavily", "brave", "youcom", "crossref", "openalex"])))).flat();
   // Document discovery (open access + Scribd metadata), deduplicated and capped separately.
   const { dedupeDocuments } = await import("./deduplication.server");
-  const rawDocs = (await Promise.all(["unpaywall", "semanticscholar", "core", "scribd"].map(e => engineSearch(e, topic)))).flat() as DocSource[];
+  const rawDocs = (await Promise.all(["openalex_oa", "semanticscholar", "scribd"].map(e => engineSearch(e, topic)))).flat() as DocSource[];
   const docs = dedupeDocuments(rawDocs.map(d => ({ ...d, kind: d.kind ?? "core" })));
   const docUrls = new Set(docs.map(d => d.url));
   // Prefer Tier 1/2; keep Tier 3 only when needed to reach the target.

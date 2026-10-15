@@ -5,18 +5,25 @@ import type { Source } from "../search.server";
 const T = 5000;
 const UA = { "User-Agent": "Verfiai/1.0 (hello@verfiai.app)", Accept: "application/json" };
 const strip = (s: string) => s.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-export type DocSource = Source & { authors?: string; kind: "scribd" | "unpaywall" | "semanticscholar" | "core"; openAccess?: boolean; citations?: number };
+export type DocSource = Source & { authors?: string; kind: "scribd" | "openalex_oa" | "semanticscholar" | "core"; openAccess?: boolean; citations?: number };
 
-/** Unpaywall: legal open-access copies. Requires a contact email in the query string (no key). */
-export async function unpaywallSearch(query: string): Promise<DocSource[]> {
-  const res = await fetch(`https://api.unpaywall.org/v2/search?query=${encodeURIComponent(query.slice(0, 200))}&is_oa=true&email=hello@verfiai.app`, { headers: UA, signal: AbortSignal.timeout(T) });
+type OaWork = { title?: string; doi?: string; publication_year?: number; abstract_inverted_index?: Record<string, number[]> | null; authorships?: { author?: { display_name?: string } }[]; cited_by_count?: number; best_oa_location?: { pdf_url?: string | null; landing_page_url?: string | null } | null; open_access?: { oa_url?: string | null } };
+const unInvert = (idx?: Record<string, number[]> | null) => {
+  if (!idx) return "";
+  const words: string[] = [];
+  for (const [w, ps] of Object.entries(idx)) for (const p of ps) words[p] = w;
+  return words.filter(Boolean).join(" ");
+};
+
+/** OpenAlex open-access keyword search (replaces the retired Unpaywall search endpoint). Keyless, polite pool via mailto. */
+export async function openAlexOaSearch(query: string): Promise<DocSource[]> {
+  const res = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(query.slice(0, 200))}&filter=is_oa:true&per-page=10&mailto=hello@verfiai.app`, { headers: UA, signal: AbortSignal.timeout(T) });
   if (!res.ok) return [];
-  type R = { response?: { title?: string; doi_url?: string; year?: number; journal_name?: string; z_authors?: { family?: string }[]; best_oa_location?: { url?: string; url_for_pdf?: string } } };
-  const j = await res.json() as { results?: R[] };
-  return (j.results ?? []).slice(0, 10).flatMap(({ response: r }) => {
-    const url = r?.best_oa_location?.url_for_pdf ?? r?.best_oa_location?.url ?? r?.doi_url;
-    if (!r?.title || !url?.startsWith("https://")) return [];
-    return [{ kind: "unpaywall" as const, title: r.title, url, content: `${r.title}. ${r.journal_name ?? ""}`.trim(), published: r.year ? String(r.year) : undefined, authors: (r.z_authors ?? []).map(a => a.family).filter(Boolean).slice(0, 4).join(", "), openAccess: true, score: 0.6 }];
+  const j = await res.json() as { results?: OaWork[] };
+  return (j.results ?? []).flatMap(w => {
+    const url = w.best_oa_location?.pdf_url ?? w.best_oa_location?.landing_page_url ?? w.open_access?.oa_url ?? w.doi;
+    if (!w.title || !url?.startsWith("https://")) return [];
+    return [{ kind: "openalex_oa" as const, title: w.title, url, content: (unInvert(w.abstract_inverted_index) || w.title).slice(0, 1500), published: w.publication_year ? String(w.publication_year) : undefined, authors: (w.authorships ?? []).map(a => a.author?.display_name).filter(Boolean).slice(0, 4).join(", "), openAccess: true, citations: w.cited_by_count ?? 0, score: 0.65 }];
   });
 }
 
@@ -33,19 +40,9 @@ export async function semanticScholarSearch(query: string): Promise<DocSource[]>
   });
 }
 
-/** CORE: open-access repository search. Needs CORE_API_KEY (free); skipped when absent. */
-export async function coreSearch(query: string): Promise<DocSource[]> {
-  const key = process.env["CORE_API_KEY"];
-  if (!key) return [];
-  const res = await fetch(`https://api.core.ac.uk/v3/search/works?q=${encodeURIComponent(query.slice(0, 200))}&limit=10`, { headers: { ...UA, Authorization: `Bearer ${key}` }, signal: AbortSignal.timeout(T) });
-  if (!res.ok) return [];
-  type W = { title?: string; abstract?: string; doi?: string; downloadUrl?: string; yearPublished?: number; authors?: { name: string }[]; links?: { type: string; url: string }[] };
-  const j = await res.json() as { results?: W[] };
-  return (j.results ?? []).flatMap(w => {
-    const url = w.doi ? `https://doi.org/${w.doi}` : w.links?.find(l => l.type === "display")?.url ?? w.downloadUrl;
-    if (!w.title || !url?.startsWith("https://")) return [];
-    return [{ kind: "core" as const, title: w.title, url, content: strip(w.abstract ?? w.title).slice(0, 1500), published: w.yearPublished ? String(w.yearPublished) : undefined, authors: (w.authors ?? []).map(a => a.name).slice(0, 4).join(", "), openAccess: true, score: 0.6 }];
-  });
+/** CORE is intentionally disabled (owner decision: no trial key). Always returns no results. */
+export async function coreSearch(_query: string): Promise<DocSource[]> {
+  return [];
 }
 
 /**
