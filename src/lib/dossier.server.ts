@@ -65,7 +65,7 @@ export async function generateDeepDossier(topic: string, opts: { strict: boolean
   const found = (await Promise.all(queries.map((q, i) => searchAll(q, lang, i === 0 ? DOSSIER_ENGINES : ["tavily", "brave", "youcom", "crossref", "openalex"])))).flat();
   // Document discovery (open access + Scribd metadata), deduplicated and capped separately.
   const { dedupeDocuments } = await import("./deduplication.server");
-  const rawDocs = (await Promise.all(["unpaywall", "semanticscholar", "core", "scribd"].map(e => engineSearch(e, topic)))).flat() as DocSource[];
+  const rawDocs = (await Promise.all(["openalex_oa", "semanticscholar", "scribd"].map(e => engineSearch(e, topic)))).flat() as DocSource[];
   const docs = dedupeDocuments(rawDocs.map(d => ({ ...d, kind: d.kind ?? "core" })));
   const docUrls = new Set(docs.map(d => d.url));
   // Prefer Tier 1/2; keep Tier 3 only when needed to reach the target.
@@ -120,7 +120,7 @@ export async function generateDeepDossier(topic: string, opts: { strict: boolean
     searchAudit: [
       `Searched at ${fetchedAt} (UTC).`, `Topic: "${topic.slice(0, 200)}"`, `Queries: ${queries.length} (topic, scholarly, institutional).`,
       `Results returned: ${found.length}; after ${opts.strict ? "strict n-gram (>80%) syndication" : "URL"} deduplication: ${deduped.length}; analysed after live link checks: ${sources.length} (max ${DOSSIER_MAX_SOURCES}).`,
-      `Documents (Unpaywall, Semantic Scholar, CORE, Scribd metadata): ${rawDocs.length} found, ${nDocs} kept after dedup (max 20).`,
+      `Documents (OpenAlex open access, Semantic Scholar, Scribd metadata): ${rawDocs.length} found, ${nDocs} kept after dedup (max 20).`,
       `Source mix: Tier 1 ${tiers[0]}, Tier 2 ${tiers[1]}, Tier 3 ${tiers[2]}.`,
     ],
   };

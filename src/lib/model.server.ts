@@ -18,8 +18,11 @@ const LABELS: Record<string, string> = {
   "sambanova:Meta-Llama-3.3-70B-Instruct": "Llama 3.3 70B (SambaNova)",
   "nvidia:meta/llama-3.3-70b-instruct": "Llama 3.3 70B (NVIDIA)",
   "nvidia:deepseek-ai/deepseek-r1": "DeepSeek R1 (NVIDIA)",
-  "groq:llama-3.3-70b-versatile": "Llama 3.3 70B (Groq)",
-  "gemini:gemini-2.0-flash": "Gemini 2.0 Flash",
+  "groq:openai/gpt-oss-120b": "GPT-OSS 120B (Groq)",
+  "groq:openai/gpt-oss-20b": "GPT-OSS 20B (Groq)",
+  "gemini:gemini-3.8-flash": "Gemini 3.8 Flash",
+  "meta-llama/llama-3.3-70b-instruct:free": "Llama 3.3 70B (OpenRouter free)",
+  "qwen/qwen-2.5-72b-instruct:free": "Qwen 2.5 72B (OpenRouter free)",
   "mistral:mistral-small-latest": "Mistral Small",
   "deepseek:deepseek-chat": "DeepSeek V3",
   "dashscope:qwen-plus": "Qwen Plus (DashScope)",
@@ -30,9 +33,9 @@ const LABELS: Record<string, string> = {
 
 export const ROUTES = {
   // Cheap, fast claim extraction.
-  triage: ["cerebras:llama-3.3-70b", "deepinfra:Qwen/Qwen2.5-72B-Instruct", "groq:llama-3.3-70b-versatile", "gemini:gemini-2.0-flash", "github:openai/gpt-4o-mini", "qwen/qwen-2.5-72b-instruct", "qwen/qwen-2.5-72b-instruct:free", "meta-llama/llama-3.3-70b-instruct:free"],
+  triage: ["cerebras:llama-3.3-70b", "groq:openai/gpt-oss-20b", "groq:openai/gpt-oss-120b", "sambanova:Meta-Llama-3.3-70B-Instruct", "meta-llama/llama-3.3-70b-instruct:free", "qwen/qwen-2.5-72b-instruct:free", "gemini:gemini-3.8-flash", "deepinfra:Qwen/Qwen2.5-72B-Instruct", "github:openai/gpt-4o-mini", "qwen/qwen-2.5-72b-instruct"],
   // Synthesis and consensus evaluation.
-  evaluation: ["deepinfra:Qwen/Qwen2.5-72B-Instruct", "cerebras:deepseek-r1-distill-llama-70b", "sambanova:Meta-Llama-3.3-70B-Instruct", "nvidia:meta/llama-3.3-70b-instruct", "nvidia:deepseek-ai/deepseek-r1", "groq:llama-3.3-70b-versatile", "gemini:gemini-2.0-flash", "mistral:mistral-small-latest", "deepseek:deepseek-chat", "dashscope:qwen-plus", "github:openai/gpt-4o-mini", "deepseek/deepseek-chat", "qwen/qwen-2.5-72b-instruct", "qwen/qwen-2.5-72b-instruct:free", "meta-llama/llama-3.3-70b-instruct:free"],
+  evaluation: ["cerebras:llama-3.3-70b", "groq:openai/gpt-oss-120b", "sambanova:Meta-Llama-3.3-70B-Instruct", "meta-llama/llama-3.3-70b-instruct:free", "qwen/qwen-2.5-72b-instruct:free", "cerebras:deepseek-r1-distill-llama-70b", "nvidia:meta/llama-3.3-70b-instruct", "nvidia:deepseek-ai/deepseek-r1", "gemini:gemini-3.8-flash", "mistral:mistral-small-latest", "deepseek:deepseek-chat", "dashscope:qwen-plus", "deepinfra:Qwen/Qwen2.5-72B-Instruct", "github:openai/gpt-4o-mini", "deepseek/deepseek-chat", "qwen/qwen-2.5-72b-instruct"],
 } as const;
 
 /** Route tables; overridable server-side via env (comma-separated model ids). Providers without keys are skipped at call time. */
@@ -67,6 +70,9 @@ export const hasKey = (id: string) => !!process.env[PROVIDERS[resolveModel(id).p
 export const SENTINEL_STATUSES = [402, 429, 503] as const;
 const timeoutMs = () => { const n = Number(process.env["MODEL_TIMEOUT_MS"]); return Number.isFinite(n) && n > 0 ? n : 45000; };
 
+/** JSON mode providers require the word "json" somewhere in the messages. */
+export const withJsonWord = (system: string, user: string) => /json/i.test(system + user) ? system : `${system}\n\nRespond with a single valid JSON object.`;
+
 export type CallMeta = { userId?: string | null; guestFingerprint?: string; reportId?: string; purpose?: string };
 
 // Internal error codes — never shown to users; callers map them to friendly notices.
@@ -80,12 +86,14 @@ export async function callEngine(model: string, system: string, user: string, me
     const r = RATES[model] ?? FALLBACK_RATES;
     return ((system.length + user.length) / 4 * r.in + outLen / 4 * r.out) / 1e6;
   };
+  // JSON mode (e.g. Groq) rejects requests whose messages never mention "json" with HTTP 400.
+  const sys = cfg.json ? withJsonWord(system, user) : system;
   try {
     const res = await fetch(cfg.url, {
       method: "POST",
       signal: AbortSignal.timeout(timeoutMs()),
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", ...(provider === "openrouter" ? { "HTTP-Referer": "https://verfiai.app", "X-Title": "Verfiai" } : {}) },
-      body: JSON.stringify({ model: providerModel, temperature: 0.2, max_tokens: maxTokens, ...(cfg.json ? { response_format: { type: "json_object" } } : {}), messages: [{ role: "system", content: system }, { role: "user", content: user }] }),
+      body: JSON.stringify({ model: providerModel, temperature: 0.2, max_tokens: maxTokens, ...(cfg.json ? { response_format: { type: "json_object" } } : {}), messages: [{ role: "system", content: sys }, { role: "user", content: user }] }),
     });
     if (!res.ok) {
       console.error("model provider", provider, providerModel, res.status, (await res.text()).slice(0, 300));

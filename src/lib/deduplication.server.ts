@@ -4,7 +4,7 @@ import { shingles, ngramSimilarity, SYNDICATION_THRESHOLD } from "./dossier.serv
 import type { DocSource } from "./providers/documents.server";
 
 export const DOCUMENT_CAP = 20;
-const RANK: Record<DocSource["kind"], number> = { unpaywall: 0, semanticscholar: 1, core: 2, scribd: 9 };
+const RANK: Record<DocSource["kind"], number> = { openalex_oa: 0, semanticscholar: 1, core: 2, scribd: 9 };
 
 export function dedupeDocuments(docs: DocSource[], cap = DOCUMENT_CAP): DocSource[] {
   const ordered = [...docs].sort((a, b) => RANK[a.kind] - RANK[b.kind] || (b.citations ?? 0) - (a.citations ?? 0));
