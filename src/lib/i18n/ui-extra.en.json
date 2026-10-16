@@ -18,5 +18,15 @@
   "fbExplain": "Explain this result",
   "fbThanks": "Thanks — your feedback was saved.",
   "strengthLabel": "Evidence strength",
-  "consensus": "Two AI engines review the same retrieved excerpts. If they materially disagree, a third engine reviews the conflicting evidence. AI agreement is one input to confidence, not proof of accuracy."
+  "consensus": "Two AI engines review the same retrieved excerpts. If they materially disagree, a third engine reviews the conflicting evidence. AI agreement is one input to confidence, not proof of accuracy.",
+  "sStrong": "Strong evidence",
+  "sModerate": "Moderate evidence",
+  "sLimited": "Limited evidence",
+  "sConflicting": "Conflicting evidence",
+  "sInsufficient": "Insufficient evidence",
+  "hStrong": "2+ independent publishers, at least one Tier 1 (academic, government or institutional) source, and a source from the last two years.",
+  "hModerate": "2+ independent publishers or at least one Tier 1 source, but not all strong-evidence conditions are met.",
+  "hLimited": "Only one independent publisher, without a Tier 1 source.",
+  "hConflicting": "Independent sources disagree about this claim.",
+  "hInsufficient": "Not enough verified evidence was found to assess the claim."
 }
