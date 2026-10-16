@@ -16,7 +16,6 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as CybersecurityConceptRouteImport } from './routes/cybersecurity-concept'
 import { Route as FactChecksRouteImport } from './routes/fact-checks'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FeaturesRouteImport } from './routes/features'
@@ -76,11 +75,6 @@ const AuthRoute = AuthRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CybersecurityConceptRoute = CybersecurityConceptRouteImport.update({
-  id: '/cybersecurity-concept',
-  path: '/cybersecurity-concept',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FactChecksRoute = FactChecksRouteImport.update({
@@ -218,7 +212,6 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/cybersecurity-concept': typeof CybersecurityConceptRoute
   '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
@@ -253,7 +246,6 @@ export interface FileRoutesByTo {
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/cybersecurity-concept': typeof CybersecurityConceptRoute
   '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
@@ -289,7 +281,6 @@ export interface FileRoutesById {
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
-  '/cybersecurity-concept': typeof CybersecurityConceptRoute
   '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
@@ -326,7 +317,6 @@ export interface FileRouteTypes {
     | '/app'
     | '/auth'
     | '/contact'
-    | '/cybersecurity-concept'
     | '/fact-checks'
     | '/faq'
     | '/features'
@@ -361,7 +351,6 @@ export interface FileRouteTypes {
     | '/app'
     | '/auth'
     | '/contact'
-    | '/cybersecurity-concept'
     | '/fact-checks'
     | '/faq'
     | '/features'
@@ -396,7 +385,6 @@ export interface FileRouteTypes {
     | '/app'
     | '/auth'
     | '/contact'
-    | '/cybersecurity-concept'
     | '/fact-checks'
     | '/faq'
     | '/features'
@@ -432,7 +420,6 @@ export interface RootRouteChildren {
   AppRoute: typeof AppRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
-  CybersecurityConceptRoute: typeof CybersecurityConceptRoute
   FactChecksRoute: typeof FactChecksRoute
   FaqRoute: typeof FaqRoute
   FeaturesRoute: typeof FeaturesRoute
@@ -508,13 +495,6 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cybersecurity-concept': {
-      id: '/cybersecurity-concept'
-      path: '/cybersecurity-concept'
-      fullPath: '/cybersecurity-concept'
-      preLoaderRoute: typeof CybersecurityConceptRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/fact-checks': {
@@ -715,7 +695,6 @@ const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
-  CybersecurityConceptRoute: CybersecurityConceptRoute,
   FactChecksRoute: FactChecksRoute,
   FaqRoute: FaqRoute,
   FeaturesRoute: FeaturesRoute,
