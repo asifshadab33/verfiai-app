@@ -29,13 +29,15 @@ const LABELS: Record<string, string> = {
   "github:openai/gpt-4o-mini": "GPT-4o mini (GitHub Models)",
   "deepseek/deepseek-chat": "DeepSeek V3 (OpenRouter)",
   "qwen/qwen-2.5-72b-instruct": "Qwen 2.5 72B (OpenRouter)",
+  "deepinfra:deepseek-ai/DeepSeek-V3": "DeepSeek V3 (DeepInfra)",
+  "mistralai/mistral-nemo": "Mistral Nemo (OpenRouter)",
 };
 
 export const ROUTES = {
   // Cheap, fast claim extraction.
   triage: ["cerebras:llama-3.3-70b", "groq:openai/gpt-oss-20b", "groq:openai/gpt-oss-120b", "sambanova:Meta-Llama-3.3-70B-Instruct", "meta-llama/llama-3.3-70b-instruct:free", "qwen/qwen-2.5-72b-instruct:free", "gemini:gemini-3.8-flash", "deepinfra:Qwen/Qwen2.5-72B-Instruct", "github:openai/gpt-4o-mini", "qwen/qwen-2.5-72b-instruct"],
   // Synthesis and consensus evaluation.
-  evaluation: ["cerebras:llama-3.3-70b", "groq:openai/gpt-oss-120b", "sambanova:Meta-Llama-3.3-70B-Instruct", "meta-llama/llama-3.3-70b-instruct:free", "qwen/qwen-2.5-72b-instruct:free", "cerebras:deepseek-r1-distill-llama-70b", "nvidia:meta/llama-3.3-70b-instruct", "nvidia:deepseek-ai/deepseek-r1", "gemini:gemini-3.8-flash", "mistral:mistral-small-latest", "deepseek:deepseek-chat", "dashscope:qwen-plus", "deepinfra:Qwen/Qwen2.5-72B-Instruct", "github:openai/gpt-4o-mini", "deepseek/deepseek-chat", "qwen/qwen-2.5-72b-instruct"],
+  evaluation: ["cerebras:llama-3.3-70b", "groq:openai/gpt-oss-120b", "sambanova:Meta-Llama-3.3-70B-Instruct", "meta-llama/llama-3.3-70b-instruct:free", "qwen/qwen-2.5-72b-instruct:free", "cerebras:deepseek-r1-distill-llama-70b", "nvidia:meta/llama-3.3-70b-instruct", "nvidia:deepseek-ai/deepseek-r1", "gemini:gemini-3.8-flash", "mistral:mistral-small-latest", "deepseek:deepseek-chat", "deepinfra:deepseek-ai/DeepSeek-V3", "mistralai/mistral-nemo", "dashscope:qwen-plus", "deepinfra:Qwen/Qwen2.5-72B-Instruct", "github:openai/gpt-4o-mini", "deepseek/deepseek-chat", "qwen/qwen-2.5-72b-instruct"],
 } as const;
 
 /** Route tables; overridable server-side via env (comma-separated model ids). Providers without keys are skipped at call time. */
