@@ -66,3 +66,9 @@
 - [x] Admin search tests include new sources
 - [x] Sitemap /security /contact
 - [ ] i18n sync for new strings + citation checker (blocked: AI translation credits/provider keys failing)
+
+## Oct 17 checks
+- [ ] Verify business routing, dossier pipeline, report flow
+- [ ] Hide extended/standard format options, 4000-char cap
+- [ ] Security scan review
+- [ ] Publish
