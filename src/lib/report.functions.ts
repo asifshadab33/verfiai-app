@@ -36,7 +36,7 @@ export const generateReport = createServerFn({ method: "POST" })
     const limit = await reportLimit(context);
     if ((count ?? 0) >= limit) return { limitReached: true as const, message: `You've used your ${limit} reports this month.` };
     const { consumeCredits, meter, CREDIT_COSTS } = await import("./metering.server");
-    const credits = await consumeCredits(context.userId, "report_created", CREDIT_COSTS.report_created * (data.format === "extended" ? 3 : 1), `report:${crypto.randomUUID()}`);
+    const credits = await consumeCredits(context.userId, "report_created", CREDIT_COSTS.report_created, `report:${crypto.randomUUID()}`);
     const t0 = Date.now();
     if (data.attachment) void meter({ userId: context.userId, event: "document_upload" });
     let report;
