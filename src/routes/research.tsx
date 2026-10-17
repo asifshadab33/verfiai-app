@@ -52,7 +52,7 @@ function Research() {
   async function run() {
     setBusy(true); setError(""); setResult(null);
     try {
-      const data = { question, language: "English", mode: "Balanced" as const, task: "topic" as const, format: kind === "deep" ? "extended" as const : "standard" as const };
+      const data = { question, language: "English", mode: "Balanced" as const, task: "topic" as const, format: "extended" as const };
       const r = user ? await gen({ data }) : await genGuest({ data });
       if ("limitReached" in r) setError(r.message ?? "Limit reached.");
       else { const id = "id" in r && typeof r.id === "string" ? r.id : undefined; setResult({ report: r.report, ...(id ? { id } : {}), kind }); }
