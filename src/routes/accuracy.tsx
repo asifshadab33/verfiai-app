@@ -27,17 +27,11 @@ function Accuracy() {
     >
       <PageSection title="Public dataset evaluation">
         <p>
-          We plan to evaluate Verfiai against public claim-verification datasets to monitor performance, and we
-          will publish the results — dataset, number of claims, accuracy and test date — in this table when that
-          evaluation has actually been run.
+          No public-dataset evaluation of Verfiai has been completed yet. When one is run, we will publish
+          the dataset name, the number of claims tested, the measured accuracy and the test date on this
+          page. Until then, no accuracy figure should be assumed, and you should review the cited sources
+          yourself before relying on any result.
         </p>
-        <div className="mt-5 overflow-x-auto border border-border">
-          <table className="w-full min-w-[620px] text-left text-sm">
-            <thead className="border-b border-border bg-secondary"><tr><th className="p-3">Dataset name</th><th className="p-3">Number of claims</th><th className="p-3">Accuracy</th><th className="p-3">Date tested</th></tr></thead>
-            <tbody><tr><td className="p-3">[TO BE FILLED]</td><td className="p-3">[TO BE FILLED]</td><td className="p-3">[TO BE FILLED]</td><td className="p-3">[TO BE FILLED]</td></tr></tbody>
-          </table>
-        </div>
-        <p className="mt-4 text-sm"><strong>No public-dataset evaluation has been completed yet.</strong> These placeholders are not results and must not be interpreted as performance claims.</p>
       </PageSection>
 
       <PageSection title="Known limitations">
