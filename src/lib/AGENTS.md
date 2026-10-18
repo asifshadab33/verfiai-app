@@ -13,4 +13,5 @@
 - Verification response caching is caller-scoped and versioned in a private table; preserve punctuation/numbers in normalization to avoid incorrect verdict reuse. Provider caches remain in research_cache.
 - All verification entry points reserve an atomic database request slot before cache reads or expensive work; guest buckets ignore user-agent, cache hits still count toward abuse limits but do not consume monthly quota or credits. Use TanStack server functions, not separate edge functions.
 - Extended Reports use three synthesis passes with a deterministic citation-marker guard and a server-built search audit log, because model-written audit trails cannot be trusted.
+- Report and dossier synthesis validates the chapter schema inside the model cascade so malformed provider output advances to the next configured engine.
 - Private media lives in the `report-media` bucket under `<userId>/` and is served only via 15-minute signed URLs from `media.functions.ts`, because permanent links would leak attachments.

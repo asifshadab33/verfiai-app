@@ -16,6 +16,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as FactCheckerRouteImport } from './routes/fact-checker'
 import { Route as FactChecksRouteImport } from './routes/fact-checks'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FeaturesRouteImport } from './routes/features'
@@ -75,6 +76,11 @@ const AuthRoute = AuthRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FactCheckerRoute = FactCheckerRouteImport.update({
+  id: '/fact-checker',
+  path: '/fact-checker',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FactChecksRoute = FactChecksRouteImport.update({
@@ -212,6 +218,7 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/fact-checker': typeof FactCheckerRoute
   '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
@@ -246,6 +253,7 @@ export interface FileRoutesByTo {
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/fact-checker': typeof FactCheckerRoute
   '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
@@ -281,6 +289,7 @@ export interface FileRoutesById {
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/fact-checker': typeof FactCheckerRoute
   '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
@@ -317,6 +326,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/auth'
     | '/contact'
+    | '/fact-checker'
     | '/fact-checks'
     | '/faq'
     | '/features'
@@ -351,6 +361,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/auth'
     | '/contact'
+    | '/fact-checker'
     | '/fact-checks'
     | '/faq'
     | '/features'
@@ -385,6 +396,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/auth'
     | '/contact'
+    | '/fact-checker'
     | '/fact-checks'
     | '/faq'
     | '/features'
@@ -420,6 +432,7 @@ export interface RootRouteChildren {
   AppRoute: typeof AppRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
+  FactCheckerRoute: typeof FactCheckerRoute
   FactChecksRoute: typeof FactChecksRoute
   FaqRoute: typeof FaqRoute
   FeaturesRoute: typeof FeaturesRoute
@@ -495,6 +508,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fact-checker': {
+      id: '/fact-checker'
+      path: '/fact-checker'
+      fullPath: '/fact-checker'
+      preLoaderRoute: typeof FactCheckerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/fact-checks': {
@@ -695,6 +715,7 @@ const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
+  FactCheckerRoute: FactCheckerRoute,
   FactChecksRoute: FactChecksRoute,
   FaqRoute: FaqRoute,
   FeaturesRoute: FeaturesRoute,

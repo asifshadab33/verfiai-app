@@ -6,8 +6,8 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 const idInput = z.object({ id: z.string().uuid() });
 
-async function ownReport(supabase: any, id: string) {
-  const { data } = await supabase.from("reports").select("id, share_token").eq("id", id).maybeSingle();
+async function ownReport(supabase: any, id: string, userId: string) {
+  const { data } = await supabase.from("reports").select("id, share_token").eq("id", id).eq("user_id", userId).maybeSingle();
   if (!data) throw new Error("Report not found.");
   return data as { id: string; share_token: string | null };
 }
@@ -15,7 +15,7 @@ async function ownReport(supabase: any, id: string) {
 export const getShareState = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => idInput.parse(d))
-  .handler(async ({ data, context }) => ({ token: (await ownReport(context.supabase, data.id)).share_token }));
+  .handler(async ({ data, context }) => ({ token: (await ownReport(context.supabase, data.id, context.userId)).share_token }));
 
 export const enableShare = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -23,7 +23,7 @@ export const enableShare = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { requireFlag } = await import("./flags.server");
     await requireFlag("PUBLIC_REPORT_SHARING_ENABLED", context.userId);
-    const row = await ownReport(context.supabase, data.id);
+    const row = await ownReport(context.supabase, data.id, context.userId);
     if (row.share_token) return { token: row.share_token };
     const token = randomBytes(16).toString("base64url");
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -36,7 +36,7 @@ export const disableShare = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => idInput.parse(d))
   .handler(async ({ data, context }) => {
-    const row = await ownReport(context.supabase, data.id);
+    const row = await ownReport(context.supabase, data.id, context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     await supabaseAdmin.from("reports").update({ share_token: null }).eq("id", row.id);
     return { token: null };

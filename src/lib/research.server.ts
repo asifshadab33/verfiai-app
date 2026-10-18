@@ -92,7 +92,7 @@ async function generateExtendedReport(
   const extSchema = reportSchema.extend({ sources: reportSchema.shape.sources.default([]) });
   let draft: ResearchReport | null = null; let p2engine = "";
   for (let attempt = 0; attempt < 2 && !draft; attempt++) {
-    const out = await synthesize(system2, user2, meta);
+    const out = await synthesize(system2, user2, meta, raw => parse(raw, extSchema) !== null);
     draft = parse(out.raw, extSchema) as ResearchReport | null; p2engine = out.engine;
   }
   if (!draft) throw new Error("The extended report was incomplete. Please try again.");

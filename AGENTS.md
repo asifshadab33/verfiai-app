@@ -23,3 +23,5 @@
 - OCR runs in the browser with lazy-loaded Tesseract.js; images never go to our server, because OCR must stay zero-cost and private.
 - Rights/DMCA notices are composed as email to hello@verfiai.app and not stored, until a reviewed takedown workflow exists.
 - Server-side rules for `src/lib` live in `src/lib/AGENTS.md`.
+- The dedicated /fact-checker page reuses FactChecker; shared-report embed badges link to the revocable report token and make no accuracy certification.
+- Pin security-patched transitive dependencies through package overrides so spreadsheet and document tools retain compatible public APIs.

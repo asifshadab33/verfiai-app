@@ -18,6 +18,7 @@ export function SiteFooter({ lang }: { lang?: Lang }) {
         </div>
         <nav aria-label="Footer links">
           <ul className="space-y-2.5 text-sm text-footer-muted">
+            <li><Link to="/fact-checker" className="transition-colors hover:text-footer-foreground hover:underline">{tx("navFact")}</Link></li>
             <li><Link to="/about" className="transition-colors hover:text-footer-foreground hover:underline">{tx("footerAbout")}</Link></li>
             <li><Link to="/accuracy" className="transition-colors hover:text-footer-foreground hover:underline">{tx("footerAccuracy")}</Link></li>
             <li><Link to="/methodology" className="transition-colors hover:text-footer-foreground hover:underline">Methodology</Link></li>

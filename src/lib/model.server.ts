@@ -21,8 +21,8 @@ const LABELS: Record<string, string> = {
   "groq:openai/gpt-oss-120b": "GPT-OSS 120B (Groq)",
   "groq:openai/gpt-oss-20b": "GPT-OSS 20B (Groq)",
   "gemini:gemini-3.8-flash": "Gemini 3.8 Flash",
-  "meta-llama/llama-3.3-70b-instruct:free": "Llama 3.3 70B (OpenRouter free)",
-  "qwen/qwen-2.5-72b-instruct:free": "Qwen 2.5 72B (OpenRouter free)",
+  "google/gemma-4-26b-a4b-it:free": "Gemma 4 (OpenRouter free)",
+  "nvidia/nemotron-3-super-120b-a12b:free": "Nemotron 3 Super (OpenRouter free)",
   "mistral:mistral-small-latest": "Mistral Small",
   "deepseek:deepseek-chat": "DeepSeek V3",
   "dashscope:qwen-plus": "Qwen Plus (DashScope)",
@@ -35,9 +35,9 @@ const LABELS: Record<string, string> = {
 
 export const ROUTES = {
   // Cheap, fast claim extraction.
-  triage: ["cerebras:llama-3.3-70b", "groq:openai/gpt-oss-20b", "groq:openai/gpt-oss-120b", "sambanova:Meta-Llama-3.3-70B-Instruct", "meta-llama/llama-3.3-70b-instruct:free", "qwen/qwen-2.5-72b-instruct:free", "gemini:gemini-3.8-flash", "deepinfra:Qwen/Qwen2.5-72B-Instruct", "github:openai/gpt-4o-mini", "qwen/qwen-2.5-72b-instruct"],
+  triage: ["cerebras:llama-3.3-70b", "groq:openai/gpt-oss-20b", "groq:openai/gpt-oss-120b", "sambanova:Meta-Llama-3.3-70B-Instruct", "google/gemma-4-26b-a4b-it:free", "nvidia/nemotron-3-super-120b-a12b:free", "gemini:gemini-3.8-flash", "deepinfra:Qwen/Qwen2.5-72B-Instruct", "github:openai/gpt-4o-mini", "qwen/qwen-2.5-72b-instruct"],
   // Synthesis and consensus evaluation.
-  evaluation: ["cerebras:llama-3.3-70b", "groq:openai/gpt-oss-120b", "sambanova:Meta-Llama-3.3-70B-Instruct", "meta-llama/llama-3.3-70b-instruct:free", "qwen/qwen-2.5-72b-instruct:free", "cerebras:deepseek-r1-distill-llama-70b", "nvidia:meta/llama-3.3-70b-instruct", "nvidia:deepseek-ai/deepseek-r1", "gemini:gemini-3.8-flash", "mistral:mistral-small-latest", "deepseek:deepseek-chat", "deepinfra:deepseek-ai/DeepSeek-V3", "mistralai/mistral-nemo", "dashscope:qwen-plus", "deepinfra:Qwen/Qwen2.5-72B-Instruct", "github:openai/gpt-4o-mini", "deepseek/deepseek-chat", "qwen/qwen-2.5-72b-instruct"],
+  evaluation: ["cerebras:llama-3.3-70b", "groq:openai/gpt-oss-120b", "sambanova:Meta-Llama-3.3-70B-Instruct", "google/gemma-4-26b-a4b-it:free", "nvidia/nemotron-3-super-120b-a12b:free", "cerebras:deepseek-r1-distill-llama-70b", "nvidia:meta/llama-3.3-70b-instruct", "nvidia:deepseek-ai/deepseek-r1", "gemini:gemini-3.8-flash", "mistral:mistral-small-latest", "deepseek:deepseek-chat", "deepinfra:deepseek-ai/DeepSeek-V3", "mistralai/mistral-nemo", "dashscope:qwen-plus", "deepinfra:Qwen/Qwen2.5-72B-Instruct", "github:openai/gpt-4o-mini", "deepseek/deepseek-chat", "qwen/qwen-2.5-72b-instruct"],
 } as const;
 
 /** Route tables; overridable server-side via env (comma-separated model ids). Providers without keys are skipped at call time. */
@@ -64,10 +64,10 @@ export const PROVIDERS: Record<string, { url: string; keyEnv: string; json: bool
 const PREFIX = new RegExp(`^(${Object.keys(PROVIDERS).filter(k => k !== "openrouter").join("|")}):(.+)$`);
 export function resolveModel(id: string) {
   const m = id.match(PREFIX);
-  return m ? { provider: m[1]!, model: m[2]! } : { provider: "openrouter", model: id };
+  return m?.[1] && m[2] ? { provider: m[1], model: m[2] } : { provider: "openrouter", model: id };
 }
 /** True when the provider for this model id has a key configured. */
-export const hasKey = (id: string) => !!process.env[PROVIDERS[resolveModel(id).provider]!.keyEnv];
+export const hasKey = (id: string) => { const cfg = PROVIDERS[resolveModel(id).provider]; return cfg ? !!process.env[cfg.keyEnv] : false; };
 /** Sentinel statuses: rate limit, unavailable, out of credits → fail over immediately. */
 export const SENTINEL_STATUSES = [402, 429, 503] as const;
 const timeoutMs = () => { const n = Number(process.env["MODEL_TIMEOUT_MS"]); return Number.isFinite(n) && n > 0 ? n : 45000; };
@@ -80,7 +80,8 @@ export type CallMeta = { userId?: string | null; guestFingerprint?: string; repo
 // Internal error codes — never shown to users; callers map them to friendly notices.
 export async function callEngine(model: string, system: string, user: string, meta?: CallMeta, maxTokens = 3500): Promise<string> {
   const { provider, model: providerModel } = resolveModel(model);
-  const cfg = PROVIDERS[provider]!;
+  const cfg = PROVIDERS[provider];
+  if (!cfg) throw new Error("engine-missing");
   const key = process.env[cfg.keyEnv];
   if (!key) throw new Error("engine-missing");
   const t0 = Date.now();
@@ -90,12 +91,14 @@ export async function callEngine(model: string, system: string, user: string, me
   };
   // JSON mode (e.g. Groq) rejects requests whose messages never mention "json" with HTTP 400.
   const sys = cfg.json ? withJsonWord(system, user) : system;
+  // Groq's on-demand TPM limit counts input plus requested output, not just output.
+  const outputTokens = provider === "groq" ? Math.min(maxTokens, Math.max(512, 7500 - Math.ceil((sys.length + user.length) / 3))) : maxTokens;
   try {
     const res = await fetch(cfg.url, {
       method: "POST",
       signal: AbortSignal.timeout(timeoutMs()),
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", ...(provider === "openrouter" ? { "HTTP-Referer": "https://verfiai.app", "X-Title": "Verfiai" } : {}) },
-      body: JSON.stringify({ model: providerModel, temperature: 0.2, max_tokens: maxTokens, ...(cfg.json ? { response_format: { type: "json_object" } } : {}), messages: [{ role: "system", content: sys }, { role: "user", content: user }] }),
+      body: JSON.stringify({ model: providerModel, temperature: 0.2, max_tokens: outputTokens, ...(cfg.json ? { response_format: { type: "json_object" } } : {}), messages: [{ role: "system", content: sys }, { role: "user", content: user }] }),
     });
     if (!res.ok) {
       console.error("model provider", provider, providerModel, res.status, (await res.text()).slice(0, 300));
@@ -126,9 +129,13 @@ export async function runRoute(name: "triage" | "evaluation", system: string, us
 }
 
 /** Synthesis route with engine labels (used by report generation). */
-export async function synthesize(system: string, user: string, meta?: CallMeta): Promise<{ raw: string; engine: string }> {
+export async function synthesize(system: string, user: string, meta?: CallMeta, validate?: (raw: string) => boolean): Promise<{ raw: string; engine: string }> {
   for (const m of getRoute("evaluation").filter(hasKey)) {
-    try { return { raw: await callEngine(m, system, user, meta), engine: LABELS[m] ?? m }; }
+    try {
+      const raw = await callEngine(m, system, user, meta);
+      if (validate && !validate(raw)) continue;
+      return { raw, engine: LABELS[m] ?? m };
+    }
     catch { /* try the next engine */ }
   }
   throw new Error("The report could not be generated right now. Please try again in a few minutes.");

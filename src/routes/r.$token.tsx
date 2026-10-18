@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ReportView } from "@/components/verifai/ReportView";
 import { getSharedReport } from "@/lib/share.functions";
 import type { ResearchReport } from "@/lib/report.functions";
+import { ReportSharingBadge } from "@/components/verifai/ReportSharingBadge";
 
 export const Route = createFileRoute("/r/$token")({
   loader: async ({ params }) => {
@@ -27,7 +28,7 @@ export const Route = createFileRoute("/r/$token")({
 });
 
 function Brand() {
-  return <Link to="/" className="flex items-center gap-2 font-display text-xl font-extrabold"><span className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground"><FileCheck2 className="size-5" /></span>Verfi <span className="text-brand">AI</span></Link>;
+  return <Link to="/" className="flex items-center gap-2 font-display text-xl font-extrabold"><span className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground"><FileCheck2 className="size-5" /></span>Verfiai</Link>;
 }
 
 function SharedNotFound() {
@@ -36,11 +37,13 @@ function SharedNotFound() {
 
 function SharedReport() {
   const row = Route.useLoaderData();
+  const { token } = Route.useParams();
   return <div className="min-h-screen bg-background">
     <header className="border-b border-border print:hidden"><div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5"><Brand /><Button asChild size="sm"><Link to="/">Check text free</Link></Button></div></header>
     <main className="mx-auto max-w-6xl px-5 py-10">
       <p className="mb-6 text-xs text-muted-foreground print:hidden">Shared read-only report</p>
       <ReportView report={row.content as ResearchReport} date={new Date(row.created_at).toLocaleDateString()} readOnly />
+      <ReportSharingBadge token={token} />
       <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border border-border bg-secondary p-5">
         <p className="text-sm"><span className="font-semibold">Made with Verfiai</span> — web-sourced research reports, claim fact-checks and citation checks.</p>
         <Button asChild className="print:hidden"><Link to="/">Try it free</Link></Button>

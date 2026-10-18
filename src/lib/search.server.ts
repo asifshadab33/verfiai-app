@@ -165,7 +165,7 @@ const ENGINES: Record<string, SearchEngine> = { tavily, brave, youcom, searxng, 
   openalex_oa: docEngine("openalex_oa", async q => (await import("./providers/documents.server")).openAlexOaSearch(q)),
   semanticscholar: docEngine("semanticscholar", async q => (await import("./providers/documents.server")).semanticScholarSearch(q)),
   core: docEngine("core", async q => (await import("./providers/documents.server")).coreSearch(q)),
-  scribd: docEngine("scribd", async q => (await import("./providers/documents.server")).scribdSearch(q, w => tavily.run(w))),
+  scribd: docEngine("scribd", async q => (await import("./providers/documents.server")).scribdSearch(q, w => searchAll(w, "en", ["tavily", "brave", "youcom", "searxng"]))),
 };
 
 /** Runs one engine through the CacheProvider; failures return [] and never break the caller. */
