@@ -1,9 +1,11 @@
 # Verfiai roadmap
 ## Oct 18 release
-- [ ] Run authenticated report, fact-check and Deep Dossier end to end; inspect live document providers and cascade outages.
+- [x] Verify authenticated report generation, claim result, share badge and live OpenAlex OA/Semantic Scholar/Scribd discovery; CORE remains disabled.
+- [ ] Complete successful Deep Dossier generation: live run returns an availability error after provider rate limits, exhausted balances and invalid structured outputs; needs available synthesis capacity.
 - [x] Dedicated /fact-checker with existing claim tool, leaf metadata, structured data and sitemap entry.
 - [x] Shared-report embeddable evidence badge and account prompt for saving future reports.
-- [ ] Run regression suite, review security findings and publish to verfiai.app.
+- [x] Run 35 regression tests and basic security scan; patch high-severity dependency advisories. Two moderate sprintf-js advisories remain without a published fixed version; guest-check cost warning retained.
+- [x] Request publishing to verfiai.app after verification; deployment completion requires confirmation.
 
 - [x] Day 3: add private 24-hour SHA-256 verification response caching and atomic guest 5/hour, signed-in 20/day guardrails; verify real citation caching, HTTP 429, concurrent limits and reset windows.
 - [x] Day 2: disable new paid checkouts, replace paid offers with Community Access and one-year free pledge, persist a consented Pro/Teams email waitlist, and verify signup storage plus checkout policy tests.
