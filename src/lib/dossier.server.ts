@@ -77,7 +77,9 @@ export async function generateDeepDossier(topic: string, opts: { strict: boolean
   const sources: (Source & Partial<DocSource>)[] = [...docs, ...webKept].slice(0, DOSSIER_MAX_SOURCES);
   if (!sources.length) throw new Error("We couldn't find enough public sources for this topic. Try a broader question.");
 
-  const line = (s: Source & Partial<DocSource>, i: number) => `[${i + 1}] ${s.title}${s.authors ? ` — ${s.authors}` : ""} — ${hostOf(s.url)} (Tier ${tierOf(s.url)}, ${s.published ?? "date unknown"})\nLink: ${s.url}\nSnippet: ${s.content.slice(0, 500)}`;
+  // Numbered evidence stays within a bounded context; complete URLs/metadata are attached deterministically below.
+  const excerptBudget = Math.max(100, Math.min(500, Math.floor(14000 / sources.length) - 130));
+  const line = (s: Source & Partial<DocSource>, i: number) => `[${i + 1}] ${s.title.slice(0, 90)} — ${hostOf(s.url)} (Tier ${tierOf(s.url)}, ${s.published ?? "date unknown"})\nSnippet: ${s.content.slice(0, excerptBudget)}`;
   const nDocs = docs.length;
   const evidence = `DOCUMENT CONTEXT (open-access papers and public document metadata):\n${sources.slice(0, nDocs).map(line).join("\n\n") || "None found."}\n\nVERIFIAI SOURCE CONTEXT (web, news and reference sources):\n${sources.slice(nDocs).map((s, i) => line(s, i + nDocs)).join("\n\n") || "None found."}`;
   const passes: string[] = [];
@@ -92,7 +94,7 @@ export async function generateDeepDossier(topic: string, opts: { strict: boolean
   const sys2 = `${li} You write a synthesized, book-like research chapter in ${lang} covering the given themes, explicitly noting areas of consensus and conflict. Return ONLY JSON with keys: title, summary (1-2 paragraphs), background (1-2 paragraphs), analysis (one section per theme, each starting with the theme title on its own line, 1-2 paragraphs each), findings (4-8 items of {title, detail, status}; status one of sourced, inference, disputed, unverified), conflictingEvidence (1-2 paragraphs on where sources disagree), proceduralGuidance (1 paragraph: how a reader should verify or follow up), timeline (array of {date, event} only from dated sources; [] if none), blindSpots (1 paragraph: what the sources don't cover), methodology (1 paragraph), limitations (2-3 sentences), conclusion (1 paragraph). Cite sources inline like [3] using numbers 1-${maxRef} only. ${guard}`;
   const extSchema = reportSchema.extend({ sources: reportSchema.shape.sources.default([]) });
   let chapter: ResearchReport | null = null; let p2engine = "";
-  for (let a = 0; a < 2 && !chapter; a++) { const o = await synthesize(sys2, `Topic: ${topic}\nThemes: ${JSON.stringify(themes)}\n\nSources:\n${evidence}`, opts.meta); chapter = parse(o.raw, extSchema) as ResearchReport | null; p2engine = o.engine; }
+  for (let a = 0; a < 2 && !chapter; a++) { const o = await synthesize(sys2, `Topic: ${topic}\nThemes: ${JSON.stringify(themes)}\n\nSources:\n${evidence}`, opts.meta, raw => parse(raw, extSchema) !== null); chapter = parse(o.raw, extSchema) as ResearchReport | null; p2engine = o.engine; }
   if (!chapter) throw new Error("The dossier could not be written right now. Please try again.");
   passes.push(`Pass 2 (synthesized chapter): ${p2engine}`);
 

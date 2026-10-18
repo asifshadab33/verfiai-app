@@ -1,4 +1,10 @@
 # Verfiai roadmap
+## Oct 18 release
+- [ ] Run authenticated report, fact-check and Deep Dossier end to end; inspect live document providers and cascade outages.
+- [x] Dedicated /fact-checker with existing claim tool, leaf metadata, structured data and sitemap entry.
+- [x] Shared-report embeddable evidence badge and account prompt for saving future reports.
+- [ ] Run regression suite, review security findings and publish to verfiai.app.
+
 - [x] Day 3: add private 24-hour SHA-256 verification response caching and atomic guest 5/hour, signed-in 20/day guardrails; verify real citation caching, HTTP 429, concurrent limits and reset windows.
 - [x] Day 2: disable new paid checkouts, replace paid offers with Community Access and one-year free pledge, persist a consented Pro/Teams email waitlist, and verify signup storage plus checkout policy tests.
 - [x] Priority 1 trust infrastructure: expand About, Methodology, and Accuracy; add trust navigation, input disclosures, verdict feedback, and footer feedback.
