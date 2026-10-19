@@ -181,13 +181,13 @@ export function ReportProofSection({ lang = "en" }: { lang?: Lang }) {
     <p className="mt-2 text-sm text-muted-foreground"><strong>{t("Illustrative sample")}</strong> — {t("synthetic example data showing the layout, not a real check.")}</p>
     <div className="mt-6 rounded-2xl border border-border bg-card p-5 text-sm">
       <dl className="grid gap-3 border-b border-border pb-4 sm:grid-cols-3">
-        <div><dt className="text-xs font-bold uppercase text-muted-foreground">{t("Original question")}</dt><dd className="mt-1">Are electric vehicles really cleaner and more practical in 2024?</dd></div>
+        <div><dt className="text-xs font-bold uppercase text-muted-foreground">{t("Original question")}</dt><dd className="mt-1">{t("Are electric vehicles really cleaner and more practical in 2024?")}</dd></div>
         <div><dt className="text-xs font-bold uppercase text-muted-foreground">{t("Retrieved")}</dt><dd className="mt-1">2024-07-01 09:30 UTC (sample)</dd></div>
-        <div><dt className="text-xs font-bold uppercase text-muted-foreground">{t("Sources")}</dt><dd className="mt-1">10 sources, 8 independent domains</dd></div>
+        <div><dt className="text-xs font-bold uppercase text-muted-foreground">{t("Sources")}</dt><dd className="mt-1">{t("10 sources, 8 independent domains")}</dd></div>
       </dl>
       <h3 className="mt-4 font-display text-lg font-bold">{t("Extracted claims")}</h3>
       <ul className="mt-3 space-y-4">{SAMPLE_CLAIMS.map(c => <li key={c.claim} className="border-s-2 border-border ps-4">
-        <div className="flex flex-wrap items-center gap-2"><Pill s={c.s} lang={lang} /><span className="text-xs font-semibold">{t("Evidence strength")}: {c.strength}</span><span className="text-xs text-muted-foreground">· {recentText(lang, "Sources: {count}", {count: c.count})} · {t(c.quality)}</span></div>
+        <div className="flex flex-wrap items-center gap-2"><Pill s={c.s} lang={lang} /><span className="text-xs font-semibold">{t("Evidence strength")}: {t(c.strength)}</span><span className="text-xs text-muted-foreground">· {recentText(lang, "Sources: {count}", {count: c.count})} · {t(c.quality)}</span></div>
         <p className="mt-1 font-medium">{t(c.claim)}</p>
         <div className={c.conflict ? "mt-2 grid gap-2 md:grid-cols-2" : "mt-2"}>
           <blockquote className="border border-border bg-background p-2 text-xs text-muted-foreground">{t(c.excerpt)}<span className="mt-1 block">{t(c.pub)}</span></blockquote>

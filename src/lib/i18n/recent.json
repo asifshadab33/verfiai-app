@@ -210,7 +210,18 @@
     "recent218": "Se aplican límites de tarifas razonables para proteger la disponibilidad del servicio. Las actuales asignaciones de uso legítimo siguen vigentes; El acceso gratuito no significa solicitudes ilimitadas.",
     "recent219": "Los usuarios académicos, educadores y de investigación de gran volumen pueden solicitar acceso ampliado en",
     "recent220": "Una cuenta gratuita obtiene 3 informes, 3 verificaciones de datos y 3 escaneos de citas al mes. Puedes probar cada herramienta una vez sin una cuenta. Verfiai es gratuito hasta el 13 de octubre de 2027, sujeto a límites de uso legítimo. Los usuarios académicos, educadores y de gran volumen pueden solicitar acceso ampliado en hello@verfiai.app.",
-    "recent221": "{count} fuentes únicas, clasificadas por nivel de fuente. Las notas resumen la contribución de cada fuente; abre el enlace para leer el original."
+    "recent221": "{count} fuentes únicas, clasificadas por nivel de fuente. Las notas resumen la contribución de cada fuente; abre el enlace para leer el original.",
+    "recent222": "Insignia copiada",
+    "recent223": "Copiar insignia para insertar",
+    "recent224": "¿Verfiai es gratuito?",
+    "recent225": "Sí. Verfiai es gratuito hasta el 13 de octubre de 2027 según límites de uso legítimo. Después del período de acceso comunitario de un año, se introducirán los planes Pro y Teams. Los usuarios existentes recibirán un aviso previo.",
+    "recent226": "¿Qué significa \"evidencia mixta\" o \"evidencia insuficiente\"?",
+    "recent227": "Las verificaciones de datos y los informes utilizan búsquedas web en vivo, reclasificadas por relevancia de las palabras clave. Los escaneos de citas utilizan los registros públicos de Crossref de los artículos publicados, incluidos los avisos de retractación.",
+    "recent228": "¿Serán los vehículos eléctricos realmente más limpios y prácticos en 2024?",
+    "recent229": "10 fuentes, 8 dominios independientes",
+    "recent230": "fuerte",
+    "recent231": "moderado",
+    "recent232": "Débil"
   },
   "fr": {
     "recent0": "Analyse",
@@ -423,7 +434,18 @@
     "recent218": "Des limites de tarifs raisonnables s’appliquent pour protéger la disponibilité du service. Les allocations d'utilisation équitable actuelles restent en place ; accès gratuit ne signifie pas demandes illimitées.",
     "recent219": "Les utilisateurs universitaires, pédagogiques et de recherche à grand volume peuvent demander un accès étendu à",
     "recent220": "Un compte gratuit reçoit 3 rapports, 3 vérifications des faits et 3 analyses de citations par mois. Vous pouvez essayer chaque outil une fois sans compte. Verfiai est gratuit jusqu'au 13 octobre 2027, sous réserve de limites d'utilisation équitable. Les utilisateurs universitaires, éducateurs et à volume élevé peuvent demander un accès étendu à hello@verfiai.app.",
-    "recent221": "{count} sources uniques, classées par niveau de source. Les notes résument la contribution de chaque source ; ouvrez le lien pour lire l'original."
+    "recent221": "{count} sources uniques, classées par niveau de source. Les notes résument la contribution de chaque source ; ouvrez le lien pour lire l'original.",
+    "recent222": "Insigne copié",
+    "recent223": "Copier le badge intégré",
+    "recent224": "Verfiai est-il gratuit ?",
+    "recent225": "Oui. Verfiai est gratuit jusqu'au 13 octobre 2027 dans les limites d'utilisation équitable. Après la période d'accès communautaire d'un an, les forfaits Pro et Teams seront introduits. Les utilisateurs existants recevront un préavis.",
+    "recent226": "Que signifie « Preuves mitigées » ou « Preuves insuffisantes » ?",
+    "recent227": "Les vérifications des faits et les rapports utilisent une recherche Web en direct, reclassée par pertinence des mots clés. Les analyses de citations utilisent les archives publiques des articles publiés de Crossref, y compris les avis de rétractation.",
+    "recent228": "Les véhicules électriques sont-ils vraiment plus propres et pratiques en 2024 ?",
+    "recent229": "10 sources, 8 domaines indépendants",
+    "recent230": "Fort",
+    "recent231": "Modéré",
+    "recent232": "Faible"
   },
   "de": {
     "recent0": "Analyse",
@@ -636,7 +658,18 @@
     "recent218": "Zum Schutz der Serviceverfügbarkeit gelten angemessene Tarifbegrenzungen. Die aktuellen Fair-Use-Zulagen bleiben bestehen; Freier Zugang bedeutet nicht unbegrenzte Anfragen.",
     "recent219": "Akademiker, Lehrkräfte und Nutzer mit großem Forschungsvolumen können unter folgender Adresse einen erweiterten Zugang anfordern:",
     "recent220": "Mit einem kostenlosen Konto erhalten Sie 3 Berichte, 3 Faktenchecks und 3 Zitationsscans pro Monat. Sie können jedes Tool einmal ohne Konto ausprobieren. Verfiai ist bis zum 13. Oktober 2027 kostenlos, vorbehaltlich der Fair-Use-Beschränkungen. Akademiker, Pädagogen und Benutzer mit hohem Volumen können unter hello@verfiai.app einen erweiterten Zugriff anfordern.",
-    "recent221": "{count} einzigartige Quellen, sortiert nach Quellenstufe. Anmerkungen fassen den Beitrag jeder Quelle zusammen; Öffnen Sie den Link, um das Original zu lesen."
+    "recent221": "{count} einzigartige Quellen, sortiert nach Quellenstufe. Anmerkungen fassen den Beitrag jeder Quelle zusammen; Öffnen Sie den Link, um das Original zu lesen.",
+    "recent222": "Abzeichen kopiert",
+    "recent223": "Einbettungsabzeichen kopieren",
+    "recent224": "Ist Verfiai kostenlos?",
+    "recent225": "Ja. Verfiai ist bis zum 13. Oktober 2027 im Rahmen der Fair-Use-Beschränkungen kostenlos. Nach dem einjährigen Community-Zugriffszeitraum werden Pro- und Teams-Pläne eingeführt. Bestehende Benutzer werden vorab benachrichtigt.",
+    "recent226": "Was bedeutet „Gemischte Evidenz“ oder „Unzureichende Evidenz“?",
+    "recent227": "Faktenchecks und Berichte nutzen eine Live-Websuche, neu geordnet nach Keyword-Relevanz. Bei Zitationsscans werden die öffentlichen Aufzeichnungen von Crossref zu veröffentlichten Artikeln verwendet, einschließlich Widerrufsmitteilungen.",
+    "recent228": "Sind Elektrofahrzeuge im Jahr 2024 wirklich sauberer und praktischer?",
+    "recent229": "10 Quellen, 8 unabhängige Domänen",
+    "recent230": "Stark",
+    "recent231": "Mäßig",
+    "recent232": "Schwach"
   },
   "pt": {
     "recent0": "Análise",
@@ -849,7 +882,18 @@
     "recent218": "Aplicam-se limites de tarifas razoáveis ​​para proteger a disponibilidade do serviço. As atuais licenças de uso justo permanecem em vigor; acesso gratuito não significa solicitações ilimitadas.",
     "recent219": "Usuários acadêmicos, educadores e de grande volume de pesquisas podem solicitar acesso estendido em",
     "recent220": "Uma conta gratuita recebe 3 relatórios, 3 verificações de fatos e 3 varreduras de citações por mês. Você pode experimentar cada ferramenta uma vez sem uma conta. Verfiai é gratuito até 13 de outubro de 2027, sujeito a limites de uso justo. Usuários acadêmicos, educadores e de grande volume podem solicitar acesso estendido em hello@verfiai.app.",
-    "recent221": "{count} fontes exclusivas, classificadas por nível de origem. As notas resumem a contribuição de cada fonte; abra o link para ler o original."
+    "recent221": "{count} fontes exclusivas, classificadas por nível de origem. As notas resumem a contribuição de cada fonte; abra o link para ler o original.",
+    "recent222": "Selo copiado",
+    "recent223": "Copiar emblema incorporado",
+    "recent224": "O Verfiai é gratuito?",
+    "recent225": "Sim. Verfiai é gratuito até 13 de outubro de 2027, sob limites de uso justo. Após o período de acesso à comunidade de um ano, os planos Pro e Teams serão introduzidos. Os usuários existentes receberão aviso prévio.",
+    "recent226": "O que significa \"evidência mista\" ou \"evidência insuficiente\"?",
+    "recent227": "As verificações de fatos e relatórios usam pesquisa na web ao vivo, reclassificadas por relevância de palavras-chave. As varreduras de citações usam registros públicos de artigos publicados do Crossref, incluindo avisos de retratação.",
+    "recent228": "Os veículos elétricos serão realmente mais limpos e práticos em 2024?",
+    "recent229": "10 fontes, 8 domínios independentes",
+    "recent230": "Forte",
+    "recent231": "Moderado",
+    "recent232": "Fraco"
   },
   "it": {
     "recent0": "Analisi",
@@ -1062,7 +1106,18 @@
     "recent218": "Si applicano limiti tariffari ragionevoli per proteggere la disponibilità del servizio. Le attuali indennità di fair use rimangono in vigore; accesso gratuito non significa richieste illimitate.",
     "recent219": "Gli utenti accademici, educatori e di ricerca ad alto volume possono richiedere l'accesso esteso a",
     "recent220": "Un account gratuito riceve 3 report, 3 fact-check e 3 scansioni di citazioni al mese. Puoi provare ogni strumento una volta senza un account. Verfiai è gratuito fino al 13 ottobre 2027, soggetto a limiti di fair use. Gli utenti accademici, educatori e ad alto volume possono richiedere l'accesso esteso all'indirizzo hello@verfiai.app.",
-    "recent221": "{count} fonti uniche, classificate in base al livello della fonte. Le note riassumono il contributo di ciascuna fonte; apri il link per leggere l'originale."
+    "recent221": "{count} fonti uniche, classificate in base al livello della fonte. Le note riassumono il contributo di ciascuna fonte; apri il link per leggere l'originale.",
+    "recent222": "Distintivo copiato",
+    "recent223": "Copia il badge incorporato",
+    "recent224": "Verfiai è gratuito?",
+    "recent225": "SÌ. Verfiai è gratuito fino al 13 ottobre 2027 con limiti di fair use. Dopo il periodo di accesso della community di un anno, verranno introdotti i piani Pro e Teams. Gli utenti esistenti riceveranno un preavviso.",
+    "recent226": "Cosa significa \"Prova mista\" o \"Prova insufficiente\"?",
+    "recent227": "I fact-check e i report utilizzano la ricerca web in tempo reale, riclassificata in base alla pertinenza delle parole chiave. Le scansioni delle citazioni utilizzano i registri pubblici di Crossref degli articoli pubblicati, inclusi gli avvisi di ritiro.",
+    "recent228": "I veicoli elettrici saranno davvero più puliti e pratici nel 2024?",
+    "recent229": "10 fonti, 8 domini indipendenti",
+    "recent230": "Forte",
+    "recent231": "Moderato",
+    "recent232": "Debole"
   },
   "nl": {
     "recent0": "Analyse",
@@ -1275,7 +1330,18 @@
     "recent218": "Er zijn redelijke tarieflimieten van toepassing om de beschikbaarheid van de service te beschermen. De huidige fair-use-rechten blijven van kracht; gratis toegang betekent niet onbeperkte aanvragen.",
     "recent219": "Academische, docenten- en grote onderzoeksgebruikers kunnen uitgebreide toegang aanvragen op",
     "recent220": "Een gratis account krijgt maandelijks 3 rapporten, 3 factchecks en 3 citatiescans. Je kunt elke tool een keer proberen zonder account. Verfiai is gratis tot 13 oktober 2027, onderhevig aan limieten voor redelijk gebruik. Academische, docenten- en grote gebruikers kunnen uitgebreide toegang aanvragen via hello@verfiai.app.",
-    "recent221": "{count} unieke bronnen, gerangschikt op bronniveau. Notities vatten de bijdrage van elke bron samen; open de link om het origineel te lezen."
+    "recent221": "{count} unieke bronnen, gerangschikt op bronniveau. Notities vatten de bijdrage van elke bron samen; open de link om het origineel te lezen.",
+    "recent222": "Badge gekopieerd",
+    "recent223": "Kopieer de insluitbadge",
+    "recent224": "Is Verfiai gratis?",
+    "recent225": "Ja. Verfiai is gratis tot 13 oktober 2027 onder de limieten voor redelijk gebruik. Na de community-toegangsperiode van een jaar worden Pro- en Teams-abonnementen geïntroduceerd. Bestaande gebruikers ontvangen vooraf bericht.",
+    "recent226": "Wat betekent 'Gemengd bewijs' of 'Onvoldoende bewijs'?",
+    "recent227": "Factchecks en rapporten maken gebruik van live zoeken op internet, opnieuw gerangschikt op trefwoordrelevantie. Citatiescans maken gebruik van Crossref's openbare registers van gepubliceerde artikelen, inclusief intrekkingskennisgevingen.",
+    "recent228": "Zijn elektrische voertuigen in 2024 echt schoner en praktischer?",
+    "recent229": "10 bronnen, 8 onafhankelijke domeinen",
+    "recent230": "Sterk",
+    "recent231": "Matig",
+    "recent232": "Zwak"
   },
   "ru": {
     "recent0": "Анализ",
@@ -1488,7 +1554,18 @@
     "recent218": "Для защиты доступности услуг применяются разумные ограничения скорости. Текущие разрешения на добросовестное использование остаются в силе; свободный доступ не означает неограниченные запросы.",
     "recent219": "Академические работники, преподаватели и пользователи, проводящие крупные исследования, могут запросить расширенный доступ по адресу:",
     "recent220": "Бесплатная учетная запись получает 3 отчета, 3 проверки фактов и 3 сканирования цитат в месяц. Вы можете попробовать каждый инструмент один раз без учетной записи. Verfiai бесплатен до 13 октября 2027 года с учетом ограничений добросовестного использования. Академические работники, преподаватели и крупные пользователи могут запросить расширенный доступ по адресу hello@verfiai.app.",
-    "recent221": "Уникальных источников: {count}, ранжированных по уровням источников. В примечаниях суммируется вклад каждого источника; откройте ссылку, чтобы прочитать оригинал."
+    "recent221": "Уникальных источников: {count}, ранжированных по уровням источников. В примечаниях суммируется вклад каждого источника; откройте ссылку, чтобы прочитать оригинал.",
+    "recent222": "Значок скопирован.",
+    "recent223": "Скопировать значок для встраивания",
+    "recent224": "Верфиай бесплатен?",
+    "recent225": "Да. Verfiai бесплатен до 13 октября 2027 года в соответствии с ограничениями добросовестного использования. По истечении годичного периода доступа сообщества будут представлены планы Pro и Teams. Существующие пользователи получат предварительное уведомление.",
+    "recent226": "Что означает «Смешанные доказательства» или «Недостаточно доказательств»?",
+    "recent227": "При проверке фактов и отчетах используется интерактивный веб-поиск, ранжируемый по релевантности ключевых слов. При сканировании цитирования используются общедоступные записи опубликованных статей Crossref, включая уведомления об отзыве.",
+    "recent228": "Действительно ли электромобили чище и практичнее в 2024 году?",
+    "recent229": "10 источников, 8 независимых доменов",
+    "recent230": "Сильный",
+    "recent231": "Умеренный",
+    "recent232": "Слабый"
   },
   "tr": {
     "recent0": "Analiz",
@@ -1701,7 +1778,18 @@
     "recent218": "Hizmet kullanılabilirliğini korumak için makul ücret sınırları geçerlidir. Mevcut adil kullanım ödenekleri geçerliliğini koruyor; ücretsiz erişim sınırsız istek anlamına gelmez.",
     "recent219": "Akademisyen, eğitimci ve yüksek hacimli araştırma kullanıcıları şu adresten genişletilmiş erişim talep edebilir:",
     "recent220": "Ücretsiz bir hesap ayda 3 rapor, 3 doğruluk kontrolü ve 3 alıntı taraması alır. Her aracı bir hesap olmadan bir kez deneyebilirsiniz. Verfiai, adil kullanım sınırlarına tabi olarak 13 Ekim 2027'ye kadar ücretsizdir. Akademisyen, eğitimci ve yüksek hacimli kullanıcılar hello@verfiai.app adresinden genişletilmiş erişim talebinde bulunabilirler.",
-    "recent221": "Kaynak katmanına göre sıralanmış {count} benzersiz kaynak. Notlar her kaynağın katkısını özetlemektedir; Orijinali okumak için bağlantıyı açın."
+    "recent221": "Kaynak katmanına göre sıralanmış {count} benzersiz kaynak. Notlar her kaynağın katkısını özetlemektedir; Orijinali okumak için bağlantıyı açın.",
+    "recent222": "Rozet kopyalandı",
+    "recent223": "Yerleştirme rozetini kopyala",
+    "recent224": "Verfiai ücretsiz mi?",
+    "recent225": "Evet. Verfiai, adil kullanım sınırları kapsamında 13 Ekim 2027'ye kadar ücretsizdir. Bir yıllık topluluk erişim döneminin ardından Pro ve Teams planları tanıtılacak. Mevcut kullanıcılara önceden bildirim gönderilecektir.",
+    "recent226": "\"Karışık delil\" veya \"Yetersiz delil\" ne anlama geliyor?",
+    "recent227": "Doğruluk kontrolleri ve raporlar, anahtar kelime alaka düzeyine göre yeniden sıralanan canlı web aramasını kullanır. Atıf taramaları, geri çekilme bildirimleri de dahil olmak üzere Crossref'in yayınlanmış makalelere ilişkin kamuya açık kayıtlarını kullanır.",
+    "recent228": "Elektrikli araçlar 2024'te gerçekten daha temiz ve daha kullanışlı mı?",
+    "recent229": "10 kaynak, 8 bağımsız alan",
+    "recent230": "Güçlü",
+    "recent231": "Orta",
+    "recent232": "Zayıf"
   },
   "ar": {
     "recent0": "تحليل",
@@ -1914,7 +2002,18 @@
     "recent218": "تنطبق حدود الأسعار المعقولة لحماية توفر الخدمة. تظل مخصصات الاستخدام العادل الحالية سارية؛ الوصول المجاني لا يعني طلبات غير محدودة.",
     "recent219": "يمكن لمستخدمي الأبحاث الأكاديمية والمعلمين والأبحاث ذات الحجم الكبير طلب وصول موسع على",
     "recent220": "يحصل الحساب المجاني على 3 تقارير و3 عمليات تدقيق للحقائق و3 عمليات مسح للاقتباسات شهريًا. يمكنك تجربة كل أداة مرة واحدة بدون حساب. Verfiai مجاني حتى 13 أكتوبر 2027، ويخضع لقيود الاستخدام العادل. يمكن للمستخدمين الأكاديميين والمعلمين والمستخدمين ذوي الحجم الكبير طلب وصول موسع على hello@verfiai.app.",
-    "recent221": "{count} مصادر فريدة، مرتبة حسب طبقة المصدر. تلخص الملاحظات مساهمة كل مصدر؛ افتح الرابط لقراءة النص الأصلي."
+    "recent221": "{count} مصادر فريدة، مرتبة حسب طبقة المصدر. تلخص الملاحظات مساهمة كل مصدر؛ افتح الرابط لقراءة النص الأصلي.",
+    "recent222": "تم نسخ الشارة",
+    "recent223": "انسخ شارة التضمين",
+    "recent224": "هل فيرفياي مجاني؟",
+    "recent225": "نعم. Verfiai مجاني حتى 13 أكتوبر 2027 بموجب حدود الاستخدام العادل. بعد فترة الوصول إلى المجتمع لمدة عام واحد، سيتم تقديم خطط Pro وTeams. سوف يتلقى المستخدمون الحاليون إشعارًا مسبقًا.",
+    "recent226": "ماذا تعني عبارة \"أدلة مختلطة\" أو \"أدلة غير كافية\"؟",
+    "recent227": "تستخدم عمليات التحقق من الحقائق والتقارير البحث المباشر على الويب، ويتم إعادة ترتيبها حسب صلة الكلمات الرئيسية. تستخدم عمليات مسح الاستشهادات سجلات Crossref العامة للأبحاث المنشورة، بما في ذلك إشعارات التراجع.",
+    "recent228": "هل السيارات الكهربائية أنظف وأكثر عملية حقًا في عام 2024؟",
+    "recent229": "10 مصادر، 8 مجالات مستقلة",
+    "recent230": "قوي",
+    "recent231": "معتدل",
+    "recent232": "ضعيف"
   },
   "hi": {
     "recent0": "विश्लेषण",
@@ -2127,7 +2226,18 @@
     "recent218": "सेवा उपलब्धता की सुरक्षा के लिए उचित दर सीमाएँ लागू होती हैं। वर्तमान उचित उपयोग भत्ते यथावत रहेंगे; मुफ़्त पहुंच का मतलब असीमित अनुरोध नहीं है।",
     "recent219": "शैक्षणिक, शिक्षक और उच्च-मात्रा अनुसंधान उपयोगकर्ता यहां विस्तारित पहुंच का अनुरोध कर सकते हैं",
     "recent220": "एक निःशुल्क खाते को प्रति माह 3 रिपोर्ट, 3 तथ्य-जांच और 3 उद्धरण स्कैन मिलते हैं। आप बिना किसी खाते के प्रत्येक टूल को एक बार आज़मा सकते हैं। उचित उपयोग सीमा के अधीन, Verfiai 13 अक्टूबर, 2027 तक निःशुल्क है। शैक्षणिक, शिक्षक और उच्च-मात्रा वाले उपयोगकर्ता hello@verfiai.app पर विस्तारित पहुंच का अनुरोध कर सकते हैं।",
-    "recent221": "{count} अद्वितीय स्रोत, स्रोत स्तर के अनुसार क्रमबद्ध। नोट्स प्रत्येक स्रोत के योगदान का सारांश देते हैं; मूल पढ़ने के लिए लिंक खोलें."
+    "recent221": "{count} अद्वितीय स्रोत, स्रोत स्तर के अनुसार क्रमबद्ध। नोट्स प्रत्येक स्रोत के योगदान का सारांश देते हैं; मूल पढ़ने के लिए लिंक खोलें.",
+    "recent222": "बैज कॉपी किया गया",
+    "recent223": "एंबेड बैज कॉपी करें",
+    "recent224": "क्या वर्फियाई मुफ़्त है?",
+    "recent225": "हाँ। उचित उपयोग सीमा के तहत Verfiai 13 अक्टूबर, 2027 तक निःशुल्क है। एक वर्ष की समुदाय-पहुंच अवधि के बाद, प्रो और टीम्स योजनाएं पेश की जाएंगी। मौजूदा उपयोगकर्ताओं को अग्रिम सूचना प्राप्त होगी.",
+    "recent226": "\"मिश्रित साक्ष्य\" या \"अपर्याप्त साक्ष्य\" का क्या मतलब है?",
+    "recent227": "तथ्य-जाँच और रिपोर्टें लाइव वेब खोज का उपयोग करती हैं, जिसे कीवर्ड प्रासंगिकता के आधार पर पुनः रैंक किया जाता है। उद्धरण स्कैन क्रॉसरेफ़ के प्रकाशित पत्रों के सार्वजनिक रिकॉर्ड का उपयोग करते हैं, जिसमें वापसी नोटिस भी शामिल हैं।",
+    "recent228": "क्या 2024 में इलेक्ट्रिक वाहन वास्तव में स्वच्छ और अधिक व्यावहारिक होंगे?",
+    "recent229": "10 स्रोत, 8 स्वतंत्र डोमेन",
+    "recent230": "मजबूत",
+    "recent231": "मध्यम",
+    "recent232": "कमजोर"
   },
   "bn": {
     "recent0": "বিশ্লেষণ",
@@ -2340,7 +2450,18 @@
     "recent218": "পরিষেবার প্রাপ্যতা রক্ষা করার জন্য যুক্তিসঙ্গত হারের সীমা প্রযোজ্য। বর্তমান ন্যায্য-ব্যবহার ভাতা বহাল রয়েছে; বিনামূল্যে অ্যাক্সেস সীমাহীন অনুরোধ মানে না.",
     "recent219": "একাডেমিক, শিক্ষাবিদ এবং উচ্চ-ভলিউম গবেষণা ব্যবহারকারীরা বর্ধিত অ্যাক্সেসের জন্য অনুরোধ করতে পারেন",
     "recent220": "একটি বিনামূল্যের অ্যাকাউন্ট মাসে 3টি রিপোর্ট, 3টি ফ্যাক্ট-চেক এবং 3টি উদ্ধৃতি স্ক্যান পায়৷ আপনি একটি অ্যাকাউন্ট ছাড়া প্রতিটি টুল একবার চেষ্টা করতে পারেন. Verfiai 13 অক্টোবর, 2027 পর্যন্ত বিনামূল্যে, ন্যায্য ব্যবহারের সীমা সাপেক্ষে। একাডেমিক, শিক্ষাবিদ এবং উচ্চ-ভলিউম ব্যবহারকারীরা hello@verfiai.app এ বর্ধিত অ্যাক্সেসের অনুরোধ করতে পারেন।",
-    "recent221": "{count} অনন্য উৎস, উৎস স্তর অনুসারে র‍্যাঙ্ক করা হয়েছে। নোট প্রতিটি উৎসের অবদান সংক্ষিপ্ত করে; মূলটি পড়তে লিঙ্কটি খুলুন।"
+    "recent221": "{count} অনন্য উৎস, উৎস স্তর অনুসারে র‍্যাঙ্ক করা হয়েছে। নোট প্রতিটি উৎসের অবদান সংক্ষিপ্ত করে; মূলটি পড়তে লিঙ্কটি খুলুন।",
+    "recent222": "ব্যাজ কপি করা হয়েছে",
+    "recent223": "এম্বেড ব্যাজ কপি করুন",
+    "recent224": "Verfiai বিনামূল্যে?",
+    "recent225": "হ্যাঁ। Verfiai ন্যায্য ব্যবহার সীমার অধীনে 13 অক্টোবর, 2027 পর্যন্ত বিনামূল্যে। এক বছরের সম্প্রদায়-অ্যাক্সেস সময়ের পরে, প্রো এবং টিম পরিকল্পনা চালু করা হবে। বিদ্যমান ব্যবহারকারীরা অগ্রিম নোটিশ পাবেন।",
+    "recent226": "\"মিশ্র প্রমাণ\" বা \"অপ্রতুল প্রমাণ\" মানে কি?",
+    "recent227": "ফ্যাক্ট-চেক এবং রিপোর্টগুলি লাইভ ওয়েব সার্চ ব্যবহার করে, কীওয়ার্ড প্রাসঙ্গিকতা দ্বারা পুনরায় র‌্যাঙ্ক করা হয়। উদ্ধৃতি স্ক্যানগুলি প্রত্যাহার নোটিশ সহ ক্রসরেফের প্রকাশিত কাগজপত্রের সর্বজনীন রেকর্ড ব্যবহার করে।",
+    "recent228": "2024 সালে বৈদ্যুতিক গাড়িগুলি কি সত্যিই পরিষ্কার এবং আরও ব্যবহারিক?",
+    "recent229": "10টি উৎস, 8টি স্বাধীন ডোমেইন",
+    "recent230": "শক্তিশালী",
+    "recent231": "পরিমিত",
+    "recent232": "দুর্বল"
   },
   "ur": {
     "recent0": "تجزیہ",
@@ -2553,7 +2674,18 @@
     "recent218": "سروس کی دستیابی کے تحفظ کے لیے مناسب شرح کی حدود لاگو ہوتی ہیں۔ موجودہ منصفانہ استعمال کے الاؤنس اپنی جگہ پر برقرار ہیں۔ مفت رسائی کا مطلب لامحدود درخواستیں نہیں ہیں۔",
     "recent219": "اکیڈمک، معلم اور اعلیٰ حجم کے تحقیقی صارفین اس پر توسیعی رسائی کی درخواست کر سکتے ہیں۔",
     "recent220": "ایک مفت اکاؤنٹ میں ایک ماہ میں 3 رپورٹیں، 3 حقائق کی جانچ پڑتال اور 3 حوالہ جات اسکین ہوتے ہیں۔ آپ اکاؤنٹ کے بغیر ہر ٹول کو ایک بار آزما سکتے ہیں۔ Verfiai 13 اکتوبر 2027 تک مفت ہے، مناسب استعمال کی حدود کے ساتھ۔ تعلیمی، معلم اور اعلیٰ حجم کے صارفین hello@verfiai.app پر توسیعی رسائی کی درخواست کر سکتے ہیں۔",
-    "recent221": "{count} منفرد ذرائع، ماخذ درجے کے لحاظ سے درجہ بندی۔ نوٹس ہر ذریعہ کی شراکت کا خلاصہ کرتے ہیں؛ اصل پڑھنے کے لیے لنک کھولیں۔"
+    "recent221": "{count} منفرد ذرائع، ماخذ درجے کے لحاظ سے درجہ بندی۔ نوٹس ہر ذریعہ کی شراکت کا خلاصہ کرتے ہیں؛ اصل پڑھنے کے لیے لنک کھولیں۔",
+    "recent222": "بیج کاپی ہو گیا۔",
+    "recent223": "ایمبیڈ بیج کاپی کریں۔",
+    "recent224": "کیا Verfiai مفت ہے؟",
+    "recent225": "جی ہاں Verfiai منصفانہ استعمال کی حدود کے تحت 13 اکتوبر 2027 تک مفت ہے۔ ایک سال کی کمیونٹی تک رسائی کی مدت کے بعد، پرو اور ٹیمز کے منصوبے متعارف کرائے جائیں گے۔ موجودہ صارفین کو پیشگی اطلاع موصول ہوگی۔",
+    "recent226": "\"مخلوط ثبوت\" یا \"ناکافی ثبوت\" کا کیا مطلب ہے؟",
+    "recent227": "حقائق کی جانچ پڑتال اور رپورٹیں لائیو ویب تلاش کا استعمال کرتی ہیں، مطلوبہ الفاظ کی مطابقت کے لحاظ سے دوبارہ درجہ بندی کی جاتی ہیں۔ حوالہ اسکین کراسریف کے شائع شدہ کاغذات کے عوامی ریکارڈ کا استعمال کرتے ہیں، بشمول مراجعت کے نوٹسز۔",
+    "recent228": "کیا 2024 میں الیکٹرک گاڑیاں واقعی صاف ستھری اور زیادہ عملی ہیں؟",
+    "recent229": "10 ذرائع، 8 آزاد ڈومینز",
+    "recent230": "مضبوط",
+    "recent231": "اعتدال پسند",
+    "recent232": "کمزور"
   },
   "fa": {
     "recent0": "تجزیه و تحلیل",
@@ -2766,7 +2898,18 @@
     "recent218": "محدودیت‌های نرخ معقول برای محافظت از در دسترس بودن خدمات اعمال می‌شود. کمک هزینه استفاده منصفانه فعلی همچنان پابرجاست. دسترسی رایگان به معنای درخواست نامحدود نیست.",
     "recent219": "آکادمیک، مربی و کاربران تحقیقاتی با حجم بالا می‌توانند درخواست دسترسی گسترده را در این نشانی دهند",
     "recent220": "یک حساب کاربری رایگان ماهانه 3 گزارش، 3 بررسی واقعیت و 3 اسکن استناد دریافت می کند. می توانید هر ابزار را یک بار بدون حساب امتحان کنید. Verfiai تا 13 اکتبر 2027، مشمول محدودیت‌های استفاده منصفانه رایگان است. آکادمیک، مربی و کاربران پرتعداد می توانند دسترسی گسترده را در hello@verfiai.app درخواست کنند.",
-    "recent221": "{count} منبع منحصر به فرد، رتبه‌بندی شده بر اساس ردیف منبع. یادداشت ها مشارکت هر منبع را خلاصه می کند. برای خواندن اصل لینک را باز کنید"
+    "recent221": "{count} منبع منحصر به فرد، رتبه‌بندی شده بر اساس ردیف منبع. یادداشت ها مشارکت هر منبع را خلاصه می کند. برای خواندن اصل لینک را باز کنید",
+    "recent222": "نشان کپی شد",
+    "recent223": "نشان جاسازی را کپی کنید",
+    "recent224": "آیا Verfiai رایگان است؟",
+    "recent225": "بله. Verfiai تا 13 اکتبر 2027 تحت محدودیت های استفاده منصفانه رایگان است. پس از دوره یک ساله دسترسی به جامعه، برنامه های Pro و Teams معرفی خواهند شد. کاربران موجود از قبل اطلاعیه دریافت خواهند کرد.",
+    "recent226": "«شواهد مختلط» یا «شواهد ناکافی» به چه معناست؟",
+    "recent227": "راستی‌آزمایی‌ها و گزارش‌ها از جستجوی زنده وب استفاده می‌کنند که بر اساس ارتباط کلیدواژه رتبه‌بندی می‌شود. اسکن استناد از سوابق عمومی Crossref از مقالات منتشر شده، از جمله اعلامیه های پس گرفتن استفاده می کند.",
+    "recent228": "آیا خودروهای الکتریکی در سال 2024 واقعا تمیزتر و کاربردی تر هستند؟",
+    "recent229": "10 منبع، 8 دامنه مستقل",
+    "recent230": "قوی",
+    "recent231": "متوسط",
+    "recent232": "ضعیف"
   },
   "zh": {
     "recent0": "分析",
@@ -2979,7 +3122,18 @@
     "recent218": "合理的速率限制适用于保护服务可用性。目前的合理使用津贴仍然有效；免费访问并不意味着无限制的请求。",
     "recent219": "学术界、教育工作者和大量研究用户可以请求扩展访问权限：",
     "recent220": "免费帐户每月可获得 3 份报告、3 次事实核查和 3 次引文扫描。您可以在没有帐户的情况下尝试每个工具一次。 Verfiai 在 2027 年 10 月 13 日之前免费，但须遵守合理使用限制。学术界、教育工作者和大容量用户可以通过 hello@verfiai.app 请求扩展访问权限。",
-    "recent221": "{count} 个独特来源，按来源层排名。注释总结了每个来源的贡献；打开链接阅读原文。"
+    "recent221": "{count} 个独特来源，按来源层排名。注释总结了每个来源的贡献；打开链接阅读原文。",
+    "recent222": "徽章已复制",
+    "recent223": "复制嵌入徽章",
+    "recent224": "Verfiai 是免费的吗？",
+    "recent225": "是的。根据合理使用限制，Verfiai 在 2027 年 10 月 13 日之前免费。一年的社区访问期结束后，将推出 Pro 和 Teams 计划。现有用户将收到提前通知。",
+    "recent226": "“证据混合”或“证据不足”是什么意思？",
+    "recent227": "事实检查和报告使用实时网络搜索，并根据关键词相关性重新排名。引文扫描使用 Crossref 已发表论文的公共记录，包括撤回通知。",
+    "recent228": "2024年电动汽车真的更清洁、更实用吗？",
+    "recent229": "10个来源，8个独立领域",
+    "recent230": "强",
+    "recent231": "中等",
+    "recent232": "弱"
   },
   "ja": {
     "recent0": "分析",
@@ -3192,7 +3346,18 @@
     "recent218": "サービスの可用性を保護するために、合理的なレート制限が適用されます。現在のフェアユースの許可は引き続き適用されます。無料アクセスは無制限のリクエストを意味するものではありません。",
     "recent219": "学術、教育者、および大量の研究ユーザーは、次の場所で拡張アクセスをリクエストできます。",
     "recent220": "無料アカウントでは、月に 3 件のレポート、3 件のファクトチェック、および 3 件の引用スキャンが提供されます。アカウントなしで各ツールを 1 回ずつ試すことができます。 Verfiai は、フェアユースの制限に従って、2027 年 10 月 13 日まで無料です。学術機関、教育者、および大量のユーザーは、hello@verfiai.app で拡張アクセスをリクエストできます。",
-    "recent221": "{count} 個の一意のソース。ソース層ごとにランク付けされています。注は各情報源の貢献を要約しています。リンクを開いて原文を読んでください。"
+    "recent221": "{count} 個の一意のソース。ソース層ごとにランク付けされています。注は各情報源の貢献を要約しています。リンクを開いて原文を読んでください。",
+    "recent222": "バッジをコピーしました",
+    "recent223": "埋め込みバッジをコピー",
+    "recent224": "ヴェルフィアイは無料ですか？",
+    "recent225": "はい。 Verfiai は、フェアユースの制限に従って 2027 年 10 月 13 日まで無料です。 1 年間のコミュニティ アクセス期間の後、Pro プランと Teams プランが導入されます。既存ユーザーには事前通知が届きます。",
+    "recent226": "「証拠が混在している」または「証拠が不十分」とはどういう意味ですか?",
+    "recent227": "ファクトチェックとレポートはライブ Web 検索を使用し、キーワードの関連性によって再ランク付けされます。引用スキャンでは、撤回通知を含む、出版された論文の Crossref の公開記録が使用されます。",
+    "recent228": "2024 年に電気自動車は本当にクリーンで実用的になるでしょうか?",
+    "recent229": "10 のソース、8 つの独立したドメイン",
+    "recent230": "強い",
+    "recent231": "中等度",
+    "recent232": "弱い"
   },
   "ko": {
     "recent0": "분석",
@@ -3405,7 +3570,18 @@
     "recent218": "서비스 가용성을 보호하기 위해 합리적인 속도 제한이 적용됩니다. 현재의 공정 사용 수당은 그대로 유지됩니다. 무료 액세스는 무제한 요청을 의미하지 않습니다.",
     "recent219": "학계, 교육자 및 대량 연구 사용자는 다음에서 확장 액세스를 요청할 수 있습니다.",
     "recent220": "무료 계정에는 한 달에 3개의 보고서, 3개의 사실 확인, 3개의 인용 스캔이 제공됩니다. 계정 없이도 각 도구를 한 번만 사용해 볼 수 있습니다. Verfiai는 2027년 10월 13일까지 무료이며 공정 사용 제한이 적용됩니다. 학계, 교육자 및 대량 사용자는 hello@verfiai.app에서 확장 액세스를 요청할 수 있습니다.",
-    "recent221": "소스 계층별로 순위가 매겨진 고유 소스 {count}개. 메모는 각 출처의 기여를 요약합니다. 링크를 열어서 원본을 읽어보세요."
+    "recent221": "소스 계층별로 순위가 매겨진 고유 소스 {count}개. 메모는 각 출처의 기여를 요약합니다. 링크를 열어서 원본을 읽어보세요.",
+    "recent222": "배지가 복사되었습니다.",
+    "recent223": "삽입 배지 복사",
+    "recent224": "Verfiai는 무료인가요?",
+    "recent225": "예. Verfiai는 공정 사용 제한에 따라 2027년 10월 13일까지 무료입니다. 1년의 커뮤니티 액세스 기간이 지나면 Pro 및 Teams 플랜이 도입됩니다. 기존 사용자에게는 사전 통지가 제공됩니다.",
+    "recent226": "\"증거 혼합\" 또는 \"증거 불충분\"이란 무엇을 의미합니까?",
+    "recent227": "사실 확인 및 보고서는 키워드 관련성에 따라 순위가 다시 지정된 실시간 웹 검색을 사용합니다. 인용 스캔은 철회 통지를 포함하여 출판된 논문에 대한 Crossref의 공개 기록을 사용합니다.",
+    "recent228": "2024년에는 전기차가 정말 더 깨끗하고 실용적일까요?",
+    "recent229": "10개 소스, 8개 독립 도메인",
+    "recent230": "강한",
+    "recent231": "보통",
+    "recent232": "약함"
   },
   "id": {
     "recent0": "Analisis",
@@ -3618,7 +3794,18 @@
     "recent218": "Batasan tarif yang wajar berlaku untuk melindungi ketersediaan layanan. Tunjangan penggunaan wajar yang ada saat ini masih berlaku; akses gratis tidak berarti permintaan tidak terbatas.",
     "recent219": "Akademisi, pendidik, dan pengguna penelitian bervolume tinggi dapat meminta akses yang diperluas di",
     "recent220": "Akun gratis mendapat 3 laporan, 3 pemeriksaan fakta, dan 3 pemindaian kutipan dalam sebulan. Anda dapat mencoba setiap alat satu kali tanpa akun. Verfiai gratis hingga 13 Oktober 2027, tunduk pada batasan penggunaan wajar. Akademisi, pendidik, dan pengguna bervolume tinggi dapat meminta akses yang diperluas di hello@verfiai.app.",
-    "recent221": "{count} sumber unik, diberi peringkat berdasarkan tingkat sumber. Catatan merangkum kontribusi masing-masing sumber; buka tautan untuk membaca aslinya."
+    "recent221": "{count} sumber unik, diberi peringkat berdasarkan tingkat sumber. Catatan merangkum kontribusi masing-masing sumber; buka tautan untuk membaca aslinya.",
+    "recent222": "Lencana disalin",
+    "recent223": "Salin lencana penyematan",
+    "recent224": "Apakah Verfiai gratis?",
+    "recent225": "Ya. Verfiai gratis hingga 13 Oktober 2027 berdasarkan batas penggunaan wajar. Setelah periode akses komunitas satu tahun, paket Pro dan Teams akan diperkenalkan. Pengguna lama akan menerima pemberitahuan terlebih dahulu.",
+    "recent226": "Apa yang dimaksud dengan \"Bukti campuran\" atau \"Bukti tidak cukup\"?",
+    "recent227": "Pemeriksaan fakta dan laporan menggunakan pencarian web langsung, yang diberi peringkat ulang berdasarkan relevansi kata kunci. Pemindaian kutipan menggunakan catatan publik Crossref atas makalah yang diterbitkan, termasuk pemberitahuan pencabutan.",
+    "recent228": "Apakah kendaraan listrik benar-benar lebih bersih dan praktis di tahun 2024?",
+    "recent229": "10 sumber, 8 domain independen",
+    "recent230": "Kuat",
+    "recent231": "Sedang",
+    "recent232": "Lemah"
   },
   "sw": {
     "recent0": "Uchambuzi",
@@ -3831,6 +4018,17 @@
     "recent218": "Vikomo vya viwango vinavyokubalika vinatumika ili kulinda upatikanaji wa huduma. Posho za matumizi ya haki za sasa zinaendelea kuwepo; ufikiaji wa bure haimaanishi maombi yasiyo na kikomo.",
     "recent219": "Watumiaji wa kitaaluma, waelimishaji na watafiti wa kiwango cha juu wanaweza kuomba ufikiaji uliopanuliwa kwenye",
     "recent220": "Akaunti isiyolipishwa hupata ripoti 3, ukaguzi 3 wa ukweli na uchanganuzi wa manukuu 3 kwa mwezi. Unaweza kujaribu kila zana mara moja bila akaunti. Verfiai ni bila malipo hadi tarehe 13 Oktoba 2027, kwa mujibu wa vikomo vya matumizi ya haki. Watumiaji wa kitaaluma, waelimishaji na wa kiwango cha juu wanaweza kuomba ufikiaji uliopanuliwa kwenye hello@verfiai.app.",
-    "recent221": "Vyanzo {count} mahususi, vilivyoorodheshwa kulingana na kiwango cha chanzo. Vidokezo ni muhtasari wa mchango wa kila chanzo; fungua kiungo ili kusoma asili."
+    "recent221": "Vyanzo {count} mahususi, vilivyoorodheshwa kulingana na kiwango cha chanzo. Vidokezo ni muhtasari wa mchango wa kila chanzo; fungua kiungo ili kusoma asili.",
+    "recent222": "Beji imenakiliwa",
+    "recent223": "Nakili beji iliyopachikwa",
+    "recent224": "Je, Verfiai ni bure?",
+    "recent225": "Ndiyo. Verfiai ni bila malipo hadi tarehe 13 Oktoba 2027 chini ya vikomo vya matumizi ya haki. Baada ya kipindi cha mwaka mmoja cha ufikiaji wa jumuiya, mipango ya Pro na Timu itaanzishwa. Watumiaji waliopo watapokea arifa ya mapema.",
+    "recent226": "Je, \"Ushahidi Mseto\" au \"Ushahidi usiotosha\" unamaanisha nini?",
+    "recent227": "Ukaguzi wa ukweli na ripoti hutumia utafutaji wa moja kwa moja wa wavuti, uliowekwa upya kulingana na umuhimu wa neno kuu. Uchanganuzi wa manukuu hutumia rekodi za umma za Crossref za karatasi zilizochapishwa, ikijumuisha arifa za kubatilisha.",
+    "recent228": "Magari ya umeme ni safi na yanafaa zaidi mnamo 2024?",
+    "recent229": "Vyanzo 10, vikoa 8 vinavyojitegemea",
+    "recent230": "Nguvu",
+    "recent231": "Wastani",
+    "recent232": "Dhaifu"
   }
 }
