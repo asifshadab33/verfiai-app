@@ -1,4 +1,4 @@
-import { recentText, localizedBreakdown } from "@/lib/recent-i18n";
+import { recentText } from "@/lib/recent-i18n";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { AlertTriangle, HelpCircle, ChevronDown, ArrowRight, BookOpenCheck, Briefcase, Check, CheckCircle2, Code2, FileSearch, Globe, Newspaper, ScanSearch, ShieldCheck, XCircle } from "lucide-react";
@@ -132,9 +132,9 @@ export function PricingSection({ onStart, lang }: { onStart: () => void; lang: L
   const t = (text: string) => recentText(lang, text);
   return <section id="pricing" aria-labelledby="pricing-title" className="mx-auto max-w-7xl scroll-mt-24 px-5 py-16">
     <p className="text-xs font-bold uppercase text-brand">{COMMUNITY_LABELS[lang]}</p>
-    <h2 id="pricing-title" className="mt-2 font-display text-3xl font-bold">Free Access for the Community</h2>
+    <h2 id="pricing-title" className="mt-2 font-display text-3xl font-bold">{t("Free Access for the Community")}</h2>
     <div className="mt-8 grid gap-10 md:grid-cols-2">
-      <div><p className="font-display text-4xl font-bold">{recentText(lang, "Free until {date}", { date: FREE_ACCESS_END })}</p><p className="mt-4 leading-7 text-muted-foreground">All current features are free during the launch period. No credit card required.</p><div className="mt-6 text-sm"><PricingTiers /></div><p className="mt-4 text-sm leading-6 text-muted-foreground">Reasonable rate limits apply to protect service availability. Current fair-use allowances remain in place; free access does not mean unlimited requests.</p><p className="mt-4 text-sm leading-6 text-muted-foreground">Academic, educator and high-volume research users can request extended access at <a href="mailto:hello@verfiai.app" className="text-brand underline">hello@verfiai.app</a>.</p><div className="mt-6 flex flex-wrap items-center gap-4"><Button onClick={onStart}>{siteText(lang, "heroPrimary")}<ArrowRight /></Button><Link to="/pricing" className="text-sm font-semibold text-brand underline">{t("Community access details")}</Link></div></div>
+      <div><p className="font-display text-4xl font-bold">{recentText(lang, "Free until {date}", { date: FREE_ACCESS_END })}</p><p className="mt-4 leading-7 text-muted-foreground">{t("All current features are free during the launch period. No credit card required.")}</p><div className="mt-6 text-sm"><PricingTiers /></div><p className="mt-4 text-sm leading-6 text-muted-foreground">{t("Reasonable rate limits apply to protect service availability. Current fair-use allowances remain in place; free access does not mean unlimited requests.")}</p><p className="mt-4 text-sm leading-6 text-muted-foreground">{t("Academic, educator and high-volume research users can request extended access at")}<a href="mailto:hello@verfiai.app" className="text-brand underline">hello@verfiai.app</a>.</p><div className="mt-6 flex flex-wrap items-center gap-4"><Button onClick={onStart}>{siteText(lang, "heroPrimary")}<ArrowRight /></Button><Link to="/pricing" className="text-sm font-semibold text-brand underline">{t("Community access details")}</Link></div></div>
       <CommunityWaitlist />
     </div>
   </section>;
@@ -178,7 +178,7 @@ export function ReportProofSection({ lang = "en" }: { lang?: Lang }) {
   const t = (text: string) => recentText(lang, text);
   return <section aria-labelledby="proof-title" className="mx-auto max-w-7xl px-5 py-16">
     <h2 id="proof-title" className="font-display text-3xl font-bold">{t("What a real Verfiai report includes")}</h2>
-    <p className="mt-2 text-sm text-muted-foreground"><strong>{t("Illustrative sample")}</strong> — synthetic example data showing the layout, not a real check.</p>
+    <p className="mt-2 text-sm text-muted-foreground"><strong>{t("Illustrative sample")}</strong> — {t("synthetic example data showing the layout, not a real check.")}</p>
     <div className="mt-6 rounded-2xl border border-border bg-card p-5 text-sm">
       <dl className="grid gap-3 border-b border-border pb-4 sm:grid-cols-3">
         <div><dt className="text-xs font-bold uppercase text-muted-foreground">{t("Original question")}</dt><dd className="mt-1">Are electric vehicles really cleaner and more practical in 2024?</dd></div>
@@ -191,7 +191,7 @@ export function ReportProofSection({ lang = "en" }: { lang?: Lang }) {
         <p className="mt-1 font-medium">{t(c.claim)}</p>
         <div className={c.conflict ? "mt-2 grid gap-2 md:grid-cols-2" : "mt-2"}>
           <blockquote className="border border-border bg-background p-2 text-xs text-muted-foreground">{t(c.excerpt)}<span className="mt-1 block">{t(c.pub)}</span></blockquote>
-          {c.conflict && <blockquote className="border border-destructive/30 bg-background p-2 text-xs text-muted-foreground"><span className="font-semibold text-destructive">Conflicting excerpt: </span>{t(c.conflict)}</blockquote>}
+          {c.conflict && <blockquote className="border border-destructive/30 bg-background p-2 text-xs text-muted-foreground"><span className="font-semibold text-destructive">{t("Conflicting excerpt")}: </span>{t(c.conflict)}</blockquote>}
         </div>
       </li>)}</ul>
       <h3 className="mt-5 font-display text-lg font-bold">{t("Limitations and open questions")}</h3>

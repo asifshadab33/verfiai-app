@@ -1,6 +1,6 @@
 import { checkerText } from "@/lib/checker-i18n";
 import { localeCode } from "@/lib/recent-i18n";
-import { recentText, localizedBreakdown } from "@/lib/recent-i18n";
+import { recentText } from "@/lib/recent-i18n";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";

@@ -1,5 +1,5 @@
 import { useLocation } from "@tanstack/react-router";
-import { recentText, localizedBreakdown } from "@/lib/recent-i18n";
+import { recentText } from "@/lib/recent-i18n";
 export const UPLOAD_NOTICE = "Before uploading: Text and file contents are processed by Verfiai’s search and AI providers to generate results. Do not upload confidential, regulated, unpublished, or personally identifiable material.";
 export function UploadNotice() {
  const lang = new URLSearchParams(useLocation().searchStr).get("lang") ?? "en";

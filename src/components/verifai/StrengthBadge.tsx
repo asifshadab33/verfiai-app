@@ -1,4 +1,4 @@
-import { recentText, localizedBreakdown } from "@/lib/recent-i18n";
+import { recentText } from "@/lib/recent-i18n";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import type { EvidenceStrength } from "@/lib/evidence";
 import { uiText, type UiExtraKey } from "@/lib/ui-extra-i18n";

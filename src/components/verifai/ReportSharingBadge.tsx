@@ -1,5 +1,5 @@
 import { useLocation } from "@tanstack/react-router";
-import { recentText, localizedBreakdown } from "@/lib/recent-i18n";
+import { recentText } from "@/lib/recent-i18n";
 import { useState } from "react";
 import { Copy, Check, UserRound } from "lucide-react";
 import { Link } from "@tanstack/react-router";
