@@ -1,4 +1,11 @@
 # Verfiai roadmap
+## Oct 19 overnight release
+- [ ] Synchronize recent research and citation UI across all 18 non-English locales.
+- [ ] Retry authenticated report, fact-check, citation and Deep Dossier flows; test live search providers and cache behavior.
+- [ ] Run regression suite and fresh security checks; resolve high/critical findings.
+- [ ] Publish and confirm production HTTP status, key pages and localized UI.
+- Deferred by owner: CORE remains disabled; download-storage decisions and paid library rights remain untouched.
+
 ## Oct 18 release
 - [x] Verify authenticated report generation, claim result, share badge and live OpenAlex OA/Semantic Scholar/Scribd discovery; CORE remains disabled.
 - [ ] Complete successful Deep Dossier generation: live run returns an availability error after provider rate limits, exhausted balances and invalid structured outputs; needs available synthesis capacity.
