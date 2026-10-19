@@ -3,7 +3,7 @@
 - [x] Synchronize recent research and citation UI across all 18 non-English locales; Spanish/Arabic render checked. Native-language review remains advisable.
 - [x] Retry authenticated report, fact-check and citation flows successfully; retry Deep Dossier and test provider/cache behavior. Semantic Scholar rate-limited; multilingual Wikipedia requests blocked by provider HTTP 403; complete dossier remains dependent on upstream synthesis availability.
 - [x] Run 39 regression tests and fresh basic security checks; no high/critical findings. Moderate dependency advisories and intentional guest-cost warning remain.
-- [ ] Publish and confirm production HTTP status, key pages and localized UI.
+- [x] Publishing requested; both public hosts returned HTTP 200 for homepage, /fact-checker, /app, /security and /contact; public Spanish/Arabic dossier pages contain the new translated placeholders.
 - Deferred by owner: CORE remains disabled; download-storage decisions and paid library rights remain untouched.
 
 ## Oct 18 release
