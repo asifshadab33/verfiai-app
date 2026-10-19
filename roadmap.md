@@ -1,8 +1,8 @@
 # Verfiai roadmap
 ## Oct 19 overnight release
-- [ ] Synchronize recent research and citation UI across all 18 non-English locales.
-- [ ] Retry authenticated report, fact-check, citation and Deep Dossier flows; test live search providers and cache behavior.
-- [ ] Run regression suite and fresh security checks; resolve high/critical findings.
+- [x] Synchronize recent research and citation UI across all 18 non-English locales; Spanish/Arabic render checked. Native-language review remains advisable.
+- [x] Retry authenticated report, fact-check and citation flows successfully; retry Deep Dossier and test provider/cache behavior. Semantic Scholar rate-limited; multilingual Wikipedia requests blocked by provider HTTP 403; complete dossier remains dependent on upstream synthesis availability.
+- [x] Run 39 regression tests and fresh basic security checks; no high/critical findings. Moderate dependency advisories and intentional guest-cost warning remain.
 - [ ] Publish and confirm production HTTP status, key pages and localized UI.
 - Deferred by owner: CORE remains disabled; download-storage decisions and paid library rights remain untouched.
 
@@ -74,13 +74,13 @@
 - [x] P7 upload privacy notice, footer links (/security, /contact), privacy page detail
 - [x] P8 verdict feedback buttons stored server-side
 - [x] P9 JSON-LD SoftwareApplication/Organization/FAQPage, sitemap/robots
-- [ ] P10 finish citation checker translations (blocked earlier by AI credits)
+- [x] P10 finish citation checker translations (static dictionaries and translated citation notes)
 - [x] Homepage studio Deep Dossier tab
 - [x] Document sources: Scribd (oEmbed metadata only), Unpaywall, Semantic Scholar, CORE; dedup prefers OA over Scribd; 15-20 doc cap
 - [x] Dossier helper/warning copy update (30-60s)
 - [x] Admin search tests include new sources
 - [x] Sitemap /security /contact
-- [ ] i18n sync for new strings + citation checker (blocked: AI translation credits/provider keys failing)
+- [x] i18n sync for new strings + citation checker (static dictionaries; native review advised)
 
 ## Oct 17 checks
 - [x] Verify business routing, dossier pipeline (live run pending)
