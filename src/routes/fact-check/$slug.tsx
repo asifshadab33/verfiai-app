@@ -21,7 +21,7 @@ export const Route = createFileRoute("/fact-check/$slug")({
     meta: [
       { title: `Fact check: ${c.claim.slice(0, 60)} | Verfiai` },
       { name: "description", content: `${VERDICT_LABEL[c.verdict]}: ${c.evidence_summary}`.slice(0, 160) },
-      { property: "og:title", content: `Fact check: ${c.claim}` },
+      { property: "og:title", content: `Fact check: ${c.claim.slice(0, 60)} | Verfiai` },
       { property: "og:description", content: `${VERDICT_LABEL[c.verdict]} — ${c.evidence_summary}`.slice(0, 200) },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary" },
@@ -31,7 +31,7 @@ export const Route = createFileRoute("/fact-check/$slug")({
       { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "ClaimReview", url: `${BASE}/fact-check/${c.slug}`, claimReviewed: c.claim, author: { "@type": "Organization", name: "Verfiai", url: BASE }, reviewRating: { "@type": "Rating", ratingValue: VERDICT_RATING[c.verdict], bestRating: 5, worstRating: 1, alternateName: VERDICT_LABEL[c.verdict] } }) },
       { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqs(c).map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })) }) },
     ],
-  }) : { meta: [{ title: "Fact check not found | Verfiai" }] },
+  }) : { meta: [{ title: "Fact check not found | Verfiai" }, { name: "description", content: "This claim is not in Verfiai's editorial claim directory." }, { property: "og:title", content: "Fact check not found | Verfiai" }, { property: "og:description", content: "This claim is not in Verfiai's editorial claim directory." }, { property: "og:type", content: "article" }, { name: "twitter:card", content: "summary" }] },
   notFoundComponent: () => <ContentPage title="Fact check not found" intro="This claim isn't in our list."><Link to="/fact-checks" className="text-brand underline">Browse all fact checks</Link></ContentPage>,
   component: FactCheckPage,
 });

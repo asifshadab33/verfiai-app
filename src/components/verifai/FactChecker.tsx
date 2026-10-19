@@ -66,7 +66,7 @@ export function FactChecker({ lang }: { lang: Lang }) {
     <div role="tablist" aria-label={tx("factInputType")} className="mt-6 inline-flex rounded-lg border border-border p-1">
       {(["text", "url"] as const).map(m => <Button key={m} role="tab" aria-selected={mode === m} size="sm" variant={mode === m ? "default" : "ghost"} onClick={() => setMode(m)}>{m === "text" ? tx("factPaste") : <><Link2 />{tx("factLink")}</>}</Button>)}
     </div>
-    <p className="mt-5 text-xs leading-5 text-muted-foreground">{checkerText(lang, "privacy")} <a href="/privacy" className="text-brand underline">{t("privacy notice")}</a>{t("and")}<a href="/methodology" className="text-brand underline">{t("methodology")}</a>.</p>
+    <p className="mt-5 text-xs leading-5 text-muted-foreground">{checkerText(lang, "privacy")} <a href="/privacy" className="text-brand underline">{t("privacy notice")}</a>{" "}{t("and")}{" "}<a href="/methodology" className="text-brand underline">{t("methodology")}</a>.</p>
     {mode === "text" ? <>
       <label htmlFor="fact-text" className="mt-3 block text-sm font-semibold">{tx("factText")}</label>
       <Textarea id="fact-text" {...ocr.handlers} aria-describedby="fact-ocr" value={text} maxLength={15000} onChange={e => setText(e.target.value)} placeholder={tx("factPlaceholder")} className={`mt-2 min-h-40 bg-card ${ocr.over ? "ring-2 ring-brand" : ""}`} dir="auto" />

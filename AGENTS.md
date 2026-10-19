@@ -25,3 +25,4 @@
 - Server-side rules for `src/lib` live in `src/lib/AGENTS.md`.
 - The dedicated /fact-checker page reuses FactChecker; shared-report embed badges link to the revocable report token and make no accuracy certification.
 - Pin security-patched transitive dependencies through package overrides so spreadsheet and document tools retain compatible public APIs.
+- Recent UI, citation notes and deterministic evidence explanations use precompiled locale dictionaries through `recent-i18n.ts`; keep original source titles and quotes verbatim because translating evidence can change its meaning.

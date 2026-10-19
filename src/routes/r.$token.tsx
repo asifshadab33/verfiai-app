@@ -13,7 +13,7 @@ export const Route = createFileRoute("/r/$token")({
     return row;
   },
   head: ({ loaderData }) => {
-    if (!loaderData) return { meta: [{ title: "Report unavailable | Verfiai" }, { name: "robots", content: "noindex" }] };
+    if (!loaderData) return { meta: [{ title: "Report unavailable | Verfiai" }, { name: "robots", content: "noindex" }, { name: "description", content: "This shared Verfiai report is unavailable or no longer shared." }, { property: "og:title", content: "Report unavailable | Verfiai" }, { property: "og:description", content: "This shared Verfiai report is unavailable or no longer shared." }, { property: "og:type", content: "article" }, { name: "twitter:card", content: "summary" }] };
     const r = loaderData.content as ResearchReport;
     const title = `${loaderData.title} | Verfiai report`;
     const description = (r.summary ?? "").replace(/\s+/g, " ").slice(0, 155);

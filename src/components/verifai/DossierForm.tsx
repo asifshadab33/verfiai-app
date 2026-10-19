@@ -20,7 +20,7 @@ export const DOSSIER_HELP = uiText("en", "dossierHelp");
 export function DossierForm({ language = "en" }: { language?: string }) {
   const t = (text: string) => recentText(language, text);
   const { user } = useAuth();
-  const u = (k: Parameters<typeof uiText>[1]) => uiText(language, k);
+  const u = (k: Parameters<typeof uiText>[1]) => uiText(localeCode(language), k);
   const run = useServerFn(generateDossier);
   const [topic, setTopic] = useState("");
   const [strict, setStrict] = useState(true);
@@ -35,7 +35,7 @@ export function DossierForm({ language = "en" }: { language?: string }) {
   }
   return <div>
     <p className="text-sm text-muted-foreground">{u("dossierHelp")}</p>
-    <p className="mt-4 text-xs text-muted-foreground">{checkerText(localeCode(language), "privacy")} <Link to="/privacy" className="underline">{t("Privacy")}</Link>{t("and")}<Link to="/methodology" className="underline">{t("Methodology")}</Link>.</p>
+    <p className="mt-4 text-xs text-muted-foreground">{checkerText(localeCode(language), "privacy")} <Link to="/privacy" className="underline">{t("Privacy")}</Link>{" "}{t("and")}{" "}<Link to="/methodology" className="underline">{t("Methodology")}</Link>.</p>
     <Label htmlFor="dossier-topic" className="mt-3 block font-semibold">{u("dossierTopic")}</Label>
     <Textarea dir="auto" id="dossier-topic" className="mt-2 min-h-48" value={topic} onChange={e => setTopic(e.target.value)} maxLength={2000} placeholder={t("e.g. How have microplastics in drinking water been measured since 2015, and where do studies disagree?")} />
     <div className="mt-3 flex items-center gap-2"><Checkbox id="dossier-strict" checked={strict} onCheckedChange={v => setStrict(v === true)} /><Label htmlFor="dossier-strict">{u("dossierStrict")}</Label></div>
