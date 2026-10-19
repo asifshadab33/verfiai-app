@@ -1,8 +1,8 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 vi.mock("./metering.server", () => ({ meter: vi.fn(async () => {}) }));
-import { runRoute, synthesize } from "./model.server";
+import { callEngine, runRoute, synthesize } from "./model.server";
 
-afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); });
+afterEach(() => { vi.unstubAllGlobals(); vi.unstubAllEnvs(); vi.restoreAllMocks(); });
 function setup() {
   for (const key of ["CEREBRAS_API_KEY", "GROQ_API_KEY", "SAMBANOVA_API_KEY", "OPENROUTER_API_KEY"]) vi.stubEnv(key, "test-only");
   const route = "cerebras:first,groq:second,sambanova:third,google/gemma-4-26b-a4b-it:free";
@@ -10,6 +10,21 @@ function setup() {
 }
 const success = (content: string) => new Response(JSON.stringify({ choices: [{ message: { content } }] }), { status: 200 });
 describe("model cascade", () => {
+  it("exhausts all four configured providers without returning fabricated output", async () => {
+    setup();
+    const fetcher = vi.fn(async () => new Response("", { status: 429 }));
+    vi.stubGlobal("fetch", fetcher);
+    await expect(synthesize("Return JSON", "test")).rejects.toThrow();
+    expect(fetcher).toHaveBeenCalledTimes(4);
+  });
+  it("never logs credential-bearing provider response bodies", async () => {
+    setup();
+    const logger = vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.stubGlobal("fetch", vi.fn(async () => new Response("test-private-account-marker", { status: 402 })));
+    await expect(callEngine("groq:second", "Return JSON", "test")).rejects.toThrow();
+    expect(logger).toHaveBeenCalledWith("model provider", "groq", "second", 402);
+    expect(JSON.stringify(logger.mock.calls)).not.toContain("test-private-account-marker");
+  });
   it("advances through 503, 429 and 402 to the free OpenRouter route", async () => {
     setup(); const fetcher = vi.fn().mockResolvedValueOnce(new Response("", { status: 503 })).mockResolvedValueOnce(new Response("", { status: 429 })).mockResolvedValueOnce(new Response("", { status: 402 })).mockResolvedValueOnce(success('{"ok":true}'));
     vi.stubGlobal("fetch", fetcher);

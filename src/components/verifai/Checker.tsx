@@ -1,3 +1,4 @@
+import { recentText, citationNote } from "@/lib/recent-i18n";
 import { UploadNotice } from "./UploadNotice";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState, type DragEvent, type ReactNode } from "react";
@@ -33,10 +34,11 @@ function Badge({ s }: { s: CitationResult["status"] }) {
 }
 
 function HeroMockup() {
+ const t = useT();
   return (
-    <div className="grid gap-4 sm:grid-cols-2" aria-label="Before and after example">
+    <div className="grid gap-4 sm:grid-cols-2" aria-label={t("citationReport")}>
       <div className="rounded-2xl border border-border bg-card p-4 shadow-sm">
-        <p className="text-xs font-bold uppercase text-muted-foreground">Before</p>
+        <p className="text-xs font-bold uppercase text-muted-foreground">{t("before")}</p>
         <div className="mt-3 flex items-center gap-2 text-sm font-semibold"><FileText className="size-4" /> manuscript_v3.docx</div>
         <ul className="mt-4 space-y-2 text-xs">
           {["[12] Wakefield et al., 1998", "[18] Smith & Lee, 2019", "[23] Chen, 2021"].map((r, i) => (
@@ -46,13 +48,13 @@ function HeroMockup() {
             </li>
           ))}
         </ul>
-        <p className="mt-3 text-xs text-destructive">2 hidden problems</p>
+        <p className="mt-3 text-xs text-destructive">{t("hiddenProblems")}</p>
       </div>
       <div className="rounded-2xl border border-primary/30 bg-card p-4 shadow-md">
-        <p className="text-xs font-bold uppercase text-brand">After</p>
+        <p className="text-xs font-bold uppercase text-brand">{t("after")}</p>
         <div className="mt-3 flex items-center gap-2 text-sm font-semibold"><ShieldCheck className="size-4 text-success" /> Citation report</div>
         <p className="mt-4 font-display text-3xl font-extrabold">92%</p>
-        <p className="text-xs text-muted-foreground">Integrity score</p>
+        <p className="text-xs text-muted-foreground">{t("integrityScore")}</p>
         <div className="mt-3 flex flex-wrap gap-1.5"><Badge s="retracted" /><Badge s="not_found" /><Badge s="verified" /></div>
       </div>
     </div>
@@ -81,6 +83,7 @@ function highlight(text: string, results: CitationResult[]) {
 }
 
 function Results({ text, results, total }: { text: string; results: CitationResult[]; total: number }) {
+  const lang = useContext(LangCtx);
   const t = useT();
   const [filter, setFilter] = useState<"all" | CitationResult["status"]>("all");
   const flagged = results.filter((r) => r.status !== "verified").length;
@@ -101,10 +104,10 @@ function Results({ text, results, total }: { text: string; results: CitationResu
       ) : (<>
         <div className="flex flex-wrap gap-2" role="group" aria-label={t("filterResults")}>{(["all", "retracted", "not_found", "partial", "verified"] as const).map(f => <Button key={f} size="sm" variant={filter === f ? "default" : "outline"} onClick={() => setFilter(f)}>{f === "all" ? `${t("all")} (${results.length})` : `${t(f)} (${results.filter(r => r.status === f).length})`}</Button>)}</div>
         <div className="overflow-x-auto rounded-2xl border border-border bg-card">
-          <table className="w-full min-w-[720px] text-left text-sm">
-            <thead className="border-b border-border text-xs uppercase text-muted-foreground"><tr><th scope="col" className="p-3">{t("reference")}</th><th scope="col" className="p-3">{t("status")}</th><th scope="col" className="p-3">DOI</th><th scope="col" className="p-3" title="0.4 journal + 0.25 recency + 0.2 citations − 0.15 retraction">{t("trust")}</th></tr></thead>
+          <table className="w-full min-w-[720px] text-start text-sm">
+            <thead className="border-b border-border text-xs uppercase text-muted-foreground"><tr><th scope="col" className="p-3">{t("reference")}</th><th scope="col" className="p-3">{t("status")}</th><th scope="col" className="p-3">DOI</th><th scope="col" className="p-3" title={t("methodNote")}>{t("trust")}</th></tr></thead>
             <tbody>{sorted.map((r, i) => <tr key={i} className="border-b border-border align-top last:border-0">
-              <td className="p-3"><p className="font-semibold [overflow-wrap:anywhere]">{r.title || r.raw}</p><p className="mt-1 text-xs text-muted-foreground">{[r.author, r.year, r.journal].filter(Boolean).join(" · ")}</p><p className="mt-1 text-xs text-muted-foreground">{r.note}</p>{r.matchedTitle && r.status === "partial" && <p className="mt-1 text-xs">{t("closestRecord")} <em>{r.matchedTitle}</em></p>}</td>
+              <td className="p-3"><p className="font-semibold [overflow-wrap:anywhere]">{r.title || r.raw}</p><p className="mt-1 text-xs text-muted-foreground">{[r.author, r.year, r.journal].filter(Boolean).join(" · ")}</p><p className="mt-1 text-xs text-muted-foreground">{citationNote(lang, r.note)}</p>{r.matchedTitle && r.status === "partial" && <p className="mt-1 text-xs">{t("closestRecord")} <em>{r.matchedTitle}</em></p>}</td>
               <td className="p-3"><Badge s={r.status} /></td>
               <td className="p-3 text-xs">{r.doi && r.status !== "not_found" ? <a className="text-brand underline [overflow-wrap:anywhere]" href={`https://doi.org/${r.doi}`} target="_blank" rel="noreferrer">{r.doi}</a> : "—"}</td>
               <td className="p-3 font-semibold">{r.trust != null && r.status !== "not_found" ? r.trust : "—"}</td>

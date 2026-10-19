@@ -1,3 +1,4 @@
+import { recentText } from "@/lib/recent-i18n";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import type { EvidenceStrength } from "@/lib/evidence";
 import { uiText, type UiExtraKey } from "@/lib/ui-extra-i18n";
@@ -20,10 +21,11 @@ export const STRENGTH_HELP: Record<EvidenceStrength, string> = {
 const KEY: Record<EvidenceStrength, string> = { "Strong evidence": "Strong", "Moderate evidence": "Moderate", "Limited evidence": "Limited", "Conflicting evidence": "Conflicting", "Insufficient evidence": "Insufficient" };
 
 export function StrengthBadge({ label, lang = "en" }: { label: EvidenceStrength; lang?: string }) {
+  const t = (text: string) => recentText(lang, text);
   const name = uiText(lang, `s${KEY[label]}` as UiExtraKey), help = uiText(lang, `h${KEY[label]}` as UiExtraKey);
   return (
     <TooltipProvider><Tooltip><TooltipTrigger asChild>
       <button type="button" aria-label={`${name}: ${help}`} className={`inline-flex min-h-7 items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${STYLE[label]}`}>{name}</button>
-    </TooltipTrigger><TooltipContent className="max-w-72">{help}{lang === "en" ? " Sources from the same base domain count as one voice. Tiers: 1 academic/government/institutional, 2 established press and news agencies, 3 blogs, forums and social." : ""}</TooltipContent></Tooltip></TooltipProvider>
+    </TooltipTrigger><TooltipContent className="max-w-72">{help}{" "}{t("Sources from the same base domain count as one voice. Tiers: 1 academic/government/institutional, 2 established press and news agencies, 3 blogs, forums and social.")}</TooltipContent></Tooltip></TooltipProvider>
   );
 }

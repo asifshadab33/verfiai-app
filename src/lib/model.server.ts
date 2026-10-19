@@ -101,7 +101,9 @@ export async function callEngine(model: string, system: string, user: string, me
       body: JSON.stringify({ model: providerModel, temperature: 0.2, max_tokens: outputTokens, ...(cfg.json ? { response_format: { type: "json_object" } } : {}), messages: [{ role: "system", content: sys }, { role: "user", content: user }] }),
     });
     if (!res.ok) {
-      console.error("model provider", provider, providerModel, res.status, (await res.text()).slice(0, 300));
+      // Provider bodies can contain account identifiers or credential-bearing links.
+      // Status plus provider/model is sufficient for diagnostics; never log the body.
+      console.error("model provider", provider, providerModel, res.status);
       throw new Error(res.status === 402 ? "credits" : res.status === 429 ? "rate-limited" : res.status === 503 ? "unavailable" : "engine");
     }
     const json = await res.json() as { choices?: { message?: { content?: string } }[] };

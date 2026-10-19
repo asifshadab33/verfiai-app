@@ -24,7 +24,7 @@ export const Route = createFileRoute("/app")({
     ],
     links: [{ rel: "canonical", href: "https://verfiai.app/app" }],
   }),
-  validateSearch: z.object({ tab: z.enum(["claim", "report", "citation", "dossier"]).optional() }).passthrough(),
+  validateSearch: z.object({ tab: z.enum(["claim", "fact", "report", "citation", "dossier"]).optional().catch(undefined) }).passthrough(),
   component: Workspace,
 });
 

@@ -1,3 +1,6 @@
+import { checkerText } from "@/lib/checker-i18n";
+import { uiText } from "@/lib/ui-extra-i18n";
+import { recentText, localizedBreakdown } from "@/lib/recent-i18n";
 import { StrengthBadge } from "./StrengthBadge";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
@@ -15,6 +18,7 @@ import { evidenceStrength, qualitativeStrength, sourceQuality } from "@/lib/evid
 import { VerdictFeedback } from "./VerdictFeedback";
 import { AI_CONSENSUS_NOTE } from "@/lib/community";
 
+const verdictKeys = { SUPPORTED: "verdictSupported", CONTRADICTED: "verdictContradicted", MIXED: "verdictMixed", UNVERIFIABLE: "verdictInsufficient" } as const;
 const STAGES = ["Extracting claims…", "Searching providers…", "Cross-checking sources…", "Synthesizing verdict…"];
 const style: Record<Verdict, { label: string; cls: string }> = {
   SUPPORTED: { label: "Supported", cls: "bg-success-soft text-success border-success/30" },
@@ -25,6 +29,7 @@ const style: Record<Verdict, { label: string; cls: string }> = {
 const SAMPLE = "The Great Wall of China is visible from the Moon with the naked eye. Water boils at 100 degrees Celsius at sea level. Humans only use 10 percent of their brains. Mount Everest is the highest mountain above sea level.";
 
 export function FactChecker({ lang }: { lang: Lang }) {
+  const t = (text: string) => recentText(lang, text);
   const tx = (key: Parameters<typeof siteText>[1]) => siteText(lang, key);
   const run = useServerFn(factCheck);
   const fetchUsage = useServerFn(getFactUsage);
@@ -59,9 +64,9 @@ export function FactChecker({ lang }: { lang: Lang }) {
     <h2 className="font-display text-2xl font-bold">{tx("factTitle")}</h2>
     <p className="mt-2 max-w-2xl text-sm text-muted-foreground">{tx("factIntro")}</p>
     <div role="tablist" aria-label={tx("factInputType")} className="mt-6 inline-flex rounded-lg border border-border p-1">
-      {(["text", "url"] as const).map(m => <Button key={m} role="tab" aria-selected={mode === m} size="sm" variant={mode === m ? "default" : "ghost"} onClick={() => setMode(m)}>{m === "text" ? "Paste text" : <><Link2 />{tx("factLink")}</>}</Button>)}
+      {(["text", "url"] as const).map(m => <Button key={m} role="tab" aria-selected={mode === m} size="sm" variant={mode === m ? "default" : "ghost"} onClick={() => setMode(m)}>{m === "text" ? tx("factPaste") : <><Link2 />{tx("factLink")}</>}</Button>)}
     </div>
-    <p className="mt-5 text-xs leading-5 text-muted-foreground">Your submission may be processed by search and AI providers. Do not submit confidential, regulated, or unpublished material. Read our <a href="/privacy" className="text-brand underline">privacy notice</a> and <a href="/methodology" className="text-brand underline">methodology</a>.</p>
+    <p className="mt-5 text-xs leading-5 text-muted-foreground">{checkerText(lang, "privacy")} <a href="/privacy" className="text-brand underline">{t("privacy notice")}</a>{" "}{t("and")}{" "}<a href="/methodology" className="text-brand underline">{t("methodology")}</a>.</p>
     {mode === "text" ? <>
       <label htmlFor="fact-text" className="mt-3 block text-sm font-semibold">{tx("factText")}</label>
       <Textarea id="fact-text" {...ocr.handlers} aria-describedby="fact-ocr" value={text} maxLength={15000} onChange={e => setText(e.target.value)} placeholder={tx("factPlaceholder")} className={`mt-2 min-h-40 bg-card ${ocr.over ? "ring-2 ring-brand" : ""}`} dir="auto" />
@@ -83,17 +88,17 @@ export function FactChecker({ lang }: { lang: Lang }) {
 
     {claims && <section aria-label={tx("factResults")} className="mt-10 space-y-5">
       {claims.length === 0 ? <p className="rounded-xl bg-secondary p-5 text-sm">{tx("factEmpty")}</p> : <>
-        <p className="text-xs text-muted-foreground">{AI_CONSENSUS_NOTE}</p>
-        <div className="grid gap-4 sm:grid-cols-3">{counts.map(([v, n]) => <div key={v} className="rounded-2xl border border-border bg-card p-5"><p className="text-sm text-muted-foreground">{style[v].label}</p><p className="mt-1 font-display text-3xl font-extrabold">{n}</p></div>)}</div>
+        <p className="text-xs text-muted-foreground">{uiText(lang, "consensus")}</p>
+        <div className="grid gap-4 sm:grid-cols-3">{counts.map(([v, n]) => <div key={v} className="rounded-2xl border border-border bg-card p-5"><p className="text-sm text-muted-foreground">{tx(verdictKeys[v])}</p><p className="mt-1 font-display text-3xl font-extrabold">{n}</p></div>)}</div>
         <ul className="space-y-4">{claims.map((c, i) => <li key={i} className="rounded-2xl border border-border bg-card p-5">
-          <div className="flex flex-wrap items-start justify-between gap-3"><p className="font-semibold">{c.claim}</p><span className={`shrink-0 rounded-full border px-2.5 py-0.5 text-xs font-semibold ${style[c.verdict].cls}`}>{style[c.verdict].label}</span></div>
+          <div className="flex flex-wrap items-start justify-between gap-3"><p className="font-semibold">{c.claim}</p><span className={`shrink-0 rounded-full border px-2.5 py-0.5 text-xs font-semibold ${style[c.verdict].cls}`}>{tx(verdictKeys[c.verdict])}</span></div>
           <p className="mt-2 text-sm text-muted-foreground">{c.explanation}</p>
-          {(() => { const rating = c.strength ?? evidenceStrength(c.verdict, c.sources.filter(s => s.quote)); return <><div className="mt-3 flex flex-wrap items-center gap-2"><StrengthBadge label={rating.label} lang={lang} /><span className="text-xs font-semibold">Evidence strength: {qualitativeStrength(rating.label)}</span><span className="text-xs text-muted-foreground">· {c.sources.length} source{c.sources.length === 1 ? "" : "s"}</span></div><details className="mt-2 text-xs"><summary className="flex min-h-11 cursor-pointer items-center font-semibold text-brand">Why this rating?</summary><dl className="space-y-1 text-muted-foreground"><div><dt className="font-semibold">Source authority</dt><dd>{rating.authority}</dd></div><div><dt className="font-semibold">Recency</dt><dd>{rating.recency}</dd></div><div><dt className="font-semibold">Independence</dt><dd>{rating.independence}</dd></div></dl></details></>; })()}
+          {(() => { const rating = localizedBreakdown(lang, c.strength ?? evidenceStrength(c.verdict, c.sources.filter(s => s.quote))); return <><div className="mt-3 flex flex-wrap items-center gap-2"><StrengthBadge label={rating.label} lang={lang} /><span className="text-xs font-semibold">{t("Evidence strength")}</span><span className="text-xs text-muted-foreground">· {recentText(lang, "Sources: {count}", { count: c.sources.length })}</span></div><details className="mt-2 text-xs"><summary className="flex min-h-11 cursor-pointer items-center font-semibold text-brand">{t("Why this rating?")}</summary><dl className="space-y-1 text-muted-foreground"><div><dt className="font-semibold">{t("Source authority")}</dt><dd>{rating.authority}</dd></div><div><dt className="font-semibold">{t("Recency")}</dt><dd>{rating.recency}</dd></div><div><dt className="font-semibold">{t("Independence")}</dt><dd>{rating.independence}</dd></div></dl></details></>; })()}
           {c.conflict && <div className="mt-4 grid gap-3 sm:grid-cols-2"><blockquote className="border-s-2 border-success ps-3 text-xs"><span className="font-semibold">{tx("factOneSource")}</span> "{c.conflict.a}"</blockquote><blockquote className="border-s-2 border-destructive ps-3 text-xs"><span className="font-semibold">{tx("factAnotherSource")}</span> "{c.conflict.b}"</blockquote></div>}
-          {c.sources.length > 0 && <ol className="mt-4 space-y-2 text-xs">{c.sources.map(s => <li key={s.n}><a href={s.url} target="_blank" rel="noopener noreferrer" className="break-all text-brand underline">[{s.n}] {s.title}</a><span className="ms-2 rounded-full border border-border px-2 py-0.5 text-[11px] text-muted-foreground">{sourceQuality(s.url)}</span>{s.quote && <span className="text-muted-foreground"> — "{s.quote}"</span>}</li>)}</ol>}
-          <VerdictFeedback claim={c.claim} verdict={c.verdict} explanation={`${c.explanation} ${AI_CONSENSUS_NOTE}`} />
+          {c.sources.length > 0 && <ol className="mt-4 space-y-2 text-xs">{c.sources.map(s => <li key={s.n}><a href={s.url} target="_blank" rel="noopener noreferrer" className="break-all text-brand underline">[{s.n}] {s.title}</a><span className="ms-2 rounded-full border border-border px-2 py-0.5 text-[11px] text-muted-foreground">{t(sourceQuality(s.url))}</span>{s.quote && <span className="text-muted-foreground"> — "{s.quote}"</span>}</li>)}</ol>}
+          <VerdictFeedback claim={c.claim} verdict={c.verdict} explanation={`${c.explanation} ${uiText(lang, "consensus")}`} />
           <p className="mt-3 text-xs text-muted-foreground">{tx("factSourceNote")}</p>
-          <a href={`mailto:hello@verfiai.app?subject=${encodeURIComponent("Verfiai claim issue")}&body=${encodeURIComponent(`Claim: ${c.claim}\n\nWhat seems wrong? (Do not include confidential material):\n`)}`} className="inline-flex min-h-11 items-center text-xs font-semibold text-brand underline">Report an issue</a>
+          <a href={`mailto:hello@verfiai.app?subject=${encodeURIComponent("Verfiai claim issue")}&body=${encodeURIComponent(`Claim: ${c.claim}\n\nWhat seems wrong? (Do not include confidential material):\n`)}`} className="inline-flex min-h-11 items-center text-xs font-semibold text-brand underline">{t("Report an issue")}</a>
         </li>)}</ul>
       </>}
     </section>}
