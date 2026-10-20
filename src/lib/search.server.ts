@@ -89,7 +89,7 @@ const crossref: SearchEngine = { id: "crossref", run: async (query) => {
 
 async function wikipediaEdition(query: string, lang: string): Promise<Source[]> {
   const api = `https://${lang}.wikipedia.org/w/api.php`;
-  const headers = { "User-Agent": "Verfiai/1.0 (hello@verfiai.app)" };
+  const headers = { "User-Agent": "Verfiai/1.0 (https://verfiai.app; mailto:hello@verfiai.app)", Accept: "application/json" };
   const sres = await fetch(`${api}?action=query&list=search&format=json&srsearch=${encodeURIComponent(query.slice(0, 300))}&srlimit=3`, { headers, signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
   if (!sres.ok) return [];
   const sjson = await sres.json() as { query?: { search?: { title: string; pageid: number }[] } };
@@ -108,10 +108,20 @@ async function wikipediaEdition(query: string, lang: string): Promise<Source[]> 
 // Wikipedia: English edition, plus the report-language edition when it isn't English (free, no key).
 const wikipedia: SearchEngine = { id: "wikipedia", run: async (query, language) => {
   const lang = toLangCode(language);
+  const edition = (code: string) => cached({ key: cacheKey(`wikipedia:${code}`, [query]), kind: "wikipedia", ttlMs: CACHE_TTL.search(), compute: () => wikipediaEdition(query, code) }).catch(() => [] as Source[]);
   const [en, local] = await Promise.all([
-    cached({ key: cacheKey("wikipedia:en", [query]), kind: "wikipedia", ttlMs: CACHE_TTL.search(), compute: () => wikipediaEdition(query, "en") }),
-    lang === "en" ? Promise.resolve([] as Source[]) : cached({ key: cacheKey(`wikipedia:${lang}`, [query]), kind: "wikipedia", ttlMs: CACHE_TTL.search(), compute: () => wikipediaEdition(query, lang) }),
+    edition("en"),
+    lang === "en" ? Promise.resolve([] as Source[]) : edition(lang),
   ]);
+  // A blocked local edition must not discard English evidence. Search indexed local
+  // pages through available cached providers; these are snippets, not verified quotes.
+  if (lang !== "en" && !local.length) {
+    const alternatives = await searchAll(`${query.slice(0, 250)} site:${lang}.wikipedia.org`, lang, COUNTER_ENGINES);
+    const localLinks = alternatives.filter(s => {
+      try { return new URL(s.url).hostname === `${lang}.wikipedia.org`; } catch { return false; }
+    });
+    return [...en, ...localLinks];
+  }
   return [...en, ...local];
 } };
 

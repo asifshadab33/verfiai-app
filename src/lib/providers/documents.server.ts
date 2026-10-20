@@ -1,6 +1,7 @@
 // Document discovery providers: metadata, abstracts and links only. Never downloads or scrapes
 // full article/PDF text, to respect copyright. Each provider fails soft (returns []).
 import type { Source } from "../search.server";
+import { cacheGet, cacheSet } from "../cache.server";
 
 const T = 5000;
 const UA = { "User-Agent": "Verfiai/1.0 (hello@verfiai.app)", Accept: "application/json" };
@@ -27,10 +28,28 @@ export async function openAlexOaSearch(query: string): Promise<DocSource[]> {
   });
 }
 
-/** Semantic Scholar Graph API: peer-reviewed papers with abstracts and citation counts (no key, rate-limited). */
+/** Metadata only. Respect upstream cooldowns and use independently cached OA results on failure. */
 export async function semanticScholarSearch(query: string): Promise<DocSource[]> {
+  const fallback = async (): Promise<DocSource[]> => {
+    const { engineSearch } = await import("../search.server");
+    return await engineSearch("openalex_oa", query) as DocSource[];
+  };
+  const cooldownKey = "provider:semanticscholar:cooldown";
+  const cooldown = await cacheGet<{ until: number }>(cooldownKey, 3600_000);
+  if (cooldown && cooldown.until > Date.now()) return fallback();
+  try {
   const res = await fetch(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(query.slice(0, 200))}&limit=10&fields=title,abstract,url,year,authors,citationCount,openAccessPdf,externalIds`, { headers: UA, signal: AbortSignal.timeout(T) });
-  if (!res.ok) return [];
+  if (res.status === 429 || res.status === 503) {
+    const retry = res.headers.get("Retry-After");
+    const seconds = retry ? Number(retry) : NaN;
+    const dateDelay = retry ? Date.parse(retry) - Date.now() : NaN;
+    const delay = Number.isFinite(seconds) ? seconds * 1000 : dateDelay;
+    // No immediate retry: shared cooldown prevents parallel users hammering the service.
+    const backoff = Number.isFinite(delay) ? Math.min(3600_000, Math.max(60_000, delay)) : 60_000;
+    await cacheSet(cooldownKey, "provider_backoff", { until: Date.now() + backoff });
+    return fallback();
+  }
+  if (!res.ok) return fallback();
   type P = { title?: string; abstract?: string | null; url?: string; year?: number; authors?: { name: string }[]; citationCount?: number; openAccessPdf?: { url?: string } | null; externalIds?: { DOI?: string } };
   const j = await res.json() as { data?: P[] };
   return (j.data ?? []).flatMap(p => {
@@ -38,6 +57,7 @@ export async function semanticScholarSearch(query: string): Promise<DocSource[]>
     if (!p.title || !url?.startsWith("https://")) return [];
     return [{ kind: "semanticscholar" as const, title: p.title, url, content: (p.abstract ?? p.title).slice(0, 1500), published: p.year ? String(p.year) : undefined, authors: (p.authors ?? []).map(a => a.name).slice(0, 4).join(", "), openAccess: !!p.openAccessPdf?.url, citations: p.citationCount ?? 0, score: 0.7 }];
   });
+  } catch { return fallback(); }
 }
 
 /** CORE is intentionally disabled (owner decision: no trial key). Always returns no results. */
