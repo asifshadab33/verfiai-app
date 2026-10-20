@@ -1,4 +1,11 @@
 # Verfiai roadmap
+## Oct 20 carry-over release
+- [ ] Retry Semantic Scholar and multilingual Wikipedia; add bounded graceful fallbacks for blocked services.
+- [ ] Spot-review static translations in Spanish, Arabic and French.
+- [ ] Run regression suite and fresh security checks; fix high/critical findings if present.
+- [ ] Publish and verify both public hosts: homepage, /fact-checker, /app, /security and /contact.
+- Excluded by owner: no Deep Dossier end-to-end test; CORE and download-storage decisions remain untouched.
+
 ## Oct 19 overnight release
 - [x] Synchronize recent research and citation UI across all 18 non-English locales; Spanish/Arabic render checked. Native-language review remains advisable.
 - [x] Retry authenticated report, fact-check and citation flows successfully; retry Deep Dossier and test provider/cache behavior. Semantic Scholar rate-limited; multilingual Wikipedia requests blocked by provider HTTP 403; complete dossier remains dependent on upstream synthesis availability.
