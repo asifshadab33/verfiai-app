@@ -3,7 +3,7 @@
 - [x] Retry sources: Wikipedia works; Semantic Scholar remains rate-limited but shared cooldown and cached OpenAlex fallback return real results. Blocked Wikipedia editions fail independently with indexed local alternatives.
 - [x] Spot-review static translations in Spanish, Arabic and French; correct export labels, claim terminology, privacy wording and a translated DOI.
 - [x] Run 43 regression tests and fresh basic security/dependency checks; no high/critical findings. Two moderate transitive sprintf-js advisories remain without a published fix; basic scan excludes deep code analysis.
-- [ ] Publish and verify both public hosts: homepage, /fact-checker, /app, /security and /contact.
+- [x] Publishing requested for verfiai.app; both public hosts returned HTTP 200 on homepage, /fact-checker, /app, /security and /contact. Reachability confirms the sites respond, not that the new deployment has finished.
 - Excluded by owner: no Deep Dossier end-to-end test; CORE and download-storage decisions remain untouched.
 
 ## Oct 19 overnight release
