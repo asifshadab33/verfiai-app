@@ -1,8 +1,8 @@
 # Verfiai roadmap
 ## Oct 20 carry-over release
-- [ ] Retry Semantic Scholar and multilingual Wikipedia; add bounded graceful fallbacks for blocked services.
-- [ ] Spot-review static translations in Spanish, Arabic and French.
-- [ ] Run regression suite and fresh security checks; fix high/critical findings if present.
+- [x] Retry sources: Wikipedia works; Semantic Scholar remains rate-limited but shared cooldown and cached OpenAlex fallback return real results. Blocked Wikipedia editions fail independently with indexed local alternatives.
+- [x] Spot-review static translations in Spanish, Arabic and French; correct export labels, claim terminology, privacy wording and a translated DOI.
+- [x] Run 43 regression tests and fresh basic security/dependency checks; no high/critical findings. Two moderate transitive sprintf-js advisories remain without a published fix; basic scan excludes deep code analysis.
 - [ ] Publish and verify both public hosts: homepage, /fact-checker, /app, /security and /contact.
 - Excluded by owner: no Deep Dossier end-to-end test; CORE and download-storage decisions remain untouched.
 
@@ -15,7 +15,7 @@
 
 ## Oct 18 release
 - [x] Verify authenticated report generation, claim result, share badge and live OpenAlex OA/Semantic Scholar/Scribd discovery; CORE remains disabled.
-- [ ] Complete successful Deep Dossier generation: live run returns an availability error after provider rate limits, exhausted balances and invalid structured outputs; needs available synthesis capacity.
+- Deferred by owner: Deep Dossier end-to-end testing is excluded from the carry-over run.
 - [x] Dedicated /fact-checker with existing claim tool, leaf metadata, structured data and sitemap entry.
 - [x] Shared-report embeddable evidence badge and account prompt for saving future reports.
 - [x] Run 35 regression tests and basic security scan; patch high-severity dependency advisories. Two moderate sprintf-js advisories remain without a published fixed version; guest-check cost warning retained.
