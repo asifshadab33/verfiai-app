@@ -13,8 +13,11 @@ describe("source authority", () => {
   });
 });
 describe("model cascade", () => {
-  it("puts fast free providers first, then OpenRouter free models", () => {
-    const r = getRoute("evaluation");
+  it("runs Lovable AI first, then the existing fast free providers and OpenRouter free models", () => {
+    for (const name of ["triage", "evaluation"] as const) {
+      expect(getRoute(name).slice(0, 2).map(m => resolveModel(m).provider)).toEqual(["lovable", "lovable"]);
+    }
+    const r = getRoute("evaluation").slice(2);
     expect(r.slice(0, 3).map(m => resolveModel(m).provider)).toEqual(["cerebras", "groq", "sambanova"]);
     expect(r.slice(3, 5)).toEqual(["google/gemma-4-26b-a4b-it:free", "nvidia/nemotron-3-super-120b-a12b:free"]);
   });
