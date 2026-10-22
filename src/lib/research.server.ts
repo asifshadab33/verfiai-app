@@ -46,6 +46,8 @@ export function rerank(query: string, docs: Source[], top = 6): Source[] {
 function finalize(report: ResearchReport, sources: Source[], web: boolean, fetchedAt: string, engines: string[]): ResearchReport {
   return {
     ...report,
+    // Never persist optional scores supplied by model output; only the gated server pass adds them.
+    findings: report.findings.map(({ sourceScores: _untrusted, ...finding }) => finding),
     sources: sources.map(s => { let host = ""; try { host = new URL(s.url).hostname.replace(/^www\./, ""); } catch { /* */ } return { title: s.title, url: s.url, publisher: host, date: s.published ?? "", snippet: s.content.slice(0, 300), fetchedAt }; }),
     verification: web ? "web" : "model",
     engines: [...engines, ...(web ? ["Tavily, Brave, GDELT, DuckDuckGo, Wikipedia, Crossref, OpenAlex and PubMed", "BM25 + RRF ranking"] : [])],
