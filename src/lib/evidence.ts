@@ -1,4 +1,5 @@
 // Deterministic evidence aggregation: rejects made-up quotes and stops one site from dominating.
+import { z } from "zod";
 export type Stance = "supports" | "refutes" | "neutral";
 export type AggVerdict = "SUPPORTED" | "CONTRADICTED" | "MIXED" | "UNVERIFIABLE";
 export type Judgment = { excerptId: string; stance: Stance; quote: string };
@@ -161,4 +162,66 @@ export function sourceQuality(url: string): SourceQuality {
   if (t === 2) return "Reputable news source";
   if (t === 1) return "Primary/official source";
   return /\.(org|com|net)$/.test(h) && !/(medium|substack|blogspot|wordpress|reddit|quora|x|twitter|facebook|tiktok|youtube)\./.test(h + ".") ? "Organization/publication source" : "Low-authority or unverified source";
+}
+
+/** Relative source-quality indicators, never probabilities of truth or verification of full pages.
+ * Authority 25%, recency 10%, independence 15%, transparency 15%, directness 25%, data 10%.
+ * Missing metadata receives a neutral/low baseline, not a negative penalty.
+ */
+export const SOURCE_SCORE_WEIGHTS = { authority: 25, recency: 10, independence: 15, transparency: 15, directness: 25, originalData: 10 } as const;
+export const sourceScoreSchema = z.object({
+  score: z.number().min(0).max(100), label: z.enum(["Strong", "Moderate", "Weak"]),
+  signals: z.object({ authority: z.number().min(0).max(1), recency: z.number().min(0).max(1), independence: z.number().min(0).max(1), transparency: z.number().min(0).max(1), directness: z.number().min(0).max(1), originalData: z.number().min(0).max(1) }),
+  transparency: z.enum(["namedAuthor", "namedOrganization", "unknown"]),
+  directness: z.enum(["primary", "reporting", "commentary", "aggregation", "syndicated", "unrelated", "unknown"]),
+  originalData: z.enum(["dataLinked", "methodsVisible", "unknown"]),
+});
+export type SourceScore = z.infer<typeof sourceScoreSchema>;
+export type ScoringSource = { url: string; title?: string | undefined; content?: string | undefined; published?: string | undefined; author?: string | undefined; authors?: string | undefined; publisher?: string | undefined; organization?: string | undefined; sourceType?: string | undefined; dataUrl?: string | undefined; syndicated?: boolean | undefined };
+const named = (v?: string) => Boolean(v?.trim() && !/^(unknown|anonymous|n\/a|https?:\/\/|[\w-]+\.(com|org|net|gov|edu)$)/i.test(v.trim()));
+const claimTokens = (v: string) => new Set(v.toLowerCase().normalize("NFKC").match(/[\p{L}\p{N}]{3,}/gu) ?? []);
+
+/** Reuses dedup's headline similarity; marks possible syndication, not proven shared ownership. */
+export function hasSyndicationSignal(source: ScoringSource, peers: ScoringSource[]): boolean {
+  if (source.syndicated) return true;
+  const host = sourceMeta(source.url).originId;
+  if (!/^(apnews\.com|reuters\.com|afp\.com)$/.test(host) && /\b(AP|Reuters|AFP|Associated Press)\b/.test(source.title ?? "")) return true;
+  const head = headlineTokens(source.title ?? "");
+  return head.size >= 4 && peers.some(p => sourceMeta(p.url).originId !== host && jaccard(head, headlineTokens(p.title ?? "")) >= 0.8);
+}
+
+export function scoreSource(source: ScoringSource, claim: string, peers: ScoringSource[] = [source], checkedAt = new Date()): SourceScore {
+  const meta = sourceMeta(source.url);
+  const text = `${source.title ?? ""} ${source.content ?? ""}`;
+  const transparency = named(source.author ?? source.authors) ? "namedAuthor" : named(source.organization) || named(source.publisher) ? "namedOrganization" : "unknown";
+  const tokens = claimTokens(claim), observed = claimTokens(text);
+  const overlap = tokens.size ? [...tokens].filter(t => observed.has(t)).length / tokens.size : 0;
+  const related = overlap >= 0.35;
+  const role = `${source.sourceType ?? ""} ${source.title ?? ""}`;
+  const originalData = source.dataUrl && /^https:\/\//.test(source.dataUrl) || /\/(datasets?|data-download)\b|\.(csv|xlsx)(?:\?|$)/i.test(source.url) ? "dataLinked"
+    : /\b(methods|methodology)\s*:|\b(we (measured|collected|randomized|analysed|analyzed)|our (dataset|study))\b/i.test(text) ? "methodsVisible" : "unknown";
+  const directness: SourceScore["directness"] = !tokens.size || !text.trim() ? "unknown" : !related ? "unrelated"
+    : /\b(opinion|commentary|editorial|perspective)\b/i.test(role) ? "commentary"
+    : /\b(review|roundup|aggregation|encyclopedia)\b/i.test(role) || /wikipedia\.org$/.test(meta.originId) ? "aggregation"
+    : hasSyndicationSignal(source, peers) ? "syndicated"
+    : originalData !== "unknown" || /^(dataset|official-statistics|original-reporting)$/.test(source.sourceType ?? "") ? "primary"
+    : "reporting";
+  const date = Date.parse(source.published ?? ""), age = checkedAt.getTime() - date;
+  const repeatedHost = peers.filter(p => sourceMeta(p.url).originId === meta.originId).length > 1;
+  const signals = {
+    authority: meta.tier === 1 ? 1 : meta.tier === 2 ? 0.75 : 0.35,
+    recency: !Number.isFinite(age) || age < 0 ? 0.5 : age < 2 * 365 * 86400000 ? 1 : 0.4,
+    independence: hasSyndicationSignal(source, peers) || repeatedHost ? 0.4 : 1,
+    transparency: transparency === "unknown" ? 0.5 : 1,
+    directness: { primary: 1, reporting: 0.65, commentary: 0.4, aggregation: 0.25, syndicated: 0.35, unrelated: 0, unknown: 0.25 }[directness],
+    originalData: originalData === "dataLinked" ? 1 : originalData === "methodsVisible" ? 0.75 : 0.25,
+  };
+  const score = Math.round((Object.keys(SOURCE_SCORE_WEIGHTS) as (keyof typeof signals)[]).reduce((sum, k) => sum + signals[k] * SOURCE_SCORE_WEIGHTS[k], 0));
+  return { score, label: score >= 80 ? "Strong" : score >= 55 ? "Moderate" : "Weak", signals, transparency, directness, originalData };
+}
+
+/** With the gate off this returns the original objects and exact legacy verdict weights. */
+export function scoredSourceMeta(source: ScoringSource, claim: string, peers: ScoringSource[], enabled: boolean): ExcerptMeta {
+  const meta = sourceMeta(source.url);
+  return enabled ? { ...meta, weight: meta.weight * scoreSource(source, claim, peers).score / 100 } : meta;
 }

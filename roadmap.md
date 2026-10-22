@@ -1,4 +1,8 @@
 # Verfiai roadmap
+## Stage 2B source scoring
+- [x] Add metadata-grounded source signals and documented composite weights, gated server-side with legacy behavior preserved.
+- [x] Surface per-source details in report and claim results using existing styling and locale fallbacks.
+- [x] Run the full suite (54 tests), verify automatic production build OK, and exercise server-gated scoring with controlled inputs plus expanded browser details; no live-provider generation or flag activation performed.
 ## Oct 20 carry-over release
 - [x] Retry sources: Wikipedia works; Semantic Scholar remains rate-limited but shared cooldown and cached OpenAlex fallback return real results. Blocked Wikipedia editions fail independently with indexed local alternatives.
 - [x] Spot-review static translations in Spanish, Arabic and French; correct export labels, claim terminology, privacy wording and a translated DOI.

@@ -1,4 +1,28 @@
 {
+ "en": {
+  "independenceEstimate": "Publisher-domain and syndication estimate; shared ownership is not verified",
+
+  "authorTransparency": "Author transparency",
+  "directnessToClaim": "Directness to claim",
+  "originalDataAvailability": "Original-data availability",
+  "compositeSourceScore": "Composite source quality",
+  "scoreAuthority": "Authority",
+  "scoreRecency": "Recency",
+  "scoreIndependence": "Independence",
+  "namedAuthor": "Named author visible in metadata",
+  "namedOrganization": "Named publisher or organization visible in metadata",
+  "unknown": "Unknown from retrieved metadata; neutral/low signal",
+  "primary": "Relevant primary-data or original-reporting indicators",
+  "reporting": "Topical reporting; originality not confirmed",
+  "commentary": "Relevant commentary or opinion",
+  "aggregation": "Relevant aggregation or review",
+  "syndicated": "Possible syndicated or secondary coverage",
+  "unrelated": "No direct claim overlap detected",
+  "dataLinked": "Possible primary-data link inferred from metadata or URL; availability and contents not verified",
+  "methodsVisible": "Study or methodology indicators visible; data not inspected",
+  "scoringCaution": "Quality indicators are metadata-based estimates, not truth scores or full-source verification.",
+  "scoringWeights": "Weights: authority 25%, recency 10%, independence 15%, author transparency 15%, directness 25%, original data 10%. Strong ≥80; Moderate ≥55; otherwise Weak."
+},
  "ar": {
   "title": "تحقّق من مراجعك",
   "intro": "الصق مخطوطتك أو قائمة المراجع، أو ارفع ملفًا. نتحقق من كل مرجع في Crossref.",

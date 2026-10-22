@@ -6,7 +6,7 @@ import { cacheGet, cacheSet } from "../cache.server";
 const T = 5000;
 const UA = { "User-Agent": "Verfiai/1.0 (hello@verfiai.app)", Accept: "application/json" };
 const strip = (s: string) => s.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-export type DocSource = Source & { authors?: string; kind: "scribd" | "openalex_oa" | "semanticscholar" | "core"; openAccess?: boolean; citations?: number };
+export type DocSource = Source & { authors?: string | undefined; kind: "scribd" | "openalex_oa" | "semanticscholar" | "core"; openAccess?: boolean; citations?: number };
 
 type OaWork = { title?: string; doi?: string; publication_year?: number; abstract_inverted_index?: Record<string, number[]> | null; authorships?: { author?: { display_name?: string } }[]; cited_by_count?: number; best_oa_location?: { pdf_url?: string | null; landing_page_url?: string | null } | null; open_access?: { oa_url?: string | null } };
 const unInvert = (idx?: Record<string, number[]> | null) => {

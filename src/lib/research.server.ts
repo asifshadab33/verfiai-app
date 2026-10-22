@@ -6,7 +6,7 @@ import { dualAngleSearch, type Source } from "./search.server";
 import { synthesize, type CallMeta } from "./model.server";
 import { MIN_WORDS, reportSchema, wordCount, charCount, clampExtended, EXTENDED_MIN_CHARS, EXTENDED_MAX_CHARS, type ReportInput, type ResearchReport } from "./report-schema";
 import { z } from "zod";
-import { uniqueSources } from "./evidence";
+import { uniqueSources, scoreSource, hasSyndicationSignal } from "./evidence";
 import { businessPrompt } from "./prompts/business-analyst";
 
 export type { Source };
@@ -46,6 +46,8 @@ export function rerank(query: string, docs: Source[], top = 6): Source[] {
 function finalize(report: ResearchReport, sources: Source[], web: boolean, fetchedAt: string, engines: string[]): ResearchReport {
   return {
     ...report,
+    // Never persist optional scores supplied by model output; only the gated server pass adds them.
+    findings: report.findings.map(({ sourceScores: _untrusted, ...finding }) => finding),
     sources: sources.map(s => { let host = ""; try { host = new URL(s.url).hostname.replace(/^www\./, ""); } catch { /* */ } return { title: s.title, url: s.url, publisher: host, date: s.published ?? "", snippet: s.content.slice(0, 300), fetchedAt }; }),
     verification: web ? "web" : "model",
     engines: [...engines, ...(web ? ["Tavily, Brave, GDELT, DuckDuckGo, Wikipedia, Crossref, OpenAlex and PubMed", "BM25 + RRF ranking"] : [])],
@@ -134,7 +136,20 @@ export async function buildReport(data: ReportInput, meta?: CallMeta): Promise<R
   const report = await cached({
     key: reportKey, kind: "report", ttlMs: CACHE_TTL.report(), compute: () => (data.format === "extended" ? generateExtendedReport : generateReport)(data, { sources, web, fetchedAt, targetLang, languageInstruction, found, ...(meta ? { meta } : {}) }),
   });
-  return report;
+  const { isEnabled } = await import("./flags.server");
+  if (!(await isEnabled("ADVANCED_SOURCE_SCORING_ENABLED", meta?.userId ?? null))) return report;
+  // Computed only from retrieved metadata, after synthesis/cache: model-written scores are never trusted.
+  const scoringSources = sources.map(s => ({ ...s, syndicated: hasSyndicationSignal(s, found) }));
+  return { ...report, findings: report.findings.map(f => ({ ...f,
+    sourceScores: [...new Set([...f.detail.matchAll(/\[(\d+)\]/g)].map(m => Number(m[1]) - 1))].flatMap(i => {
+      const citation = report.sources[i];
+      const original = scoringSources.find(s => s.url === citation?.url);
+      return original ? [{ url: original.url, title: original.title, quality: scoreSource(original, `${f.title} ${f.detail.replace(/\[\d+\]/g, "")}`, scoringSources) }] : [];
+    }),
+  })), sources: report.sources.map(s => {
+    const original = scoringSources.find(d => d.url === s.url);
+    return original ? { ...s, quality: scoreSource(original, query, scoringSources) } : s;
+  }) };
 }
 
 async function generateReport(
