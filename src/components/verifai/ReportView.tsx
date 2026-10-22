@@ -1,4 +1,6 @@
 import { uiText } from "@/lib/ui-extra-i18n";
+import { SourceQualityDetails } from "./SourceQualityDetails";
+import { getFeatureFlags } from "@/lib/flags.functions";
 import { siteText } from "@/lib/site-i18n";
 import { localeCode } from "@/lib/recent-i18n";
 import { useLocation } from "@tanstack/react-router";
@@ -63,7 +65,10 @@ export function ReportView({ report, date, reportId, readOnly }: { report: Resea
   const lang = new URLSearchParams(useLocation().searchStr).get("lang") ?? "en";
   const t = (text: string) => recentText(lang, text);
   const [wordBusy, setWordBusy] = useState(false);
+  const flags = useServerFn(getFeatureFlags);
+  const [advanced, setAdvanced] = useState(false);
   const { user } = useAuth();
+  useEffect(() => { flags().then(f => setAdvanced(f.ADVANCED_SOURCE_SCORING_ENABLED)).catch(() => setAdvanced(false)); }, [user?.id, flags]);
   const getPlan = useServerFn(getSubscription);
   const [pro, setPro] = useState(false);
   useEffect(() => { if (!user || readOnly) return; getPlan({ data: { environment: getPaddleEnvironment() } }).then(r => setPro(r.isPro)).catch(() => setPro(false)); }, [user?.id, readOnly]); // eslint-disable-line react-hooks/exhaustive-deps

@@ -16,6 +16,7 @@
 - Word export is generated in the browser with `docx` (lazy-loaded) so no server cost.
 - New checkout is hard-disabled in a shared policy and at the server price resolver; retain billing management and verified subscription handling for existing customers so hiding offers never prevents cancellation.
 - Evidence strength is derived from verified excerpts for claim checks and conservatively from cited links for reports; report links never imply quote verification, because generated citations can be inaccurate.
+- Advanced source scores are deterministic server-generated metadata snapshots, separately displayed from evidence verdicts; cache cohorts are separated and current server flags gate display so disabled scoring preserves legacy results.
 - Progress indicators are labeled estimates until an actual server event exists; elapsed time alone cannot certify a completed verification step.
 - Keep the supplied source directory informational and separate from live evidence scoring, because catalog ratings and historical claims have not been independently verified.
 - Generate free professional templates locally as actual PDF/XLSX/DOCX with synthetic illustrative data; do not collect email or claim inbox delivery until a consented delivery service exists.

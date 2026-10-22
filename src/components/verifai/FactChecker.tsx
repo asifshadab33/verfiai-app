@@ -1,4 +1,6 @@
 import { checkerText } from "@/lib/checker-i18n";
+import { SourceQualityDetails } from "./SourceQualityDetails";
+import { getFeatureFlags } from "@/lib/flags.functions";
 import { uiText } from "@/lib/ui-extra-i18n";
 import { recentText, localizedBreakdown } from "@/lib/recent-i18n";
 import { StrengthBadge } from "./StrengthBadge";
@@ -34,6 +36,9 @@ export function FactChecker({ lang }: { lang: Lang }) {
   const run = useServerFn(factCheck);
   const fetchUsage = useServerFn(getFactUsage);
   const { user, loading } = useAuth();
+  const flags = useServerFn(getFeatureFlags);
+  const [advanced, setAdvanced] = useState(false);
+  useEffect(() => { flags().then(f => setAdvanced(f.ADVANCED_SOURCE_SCORING_ENABLED)).catch(() => setAdvanced(false)); }, [user?.id, flags]);
   const [mode, setMode] = useState<"text" | "url">("text");
   const [text, setText] = useState("");
   const [url, setUrl] = useState("");
