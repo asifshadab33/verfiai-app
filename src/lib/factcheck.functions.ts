@@ -8,7 +8,7 @@ import { cacheGet, cacheSet, sha } from "./cache.server";
 import { normalizeVerificationInput, VERIFICATION_TTL_MS } from "./verification-policy";
 import { claimUsage, usageFor } from "./usage.server";
 import { guardVerificationRequest, getVerificationResponse, saveVerificationResponse, verificationResponseKey } from "./verification-guard.server";
-import { aggregateEvidence, deduplicateClaims, evidenceStrength, sourceMeta, uniqueSources, verifyQuotes, type AggVerdict, type EvidenceBreakdown, type Judgment, type Stance } from "./evidence";
+import { aggregateEvidence, deduplicateClaims, evidenceStrength, scoreSource, scoredSourceMeta, type SourceScore, uniqueSources, verifyQuotes, type AggVerdict, type EvidenceBreakdown, type Judgment, type Stance } from "./evidence";
 
 export type Verdict = AggVerdict;
 export type ClaimResult = {
@@ -16,7 +16,7 @@ export type ClaimResult = {
   verdict: Verdict;
   explanation: string;
   consensus: "agreed" | "tie-break" | "single";
-  sources: { n: number; title: string; url: string; quote: string }[];
+  sources: { n: number; title: string; url: string; quote: string; quality?: SourceScore }[];
   conflict?: { a: string; b: string } | undefined;
   strength?: EvidenceBreakdown | undefined;
 };
@@ -52,8 +52,8 @@ async function judgeAllExcerpts(claim: string, docs: Source[], meta?: CallMeta):
   return Promise.all(docs.map(async (d, i) => judgeExcerpt(claim, String(i + 1), d.published ?? "unknown", d.content, meta)));
 }
 
-async function checkClaim(claim: string, language = "en", meta?: CallMeta): Promise<ClaimResult> {
-  const ck = `claim-v3:${sha(JSON.stringify([normalizeVerificationInput(claim), language.trim().toLowerCase()]))}`;
+async function checkClaim(claim: string, language = "en", meta?: CallMeta, advanced = false): Promise<ClaimResult> {
+  const ck = `${advanced ? "claim-scoring-v1" : "claim-v3"}:${sha(JSON.stringify([normalizeVerificationInput(claim), language.trim().toLowerCase()]))}`;
   const cachedResult = await cacheGet<ClaimResult>(ck, VERIFICATION_TTL_MS);
   if (cachedResult) return cachedResult;
   // CacheProvider is checked inside each SearchProvider engine before any external call.
@@ -64,7 +64,7 @@ async function checkClaim(claim: string, language = "en", meta?: CallMeta): Prom
   try { perExcerpt = await judgeAllExcerpts(claim, docs, meta); }
   catch { throw new Error("engine"); }
   const excerpts = new Map(docs.map((d, i) => [String(i + 1), d.content]));
-  const metaMap = new Map(docs.map((d, i) => [String(i + 1), sourceMeta(d.url)]));
+  const metaMap = new Map(docs.map((d, i) => [String(i + 1), scoredSourceMeta(d, claim, docs, advanced)]));
   const judgments: Judgment[] = perExcerpt.map((j, i) => ({ excerptId: String(i + 1), stance: j.stance, quote: j.quote }));
   const verified = verifyQuotes(judgments, excerpts);
   const verdict = aggregateEvidence(verified, metaMap);
@@ -78,7 +78,7 @@ async function checkClaim(claim: string, language = "en", meta?: CallMeta): Prom
   const ref = verified.find(j => j.stance === "refutes")?.quote;
   const result: ClaimResult = {
     claim, verdict, explanation, consensus: "single", strength: evidenceStrength(verdict, supportingDocs),
-    sources: docs.map((d, i) => ({ n: i + 1, title: d.title, url: d.url, quote: okIds.has(String(i + 1)) ? String(perExcerpt[i]?.quote ?? "").slice(0, 400) : "" })),
+    sources: docs.map((d, i) => ({ n: i + 1, title: d.title, url: d.url, quote: okIds.has(String(i + 1)) ? String(perExcerpt[i]?.quote ?? "").slice(0, 400) : "", ...(advanced ? { quality: scoreSource(d, claim, docs) } : {}) })),
     conflict: verdict === "MIXED" && sup && ref ? { a: sup, b: ref } : undefined,
   };
   await cacheSet(ck, "claim", result);
@@ -94,7 +94,10 @@ export const factCheck = createServerFn({ method: "POST" })
     const { consumeCredits, meter, CREDIT_COSTS } = await import("./metering.server");
     const who = await identify();
     await guardVerificationRequest(who);
-    const responseKey = verificationResponseKey(who, "fact", data.url ?? data.text ?? "", data.language, Boolean(data.url));
+    const { isEnabled } = await import("./flags.server");
+    const advanced = await isEnabled("ADVANCED_SOURCE_SCORING_ENABLED", who.userId);
+    const legacyKey = verificationResponseKey(who, "fact", data.url ?? data.text ?? "", data.language, Boolean(data.url));
+    const responseKey = advanced ? sha(`advanced-source-v1:${legacyKey}`) : legacyKey;
     const hit = await getVerificationResponse<{ claims: ClaimResult[]; excerpt: string }>(responseKey);
     if (hit) return hit;
     const { release } = await claimUsage("fact");
@@ -111,7 +114,7 @@ export const factCheck = createServerFn({ method: "POST" })
       void meter({ userId: who.userId, guestFingerprint: who.fingerprint, event: "claims_extracted", quantity: claims.length, provider: "openrouter" });
       if (!claims.length) { await release(); await credits?.refund(); return { claims: [] as ClaimResult[], excerpt: source.slice(0, 600) }; }
       const results: ClaimResult[] = [];
-      for (let i = 0; i < claims.length; i += 4) results.push(...await Promise.all(claims.slice(i, i + 4).map(c => checkClaim(c, data.language, meta))));
+      for (let i = 0; i < claims.length; i += 4) results.push(...await Promise.all(claims.slice(i, i + 4).map(c => checkClaim(c, data.language, meta, advanced))));
       void meter({ userId: who.userId, guestFingerprint: who.fingerprint, event: "quick_claim_check", latencyMs: Date.now() - t0, provider: "tavily+ddg+wikipedia+crossref+openalex+pubmed" });
       const response = { claims: results, excerpt: source.slice(0, 600) };
       await saveVerificationResponse(responseKey, response);

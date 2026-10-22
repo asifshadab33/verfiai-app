@@ -1,8 +1,9 @@
 // SearchProvider. One interface over every source engine; each engine is
 // individually cached through the CacheProvider and never breaks the caller.
+import type { ScoringSource } from "./evidence";
 import { cached, cacheKey, CACHE_TTL } from "./cache.server";
 
-export type Source = { title: string; url: string; content: string; published?: string | undefined; score: number };
+export type Source = ScoringSource & { title: string; url: string; content: string; published?: string | undefined; score: number };
 
 const stripTags = (s: string) => s.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 
@@ -22,8 +23,8 @@ const tavily: SearchEngine = { id: "tavily", run: async (query) => {
     signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS),
   });
   if (!res.ok) { console.error("Tavily error", res.status); return []; }
-  const json = await res.json() as { results?: { title: string; url: string; content: string; score: number; published_date?: string }[] };
-  return (json.results ?? []).filter(r => r.url?.startsWith("https://")).map(r => ({ title: r.title, url: r.url, content: (r.content ?? "").slice(0, 1500), published: r.published_date, score: r.score }));
+  const json = await res.json() as { results?: { title: string; url: string; content: string; score: number; published_date?: string; author?: string; publisher?: string }[] };
+  return (json.results ?? []).filter(r => r.url?.startsWith("https://")).map(r => ({ title: r.title, url: r.url, content: (r.content ?? "").slice(0, 1500), published: r.published_date, score: r.score, author: r.author, publisher: r.publisher }));
 } };
 
 // Brave Search API (optional key; skipped when BRAVE_SEARCH_API_KEY is unset).
@@ -142,11 +143,11 @@ const duckduckgo: SearchEngine = { id: "ddg", run: async (query) => {
 const openalex: SearchEngine = { id: "openalex", run: async (query) => {
   const res = await fetch(`https://api.openalex.org/works?search=${encodeURIComponent(query.slice(0, 300))}&per-page=5&filter=has_abstract:true&mailto=hello@verfiai.app`, { signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
   if (!res.ok) return [];
-  const j = await res.json() as { results?: { title?: string; doi?: string; id?: string; publication_date?: string; abstract_inverted_index?: Record<string, number[]> }[] };
+  const j = await res.json() as { results?: { title?: string; doi?: string; id?: string; publication_date?: string; authorships?: { author?: { display_name?: string } }[]; abstract_inverted_index?: Record<string, number[]> }[] };
   return (j.results ?? []).map(w => {
     const words: string[] = [];
     for (const [word, pos] of Object.entries(w.abstract_inverted_index ?? {})) for (const p of pos) words[p] = word;
-    return { title: w.title ?? "Untitled", url: (w.doi ?? w.id ?? "").replace(/^http:/, "https:"), content: words.filter(Boolean).join(" ").slice(0, 1500), published: w.publication_date, score: 0.55 };
+    return { title: w.title ?? "Untitled", url: (w.doi ?? w.id ?? "").replace(/^http:/, "https:"), content: words.filter(Boolean).join(" ").slice(0, 1500), published: w.publication_date, author: w.authorships?.map(a => a.author?.display_name).filter(Boolean).join(", "), score: 0.55 };
   }).filter(s => s.url.startsWith("https://") && s.content.length > 0);
 } };
 
@@ -166,7 +167,8 @@ const pubmed: SearchEngine = { id: "pubmed", run: async (query) => {
     const title = stripTags(a.match(/<ArticleTitle>([\s\S]*?)<\/ArticleTitle>/)?.[1] ?? "Untitled");
     const abs = [...a.matchAll(/<AbstractText[^>]*>([\s\S]*?)<\/AbstractText>/g)].map(m => stripTags(m[1] ?? "")).join(" ");
     const year = a.match(/<PubDate>[\s\S]*?<Year>(\d{4})<\/Year>/)?.[1];
-    return { title, url: `https://pubmed.ncbi.nlm.nih.gov/${pmid}/`, content: abs.slice(0, 1500), published: year, score: 0.55 };
+    const author = [...a.matchAll(/<LastName>([^<]+)<\/LastName>/g)].map(m => m[1]).join(", ");
+    return { title, author, url: `https://pubmed.ncbi.nlm.nih.gov/${pmid}/`, content: abs.slice(0, 1500), published: year, score: 0.55 };
   }).filter(s => s.content.length > 0 && /\/\d+\/$/.test(s.url));
 } };
 

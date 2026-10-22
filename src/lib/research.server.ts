@@ -6,7 +6,7 @@ import { dualAngleSearch, type Source } from "./search.server";
 import { synthesize, type CallMeta } from "./model.server";
 import { MIN_WORDS, reportSchema, wordCount, charCount, clampExtended, EXTENDED_MIN_CHARS, EXTENDED_MAX_CHARS, type ReportInput, type ResearchReport } from "./report-schema";
 import { z } from "zod";
-import { uniqueSources } from "./evidence";
+import { uniqueSources, scoreSource } from "./evidence";
 import { businessPrompt } from "./prompts/business-analyst";
 
 export type { Source };
@@ -134,7 +134,13 @@ export async function buildReport(data: ReportInput, meta?: CallMeta): Promise<R
   const report = await cached({
     key: reportKey, kind: "report", ttlMs: CACHE_TTL.report(), compute: () => (data.format === "extended" ? generateExtendedReport : generateReport)(data, { sources, web, fetchedAt, targetLang, languageInstruction, found, ...(meta ? { meta } : {}) }),
   });
-  return report;
+  const { isEnabled } = await import("./flags.server");
+  if (!(await isEnabled("ADVANCED_SOURCE_SCORING_ENABLED", meta?.userId ?? null))) return report;
+  // Computed only from retrieved metadata, after synthesis/cache: model-written scores are never trusted.
+  return { ...report, sources: report.sources.map(s => {
+    const original = sources.find(d => d.url === s.url);
+    return original ? { ...s, quality: scoreSource(original, query, sources) } : s;
+  }) };
 }
 
 async function generateReport(

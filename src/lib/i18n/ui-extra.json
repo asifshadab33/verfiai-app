@@ -1,4 +1,26 @@
 {
+ "en": {
+  "authorTransparency": "Author transparency",
+  "directnessToClaim": "Directness to claim",
+  "originalDataAvailability": "Original-data availability",
+  "compositeSourceScore": "Composite source quality",
+  "scoreAuthority": "Authority",
+  "scoreRecency": "Recency",
+  "scoreIndependence": "Independence",
+  "namedAuthor": "Named author visible in metadata",
+  "namedOrganization": "Named publisher or organization visible in metadata",
+  "unknown": "Unknown from retrieved metadata; neutral/low signal",
+  "primary": "Relevant primary-data or original-reporting indicators",
+  "reporting": "Topical reporting; originality not confirmed",
+  "commentary": "Relevant commentary or opinion",
+  "aggregation": "Relevant aggregation or review",
+  "syndicated": "Possible syndicated or secondary coverage",
+  "unrelated": "No direct claim overlap detected",
+  "dataLinked": "Primary-data link visible; contents not validated",
+  "methodsVisible": "Study or methodology indicators visible; data not inspected",
+  "scoringCaution": "Quality indicators are metadata-based estimates, not truth scores or full-source verification.",
+  "scoringWeights": "Weights: authority 25%, recency 10%, independence 15%, author transparency 15%, directness 25%, original data 10%. Strong ≥80; Moderate ≥55; otherwise Weak."
+},
   "ar": {
     "dossierTab": "الملف الشامل (Deep Dossier)",
     "dossierHelp": "يُنشئ تقريراً شاملاً ومُركّباً من مصادر عالية المستوى. إزالة مكررات دقيقة لتجنب المحتوى المكرر. (تحليل حتى 50 مصدراً كحد أقصى).",

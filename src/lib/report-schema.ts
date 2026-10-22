@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { sourceScoreSchema } from "./evidence";
 
 export const MONTHLY_REPORT_LIMIT = 3;
 export const MIN_WORDS = 1000; // roughly two printed pages
@@ -25,7 +26,7 @@ export type ReportInput = z.infer<typeof reportInput>;
 export const reportSchema = z.object({
   title: z.string(), summary: z.string(), background: z.string().default(""), analysis: z.string().default(""),
   findings: z.array(z.object({ title: z.string(), detail: z.string(), status: z.enum(["sourced", "inference", "disputed", "unverified"]) })).max(10),
-  sources: z.array(z.object({ title: z.string(), url: z.string(), publisher: z.string(), date: z.string(), snippet: z.string().optional(), fetchedAt: z.string().optional() })).max(50),
+  sources: z.array(z.object({ title: z.string(), url: z.string(), publisher: z.string(), date: z.string(), snippet: z.string().optional(), fetchedAt: z.string().optional(), quality: sourceScoreSchema.optional() })).max(50),
   conflictingEvidence: z.string(), methodology: z.string(), limitations: z.string(), conclusion: z.string(),
   verification: z.enum(["web", "model"]).optional(),
   engines: z.array(z.string()).optional(),
