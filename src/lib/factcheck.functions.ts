@@ -8,7 +8,7 @@ import { cacheGet, cacheSet, sha } from "./cache.server";
 import { normalizeVerificationInput, VERIFICATION_TTL_MS } from "./verification-policy";
 import { claimUsage, usageFor } from "./usage.server";
 import { guardVerificationRequest, getVerificationResponse, saveVerificationResponse, verificationResponseKey } from "./verification-guard.server";
-import { aggregateEvidence, deduplicateClaims, evidenceStrength, scoreSource, scoredSourceMeta, type SourceScore, uniqueSources, verifyQuotes, type AggVerdict, type EvidenceBreakdown, type Judgment, type Stance } from "./evidence";
+import { aggregateEvidence, deduplicateClaims, evidenceStrength, scoreSource, scoredSourceMeta, hasSyndicationSignal, type SourceScore, uniqueSources, verifyQuotes, type AggVerdict, type EvidenceBreakdown, type Judgment, type Stance } from "./evidence";
 
 export type Verdict = AggVerdict;
 export type ClaimResult = {
@@ -57,7 +57,9 @@ async function checkClaim(claim: string, language = "en", meta?: CallMeta, advan
   const cachedResult = await cacheGet<ClaimResult>(ck, VERIFICATION_TTL_MS);
   if (cachedResult) return cachedResult;
   // CacheProvider is checked inside each SearchProvider engine before any external call.
-  const docs: Source[] = rerank(claim, uniqueSources(await dualAngleSearch(claim, language)), 4);
+  const found = await dualAngleSearch(claim, language);
+  const ranked = rerank(claim, uniqueSources(found), 4);
+  const docs: Source[] = advanced ? ranked.map(d => ({ ...d, syndicated: hasSyndicationSignal(d, found) })) : ranked;
   if (!docs.length) return { claim, verdict: "UNVERIFIABLE", explanation: "No relevant web sources were found for this claim.", consensus: "single", sources: [] };
   // Judge each excerpt in isolation (one claim vs one excerpt), then apply the deterministic evidence rules.
   let perExcerpt: ExcerptJudgment[];

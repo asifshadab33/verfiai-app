@@ -6,7 +6,7 @@ import { dualAngleSearch, type Source } from "./search.server";
 import { synthesize, type CallMeta } from "./model.server";
 import { MIN_WORDS, reportSchema, wordCount, charCount, clampExtended, EXTENDED_MIN_CHARS, EXTENDED_MAX_CHARS, type ReportInput, type ResearchReport } from "./report-schema";
 import { z } from "zod";
-import { uniqueSources, scoreSource } from "./evidence";
+import { uniqueSources, scoreSource, hasSyndicationSignal } from "./evidence";
 import { businessPrompt } from "./prompts/business-analyst";
 
 export type { Source };
@@ -137,9 +137,16 @@ export async function buildReport(data: ReportInput, meta?: CallMeta): Promise<R
   const { isEnabled } = await import("./flags.server");
   if (!(await isEnabled("ADVANCED_SOURCE_SCORING_ENABLED", meta?.userId ?? null))) return report;
   // Computed only from retrieved metadata, after synthesis/cache: model-written scores are never trusted.
-  return { ...report, sources: report.sources.map(s => {
-    const original = sources.find(d => d.url === s.url);
-    return original ? { ...s, quality: scoreSource(original, query, sources) } : s;
+  const scoringSources = sources.map(s => ({ ...s, syndicated: hasSyndicationSignal(s, found) }));
+  return { ...report, findings: report.findings.map(f => ({ ...f,
+    sourceScores: [...new Set([...f.detail.matchAll(/\[(\d+)\]/g)].map(m => Number(m[1]) - 1))].flatMap(i => {
+      const citation = report.sources[i];
+      const original = scoringSources.find(s => s.url === citation?.url);
+      return original ? [{ url: original.url, title: original.title, quality: scoreSource(original, `${f.title} ${f.detail.replace(/\[\d+\]/g, "")}`, scoringSources) }] : [];
+    }),
+  })), sources: report.sources.map(s => {
+    const original = scoringSources.find(d => d.url === s.url);
+    return original ? { ...s, quality: scoreSource(original, query, scoringSources) } : s;
   }) };
 }
 

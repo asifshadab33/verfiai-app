@@ -177,7 +177,7 @@ export const sourceScoreSchema = z.object({
   originalData: z.enum(["dataLinked", "methodsVisible", "unknown"]),
 });
 export type SourceScore = z.infer<typeof sourceScoreSchema>;
-export type ScoringSource = { url: string; title?: string; content?: string; published?: string; author?: string; publisher?: string; organization?: string; sourceType?: string; dataUrl?: string; syndicated?: boolean };
+export type ScoringSource = { url: string; title?: string | undefined; content?: string | undefined; published?: string | undefined; author?: string | undefined; authors?: string | undefined; publisher?: string | undefined; organization?: string | undefined; sourceType?: string | undefined; dataUrl?: string | undefined; syndicated?: boolean | undefined };
 const named = (v?: string) => Boolean(v?.trim() && !/^(unknown|anonymous|n\/a|https?:\/\/|[\w-]+\.(com|org|net|gov|edu)$)/i.test(v.trim()));
 const claimTokens = (v: string) => new Set(v.toLowerCase().normalize("NFKC").match(/[\p{L}\p{N}]{3,}/gu) ?? []);
 
@@ -193,7 +193,7 @@ export function hasSyndicationSignal(source: ScoringSource, peers: ScoringSource
 export function scoreSource(source: ScoringSource, claim: string, peers: ScoringSource[] = [source], checkedAt = new Date()): SourceScore {
   const meta = sourceMeta(source.url);
   const text = `${source.title ?? ""} ${source.content ?? ""}`;
-  const transparency = named(source.author) ? "namedAuthor" : named(source.organization) || named(source.publisher) ? "namedOrganization" : "unknown";
+  const transparency = named(source.author ?? source.authors) ? "namedAuthor" : named(source.organization) || named(source.publisher) ? "namedOrganization" : "unknown";
   const tokens = claimTokens(claim), observed = claimTokens(text);
   const overlap = tokens.size ? [...tokens].filter(t => observed.has(t)).length / tokens.size : 0;
   const related = overlap >= 0.35;

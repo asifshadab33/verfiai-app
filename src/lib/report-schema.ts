@@ -25,7 +25,7 @@ export type ReportInput = z.infer<typeof reportInput>;
 
 export const reportSchema = z.object({
   title: z.string(), summary: z.string(), background: z.string().default(""), analysis: z.string().default(""),
-  findings: z.array(z.object({ title: z.string(), detail: z.string(), status: z.enum(["sourced", "inference", "disputed", "unverified"]) })).max(10),
+  findings: z.array(z.object({ title: z.string(), detail: z.string(), status: z.enum(["sourced", "inference", "disputed", "unverified"]), sourceScores: z.array(z.object({ url: z.string(), title: z.string(), quality: sourceScoreSchema })).optional() })).max(10),
   sources: z.array(z.object({ title: z.string(), url: z.string(), publisher: z.string(), date: z.string(), snippet: z.string().optional(), fetchedAt: z.string().optional(), quality: sourceScoreSchema.optional() })).max(50),
   conflictingEvidence: z.string(), methodology: z.string(), limitations: z.string(), conclusion: z.string(),
   verification: z.enum(["web", "model"]).optional(),
