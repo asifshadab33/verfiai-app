@@ -171,7 +171,7 @@ export function sourceQuality(url: string): SourceQuality {
 export const SOURCE_SCORE_WEIGHTS = { authority: 25, recency: 10, independence: 15, transparency: 15, directness: 25, originalData: 10 } as const;
 export const sourceScoreSchema = z.object({
   score: z.number().min(0).max(100), label: z.enum(["Strong", "Moderate", "Weak"]),
-  signals: z.object({ authority: z.number(), recency: z.number(), independence: z.number(), transparency: z.number(), directness: z.number(), originalData: z.number() }),
+  signals: z.object({ authority: z.number().min(0).max(1), recency: z.number().min(0).max(1), independence: z.number().min(0).max(1), transparency: z.number().min(0).max(1), directness: z.number().min(0).max(1), originalData: z.number().min(0).max(1) }),
   transparency: z.enum(["namedAuthor", "namedOrganization", "unknown"]),
   directness: z.enum(["primary", "reporting", "commentary", "aggregation", "syndicated", "unrelated", "unknown"]),
   originalData: z.enum(["dataLinked", "methodsVisible", "unknown"]),
@@ -198,7 +198,7 @@ export function scoreSource(source: ScoringSource, claim: string, peers: Scoring
   const overlap = tokens.size ? [...tokens].filter(t => observed.has(t)).length / tokens.size : 0;
   const related = overlap >= 0.35;
   const role = `${source.sourceType ?? ""} ${source.title ?? ""}`;
-  const originalData = source.dataUrl && /^https:\/\//.test(source.dataUrl) || /\/(datasets?|data-download)\b|\.(csv|xlsx|json)(?:\?|$)/i.test(source.url) ? "dataLinked"
+  const originalData = source.dataUrl && /^https:\/\//.test(source.dataUrl) || /\/(datasets?|data-download)\b|\.(csv|xlsx)(?:\?|$)/i.test(source.url) ? "dataLinked"
     : /\b(methods|methodology)\s*:|\b(we (measured|collected|randomized|analysed|analyzed)|our (dataset|study))\b/i.test(text) ? "methodsVisible" : "unknown";
   const directness: SourceScore["directness"] = !tokens.size || !text.trim() ? "unknown" : !related ? "unrelated"
     : /\b(opinion|commentary|editorial|perspective)\b/i.test(role) ? "commentary"
