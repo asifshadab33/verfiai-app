@@ -1,4 +1,9 @@
 # Verfiai roadmap
+## Knowledge/library release review (Oct 23)
+- [ ] Verify live database access, rights visibility, paused downloads, validation and private-response caching.
+- [ ] Exercise knowledge/library keyboard, mobile/RTL, filters, empty states, metadata, outage and authenticated issue/usage paths.
+- [ ] Add approved custom database-backed issue submission limit; run full regression suite and check automatic production build.
+- Owner-deferred: catalog publication requires supplied rights-reviewed content; downloads and Analyst checkout remain paused.
 ## Stage 2B source scoring
 - [x] Add metadata-grounded source signals and documented composite weights, gated server-side with legacy behavior preserved.
 - [x] Surface per-source details in report and claim results using existing styling and locale fallbacks.
