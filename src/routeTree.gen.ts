@@ -29,7 +29,6 @@ import { Route as RefundsRouteImport } from './routes/refunds'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as SampleReportRouteImport } from './routes/sample-report'
 import { Route as SecurityRouteImport } from './routes/security'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -40,6 +39,7 @@ import { Route as AccountUsageRouteImport } from './routes/account/usage'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout/success'
 import { Route as FactCheckSlugRouteImport } from './routes/fact-check/$slug'
 import { Route as RTokenRouteImport } from './routes/r.$token'
+import { Route as ResourcesIndexRouteImport } from './routes/resources/index'
 import { Route as ResourcesSlugRouteImport } from './routes/resources/$slug'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 
@@ -143,11 +143,6 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ResourcesRoute = ResourcesRouteImport.update({
-  id: '/resources',
-  path: '/resources',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SampleReportRoute = SampleReportRouteImport.update({
   id: '/sample-report',
   path: '/sample-report',
@@ -198,10 +193,15 @@ const RTokenRoute = RTokenRouteImport.update({
   path: '/r/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
+  id: '/resources/',
+  path: '/resources/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResourcesSlugRoute = ResourcesSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => ResourcesRoute,
+  id: '/resources/$slug',
+  path: '/resources/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicPaymentsWebhookRoute =
   ApiPublicPaymentsWebhookRouteImport.update({
@@ -231,7 +231,6 @@ export interface FileRoutesByFullPath {
   '/reports': typeof ReportsRoute
   '/research': typeof ResearchRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/resources': typeof ResourcesRouteWithChildren
   '/sample-report': typeof SampleReportRoute
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -243,6 +242,7 @@ export interface FileRoutesByFullPath {
   '/fact-check/$slug': typeof FactCheckSlugRoute
   '/r/$token': typeof RTokenRoute
   '/resources/$slug': typeof ResourcesSlugRoute
+  '/resources/': typeof ResourcesIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesByTo {
@@ -266,7 +266,6 @@ export interface FileRoutesByTo {
   '/reports': typeof ReportsRoute
   '/research': typeof ResearchRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/resources': typeof ResourcesRouteWithChildren
   '/sample-report': typeof SampleReportRoute
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -278,6 +277,7 @@ export interface FileRoutesByTo {
   '/fact-check/$slug': typeof FactCheckSlugRoute
   '/r/$token': typeof RTokenRoute
   '/resources/$slug': typeof ResourcesSlugRoute
+  '/resources': typeof ResourcesIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRoutesById {
@@ -302,7 +302,6 @@ export interface FileRoutesById {
   '/reports': typeof ReportsRoute
   '/research': typeof ResearchRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/resources': typeof ResourcesRouteWithChildren
   '/sample-report': typeof SampleReportRoute
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -314,6 +313,7 @@ export interface FileRoutesById {
   '/fact-check/$slug': typeof FactCheckSlugRoute
   '/r/$token': typeof RTokenRoute
   '/resources/$slug': typeof ResourcesSlugRoute
+  '/resources/': typeof ResourcesIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
 }
 export interface FileRouteTypes {
@@ -339,7 +339,6 @@ export interface FileRouteTypes {
     | '/reports'
     | '/research'
     | '/reset-password'
-    | '/resources'
     | '/sample-report'
     | '/security'
     | '/sitemap.xml'
@@ -351,6 +350,7 @@ export interface FileRouteTypes {
     | '/fact-check/$slug'
     | '/r/$token'
     | '/resources/$slug'
+    | '/resources/'
     | '/api/public/payments/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -374,7 +374,6 @@ export interface FileRouteTypes {
     | '/reports'
     | '/research'
     | '/reset-password'
-    | '/resources'
     | '/sample-report'
     | '/security'
     | '/sitemap.xml'
@@ -386,6 +385,7 @@ export interface FileRouteTypes {
     | '/fact-check/$slug'
     | '/r/$token'
     | '/resources/$slug'
+    | '/resources'
     | '/api/public/payments/webhook'
   id:
     | '__root__'
@@ -409,7 +409,6 @@ export interface FileRouteTypes {
     | '/reports'
     | '/research'
     | '/reset-password'
-    | '/resources'
     | '/sample-report'
     | '/security'
     | '/sitemap.xml'
@@ -421,6 +420,7 @@ export interface FileRouteTypes {
     | '/fact-check/$slug'
     | '/r/$token'
     | '/resources/$slug'
+    | '/resources/'
     | '/api/public/payments/webhook'
   fileRoutesById: FileRoutesById
 }
@@ -445,7 +445,6 @@ export interface RootRouteChildren {
   ReportsRoute: typeof ReportsRoute
   ResearchRoute: typeof ResearchRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
-  ResourcesRoute: typeof ResourcesRouteWithChildren
   SampleReportRoute: typeof SampleReportRoute
   SecurityRoute: typeof SecurityRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -456,6 +455,8 @@ export interface RootRouteChildren {
   CheckoutSuccessRoute: typeof CheckoutSuccessRoute
   FactCheckSlugRoute: typeof FactCheckSlugRoute
   RTokenRoute: typeof RTokenRoute
+  ResourcesSlugRoute: typeof ResourcesSlugRoute
+  ResourcesIndexRoute: typeof ResourcesIndexRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
 }
 
@@ -601,13 +602,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/resources': {
-      id: '/resources'
-      path: '/resources'
-      fullPath: '/resources'
-      preLoaderRoute: typeof ResourcesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/sample-report': {
       id: '/sample-report'
       path: '/sample-report'
@@ -678,12 +672,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resources/': {
+      id: '/resources/'
+      path: '/resources'
+      fullPath: '/resources/'
+      preLoaderRoute: typeof ResourcesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/resources/$slug': {
       id: '/resources/$slug'
-      path: '/$slug'
+      path: '/resources/$slug'
       fullPath: '/resources/$slug'
       preLoaderRoute: typeof ResourcesSlugRouteImport
-      parentRoute: typeof ResourcesRoute
+      parentRoute: typeof rootRouteImport
     }
     '/api/public/payments/webhook': {
       id: '/api/public/payments/webhook'
@@ -694,18 +695,6 @@ declare module '@tanstack/react-router' {
     }
   }
 }
-
-interface ResourcesRouteChildren {
-  ResourcesSlugRoute: typeof ResourcesSlugRoute
-}
-
-const ResourcesRouteChildren: ResourcesRouteChildren = {
-  ResourcesSlugRoute: ResourcesSlugRoute,
-}
-
-const ResourcesRouteWithChildren = ResourcesRoute._addFileChildren(
-  ResourcesRouteChildren,
-)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -728,7 +717,6 @@ const rootRouteChildren: RootRouteChildren = {
   ReportsRoute: ReportsRoute,
   ResearchRoute: ResearchRoute,
   ResetPasswordRoute: ResetPasswordRoute,
-  ResourcesRoute: ResourcesRouteWithChildren,
   SampleReportRoute: SampleReportRoute,
   SecurityRoute: SecurityRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
@@ -739,6 +727,8 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutSuccessRoute: CheckoutSuccessRoute,
   FactCheckSlugRoute: FactCheckSlugRoute,
   RTokenRoute: RTokenRoute,
+  ResourcesSlugRoute: ResourcesSlugRoute,
+  ResourcesIndexRoute: ResourcesIndexRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
 }
 export const routeTree = rootRouteImport

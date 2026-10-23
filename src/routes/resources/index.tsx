@@ -6,7 +6,7 @@ import { useSiteLocale } from "@/lib/locale";
 const title = "Evidence Library | Verfiai";
 const description =
   "Inspect source-linked Verfiai research briefs, citation reviews, and evidence maps with clear rights and limitations.";
-export const Route = createFileRoute("/resources")({
+export const Route = createFileRoute("/resources/")({
   head: () => ({
     meta: [
       { name: "robots", content: "noindex" },
