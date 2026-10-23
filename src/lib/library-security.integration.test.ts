@@ -2,7 +2,8 @@ import postgres from "postgres";
 import { randomUUID } from "crypto";
 import { describe, expect, it } from "vitest";
 
-const connection = process.env["SUPABASE_DB_URL"];
+// Requires a privileged disposable database connection, not Cloud's restricted schema connection.
+const connection = process.env["LIBRARY_QA_PRIVILEGED_DATABASE_URL"];
 describe.skipIf(!connection)("live library protections (rolled-back fixtures)", () => {
   async function check(run: (sql: postgres.TransactionSql) => Promise<void>) {
     if (!connection) throw new Error("Database test access unavailable");
@@ -17,8 +18,8 @@ describe.skipIf(!connection)("live library protections (rolled-back fixtures)", 
   }
   async function fixture(sql: postgres.TransactionSql) {
     const users = await sql`select id from auth.users order by id limit 2`;
-    const first = users[0]?.id as string | undefined;
-    const second = users[1]?.id as string | undefined;
+    const first = users[0]?.["id"] as string | undefined;
+    const second = users[1]?.["id"] as string | undefined;
     if (!first || !second) throw new Error("Two accounts required for isolation test");
     const id = randomUUID();
     await sql`insert into public.knowledge_resources(id,slug,title,publisher,original_url,rights_status,published,full_content) values (${id},${`qa-${id}`},'Synthetic QA fixture','QA publisher','https://example.org','LINK_ONLY',true,'PRIVATE_QA_CONTENT')`;
@@ -30,7 +31,7 @@ describe.skipIf(!connection)("live library protections (rolled-back fixtures)", 
   }
   it("denies anonymous full text, histories and both download signatures", async () => check(async sql => {
     await sql`set local role anon`;
-    expect((await sql`select has_column_privilege(current_user,'public.knowledge_resources','full_content','SELECT') ok`)[0]?.ok).toBe(false);
+    expect((await sql`select has_column_privilege(current_user,'public.knowledge_resources','full_content','SELECT') ok`)[0]?.["ok"]).toBe(false);
     for (const table of ["resource_issues", "resource_downloads"]) {
       await expect(sql.savepoint(tx => tx.unsafe(`select * from public.${table}`))).rejects.toMatchObject({ code: "42501" });
     }
