@@ -1,4 +1,12 @@
 # Verfiai roadmap
+## Knowledge/library release review (Oct 23)
+- [x] Verify live anonymous full-content denial and denied execution of both download signatures; revoke unexpected anon EXECUTE on the legacy signature. Confirm RLS owner predicates, PENDING_REVIEW default, empty catalog, zero library cache entries, safe-column public reads and no-store library responses.
+- [x] Verify live /knowledge, /resources, missing resource detail, signed-out/signed-in usage and hidden-target issue rejection; fix hidden detail route and test desktop keyboard plus 390px English/Arabic layout without overflow/runtime errors.
+- [x] Browser-only synthetic responses verify filters, bookmark, publisher/licence URLs, verification date, empty/outage-safe response and signed-in issue-form confirmation; no resources or test subscriptions were published/stored.
+- [x] Add approved custom five-per-account rolling-hour database trigger, direct-write validation, hidden-target rejection and server-assigned submission timestamp. Full suite: 58 passed, 4 privileged transaction tests skipped; automatic production build OK.
+- [ ] Populated two-user issue/download isolation, five/six threshold and rights-revocation execution tests need a privileged disposable database; Cloud schema connection cannot impersonate roles. Retained opt-in rolled-back fixture tests. Live issue reads/download reads returned zero rows; this alone is not populated isolation proof.
+- [ ] Real publisher/licence/content review and successful issue storage need owner-supplied approved content. Live Crossref outage execution is gated off; only synthetic empty response and catch-path code review completed. No new report-generation or live legacy Pro checkout end-to-end run; community checkout-blocking regression tests pass and billing code is unchanged.
+- Owner-deferred: catalog publication requires supplied rights-reviewed content; downloads and Analyst checkout remain paused.
 ## Stage 2B source scoring
 - [x] Add metadata-grounded source signals and documented composite weights, gated server-side with legacy behavior preserved.
 - [x] Surface per-source details in report and claim results using existing styling and locale fallbacks.
@@ -29,7 +37,7 @@
 - [x] Day 2: disable new paid checkouts, replace paid offers with Community Access and one-year free pledge, persist a consented Pro/Teams email waitlist, and verify signup storage plus checkout policy tests.
 - [x] Priority 1 trust infrastructure: expand About, Methodology, and Accuracy; add trust navigation, input disclosures, verdict feedback, and footer feedback.
 - [x] Create reviewed-rights Knowledge Index and preview-only Evidence Library routes, Crossref metadata discovery, local bookmarks, issue reporting and usage page; pause downloads and keep Analyst checkout unavailable.
-- [ ] Publish verified/rights-reviewed catalog resources and complete release QA/security/rights review; enable Analyst only if later approved with pricing and payment mapping (see docs-knowledge-rollout.md).
+- [ ] Publish verified/rights-reviewed catalog resources and finish owner/dependency-deferred QA/security/rights checks listed in the Oct 23 review; enable Analyst only if later approved with pricing and payment mapping (see docs-knowledge-rollout.md). No publishing or download activation performed.
 - [x] Add five synthetic professional templates, local PDF/XLSX/DOCX downloads, an accessible dialog, and homepage/report links.
 - [x] Resolve 19 language codes to names and enforce selected-language report synthesis, including expansion drafts.
 - [x] Enhance /sources with live search, reliability and counted profession filters, catalog trend drawer, copy-prompt action, and registry links.

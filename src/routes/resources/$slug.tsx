@@ -6,6 +6,8 @@ import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
 import { Button } from "@/components/ui/button";
 import { getResource, submitResourceIssue } from "@/lib/library.functions";
 import { useAuth } from "@/hooks/useAuth";
+import { libraryIssueInput, safePublisherUrl } from "@/lib/library-policy";
+import { useSiteLocale } from "@/lib/locale";
 
 export const Route = createFileRoute("/resources/$slug")({
   head: () => ({
@@ -29,6 +31,7 @@ export const Route = createFileRoute("/resources/$slug")({
   component: ResourceDetail,
 });
 function ResourceDetail() {
+  const { lang } = useSiteLocale();
   const { slug } = Route.useParams();
   const fetchResource = useServerFn(getResource);
   const report = useServerFn(submitResourceIssue);
@@ -41,6 +44,7 @@ function ResourceDetail() {
     "SOURCE_BROKEN" | "COPYRIGHT_CONCERN" | "EVIDENCE_OUTDATED" | "INACCURATE_CONTENT" | "OTHER"
   >("SOURCE_BROKEN");
   const [issueText, setIssueText] = useState("");
+  const [sending, setSending] = useState(false);
   useEffect(() => {
     let active = true;
     setBusy(true);
@@ -59,25 +63,29 @@ function ResourceDetail() {
     };
   }, [slug, fetchResource]);
   async function sendIssue() {
-    if (!data) return;
+    if (!data || sending) return;
+    const input = libraryIssueInput.safeParse({ id: data.item.id, type: issueType, message: issueText });
+    if (!input.success) { setMessage("Enter issue details between 10 and 2,000 characters."); return; }
+    setSending(true);
     try {
-      await report({ data: { id: data.item.id, type: issueType, message: issueText } });
+      await report({ data: input.data });
       setMessage("Thanks. Your report has been received.");
       setIssueOpen(false);
       setIssueText("");
     } catch (e) {
       setMessage(e instanceof Error ? e.message : "Could not send this report.");
-    }
+    } finally { setSending(false); }
   }
   if (busy)
     return (
-      <ContentPage title="Resource details" intro="Loading resource…">
+      <ContentPage lang={lang} title="Resource details" intro="Loading resource…">
         <p role="status">Loading…</p>
       </ContentPage>
     );
   if (!data)
     return (
       <ContentPage
+        lang={lang}
         title="Resource unavailable"
         intro="This item may have been removed or is still under review."
       >
@@ -88,7 +96,7 @@ function ResourceDetail() {
     );
   const { item, sources } = data;
   return (
-    <ContentPage title={item.title} intro={item.summary}>
+    <ContentPage lang={lang} title={item.title} intro={item.summary}>
       <div className="grid gap-10 lg:grid-cols-[1fr_280px]">
         <div>
           <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
@@ -118,7 +126,7 @@ function ResourceDetail() {
               {sources.map((source) => (
                 <li key={source.url} className="border-s-2 border-border ps-4">
                   <a
-                    href={source.url}
+                    href={safePublisherUrl(source.url)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 font-semibold text-brand hover:underline"
@@ -153,7 +161,7 @@ function ResourceDetail() {
           </p>
           {item.licence_url && (
             <a
-              href={item.licence_url}
+              href={safePublisherUrl(item.licence_url)}
               target="_blank"
               rel="noopener noreferrer"
               className="block text-brand underline"
@@ -172,7 +180,7 @@ function ResourceDetail() {
             {item.source_count}
           </p>
           <a
-            href={item.original_url}
+            href={safePublisherUrl(item.original_url)}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 text-brand underline"
@@ -223,7 +231,7 @@ function ResourceDetail() {
                     onChange={(e) => setIssueText(e.target.value)}
                   />
                 </label>
-                <Button disabled={issueText.trim().length < 10} onClick={sendIssue}>
+                <Button disabled={sending || issueText.trim().length < 10} onClick={sendIssue}>
                   Send report
                 </Button>
               </div>

@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +13,7 @@ export function ResourceBrowse({ kind }: { kind: Kind }) {
   const search = useServerFn(searchResources);
   const discover = useServerFn(discoverOpenResearch);
   const [query, setQuery] = useState("");
+  const lookupVersion = useRef(0);
   const [category, setCategory] = useState("all");
   const [region, setRegion] = useState("all");
   const [language, setLanguage] = useState("all");
@@ -40,7 +41,9 @@ export function ResourceBrowse({ kind }: { kind: Kind }) {
   const [error, setError] = useState("");
   useEffect(() => {
     let active = true;
+    lookupVersion.current += 1;
     setBusy(true);
+    setError("");
     search({ data: { query, category, region, kind } })
       .then((data) => {
         if (active) {
@@ -60,14 +63,16 @@ export function ResourceBrowse({ kind }: { kind: Kind }) {
   }, [query, category, region, kind, search]);
   async function lookup() {
     if (query.trim().length < 3) return;
+    const version = ++lookupVersion.current;
     setBusy(true);
     setError("");
     try {
-      setExternal(await discover({ data: { query } }));
+      const results = await discover({ data: { query } });
+      if (version === lookupVersion.current) setExternal(results);
     } catch {
-      setError("Publisher search is unavailable right now.");
+      if (version === lookupVersion.current) setError("Publisher search is unavailable right now.");
     } finally {
-      setBusy(false);
+      if (version === lookupVersion.current) setBusy(false);
     }
   }
   const visible = rows.filter(
@@ -96,11 +101,13 @@ export function ResourceBrowse({ kind }: { kind: Kind }) {
             aria-label="Search resources"
             placeholder="Search titles, publishers, topics"
             value={query}
+            maxLength={120}
             onChange={(e) => {
+              lookupVersion.current += 1;
               setQuery(e.target.value);
               setExternal([]);
             }}
-            className="h-10 bg-card ps-10 pe-10"
+            className="h-11 bg-card ps-10 pe-10"
           />
           {query && (
             <Button
@@ -109,6 +116,7 @@ export function ResourceBrowse({ kind }: { kind: Kind }) {
               aria-label="Clear search"
               className="absolute end-0 top-0"
               onClick={() => {
+                lookupVersion.current += 1;
                 setQuery("");
                 setExternal([]);
               }}
@@ -220,14 +228,15 @@ export function ResourceBrowse({ kind }: { kind: Kind }) {
             >
               View details <ArrowUpRight className="size-4" />
             </Link>
-            <button
+            <Button
               type="button"
+              variant="link"
               className="ms-4 min-h-11 text-sm text-brand underline"
               aria-label={`${bookmarks.includes(item.id) ? "Remove bookmark for" : "Bookmark"} ${item.title}`}
               onClick={() => toggleBookmark(item.id)}
             >
               {bookmarks.includes(item.id) ? "Saved" : "Save"}
-            </button>
+            </Button>
           </article>
         ))}
         {external.map((item) => (

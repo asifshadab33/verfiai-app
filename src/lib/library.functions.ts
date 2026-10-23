@@ -2,6 +2,8 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { paymentEnvironment } from "./payments-env.server";
+import { libraryIssueInput, librarySearchInput, safePublisherUrl } from "./library-policy";
+import { setResponseHeader } from "@tanstack/react-start/server";
 
 type PublicResource = {
   id: string;
@@ -32,17 +34,13 @@ async function gate(kind: "index" | "library") {
   const { requireFlag } = await import("./flags.server");
   await requireFlag(kind === "index" ? "OPEN_KNOWLEDGE_INDEX_ENABLED" : "EVIDENCE_LIBRARY_ENABLED", (await identify()).userId);
 }
-const searchInput = z.object({
-  query: z.string().max(160).default(""),
-  category: z.string().max(50).default("all"),
-  region: z.string().max(50).default("all"),
-  kind: z.enum(["index", "library"]),
-});
 export const searchResources = createServerFn({ method: "GET" })
-  .validator((value) => searchInput.parse(value))
+  .validator((value) => librarySearchInput.parse(value))
   .handler(async ({ data }) => {
+    setResponseHeader("Cache-Control", "private, no-store");
     await gate(data.kind);
-    const { supabase } = await import("@/integrations/supabase/client");
+    const { libraryPublicClient } = await import("./library-public.server");
+    const supabase = libraryPublicClient();
     let request = supabase
       .from("knowledge_resources")
       .select(fields)
@@ -67,6 +65,7 @@ const crossrefInput = z.object({ query: z.string().trim().min(3).max(120) });
 export const discoverOpenResearch = createServerFn({ method: "GET" })
   .validator((value) => crossrefInput.parse(value))
   .handler(async ({ data }) => {
+    setResponseHeader("Cache-Control", "private, no-store");
     await gate("index");
     const url = `https://api.crossref.org/works?query=${encodeURIComponent(data.query)}&rows=12&select=DOI,title,publisher,URL,published,license,type`;
     try {
@@ -97,7 +96,7 @@ export const discoverOpenResearch = createServerFn({ method: "GET" })
           url: `https://doi.org/${encodeURIComponent(item.DOI ?? "")}`,
           year: item.published?.["date-parts"]?.[0]?.[0] ?? null,
           type: item.type ?? "Research publication",
-          licenceUrl: item.license?.[0]?.URL ?? null,
+          licenceUrl: safePublisherUrl(item.license?.[0]?.URL) ?? null,
           checkedAt: new Date().toISOString(),
         }));
     } catch {
@@ -108,7 +107,9 @@ export const discoverOpenResearch = createServerFn({ method: "GET" })
 export const getResource = createServerFn({ method: "GET" })
   .validator((value) => z.object({ slug: z.string().regex(/^[a-z0-9-]{1,100}$/) }).parse(value))
   .handler(async ({ data }) => {
-    const { supabase } = await import("@/integrations/supabase/client");
+    setResponseHeader("Cache-Control", "private, no-store");
+    const { libraryPublicClient } = await import("./library-public.server");
+    const supabase = libraryPublicClient();
     const { data: item, error } = await supabase
       .from("knowledge_resources")
       .select(fields)
@@ -116,7 +117,8 @@ export const getResource = createServerFn({ method: "GET" })
       .eq("published", true)
       .maybeSingle();
     if (error || !item) return null;
-    await gate(item.kind === "library" ? "library" : "index");
+    if (item.kind !== "library" && item.kind !== "index") return null;
+    await gate(item.kind);
     const { data: sources } = await supabase
       .from("resource_sources")
       .select("title,url,publisher,licence_name,reuse_conditions,retrieved_at")
@@ -128,6 +130,7 @@ export const getResource = createServerFn({ method: "GET" })
 export const getLibraryUsage = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
+    setResponseHeader("Cache-Control", "private, no-store");
     const { data: subs, error } = await context.supabase
       .from("subscriptions")
       .select("id,current_period_start,current_period_end,status")
@@ -162,28 +165,15 @@ export const getLibraryUsage = createServerFn({ method: "GET" })
 
 export const submitResourceIssue = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .validator((value) =>
-    z
-      .object({
-        id: z.string().uuid(),
-        type: z.enum([
-          "EVIDENCE_OUTDATED",
-          "SOURCE_BROKEN",
-          "COPYRIGHT_CONCERN",
-          "INACCURATE_CONTENT",
-          "OTHER",
-        ]),
-        message: z.string().trim().min(10).max(2000),
-      })
-      .parse(value),
-  )
+  .validator((value) => libraryIssueInput.parse(value))
   .handler(async ({ data, context }) => {
+    setResponseHeader("Cache-Control", "private, no-store");
     const { error } = await context.supabase.from("resource_issues").insert({
       resource_id: data.id,
       user_id: context.userId,
       issue_type: data.type,
       message: data.message,
     });
-    if (error) throw new Error("Could not submit your report.");
+    if (error) throw new Error(error.code === "P0001" ? "Issue report limit reached. Please try again later." : "Could not submit your report.");
     return { received: true };
   });

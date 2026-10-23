@@ -8,6 +8,7 @@
 - Keep locale selection in the URL query as well as browser storage, because server-rendered share metadata must reflect the selected language.
 - Keep report generation on the index route with the citation checker as a separate tab; this preserves the existing Crossref workflow while making research the primary entry point.
 - Keep brochure sections as separate content routes with leaf metadata because each is independently shareable.
+- Library browsing is an index leaf beside the resource-detail leaf, not a parent page that hides its child; this keeps detail and issue-reporting views reachable.
 - Keep cybersecurity exploration on a separate concept route with a browser-only file preview and no claimed scan results, because the research product does not provide media-forensics scanning.
 - Reports use Cloud auth (Google + email); generation, plan limits and saving run server-side against reports/subscriptions, because browser counters cannot enforce access.
 - Voice input uses the browser's free Web Speech API with `cleanVoiceTranscript`, so no audio leaves the browser via our server.
