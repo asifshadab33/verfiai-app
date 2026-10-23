@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
 import { ResourceBrowse } from "@/components/verifai/ResourceBrowse";
 import { FeatureGate } from "@/components/verifai/FeatureGate";
+import { useSiteLocale } from "@/lib/locale";
 
 const title = "Open Global Knowledge Index | Verfiai";
 const description =
@@ -21,8 +22,10 @@ export const Route = createFileRoute("/knowledge")({
   component: Knowledge,
 });
 function Knowledge() {
+  const { lang } = useSiteLocale();
   return (
     <ContentPage
+      lang={lang}
       title="Open Global Knowledge Index"
       intro="Explore source-linked reports, research publications, policy documents, academic resources, and public data from around the world."
     >

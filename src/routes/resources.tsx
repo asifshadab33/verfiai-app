@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
 import { ResourceBrowse } from "@/components/verifai/ResourceBrowse";
 import { FeatureGate } from "@/components/verifai/FeatureGate";
+import { useSiteLocale } from "@/lib/locale";
 const title = "Evidence Library | Verfiai";
 const description =
   "Inspect source-linked Verfiai research briefs, citation reviews, and evidence maps with clear rights and limitations.";
@@ -20,8 +21,10 @@ export const Route = createFileRoute("/resources")({
   component: Resources,
 });
 function Resources() {
+  const { lang } = useSiteLocale();
   return (
     <ContentPage
+      lang={lang}
       title="Verfiai Evidence Library"
       intro="Evidence you can inspect. Research you can reuse."
     >
