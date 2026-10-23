@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ContentPage } from "@/components/verifai/ContentPage";
 import { useAuth } from "@/hooks/useAuth";
 import { getLibraryUsage } from "@/lib/library.functions";
+import { useSiteLocale } from "@/lib/locale";
 export const Route = createFileRoute("/account/library-usage")({
   head: () => ({
     meta: [
@@ -24,6 +25,7 @@ export const Route = createFileRoute("/account/library-usage")({
   component: LibraryUsage,
 });
 function LibraryUsage() {
+  const { lang } = useSiteLocale();
   const { user, loading } = useAuth();
   const fetchUsage = useServerFn(getLibraryUsage);
   const [usage, setUsage] = useState<Awaited<ReturnType<typeof getLibraryUsage>> | null>(null);
@@ -36,6 +38,7 @@ function LibraryUsage() {
   }, [user, fetchUsage]);
   return (
     <ContentPage
+      lang={lang}
       title="Evidence Library downloads"
       intro="Library downloads are paused; previews remain available."
     >

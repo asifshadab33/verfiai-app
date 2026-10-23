@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { getResource, submitResourceIssue } from "@/lib/library.functions";
 import { useAuth } from "@/hooks/useAuth";
 import { libraryIssueInput, safePublisherUrl } from "@/lib/library-policy";
+import { useSiteLocale } from "@/lib/locale";
 
 export const Route = createFileRoute("/resources/$slug")({
   head: () => ({
@@ -30,6 +31,7 @@ export const Route = createFileRoute("/resources/$slug")({
   component: ResourceDetail,
 });
 function ResourceDetail() {
+  const { lang } = useSiteLocale();
   const { slug } = Route.useParams();
   const fetchResource = useServerFn(getResource);
   const report = useServerFn(submitResourceIssue);
@@ -76,13 +78,14 @@ function ResourceDetail() {
   }
   if (busy)
     return (
-      <ContentPage title="Resource details" intro="Loading resource…">
+      <ContentPage lang={lang} title="Resource details" intro="Loading resource…">
         <p role="status">Loading…</p>
       </ContentPage>
     );
   if (!data)
     return (
       <ContentPage
+        lang={lang}
         title="Resource unavailable"
         intro="This item may have been removed or is still under review."
       >
@@ -93,7 +96,7 @@ function ResourceDetail() {
     );
   const { item, sources } = data;
   return (
-    <ContentPage title={item.title} intro={item.summary}>
+    <ContentPage lang={lang} title={item.title} intro={item.summary}>
       <div className="grid gap-10 lg:grid-cols-[1fr_280px]">
         <div>
           <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
