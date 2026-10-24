@@ -17,7 +17,9 @@
     "js-yaml": "^4.3.2",
     "nanoid": "^3.3.18",
     "brace-expansion": "^5.0.12",
-    "uuid": "^11.1.1"
+    "uuid": "^11.1.1",
+    "undici": "7.30.1",
+    "zod": "4.6.6"
   },
   "dependencies": {
     "@ai-sdk/openai": "^4.0.78",
@@ -83,7 +85,7 @@
     "tw-animate-css": "^1.3.4",
     "vaul": "^1.1.2",
     "vite-tsconfig-paths": "^6.0.2",
-    "zod": "^3.25.76"
+    "zod": "4.6.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",

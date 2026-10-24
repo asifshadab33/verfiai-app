@@ -1,4 +1,10 @@
 # Verfiai roadmap
+## Oct 24 dependency/configuration security review
+- [x] Run basic backend/security checks and production dependency advisory scan; basic checks report no issues and do not include fresh deep code analysis.
+- [x] Initial dependency scan: zero critical, five high and four moderate advisory rows (shared vulnerable Zod/Undici dependencies repeated under direct dependents). Upgrade direct Zod to 4.6.6 and pin Zod 4.6.6 / Undici 7.30.1 through overrides; regenerate bun.lock. No feature/configuration behavior changes beyond dependency resolution.
+- [x] Re-scan: basic backend/security checks report no issues; dependency scan reports no known vulnerabilities across 64 production dependencies, including no remaining moderate/low dependency findings. This does not establish a fresh deep-code review: the available deep finding is dated Oct 14 and remains an active warning about guest checks incurring provider cost; existing bounded guest access is intentionally unchanged and any sign-in requirement is owner-deferred.
+- [x] Full suite: 58 passed, four privileged library database tests skipped because the required disposable privileged connection is unavailable. Automatic production build passed (Oct 24 00:16:20 UTC); no failures introduced. No publishing requested or performed.
+- Scope retained: downloads preview-only and download EXECUTE revoked; CORE disabled; no checkout/pricing changes, API keys, catalog publication, cleanup or accessibility work.
 ## Knowledge/library release review (Oct 23)
 - [x] Verify live anonymous full-content denial and denied execution of both download signatures; revoke unexpected anon EXECUTE on the legacy signature. Confirm RLS owner predicates, PENDING_REVIEW default, empty catalog, zero library cache entries, safe-column public reads and no-store library responses.
 - [x] Verify live /knowledge, /resources, missing resource detail, signed-out/signed-in usage and hidden-target issue rejection; fix hidden detail route and test desktop keyboard plus 390px English/Arabic layout without overflow/runtime errors.
