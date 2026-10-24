@@ -1,7 +1,9 @@
 # Verfiai roadmap
 ## Oct 24 code cleanup — part 1
-- [ ] Remove only proven-unreachable components/helpers and consolidate clear duplication without changing behavior.
-- [ ] Run full tests, verify the automatic production build, and record removals plus deliberately retained candidates.
+- [x] Remove five files with no static/dynamic imports, re-exports or runtime registration: QuickSearch (superseded demo), ProCheckoutButton (unused null placeholder), and UI aspect-ratio/progress/badge wrappers. Remove the uncalled local Checker HeroMockup and its two exclusive icon imports; remove unused qualitativeStrength/AI_CONSENSUS_NOTE imports from ReportView and FactChecker. Shared dependencies and the live homepage mockup remain intact.
+- [x] Consolidate identical Markdown/Word object-URL download mechanics into download-blob.ts, retaining exact filenames, Blob content, unattached anchor click, one-second URL revocation, lazy Word generation and existing watermark/entitlement checks. Add two regression cases for filenames and revocation timing.
+- [x] Full suite: 60 passed, four pre-existing privileged library database tests skipped (required disposable privileged connection unavailable). Automatic production build passed Oct 24 04:23:09 UTC; browser verification confirms citation text input and actual Markdown/Word downloads, including Word watermark, with no runtime errors. No production publishing performed.
+- Deliberately retained: locally used exported helpers (withCitations/reportToText/ComingSoon and OCR/locale helpers) to preserve interfaces; other UI wrappers not fully audited for side effects; ResponseAgreementPanel's optional measured states; DOCX upload handlers with distinct validation/truncation semantics. Translation loading and all package/dependency removal are reserved for separate work. No live AI/provider checks were needed for this client-only cleanup.
 - Scope retained: no dependency removal, translation-loading or accessibility work; routes, flags, preview-only downloads, revoked download EXECUTE, disabled CORE, pricing/checkout and unpublished catalog remain unchanged.
 ## Oct 24 dependency/configuration security review
 - [x] Run basic backend/security checks and production dependency advisory scan; basic checks report no issues and do not include fresh deep code analysis.
