@@ -13,14 +13,14 @@ import { Check, Clipboard, Download, FileType2, Link2, Printer } from "lucide-re
 import { Button } from "@/components/ui/button";
 import type { ResearchReport } from "@/lib/report.functions";
 import { downloadDocx } from "@/lib/docx-export";
+import { downloadBlob } from "@/lib/download-blob";
 import { ResponseAgreementPanel } from "@/components/verifai/ResponseAgreementPanel";
 import { disableShare, enableShare, getShareState } from "@/lib/share.functions";
 import { useAuth } from "@/hooks/useAuth";
 import { getSubscription } from "@/lib/payments.functions";
 import { getPaddleEnvironment } from "@/lib/paddle";
-import { reportFindingStrength, qualitativeStrength, sourceQuality } from "@/lib/evidence";
+import { reportFindingStrength, sourceQuality } from "@/lib/evidence";
 import { RightsIssueDialog } from "./RightsIssueDialog";
-import { AI_CONSENSUS_NOTE } from "@/lib/community";
 
 const ISSUE_EMAIL = "hello@verfiai.app";
 const LIMITATION = "Evidence labels are aids to review, not proof. Search coverage is incomplete; source dates, independence and quoted claims may be inaccurate. Open the original sources before relying on a finding.";
@@ -82,7 +82,7 @@ export function ReportView({ report, date, reportId, readOnly }: { report: Resea
   const text = reportToText(report, lang);
   const words = text.split(/\s+/).length;
   async function copy() { try { await navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch { /* ignore */ } }
-  function download() { const url = URL.createObjectURL(new Blob([text], { type: "text/markdown;charset=utf-8" })); const a = document.createElement("a"); a.href = url; a.download = "verifai-report.md"; a.click(); setTimeout(() => URL.revokeObjectURL(url), 1000); }
+  function download() { downloadBlob(new Blob([text], { type: "text/markdown;charset=utf-8" }), "verifai-report.md"); }
   const sections: [string, string, string][] = [["summary", "Executive summary", report.summary], ["background", "Background", report.background]];
   return <article id="report-output" className="scroll-mt-28">
     <div className="flex flex-wrap items-start justify-between gap-4"><div><p className="text-xs font-bold uppercase text-brand">Verfiai · {date ?? new Date().toLocaleDateString()} · {recentText(lang, "Pages: {count}", { count: Math.max(2, Math.round(words / 500)) })}{report.format === "extended" ? ` · ${uiText(lang, "heroReport")}` : report.format === "dossier" ? ` · ${uiText(lang, "dossierTab")}` : ""}</p><h2 className="mt-2 max-w-3xl font-display text-3xl font-bold">{report.title}</h2></div>
