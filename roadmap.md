@@ -1,4 +1,8 @@
 # Verfiai roadmap
+## Oct 24 code cleanup — part 1
+- [ ] Remove only proven-unreachable components/helpers and consolidate clear duplication without changing behavior.
+- [ ] Run full tests, verify the automatic production build, and record removals plus deliberately retained candidates.
+- Scope retained: no dependency removal, translation-loading or accessibility work; routes, flags, preview-only downloads, revoked download EXECUTE, disabled CORE, pricing/checkout and unpublished catalog remain unchanged.
 ## Oct 24 dependency/configuration security review
 - [x] Run basic backend/security checks and production dependency advisory scan; basic checks report no issues and do not include fresh deep code analysis.
 - [x] Initial dependency scan: zero critical, five high and four moderate advisory rows (shared vulnerable Zod/Undici dependencies repeated under direct dependents). Upgrade direct Zod to 4.6.6 and pin Zod 4.6.6 / Undici 7.30.1 through overrides; regenerate bun.lock. No feature/configuration behavior changes beyond dependency resolution.
