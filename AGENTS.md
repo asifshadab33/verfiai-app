@@ -15,6 +15,7 @@
 - Reports target 1000+ words (~2 pages) with one automatic expansion pass when the draft is short.
 - Share links use an unguessable `reports.share_token` read by a public server fn (title/content/date only), because anon RLS would expose every report.
 - Word export is generated in the browser with `docx` (lazy-loaded) so no server cost.
+- Report Markdown and Word exports share browser-only Blob download mechanics; callers retain filenames, generation and entitlement checks so consolidation cannot change export policy.
 - New checkout is hard-disabled in a shared policy and at the server price resolver; retain billing management and verified subscription handling for existing customers so hiding offers never prevents cancellation.
 - Evidence strength is derived from verified excerpts for claim checks and conservatively from cited links for reports; report links never imply quote verification, because generated citations can be inaccurate.
 - Advanced source scores are deterministic server-generated metadata snapshots, separately displayed from evidence verdicts; cache cohorts are separated and current server flags gate display so disabled scoring preserves legacy results.
