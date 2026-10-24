@@ -16,9 +16,8 @@ import { VoiceButton } from "./VoiceButton";
 import { useImageOcr } from "./useImageOcr";
 import { siteText } from "@/lib/site-i18n";
 import { languages, type Lang } from "@/lib/translations";
-import { evidenceStrength, qualitativeStrength, sourceQuality } from "@/lib/evidence";
+import { evidenceStrength, sourceQuality } from "@/lib/evidence";
 import { VerdictFeedback } from "./VerdictFeedback";
-import { AI_CONSENSUS_NOTE } from "@/lib/community";
 
 const verdictKeys = { SUPPORTED: "verdictSupported", CONTRADICTED: "verdictContradicted", MIXED: "verdictMixed", UNVERIFIABLE: "verdictInsufficient" } as const;
 const STAGES = ["Extracting claims…", "Searching providers…", "Cross-checking sources…", "Synthesizing verdict…"];

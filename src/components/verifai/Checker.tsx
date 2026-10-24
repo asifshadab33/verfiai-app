@@ -2,7 +2,7 @@ import { recentText, citationNote } from "@/lib/recent-i18n";
 import { UploadNotice } from "./UploadNotice";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState, type DragEvent, type ReactNode } from "react";
-import { AlertTriangle, ShieldCheck, Check, FileSearch, FileText, LoaderCircle, Lock, Trash2, Upload, XCircle } from "lucide-react";
+import { Check, FileSearch, FileText, LoaderCircle, Lock, Trash2, Upload, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { verifyCitations, getScanUsage, FREE_REF_LIMIT, type CitationResult } from "@/lib/verify.functions";
@@ -31,34 +31,6 @@ const statusStyle = {
 function Badge({ s }: { s: CitationResult["status"] }) {
   const t = useT();
   return <span className={`inline-flex shrink-0 items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${statusStyle[s].cls}`}>{t(s)}</span>;
-}
-
-function HeroMockup() {
- const t = useT();
-  return (
-    <div className="grid gap-4 sm:grid-cols-2" aria-label={t("citationReport")}>
-      <div className="rounded-2xl border border-border bg-card p-4 shadow-sm">
-        <p className="text-xs font-bold uppercase text-muted-foreground">{t("before")}</p>
-        <div className="mt-3 flex items-center gap-2 text-sm font-semibold"><FileText className="size-4" /> manuscript_v3.docx</div>
-        <ul className="mt-4 space-y-2 text-xs">
-          {["[12] Wakefield et al., 1998", "[18] Smith & Lee, 2019", "[23] Chen, 2021"].map((r, i) => (
-            <li key={r} className="flex items-center justify-between gap-2 rounded-lg bg-secondary p-2">
-              <span className="truncate">{r}</span>
-              {i < 2 ? <AlertTriangle className="size-4 shrink-0 text-destructive" /> : <span className="size-4" />}
-            </li>
-          ))}
-        </ul>
-        <p className="mt-3 text-xs text-destructive">{t("hiddenProblems")}</p>
-      </div>
-      <div className="rounded-2xl border border-primary/30 bg-card p-4 shadow-md">
-        <p className="text-xs font-bold uppercase text-brand">{t("after")}</p>
-        <div className="mt-3 flex items-center gap-2 text-sm font-semibold"><ShieldCheck className="size-4 text-success" /> Citation report</div>
-        <p className="mt-4 font-display text-3xl font-extrabold">92%</p>
-        <p className="text-xs text-muted-foreground">{t("integrityScore")}</p>
-        <div className="mt-3 flex flex-wrap gap-1.5"><Badge s="retracted" /><Badge s="not_found" /><Badge s="verified" /></div>
-      </div>
-    </div>
-  );
 }
 
 function highlight(text: string, results: CitationResult[]) {
