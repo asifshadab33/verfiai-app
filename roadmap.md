@@ -1,4 +1,9 @@
 # Verfiai roadmap
+## Oct 24 dependency/configuration security review
+- [x] Run basic backend/security checks and production dependency advisory scan; basic checks report no issues and do not include fresh deep code analysis.
+- [ ] Resolve reported high-severity Zod and Undici dependency advisories with dependency/configuration changes only, then re-scan.
+- [ ] Run full tests and confirm automatic production build; record remaining moderate/low findings.
+- Scope retained: downloads preview-only and download EXECUTE revoked; CORE disabled; no checkout/pricing changes, API keys, catalog publication, cleanup or accessibility work.
 ## Knowledge/library release review (Oct 23)
 - [x] Verify live anonymous full-content denial and denied execution of both download signatures; revoke unexpected anon EXECUTE on the legacy signature. Confirm RLS owner predicates, PENDING_REVIEW default, empty catalog, zero library cache entries, safe-column public reads and no-store library responses.
 - [x] Verify live /knowledge, /resources, missing resource detail, signed-out/signed-in usage and hidden-target issue rejection; fix hidden detail route and test desktop keyboard plus 390px English/Arabic layout without overflow/runtime errors.
