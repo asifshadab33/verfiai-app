@@ -35,9 +35,9 @@ const LABELS: Record<string, string> = {
 
 export const ROUTES = {
   // Cheap, fast claim extraction.
-  triage: ["lovable:google/gemini-3-flash-preview", "lovable:google/gemini-2.5-flash", "cerebras:llama-3.3-70b", "groq:openai/gpt-oss-20b", "groq:openai/gpt-oss-120b", "sambanova:Meta-Llama-3.3-70B-Instruct", "google/gemma-4-26b-a4b-it:free", "nvidia/nemotron-3-super-120b-a12b:free", "gemini:gemini-3.8-flash", "deepinfra:Qwen/Qwen2.5-72B-Instruct", "github:openai/gpt-4o-mini", "qwen/qwen-2.5-72b-instruct"],
+  triage: ["cerebras:llama-3.3-70b", "groq:openai/gpt-oss-20b", "groq:openai/gpt-oss-120b", "sambanova:Meta-Llama-3.3-70B-Instruct", "google/gemma-4-26b-a4b-it:free", "nvidia/nemotron-3-super-120b-a12b:free", "gemini:gemini-3.8-flash", "deepinfra:Qwen/Qwen2.5-72B-Instruct", "github:openai/gpt-4o-mini", "qwen/qwen-2.5-72b-instruct"],
   // Synthesis and consensus evaluation.
-  evaluation: ["lovable:google/gemini-3-flash-preview", "lovable:google/gemini-2.5-flash", "cerebras:llama-3.3-70b", "groq:openai/gpt-oss-120b", "sambanova:Meta-Llama-3.3-70B-Instruct", "google/gemma-4-26b-a4b-it:free", "nvidia/nemotron-3-super-120b-a12b:free", "cerebras:deepseek-r1-distill-llama-70b", "nvidia:meta/llama-3.3-70b-instruct", "nvidia:deepseek-ai/deepseek-r1", "gemini:gemini-3.8-flash", "mistral:mistral-small-latest", "deepseek:deepseek-chat", "deepinfra:deepseek-ai/DeepSeek-V3", "mistralai/mistral-nemo", "dashscope:qwen-plus", "deepinfra:Qwen/Qwen2.5-72B-Instruct", "github:openai/gpt-4o-mini", "deepseek/deepseek-chat", "qwen/qwen-2.5-72b-instruct"],
+  evaluation: ["cerebras:llama-3.3-70b", "groq:openai/gpt-oss-120b", "sambanova:Meta-Llama-3.3-70B-Instruct", "google/gemma-4-26b-a4b-it:free", "nvidia/nemotron-3-super-120b-a12b:free", "cerebras:deepseek-r1-distill-llama-70b", "nvidia:meta/llama-3.3-70b-instruct", "nvidia:deepseek-ai/deepseek-r1", "gemini:gemini-3.8-flash", "mistral:mistral-small-latest", "deepseek:deepseek-chat", "deepinfra:deepseek-ai/DeepSeek-V3", "mistralai/mistral-nemo", "dashscope:qwen-plus", "deepinfra:Qwen/Qwen2.5-72B-Instruct", "github:openai/gpt-4o-mini", "deepseek/deepseek-chat", "qwen/qwen-2.5-72b-instruct"],
 } as const;
 
 /** Route tables; overridable server-side via env (comma-separated model ids). Providers without keys are skipped at call time. */
@@ -49,7 +49,6 @@ export function getRoute(name: "triage" | "evaluation"): string[] {
 
 /** OpenAI-compatible endpoints per provider prefix; a missing key quietly skips that provider. */
 export const PROVIDERS: Record<string, { url: string; keyEnv: string; json: boolean }> = {
-  lovable: { url: "https://ai.gateway.lovable.dev/v1/chat/completions", keyEnv: "LOVABLE_API_KEY", json: true },
   cerebras: { url: "https://api.cerebras.ai/v1/chat/completions", keyEnv: "CEREBRAS_API_KEY", json: true },
   deepinfra: { url: "https://api.deepinfra.com/v1/openai/chat/completions", keyEnv: "DEEPINFRA_API_KEY", json: true },
   sambanova: { url: "https://api.sambanova.ai/v1/chat/completions", keyEnv: "SAMBANOVA_API_KEY", json: false },
@@ -98,7 +97,7 @@ export async function callEngine(model: string, system: string, user: string, me
     const res = await fetch(cfg.url, {
       method: "POST",
       signal: AbortSignal.timeout(timeoutMs()),
-      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", ...(provider === "lovable" ? { "X-Lovable-AIG-SDK": "fetch" } : {}), ...(provider === "openrouter" ? { "HTTP-Referer": "https://verfiai.app", "X-Title": "Verfiai" } : {}) },
+      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", ...(provider === "openrouter" ? { "HTTP-Referer": "https://verfiai.app", "X-Title": "Verfiai" } : {}) },
       body: JSON.stringify({ model: providerModel, temperature: 0.2, max_tokens: outputTokens, ...(cfg.json ? { response_format: { type: "json_object" } } : {}), messages: [{ role: "system", content: sys }, { role: "user", content: user }] }),
     });
     if (!res.ok) {
