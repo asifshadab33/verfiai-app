@@ -13,16 +13,15 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
 
-export default defineConfig(({ mode }: { mode: string }) => {
-  // Client code keeps using only VITE_* vars (injected by the shared config).
-  // Server routes also need non-prefixed vars (e.g. SUPABASE_SERVICE_ROLE_KEY,
-  // LOVABLE_API_KEY); load them into process.env for server-side code only.
-  // Never add these to a define block — that would leak secrets to the client.
-  const serverEnv = loadEnv(mode, rootDir, "");
-  Object.assign(process.env, serverEnv);
+// Client code keeps using only VITE_* vars (injected by the shared config).
+// Server routes also need non-prefixed vars (e.g. SUPABASE_SERVICE_ROLE_KEY,
+// LOVABLE_API_KEY); load them into process.env for server-side code only.
+// Never add these to a define block — that would leak secrets to the client.
+const serverEnv = loadEnv(process.env["NODE_ENV"] ?? "development", rootDir, "");
+Object.assign(process.env, serverEnv);
 
-  return {
-    tanstackStart: {
+export default defineConfig({
+  tanstackStart: {
       // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
       // nitro/vite builds from this
       server: { entry: "server" },
