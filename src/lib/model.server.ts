@@ -12,8 +12,6 @@ const RATES: Record<string, { in: number; out: number }> = {
 const FALLBACK_RATES = { in: 0.35, out: 0.35 };
 
 const LABELS: Record<string, string> = {
-  "lovable:google/gemini-3-flash-preview": "Gemini 3 Flash (Lovable AI)",
-  "lovable:google/gemini-2.5-flash": "Gemini 2.5 Flash (Lovable AI)",
   "cerebras:llama-3.3-70b": "Llama 3.3 70B (Cerebras)",
   "cerebras:deepseek-r1-distill-llama-70b": "DeepSeek R1 Distill 70B (Cerebras)",
   "deepinfra:Qwen/Qwen2.5-72B-Instruct": "Qwen 2.5 72B (DeepInfra)",
