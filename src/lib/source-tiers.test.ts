@@ -14,9 +14,8 @@ describe("source authority", () => {
 });
 describe("model cascade", () => {
   it("runs the existing fast free providers first and OpenRouter free models after", () => {
-    for (const name of ["triage", "evaluation"] as const) {
-      expect(getRoute(name).slice(0, 3).map(m => resolveModel(m).provider)).toEqual(["cerebras", "groq", "sambanova"]);
-    }
+    expect(getRoute("triage").slice(0, 4).map(m => resolveModel(m).provider)).toEqual(["cerebras", "groq", "groq", "sambanova"]);
+    expect(getRoute("evaluation").slice(0, 3).map(m => resolveModel(m).provider)).toEqual(["cerebras", "groq", "sambanova"]);
     const r = getRoute("evaluation").slice(3);
     expect(r.slice(0, 2)).toEqual(["google/gemma-4-26b-a4b-it:free", "nvidia/nemotron-3-super-120b-a12b:free"]);
   });
