@@ -1,5 +1,3 @@
-// ============= Full file contents =============
-
 // @lovable.dev/vite-tanstack-config already includes the following — do NOT add them manually
 // or the app will break with duplicate plugins:
 //   - TanStack devtools (dev-only, first), tanstackStart, viteReact, tailwindcss, tsConfigPaths,
@@ -22,19 +20,18 @@ Object.assign(process.env, serverEnv);
 
 export default defineConfig({
   tanstackStart: {
-      // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-      // nitro/vite builds from this
-      server: { entry: "server" },
-    },
-    vite: {
-      resolve: {
-        alias: {
-          // A nested entities v7 copy breaks SSR (it removed ./lib/decode.js);
-          // pin every entities import to the hoisted v4.5.0 copy.
-          "entities/lib/decode.js": path.resolve(rootDir, "node_modules/entities/lib/decode.js"),
-          "entities/lib/encode.js": path.resolve(rootDir, "node_modules/entities/lib/encode.js"),
-          entities: path.resolve(rootDir, "node_modules/entities"),
-        },
+    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
+    // nitro/vite builds from this
+    server: { entry: "server" },
+  },
+  vite: {
+    resolve: {
+      alias: {
+        // A nested entities v7 copy breaks SSR (it removed ./lib/decode.js);
+        // pin every entities import to the hoisted v4.5.0 copy.
+        "entities/lib/decode.js": path.resolve(rootDir, "node_modules/entities/lib/decode.js"),
+        "entities/lib/encode.js": path.resolve(rootDir, "node_modules/entities/lib/encode.js"),
+        entities: path.resolve(rootDir, "node_modules/entities"),
       },
     },
   },
