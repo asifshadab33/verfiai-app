@@ -716,6 +716,10 @@ export type Database = {
           resets_at: string
         }[]
       }
+      semantic_scholar_gate: {
+        Args: { _action: string; _retry_ms?: number }
+        Returns: boolean
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
