@@ -1,10 +1,9 @@
 import en from "./i18n/checker.en.json";
-import tr from "./i18n/checker.json";
+import { dictionary } from "./locale-dictionaries";
 
 export type CheckerKey = keyof typeof en;
-const dicts = tr as Record<string, Partial<Record<CheckerKey, string>>>;
 /** Citation checker and source-quality UI strings; untranslated keys fall back to English. */
 export function checkerText(lang: string, key: CheckerKey, vars: Record<string, string | number> = {}) {
-  const s = dicts[lang]?.[key] ?? en[key];
+  const s = dictionary(lang)?.checker[key] ?? en[key];
   return s.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? `{${k}}`));
 }

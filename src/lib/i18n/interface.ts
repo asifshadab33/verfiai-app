@@ -62,7 +62,9 @@ const supplied: Partial<Record<LangCode, Partial<Translation>>> = {
   fa: { hero_headline: "پژوهشی که می‌توانید تأیید کنید. گزارش‌هایی که می‌توانید به آن‌ها اعتماد کنید.", hero_sub: "ادعاها را بررسی کنید، شواهد را کاوش کنید و سوالات یا اسناد را به گزارش‌های پژوهشی واضح و متصل به منبع تبدیل کنید.", cta_primary: "Verfiai را رایگان امتحان کنید", disclaimer: "Verfiai پشتیبانی تأیید را ارائه می‌دهد، نه قضاوت‌های قطعی حقیقت. قبل از اعتماد به یک نتیجه، منابع را بررسی کنید.", free_plan: "رایگان", pro_plan: "حرفه‌ای", per_month: "در ماه" },
 };
 
-export const translations: Record<LangCode, Translation> = Object.fromEntries(languages.map(({code, name}) => [code, {
+function interfaceTranslation(code: LangCode): Translation {
+ const name = languages.find(language => language.code === code)?.name ?? code;
+ return {
   name,
   dir: code === "ar" || code === "ur" || code === "fa" ? "rtl" : "ltr",
   hero_headline: siteText(code, "heroTitle"),
@@ -83,4 +85,9 @@ export const translations: Record<LangCode, Translation> = Object.fromEntries(la
   pro_plan: siteText(code, "pro"),
   per_month: siteText(code, "priceMonthly"),
   ...supplied[code],
-}])) as Record<LangCode, Translation>;
+ };
+}
+// Resolve on access, after the root locale boundary has loaded the requested dictionary.
+export const translations = Object.defineProperties({}, Object.fromEntries(languages.map(({ code }) => [code, {
+ enumerable: true, get: () => interfaceTranslation(code),
+}]))) as Record<LangCode, Translation>;
