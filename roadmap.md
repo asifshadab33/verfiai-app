@@ -1,4 +1,9 @@
 # Verfiai roadmap
+## Oct 26 scheduled fixes
+- [ ] Repair Semantic Scholar shared backoff, caching and request spacing; verify against the real API without a Deep Dossier test.
+- [ ] Spot-check de/pt/tr/ru/ja/ko/it/nl/bn/ur/fa/id/sw/hi/zh dictionaries and Arabic RTL; correct concrete static translation defects.
+- [ ] Check recent edits for completed lazy locale loading; if still pending, lazy-load non-active dictionaries and verify English plus a secondary locale, full tests and automatic production build.
+- Scope: no Deep Dossier test, dependencies, download/CORE activation, pricing/checkout, new keys, catalog publishing or unrelated work.
 ## Oct 25 code cleanup — part 2 (unused packages)
 - [x] Verified no earlier session removed packages since commit 002314e3 (package.json untouched before this pass). Audited every non-framework dependency plus all 26 @radix-ui packages for imports across src/ and config files (static and dynamic). Removed 34 packages with zero imports: ai/@ai-sdk/openai, @hookform/resolvers, react-hook-form, cmdk, date-fns, embla-carousel-react, input-otp, react-day-picker, react-markdown, react-resizable-panels, recharts, vaul, and 21 unused @radix-ui wrappers (accordion, alert-dialog, aspect-ratio, avatar, collapsible, context-menu, dropdown-menu, hover-card, menubar, navigation-menu, popover, progress, radio-group, scroll-area, select, separator, slider, switch, tabs, toggle, toggle-group). Regenerated bun.lock.
 - [x] Production bundle unchanged: client JS 4,582,388 bytes (1,439,657 gzip), dist/client 5,922,624 bytes, identical before and after — expected, because unused packages were never imported and therefore never bundled. The improvement is install footprint and lockfile size, not shipped bytes.
