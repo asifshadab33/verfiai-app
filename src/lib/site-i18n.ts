@@ -1,24 +1,6 @@
 import en from "./i18n/en.json";
-import de from "./i18n/de.json";
-import pt from "./i18n/pt.json";
-import tr from "./i18n/tr.json";
-import ru from "./i18n/ru.json";
-import ja from "./i18n/ja.json";
-import ko from "./i18n/ko.json";
-import es from "./i18n/es.json";
-import fr from "./i18n/fr.json";
-import hi from "./i18n/hi.json";
-import ar from "./i18n/ar.json";
-import zh from "./i18n/zh.json";
-import it_ from "./i18n/it.json";
-import nl_ from "./i18n/nl.json";
-import bn_ from "./i18n/bn.json";
-import ur_ from "./i18n/ur.json";
-import fa_ from "./i18n/fa.json";
-import id_ from "./i18n/id.json";
-import sw_ from "./i18n/sw.json";
-import type { Lang } from "./translations";
+import { isLang, type Lang } from "./translations";
+import { dictionary } from "./locale-dictionaries";
 
-const dictionaries: Partial<Record<Lang, Partial<typeof en>>> = { en, de, pt, tr, ru, ja, ko, es, fr, hi, ar, zh, it: it_, nl: nl_, bn: bn_, ur: ur_, fa: fa_, id: id_, sw: sw_ };
-export const hasSiteTranslation = (lang: Lang) => Boolean(dictionaries[lang]);
-export const siteText = (lang: Lang, key: keyof typeof en) => dictionaries[lang]?.[key] ?? en[key];
+export const hasSiteTranslation = (lang: Lang) => isLang(lang);
+export const siteText = (lang: Lang, key: keyof typeof en) => dictionary(lang)?.site[key] ?? en[key];

@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { isLang } from "../lib/translations";
 import { translations } from "../lib/i18n/interface";
+import { ensureLocale } from "../lib/locale-dictionaries";
 import { FreeAccessBanner } from "../components/verifai/FreeAccessBanner";
 
 function NotFoundComponent() {
@@ -77,6 +78,10 @@ function ErrorComponent({ error, reset }: import("@tanstack/react-router").Error
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  beforeLoad: async ({ location }) => {
+    const value = new URLSearchParams(location.searchStr).get("lang");
+    await ensureLocale(isLang(value) ? value : "en");
+  },
   head: () => ({
     meta: [
       { charSet: "utf-8" },

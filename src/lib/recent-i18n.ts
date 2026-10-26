@@ -1,5 +1,5 @@
 import en from "./i18n/recent.en.json";
-import dictionaries from "./i18n/recent.json";
+import { dictionary } from "./locale-dictionaries";
 import { languages } from "./translations";
 import type { EvidenceBreakdown } from "./evidence";
 
@@ -9,10 +9,9 @@ export function localeCode(value: string) {
  return languages.find(l => l.code === input || l.name.toLowerCase() === input)?.code ?? "en";
 }
 const keys = new Map(Object.entries(en).map(([key, text]) => [text, key]));
-const dicts = dictionaries as Record<string, Record<string, string>>;
 export function recentText(lang: string, text: string, vars: Record<string, string | number> = {}) {
  const key = keys.get(text);
- const translated = key ? dicts[localeCode(lang)]?.[key] ?? text : text;
+ const translated = key ? dictionary(localeCode(lang))?.recent[key] ?? text : text;
  return translated.replace(/\{(\w+)\}/g, (_, key: string) => String(vars[key] ?? `{${key}}`));
 }
 export function evidenceDetail(lang: string, value: string) {

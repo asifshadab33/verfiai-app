@@ -1,6 +1,18 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 const state = vi.hoisted(() => ({ rows: new Map<string, unknown>() }));
+vi.mock("./providers/semantic-gate.server", async (original) => {
+  const actual = await original<typeof import("./providers/semantic-gate.server")>();
+  return { ...actual, semanticGate: async (action: string, retry = 0) => {
+    const key = "provider:semanticscholar:gate";
+    const value = state.rows.get(key) as { until: number; failures: number } | undefined;
+    let until = value?.until ?? 0, failures = value?.failures ?? 0;
+    if (action === "reserve") { if (until > Date.now()) return false; until = Date.now() + 10000; }
+    if (action === "limited") { failures++; until = Math.max(until, Date.now() + Math.max(retry, Math.min(3600000, 60000 * 2 ** (failures - 1)))); }
+    if (action === "success") failures = 0;
+    state.rows.set(key, { until, failures }); return true;
+  } };
+});
 vi.mock("./cache.server", () => ({
   cacheKey: (kind: string, parts: unknown[]) => `${kind}:${parts.join("|")}`,
   CACHE_TTL: { search: () => 86400_000 },
@@ -27,7 +39,7 @@ describe("blocked source providers", () => {
     vi.stubGlobal("fetch", request);
     const first = await engineSearch("semanticscholar", "metformin");
     expect(first[0]).toMatchObject({ title: "Metformin trial", kind: "openalex_oa" });
-    expect(state.rows.get("provider:semanticscholar:cooldown")).toEqual({ until: Date.now() + 120_000 });
+    expect(state.rows.get("provider:semanticscholar:gate")).toEqual({ until: Date.now() + 120_000, failures: 1 });
     await engineSearch("semanticscholar", "diabetes");
     expect(request.mock.calls.filter(([url]) => url.includes("semanticscholar"))).toHaveLength(1);
     vi.advanceTimersByTime(120_001);
@@ -38,6 +50,31 @@ describe("blocked source providers", () => {
   it("contains Semantic Scholar timeouts and unavailable fallback without rejecting", async () => {
     vi.stubGlobal("fetch", vi.fn(async () => { throw new Error("timeout"); }));
     await expect(engineSearch("semanticscholar", "diabetes")).resolves.toEqual([]);
+  });
+
+  it("reserves only one upstream request for concurrent misses and spaces successful requests", async () => {
+    vi.useFakeTimers();
+    const request = vi.fn(async (url: string) => url.includes("semanticscholar") ? json({ data: [{ title: "Trial", url: "https://journal.example/trial" }] }) : json(oa));
+    vi.stubGlobal("fetch", request);
+    await Promise.all([engineSearch("semanticscholar", "one"), engineSearch("semanticscholar", "two")]);
+    expect(request.mock.calls.filter(([url]) => url.includes("semanticscholar"))).toHaveLength(1);
+    await engineSearch("semanticscholar", "three");
+    expect(request.mock.calls.filter(([url]) => url.includes("semanticscholar"))).toHaveLength(1);
+    vi.advanceTimersByTime(10001);
+    await engineSearch("semanticscholar", "four");
+    expect(request.mock.calls.filter(([url]) => url.includes("semanticscholar"))).toHaveLength(2);
+  });
+
+  it("increases backoff after persistent 429s without immediate retries", async () => {
+    vi.useFakeTimers();
+    const request = vi.fn(async (url: string) => url.includes("semanticscholar") ? new Response("", { status: 429 }) : json(oa));
+    vi.stubGlobal("fetch", request);
+    await engineSearch("semanticscholar", "first");
+    vi.advanceTimersByTime(60001);
+    await engineSearch("semanticscholar", "second");
+    expect(state.rows.get("provider:semanticscholar:gate")).toEqual({ until: Date.now() + 120000, failures: 2 });
+    await engineSearch("semanticscholar", "third");
+    expect(request.mock.calls.filter(([url]) => url.includes("semanticscholar"))).toHaveLength(2);
   });
 
   it("preserves English evidence when the local edition throws, adding cached local search snippets", async () => {
