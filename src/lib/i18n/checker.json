@@ -457,7 +457,7 @@
   "guestScan": "1 pemindaian gratis tanpa akun",
   "perScan": "hingga {n} referensi per pemindaian",
   "aiNote": "Teks dikirim ke layanan AI untuk mengidentifikasi sitasi. Detail referensi diperiksa dengan Crossref; jangan kirimkan materi rahasia.",
-  "retry": "Retry",
+  "retry": "Coba lagi",
   "usedSignedIn": "Anda telah menggunakan pemindaian gratis bulan ini. Pemindaian tambahan akan tersedia nanti.",
   "usedGuest": "Anda telah menggunakan pemindaian gratis Anda.",
   "signIn": "Masuk",
