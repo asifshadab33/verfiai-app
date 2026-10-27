@@ -145,9 +145,9 @@ export function VoiceButton({ lang, onText, disabled, label = "Speak", iconOnly 
     <TooltipProvider delayDuration={200}>
       <Tooltip>
         <TooltipTrigger asChild>
-          <span tabIndex={0} role="img" aria-label={PRIVACY_NOTE} className="inline-flex size-5 cursor-help items-center justify-center rounded-full text-muted-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring">
+          <Button type="button" variant="ghost" size="icon" aria-label="Voice input privacy information" className="min-h-11 min-w-11 text-muted-foreground">
             <Info className="size-3.5" />
-          </span>
+          </Button>
         </TooltipTrigger>
         <TooltipContent className="max-w-64">{PRIVACY_NOTE}</TooltipContent>
       </Tooltip>

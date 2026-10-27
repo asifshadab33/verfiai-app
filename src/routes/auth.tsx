@@ -50,7 +50,7 @@ function AuthPage() {
     } catch (e) { setErr(e instanceof Error ? e.message : "Something went wrong."); } finally { setBusy(false); }
   }
 
-  return <div className="flex min-h-screen items-center justify-center bg-secondary/40 px-5 py-12">
+  return <main id="main-content" tabIndex={-1} className="flex min-h-dvh items-center justify-center bg-secondary/40 px-5 py-12">
     <div className="w-full max-w-sm border border-border bg-card p-8 shadow-sm">
       <Link to="/" className="flex items-center gap-2 font-display text-xl font-extrabold"><span className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground"><FileCheck2 className="size-5" /></span>Verfi <span className="text-brand">AI</span></Link>
       <h1 className="mt-6 font-display text-2xl font-bold">{mode === "up" ? "Create your account" : mode === "reset" ? "Reset password" : "Welcome back"}</h1>
@@ -68,5 +68,5 @@ function AuthPage() {
         {mode !== "in" && <button className="text-left text-brand hover:underline" onClick={() => setMode("in")}>Back to sign in</button>}
       </div>
     </div>
-  </div>;
+  </main>;
 }
