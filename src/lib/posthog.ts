@@ -5,7 +5,7 @@ let previousPath: string | undefined;
 
 /** Strip private identifiers and queries before sending analytics. */
 export function analyticsPath(path: string) {
-  return path.split(/[?#]/)[0]
+  return (path.split(/[?#]/)[0] ?? "/")
     .replace(/^\/r\/[^/]+/, "/r/:token")
     .replace(/^\/fact-check\/[^/]+/, "/fact-check/:slug")
     .replace(/^\/resources\/[^/]+/, "/resources/:slug");
@@ -18,11 +18,11 @@ export function analyticsUrl(value: unknown): unknown {
 
 /** Dynamically imported by the root layout only after hydration. */
 export function trackPage(path: string) {
-  const token = import.meta.env.VITE_LOVABLE_CONNECTOR_POSTHOG_API_KEY;
+  const token = import.meta.env["VITE_LOVABLE_CONNECTOR_POSTHOG_API_KEY"];
   if (!token) return;
   if (!initialized) {
     posthog.init(token, {
-      api_host: import.meta.env.VITE_LOVABLE_CONNECTOR_POSTHOG_REGION === "us" ? "https://us.i.posthog.com" : "https://eu.i.posthog.com",
+      api_host: import.meta.env["VITE_LOVABLE_CONNECTOR_POSTHOG_REGION"] === "us" ? "https://us.i.posthog.com" : "https://eu.i.posthog.com",
       capture_pageview: "history_change", capture_pageleave: true, autocapture: true,
       mask_all_text: true, mask_all_element_attributes: true,
       disable_session_recording: true, person_profiles: "never", persistence: "localStorage",
@@ -36,7 +36,7 @@ export function trackPage(path: string) {
           const value = event.properties[key];
           if (typeof value === "string") event.properties[key] = analyticsPath(value);
         }
-        delete event.properties.$title;
+        delete event.properties["$title"];
         return event;
       },
     });
