@@ -3,7 +3,18 @@
 - [x] Accessibility: fix verdict contrast, file input labeling, main/skip target and focus indicators; keyboard/Escape Tools menu; Radix demo/studio tabs with RTL navigation; voice privacy button. Axe WCAG A/AA + best-practice: zero violations on 13 routes × en/de/ar; desktop/mobile layout checked. See docs-accessibility-test-matrix.md and docs-asset-licenses.md.
 - [x] Link existing PostHog connection; add browser-only initialization, automatic $pageview on initial/history navigation, custom page_view per route, autocapture and pageleave. Mask content/attributes, redact queries/share tokens, disable recording and account identification; privacy disclosure updated.
 - [x] Regression suite: 66 passed, four pre-existing privileged database tests skipped; Deep Dossier excluded. Automatic production build OK (04:01:34 UTC).
-- [ ] Republish and record per-page HTTP status for /, /sources, /methodology and /privacy on verfiai.app and www.verfiai.app.
+- [x] Publishing requested for verfiai.app. All eight requested host/page checks returned HTTP 200; reachability does not certify deployment completion. Basic pre-publish security checks found no issues; existing guest-cost warning unchanged. PostHog configuration HTTP 200 verified, ingestion/dashboard event visibility remains unconfirmed.
+
+| Host | Page | HTTP |
+|---|---|---|
+| https://verfiai.app | `/` | 200 |
+| https://verfiai.app | `/sources` | 200 |
+| https://verfiai.app | `/methodology` | 200 |
+| https://verfiai.app | `/privacy` | 200 |
+| https://www.verfiai.app | `/` | 200 |
+| https://www.verfiai.app | `/sources` | 200 |
+| https://www.verfiai.app | `/methodology` | 200 |
+| https://www.verfiai.app | `/privacy` | 200 |
 - Scope: no Deep Dossier testing, locale-loading refactoring, library activation/catalog publication, CORE, pricing/checkout or new API keys.
 ## Oct 26 scheduled fixes
 - [x] Repair Semantic Scholar with a service-only atomic database gate (10-second start spacing, exponential 60-second–1-hour backoff, valid Retry-After never shortened, fail-closed coordination), provider-level caching and short negative caching. Live provider invocation: Semantic Scholar 429, OpenAlex 200 with real metadata; next distinct query skipped Semantic Scholar and returned six OpenAlex rows. Upstream recovery to Semantic Scholar 200 is not confirmed; no new key or immediate retry.
