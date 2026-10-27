@@ -1,4 +1,9 @@
 # Verfiai roadmap
+## Oct 27 accessibility and follow-up
+- [ ] Complete accessibility fixes, document key-route/locale test matrix, and inventory asset sources/licenses.
+- [ ] Add browser-only PostHog page views, route-change page_view, click autocapture and pageleave tracking using the linked workspace connection.
+- [ ] Run regression tests and confirm automatic production build; republish and record per-page HTTP status for /, /sources, /methodology and /privacy on verfiai.app and www.verfiai.app.
+- Scope: no Deep Dossier testing, locale-loading refactoring, library activation/catalog publication, CORE, pricing/checkout or new API keys.
 ## Oct 26 scheduled fixes
 - [x] Repair Semantic Scholar with a service-only atomic database gate (10-second start spacing, exponential 60-second–1-hour backoff, valid Retry-After never shortened, fail-closed coordination), provider-level caching and short negative caching. Live provider invocation: Semantic Scholar 429, OpenAlex 200 with real metadata; next distinct query skipped Semantic Scholar and returned six OpenAlex rows. Upstream recovery to Semantic Scholar 200 is not confirmed; no new key or immediate retry.
 - [x] Spot-check de/pt/tr/ru/ja/ko/it/nl/bn/ur/fa/id/sw/hi/zh recent/checker/UI/site strings. Fix German English confirmation/error, Russian/Chinese source-link terminology, Urdu confirmation tense, Indonesian retry, Dutch navigation and Swahili headline/navigation; add 21 missing static scoring translations per locale in both checker/UI dictionaries. Existing placeholders checked without mismatches. Native review remains advisable; named product terms retained.
