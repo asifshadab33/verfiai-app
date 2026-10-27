@@ -1,8 +1,9 @@
 # Verfiai roadmap
 ## Oct 27 accessibility and follow-up
-- [ ] Complete accessibility fixes, document key-route/locale test matrix, and inventory asset sources/licenses.
-- [ ] Add browser-only PostHog page views, route-change page_view, click autocapture and pageleave tracking using the linked workspace connection.
-- [ ] Run regression tests and confirm automatic production build; republish and record per-page HTTP status for /, /sources, /methodology and /privacy on verfiai.app and www.verfiai.app.
+- [x] Accessibility: fix verdict contrast, file input labeling, main/skip target and focus indicators; keyboard/Escape Tools menu; Radix demo/studio tabs with RTL navigation; voice privacy button. Axe WCAG A/AA + best-practice: zero violations on 13 routes × en/de/ar; desktop/mobile layout checked. See docs-accessibility-test-matrix.md and docs-asset-licenses.md.
+- [x] Link existing PostHog connection; add browser-only initialization, automatic $pageview on initial/history navigation, custom page_view per route, autocapture and pageleave. Mask content/attributes, redact queries/share tokens, disable recording and account identification; privacy disclosure updated.
+- [x] Regression suite: 66 passed, four pre-existing privileged database tests skipped; Deep Dossier excluded. Automatic production build OK (04:01:34 UTC).
+- [ ] Republish and record per-page HTTP status for /, /sources, /methodology and /privacy on verfiai.app and www.verfiai.app.
 - Scope: no Deep Dossier testing, locale-loading refactoring, library activation/catalog publication, CORE, pricing/checkout or new API keys.
 ## Oct 26 scheduled fixes
 - [x] Repair Semantic Scholar with a service-only atomic database gate (10-second start spacing, exponential 60-second–1-hour backoff, valid Retry-After never shortened, fail-closed coordination), provider-level caching and short negative caching. Live provider invocation: Semantic Scholar 429, OpenAlex 200 with real metadata; next distinct query skipped Semantic Scholar and returned six OpenAlex rows. Upstream recovery to Semantic Scholar 200 is not confirmed; no new key or immediate retry.
@@ -100,7 +101,7 @@
 - [x] Four claim labels + disclaimer by Generate
 - [x] .docx/.csv/.pdf uploads up to 5 MB
 - [x] Pro payments in sandbox ($9, 50 reports, no watermark); signed-in checkout opens.
-- [ ] Accessibility pass, test matrix, asset/license list
+- [x] Accessibility pass, test matrix, asset/license list — see docs-accessibility-test-matrix.md and docs-asset-licenses.md; unknown local asset provenance explicitly documented.
 - [x] Add $9/month Pro product, checkout and confirmed subscription rules; displayed brand is Verfi AI.
 - [x] Replace placeholder legal pages naming seller verfiai; add a dedicated refund policy and footer link.
 
