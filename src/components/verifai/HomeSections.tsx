@@ -1,5 +1,6 @@
 import { recentText } from "@/lib/recent-i18n";
 import { useState } from "react";
+import * as Tabs from "@radix-ui/react-tabs";
 import { Link } from "@tanstack/react-router";
 import { AlertTriangle, HelpCircle, ChevronDown, ArrowRight, BookOpenCheck, Briefcase, Check, CheckCircle2, Code2, FileSearch, Globe, Newspaper, ScanSearch, ShieldCheck, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -46,10 +47,10 @@ export function ProductDemo({ onTry, lang }: { onTry: () => void; lang: Lang }) 
   return <section aria-labelledby="demo-title" className="mx-auto max-w-7xl px-5 py-16 md:py-20">
     <p className="text-xs font-bold uppercase text-brand">{siteText(lang, "demoLabel")}</p>
     <h2 id="demo-title" className="mt-2 font-display text-3xl font-bold">{siteText(lang, "demoTitle")}</h2>
-    <div role="tablist" aria-label={siteText(lang, "demoCheckModes")} className="mt-6 flex max-w-full gap-1 overflow-x-auto border-b border-border">
-      {(Object.keys(MODES) as Mode[]).map(m => <Button key={m} role="tab" aria-selected={mode === m} variant="ghost" onClick={() => setMode(m)} className={`h-11 shrink-0 rounded-none border-b-2 ${mode === m ? "border-primary text-brand" : "border-transparent text-muted-foreground"}`}>{siteText(lang, ({ "Quick check": "demoModeQuick", Research: "demoModeResearch", News: "demoModeNews", Academic: "demoModeAcademic", Business: "demoModeBusiness" } as const)[m])}</Button>)}
-    </div>
-    <div role="tabpanel" className="mt-6 grid gap-5 lg:grid-cols-2">
+    <Tabs.Root value={mode} dir={["ar", "fa", "ur"].includes(lang) ? "rtl" : "ltr"} onValueChange={value => { if (value in MODES) setMode(value as Mode); }}><Tabs.List aria-label={siteText(lang, "demoCheckModes")} className="mt-6 flex max-w-full gap-1 overflow-x-auto border-b border-border">
+      {(Object.keys(MODES) as Mode[]).map(m => <Tabs.Trigger key={m} value={m} asChild><Button variant="ghost" className={`h-11 shrink-0 rounded-none border-b-2 ${mode === m ? "border-primary text-brand" : "border-transparent text-muted-foreground"}`}>{siteText(lang, ({ "Quick check": "demoModeQuick", Research: "demoModeResearch", News: "demoModeNews", Academic: "demoModeAcademic", Business: "demoModeBusiness" } as const)[m])}</Button></Tabs.Trigger>)}
+    </Tabs.List>
+    <Tabs.Content key={mode} value={mode} className="mt-6 grid gap-5 lg:grid-cols-2">
       <div className="rounded-2xl border border-border bg-card p-5"><p className="text-xs font-bold uppercase text-muted-foreground">{siteText(lang, "demoInput")}</p><p className="mt-3 leading-7">{t(d.text)}</p></div>
       <div className="rounded-2xl border border-border bg-card p-5"><p className="text-xs font-bold uppercase text-muted-foreground">{siteText(lang, "demoValidation")}</p>
         <ul className="mt-3 hidden space-y-3 md:block">{d.claims.map(([c, s, n]) => <li key={c} className="rounded-xl border border-border p-3 text-sm"><div className="flex items-start justify-between gap-2"><p className="font-medium">{t(c)}</p><Pill s={s} lang={lang} /></div><p className="mt-1 text-xs text-muted-foreground">{t(n)}</p></li>)}</ul>
@@ -58,7 +59,7 @@ export function ProductDemo({ onTry, lang }: { onTry: () => void; lang: Lang }) 
           <details className="group mt-2"><summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 rounded-md text-xs font-semibold text-brand">{siteText(lang, "showEvidence")}<ChevronDown aria-hidden className="size-4 transition-transform group-open:rotate-180" /></summary><p className="pb-1 text-xs leading-5 text-muted-foreground">{t(n)}</p></details>
         </li>)}</ul>
       </div>
-    </div>
+    </Tabs.Content></Tabs.Root>
     <div className="mt-6 flex flex-wrap items-center gap-4"><Button onClick={onTry}>{siteText(lang, "heroPrimary")} <ArrowRight /></Button><span className="text-xs text-muted-foreground">{siteText(lang, "demoNote")}</span></div>
   </section>;
 }

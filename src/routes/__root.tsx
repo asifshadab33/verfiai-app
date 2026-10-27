@@ -128,6 +128,8 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const location = useLocation();
   useEffect(() => {
+    const main = document.querySelector("main");
+    if (main) { main.id = "main-content"; main.tabIndex = -1; }
     let current = true;
     void import("../lib/posthog").then(({ trackPage }) => {
       if (current) trackPage(location.pathname);
