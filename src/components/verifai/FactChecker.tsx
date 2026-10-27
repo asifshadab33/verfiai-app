@@ -67,8 +67,8 @@ export function FactChecker({ lang }: { lang: Lang }) {
   return <div>
     <h2 className="font-display text-2xl font-bold">{tx("factTitle")}</h2>
     <p className="mt-2 max-w-2xl text-sm text-muted-foreground">{tx("factIntro")}</p>
-    <div role="tablist" aria-label={tx("factInputType")} className="mt-6 inline-flex rounded-lg border border-border p-1">
-      {(["text", "url"] as const).map(m => <Button key={m} role="tab" aria-selected={mode === m} size="sm" variant={mode === m ? "default" : "ghost"} onClick={() => setMode(m)}>{m === "text" ? tx("factPaste") : <><Link2 />{tx("factLink")}</>}</Button>)}
+    <div role="group" aria-label={tx("factInputType")} className="mt-6 inline-flex rounded-lg border border-border p-1">
+      {(["text", "url"] as const).map(m => <Button key={m} aria-pressed={mode === m} size="sm" variant={mode === m ? "default" : "ghost"} onClick={() => setMode(m)}>{m === "text" ? tx("factPaste") : <><Link2 />{tx("factLink")}</>}</Button>)}
     </div>
     <p className="mt-5 text-xs leading-5 text-muted-foreground">{checkerText(lang, "privacy")} <a href="/privacy" className="text-brand underline">{t("privacy notice")}</a>{" "}{t("and")}{" "}<a href="/methodology" className="text-brand underline">{t("methodology")}</a>.</p>
     {mode === "text" ? <>

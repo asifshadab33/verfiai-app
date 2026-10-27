@@ -126,11 +126,22 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const location = useLocation();
+  useEffect(() => {
+    const main = document.querySelector("main");
+    if (main) { main.id = "main-content"; main.tabIndex = -1; }
+    let current = true;
+    void import("../lib/posthog").then(({ trackPage }) => {
+      if (current) trackPage(location.pathname);
+    }).catch(() => { /* Analytics must never block the app. */ });
+    return () => { current = false; };
+  }, [location.pathname]);
 
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <FreeAccessBanner />
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-3 focus:text-primary-foreground">Skip to main content</a>
       <Outlet />
     </QueryClientProvider>
   );
