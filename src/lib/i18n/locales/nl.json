@@ -73,7 +73,9 @@
     "dataLinked": "Mogelijke link naar primaire gegevens afgeleid uit metadata of URL; beschikbaarheid en inhoud niet geverifieerd",
     "methodsVisible": "Aanwijzingen voor onderzoek of methodologie zichtbaar; gegevens niet onderzocht",
     "scoringCaution": "Kwaliteitsindicatoren zijn schattingen op basis van metadata, geen waarheidsscores of volledige bronverificatie.",
-    "scoringWeights": "Weging: gezag 25%, actualiteit 10%, onafhankelijkheid 15%, transparantie over de auteur 15%, direct verband 25%, oorspronkelijke gegevens 10%. Sterk ≥80; Matig ≥55; anders Zwak."
+    "scoringWeights": "Weging: gezag 25%, actualiteit 10%, onafhankelijkheid 15%, transparantie over de auteur 15%, direct verband 25%, oorspronkelijke gegevens 10%. Sterk ≥80; Matig ≥55; anders Zwak.",
+    "consensusAgreed": "De controle-engines waren het over dit oordeel eens.",
+    "consensusTieBreak": "De controle-engines waren het oneens; een onafhankelijke tie-break-controle bepaalde dit oordeel."
   },
   "recent": {
     "recent0": "Analyse",

@@ -73,7 +73,9 @@
     "dataLinked": "Kemungkinan tautan data primer disimpulkan dari metadata atau URL; ketersediaan dan isinya belum diverifikasi",
     "methodsVisible": "Indikator studi atau metodologi terlihat; data belum diperiksa",
     "scoringCaution": "Indikator kualitas adalah perkiraan berbasis metadata, bukan skor kebenaran atau verifikasi sumber secara menyeluruh.",
-    "scoringWeights": "Bobot: otoritas 25%, kebaruan 10%, independensi 15%, transparansi penulis 15%, keterkaitan langsung 25%, data asli 10%. Kuat ≥80; Sedang ≥55; selain itu Lemah."
+    "scoringWeights": "Bobot: otoritas 25%, kebaruan 10%, independensi 15%, transparansi penulis 15%, keterkaitan langsung 25%, data asli 10%. Kuat ≥80; Sedang ≥55; selain itu Lemah.",
+    "consensusAgreed": "Mesin peninjau sepakat dengan putusan ini.",
+    "consensusTieBreak": "Mesin peninjau tidak sepakat; tinjauan penentu seri independen menetapkan putusan ini."
   },
   "recent": {
     "recent0": "Analisis",

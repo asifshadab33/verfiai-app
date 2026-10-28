@@ -52,7 +52,9 @@
     "usedSignedIn": "Vous avez utilisé vos analyses gratuites du mois. Plus d'analyses seront disponibles plus tard.",
     "usedGuest": "Vous avez utilisé votre analyse gratuite.",
     "signIn": "Se connecter",
-    "usedGuestTail": "pour 3 analyses chaque mois."
+    "usedGuestTail": "pour 3 analyses chaque mois.",
+    "consensusAgreed": "Les moteurs d'analyse sont parvenus au même verdict.",
+    "consensusTieBreak": "Les moteurs d'analyse étaient en désaccord ; une vérification indépendante de départage a tranché ce verdict."
   },
   "recent": {
     "recent0": "Analyse",

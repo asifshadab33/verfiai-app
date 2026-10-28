@@ -73,7 +73,9 @@
     "dataLinked": "Meta verilerden veya URL'den olası bir birincil veri bağlantısı çıkarılmıştır; erişilebilirlik ve içerik doğrulanmamıştır",
     "methodsVisible": "Çalışma veya metodoloji göstergeleri görünüyor; veriler incelenmemiştir",
     "scoringCaution": "Kalite göstergeleri meta verilere dayalı tahminlerdir; doğruluk puanları veya kaynakların tam doğrulaması değildir.",
-    "scoringWeights": "Ağırlıklar: otorite 25%, güncellik 10%, bağımsızlık 15%, yazar şeffaflığı 15%, doğrudan ilişki 25%, özgün veriler 10%. Güçlü ≥80; Orta ≥55; aksi hâlde Zayıf."
+    "scoringWeights": "Ağırlıklar: otorite 25%, güncellik 10%, bağımsızlık 15%, yazar şeffaflığı 15%, doğrudan ilişki 25%, özgün veriler 10%. Güçlü ≥80; Orta ≥55; aksi hâlde Zayıf.",
+    "consensusAgreed": "İnceleme motorları bu yargıda hemfikirdi.",
+    "consensusTieBreak": "İnceleme motorları anlaşamadı; bağımsız bir eşitlik bozma incelemesi bu yargıyı belirledi."
   },
   "recent": {
     "recent0": "Analiz",

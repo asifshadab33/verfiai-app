@@ -73,7 +73,9 @@
     "dataLinked": "Kiungo kinachowezekana cha data za msingi kimekadiriwa kutokana na metadata au URL; upatikanaji na yaliyomo havijathibitishwa",
     "methodsVisible": "Viashiria vya utafiti au mbinu vinaonekana; data hazijakaguliwa",
     "scoringCaution": "Viashiria vya ubora ni makadirio yanayotegemea metadata, si alama za ukweli wala uthibitishaji wa chanzo kizima.",
-    "scoringWeights": "Uzani: mamlaka 25%, usasa 10%, uhuru 15%, uwazi kuhusu mwandishi 15%, uhusiano wa moja kwa moja 25%, data asilia 10%. Imara ≥80; Wastani ≥55; vinginevyo Dhaifu."
+    "scoringWeights": "Uzani: mamlaka 25%, usasa 10%, uhuru 15%, uwazi kuhusu mwandishi 15%, uhusiano wa moja kwa moja 25%, data asilia 10%. Imara ≥80; Wastani ≥55; vinginevyo Dhaifu.",
+    "consensusAgreed": "Enjini za ukaguzi zilikubaliana kuhusu uamuzi huu.",
+    "consensusTieBreak": "Enjini za ukaguzi zilikuwa hazikubaliani; ukaguzi huru wa kutatua usawa uliamua uamuzi huu."
   },
   "recent": {
     "recent0": "Uchambuzi",

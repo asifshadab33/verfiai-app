@@ -6,7 +6,7 @@ import { recentText, localizedBreakdown } from "@/lib/recent-i18n";
 import { StrengthBadge } from "./StrengthBadge";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
-import { Check, Link2, LoaderCircle, ScanSearch, XCircle } from "lucide-react";
+import { Check, CircleAlert, CircleCheck, CircleHelp, CircleX, Link2, LoaderCircle, Scale, ScanSearch, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -21,11 +21,12 @@ import { VerdictFeedback } from "./VerdictFeedback";
 
 const verdictKeys = { SUPPORTED: "verdictSupported", CONTRADICTED: "verdictContradicted", MIXED: "verdictMixed", UNVERIFIABLE: "verdictInsufficient" } as const;
 const STAGES = ["Extracting claims…", "Searching providers…", "Cross-checking sources…", "Synthesizing verdict…"];
-const style: Record<Verdict, { label: string; cls: string }> = {
-  SUPPORTED: { label: "Supported", cls: "bg-success-soft text-success border-success/30" },
-  CONTRADICTED: { label: "Contradicted", cls: "bg-danger-soft text-destructive border-destructive/30" },
-  MIXED: { label: "Mixed evidence", cls: "bg-warning-soft text-warning border-warning/40" },
-  UNVERIFIABLE: { label: "Insufficient evidence", cls: "bg-muted text-muted-foreground border-border" },
+// Verdict pill styling per verdict, on the shared semantic brand tokens.
+const pill: Record<Verdict, { cls: string; Icon: typeof CircleCheck; accent: string }> = {
+  SUPPORTED: { cls: "bg-success-soft text-success border-success/40", Icon: CircleCheck, accent: "border-s-success" },
+  CONTRADICTED: { cls: "bg-danger-soft text-destructive border-destructive/40", Icon: CircleX, accent: "border-s-destructive" },
+  MIXED: { cls: "bg-warning-soft text-warning border-warning/50", Icon: CircleAlert, accent: "border-s-warning" },
+  UNVERIFIABLE: { cls: "bg-muted text-muted-foreground border-border", Icon: CircleHelp, accent: "border-s-border" },
 };
 const SAMPLE = "The Great Wall of China is visible from the Moon with the naked eye. Water boils at 100 degrees Celsius at sea level. Humans only use 10 percent of their brains. Mount Everest is the highest mountain above sea level.";
 
@@ -93,17 +94,19 @@ export function FactChecker({ lang }: { lang: Lang }) {
     {claims && <section aria-label={tx("factResults")} className="mt-10 space-y-5">
       {claims.length === 0 ? <p className="rounded-xl bg-secondary p-5 text-sm">{tx("factEmpty")}</p> : <>
         <p className="text-xs text-muted-foreground">{uiText(lang, "consensus")}</p>
-        <div className="grid gap-4 sm:grid-cols-3">{counts.map(([v, n]) => <div key={v} className="rounded-2xl border border-border bg-card p-5"><p className="text-sm text-muted-foreground">{tx(verdictKeys[v])}</p><p className="mt-1 font-display text-3xl font-extrabold">{n}</p></div>)}</div>
-        <ul className="space-y-4">{claims.map((c, i) => <li key={i} className="rounded-2xl border border-border bg-card p-5">
-          <div className="flex flex-wrap items-start justify-between gap-3"><p className="font-semibold">{c.claim}</p><span className={`shrink-0 rounded-full border px-2.5 py-0.5 text-xs font-semibold ${style[c.verdict].cls}`}>{tx(verdictKeys[c.verdict])}</span></div>
+        <div className="grid gap-4 sm:grid-cols-3">{counts.map(([v, n]) => { const P = pill[v]; return <div key={v} className="rounded-2xl border border-border bg-card p-5"><span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-semibold ${P.cls}`}><P.Icon className="size-3.5" aria-hidden="true" />{tx(verdictKeys[v])}</span><p className="mt-2 font-display text-3xl font-extrabold">{n}</p></div>; })}</div>
+        <ul className="space-y-4">{claims.map((c, i) => { const P = pill[c.verdict]; return <li key={i} className={`rounded-2xl border border-border bg-card p-5 ${P.accent} border-s-4`}>
+          <div className="flex flex-wrap items-start justify-between gap-3"><p className="font-semibold">{c.claim}</p><span className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${P.cls}`}><P.Icon className="size-3.5" aria-hidden="true" />{tx(verdictKeys[c.verdict])}</span></div>
           <p className="mt-2 text-sm text-muted-foreground">{c.explanation}</p>
+          {c.consensus === "agreed" && <p role="note" className="mt-3 inline-flex items-center gap-2 rounded-full border border-success/30 bg-success-soft px-3 py-1 text-xs font-medium text-success"><CircleCheck className="size-3.5 shrink-0" aria-hidden="true" />{checkerText(lang, "consensusAgreed")}</p>}
+          {c.consensus === "tie-break" && <div role="note" className="mt-3 flex items-center gap-2 rounded-xl border border-warning/50 bg-warning-soft p-3 text-xs font-medium text-warning"><Scale className="size-4 shrink-0" aria-hidden="true" />{checkerText(lang, "consensusTieBreak")}</div>}
           {(() => { const rating = localizedBreakdown(lang, c.strength ?? evidenceStrength(c.verdict, c.sources.filter(s => s.quote))); return <><div className="mt-3 flex flex-wrap items-center gap-2"><StrengthBadge label={rating.label} lang={lang} /><span className="text-xs font-semibold">{t("Evidence strength")}</span><span className="text-xs text-muted-foreground">· {recentText(lang, "Sources: {count}", { count: c.sources.length })}</span></div><details className="mt-2 text-xs"><summary className="flex min-h-11 cursor-pointer items-center font-semibold text-brand">{t("Why this rating?")}</summary><dl className="space-y-1 text-muted-foreground"><div><dt className="font-semibold">{t("Source authority")}</dt><dd>{rating.authority}</dd></div><div><dt className="font-semibold">{t("Recency")}</dt><dd>{rating.recency}</dd></div><div><dt className="font-semibold">{t("Independence")}</dt><dd>{rating.independence}</dd></div></dl></details></>; })()}
           {c.conflict && <div className="mt-4 grid gap-3 sm:grid-cols-2"><blockquote className="border-s-2 border-success ps-3 text-xs"><span className="font-semibold">{tx("factOneSource")}</span> "{c.conflict.a}"</blockquote><blockquote className="border-s-2 border-destructive ps-3 text-xs"><span className="font-semibold">{tx("factAnotherSource")}</span> "{c.conflict.b}"</blockquote></div>}
           {c.sources.length > 0 && <ol className="mt-4 space-y-2 text-xs">{c.sources.map(s => <li key={s.n}><a href={s.url} target="_blank" rel="noopener noreferrer" className="break-all text-brand underline">[{s.n}] {s.title}</a><span className="ms-2 rounded-full border border-border px-2 py-0.5 text-[11px] text-muted-foreground">{t(sourceQuality(s.url))}</span>{s.quote && <span className="text-muted-foreground"> — "{s.quote}"</span>}{advanced && <SourceQualityDetails quality={s.quality} lang={lang} context="claim" />}</li>)}</ol>}
           <VerdictFeedback claim={c.claim} verdict={c.verdict} explanation={`${c.explanation} ${uiText(lang, "consensus")}`} />
           <p className="mt-3 text-xs text-muted-foreground">{tx("factSourceNote")}</p>
           <a href={`mailto:hello@verfiai.app?subject=${encodeURIComponent("Verfiai claim issue")}&body=${encodeURIComponent(`Claim: ${c.claim}\n\nWhat seems wrong? (Do not include confidential material):\n`)}`} className="inline-flex min-h-11 items-center text-xs font-semibold text-brand underline">{t("Report an issue")}</a>
-        </li>)}</ul>
+        </li>; })}</ul>
       </>}
     </section>}
   </div>;

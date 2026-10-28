@@ -73,7 +73,9 @@
     "dataLinked": "Possível ligação a dados primários inferida dos metadados ou do URL; disponibilidade e conteúdo não verificados",
     "methodsVisible": "Indicadores de estudo ou metodologia visíveis; dados não inspecionados",
     "scoringCaution": "Os indicadores de qualidade são estimativas baseadas em metadados, não pontuações de veracidade nem uma verificação integral das fontes.",
-    "scoringWeights": "Pesos: autoridade 25%, atualidade 10%, independência 15%, transparência da autoria 15%, relação direta 25%, dados originais 10%. Forte ≥80; Moderado ≥55; caso contrário, Fraco."
+    "scoringWeights": "Pesos: autoridade 25%, atualidade 10%, independência 15%, transparência da autoria 15%, relação direta 25%, dados originais 10%. Forte ≥80; Moderado ≥55; caso contrário, Fraco.",
+    "consensusAgreed": "Os motores de análise coincidiram neste veredito.",
+    "consensusTieBreak": "Os motores de análise discordaram; uma revisão independente de desempate fixou este veredito."
   },
   "recent": {
     "recent0": "Análise",
