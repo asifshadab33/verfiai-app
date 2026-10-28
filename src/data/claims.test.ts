@@ -17,8 +17,9 @@ describe("editorial evidence publication", () => {
     expect(schema?.datePublished).toBe("2026-10-28");
     expect(schema?.citation[0]?.url).toBe("https://pmc.ncbi.nlm.nih.gov/articles/PMC2151163/");
     expect(schema?.reviewRating.ratingValue).toBe(1);
+    const { review: _review, ...unreviewed } = reviewed;
     const invalid: ClaimEntry[] = [
-      { ...reviewed, review: undefined },
+      unreviewed,
       { ...reviewed, review: { ...reviewed.review, reviewedAt: "" } },
       { ...reviewed, review: { ...reviewed.review, sources: [] } },
       { ...reviewed, review: { ...reviewed.review, attribution: { ...reviewed.review.attribution, origin: "" } } },
