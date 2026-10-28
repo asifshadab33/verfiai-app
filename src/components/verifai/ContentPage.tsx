@@ -1,9 +1,11 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { ArrowRight, FileCheck2 } from "lucide-react";
 import { COMMUNITY_LABELS } from "@/lib/community";
 import { Button } from "@/components/ui/button";
 import { translations, type LangCode } from "@/lib/i18n/interface";
+import { documentLanguage } from "@/lib/page-language";
 export function ContentPage({ title, intro, children, lang }: { title: string; intro: string; children: React.ReactNode; lang?: LangCode }) {
+  const pageLang = documentLanguage(useLocation().pathname, lang);
   return <div lang={lang} dir={lang ? translations[lang].dir : undefined} className="min-h-screen overflow-x-clip bg-background text-foreground"><header className="border-b border-border"><div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-4 px-5 py-3"><Link to="/" className="flex items-center gap-2 font-display text-xl font-bold"><FileCheck2 className="size-6 text-brand" />Verfiai</Link><nav className="flex flex-wrap items-center justify-end gap-4 text-sm"><Link to="/about" className="hidden hover:text-brand md:block">About</Link><Link to="/methodology" className="hidden hover:text-brand md:block">Methodology</Link><Link to="/accuracy" className="hidden hover:text-brand md:block">Accuracy</Link><Link to="/pricing" className="hidden hover:text-brand sm:block">{COMMUNITY_LABELS[lang ?? "en"]}</Link><Button size="sm" asChild><Link to="/">{lang ? translations[lang].generate_report : "Generate report"} <ArrowRight /></Link></Button></nav></div></header><main id="main-content" tabIndex={-1}><div className="mx-auto max-w-5xl px-5 py-14 md:py-20"><Link to="/" className="text-sm font-semibold text-brand hover:underline">← Back to workspace</Link><h1 className="mt-8 max-w-3xl font-display text-4xl font-bold leading-tight md:text-5xl">{title}</h1><p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{intro}</p><div className="mt-12">{children}</div></div></main><footer className="border-t border-border px-5 py-8 text-center text-sm text-muted-foreground">Verfiai — Research with confidence. Report with clarity.</footer></div>;
 }
 export function PageSection({ title, children }: { title: string; children: React.ReactNode }) { return <section className="border-t border-border py-8"><h2 className="font-display text-xl font-bold">{title}</h2><div className="mt-3 max-w-3xl leading-7 text-muted-foreground">{children}</div></section>; }
