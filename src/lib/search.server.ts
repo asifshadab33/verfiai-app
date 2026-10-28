@@ -172,8 +172,53 @@ const pubmed: SearchEngine = { id: "pubmed", run: async (query) => {
   }).filter(s => s.content.length > 0 && /\/\d+\/$/.test(s.url));
 } };
 
+// Wikidata structured reference (free, no key). Entity search through the SPARQL
+// query service, mapped to the standard result shape — useful for structured
+// who/when/how-many questions. Entries are reference context, not evidence quotes.
+const wikidata: SearchEngine = { id: "wikidata", run: async (query, language) => {
+  const lang = toLangCode(language);
+  const sparql = `SELECT ?item ?itemLabel ?itemDescription WHERE { SERVICE wikibase:mwapi { bd:serviceParam wikibase:endpoint "www.wikidata.org"; wikibase:api "EntitySearch"; mwapi:search ${JSON.stringify(query.slice(0, 300))}; mwapi:language "${lang}". ?item wikibase:apiOutputItem mwapi:item. } OPTIONAL { ?item schema:description ?itemDescription. FILTER(LANG(?itemDescription) IN ("${lang}", "en")) } SERVICE wikibase:label { bd:serviceParam wikibase:language "${lang},en". } } LIMIT 5`;
+  const res = await fetch(`https://query.wikidata.org/sparql?query=${encodeURIComponent(sparql)}&format=json`, { headers: { Accept: "application/sparql-results+json", "User-Agent": "Verfiai/1.0 (https://verfiai.app; mailto:hello@verfiai.app)" }, signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
+  if (!res.ok) { console.error("Wikidata error", res.status); return []; }
+  type Row = { item?: { value: string }; itemLabel?: { value?: string }; itemDescription?: { value?: string } };
+  const j = await res.json() as { results?: { bindings?: Row[] } };
+  const seen = new Set<string>();
+  // The endpoint returns http://www.wikidata.org/entity/Q… URIs; results are
+  // normalized to the canonical https://www.wikidata.org/wiki/Q… entry URL.
+  return (j.results?.bindings ?? []).map(r => {
+    const qid = (r.item?.value ?? "").split("/").pop() ?? "";
+    return { r, qid };
+  }).filter(({ qid }) => /^Q\d+$/.test(qid) && !seen.has(qid) && (seen.add(qid), true)).map(({ r, qid }) => ({
+    title: stripTags(r.itemLabel?.value ?? qid),
+    url: `https://www.wikidata.org/wiki/${qid}`,
+    content: stripTags(`Wikidata structured reference: ${r.itemLabel?.value ?? qid} — ${r.itemDescription?.value ?? ""}`).slice(0, 1500),
+    sourceType: "reference",
+    score: 0.5,
+  }));
+} };
+
+// Google Fact Check Tools ClaimReview search (free; requires a key the owner has
+// not provided yet — skipped silently when GOOGLE_FACTCHECK_API_KEY is unset).
+// Each result is a professional fact-check verdict: the strongest claim signal.
+const googleFactCheck: SearchEngine = { id: "google-factcheck", run: async (query) => {
+  const key = process.env["GOOGLE_FACTCHECK_API_KEY"];
+  if (!key) return [];
+  const res = await fetch(`https://factchecktools.googleapis.com/v1alpha1/claims:search?query=${encodeURIComponent(query.slice(0, 380))}&pageSize=10&key=${encodeURIComponent(key)}`, { signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
+  if (!res.ok) { console.error("Google Fact Check error", res.status); return []; }
+  type Review = { url?: string; title?: string; textualRating?: string; reviewDate?: string; publisher?: { name?: string; site?: string } };
+  const j = await res.json() as { claims?: { text?: string; claimReview?: Review[] }[] };
+  return (j.claims ?? []).flatMap(c => (c.claimReview ?? []).filter(r => r.url?.startsWith("https://")).map(r => ({
+    title: stripTags(r.title ?? c.text ?? "Fact check").slice(0, 200),
+    url: r.url!,
+    content: stripTags(`Claim: ${c.text ?? ""} ${r.textualRating ? `— Rated: ${r.textualRating}` : ""} (${r.publisher?.name ?? "fact-checker"}${r.reviewDate ? `, ${r.reviewDate.slice(0, 10)}` : ""})`).slice(0, 1500),
+    published: r.reviewDate,
+    publisher: r.publisher?.name,
+    score: 0.7,
+  })));
+} };
+
 const docEngine = (id: string, fn: (q: string) => Promise<Source[]>): SearchEngine => ({ id, run: fn });
-const ENGINES: Record<string, SearchEngine> = { tavily, brave, youcom, searxng, gdelt, crossref, wikipedia, ddg: duckduckgo, openalex, pubmed,
+const ENGINES: Record<string, SearchEngine> = { tavily, brave, youcom, searxng, gdelt, crossref, wikipedia, ddg: duckduckgo, openalex, pubmed, wikidata, "google-factcheck": googleFactCheck,
   openalex_oa: docEngine("openalex_oa", async q => (await import("./providers/documents.server")).openAlexOaSearch(q)),
   semanticscholar: docEngine("semanticscholar", async q => (await import("./providers/documents.server")).semanticScholarSearch(q)),
   core: docEngine("core", async q => (await import("./providers/documents.server")).coreSearch(q)),
@@ -202,7 +247,7 @@ export async function searchAll(query: string, language?: string, engineIds: str
   return results.flat();
 }
 
-export const DEFAULT_ENGINES = ["tavily", "brave", "youcom", "searxng", "gdelt", "crossref", "wikipedia", "ddg", "openalex", "pubmed"];
+export const DEFAULT_ENGINES = ["tavily", "brave", "youcom", "searxng", "gdelt", "crossref", "wikipedia", "ddg", "openalex", "pubmed", "wikidata", "google-factcheck"];
 /** Web/news engines that also receive the counter-angle query (scholarly sources stay single-angle). */
 export const COUNTER_ENGINES = ["tavily", "brave", "youcom", "searxng"];
 
