@@ -1,3 +1,4 @@
+import { isLang, translations } from "@/lib/translations";
 import { uiText } from "@/lib/ui-extra-i18n";
 import { SourceQualityDetails } from "./SourceQualityDetails";
 import { getFeatureFlags } from "@/lib/flags.functions";
