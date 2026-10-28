@@ -4,6 +4,7 @@ import { FactChecker } from "@/components/verifai/FactChecker";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
 import { useSiteLocale } from "@/lib/locale";
 import { isLang, type Lang } from "@/lib/translations";
+import { translations } from "@/lib/i18n/interface";
 
 const url = "https://verfiai.app/fact-checker";
 const title = "Free Fact Checker — Check Claims with Sources | Verfiai";
@@ -23,7 +24,7 @@ function FactCheckerPage() {
   const { lang } = useSiteLocale();
   return <ContentPage title="Free Fact Checker" intro="Check a claim. Inspect the evidence. Make your own judgment." lang={lang}>
     <ScanSearch aria-hidden="true" className="mb-5 size-12 text-brand" />
-    <FactChecker lang={lang} />
+    <div lang={lang} dir={translations[lang].dir}><FactChecker lang={lang} /></div>
     <PageSection title="What a fact checker can tell you">
       <p>Verfiai compares factual claims with available source excerpts and flags supported, contradicted, mixed or insufficient evidence. AI agreement is not independent verification: follow the source links and check whether they actually support the claim.</p>
     </PageSection>
