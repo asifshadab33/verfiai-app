@@ -8,7 +8,55 @@
     "why_searched": "evergreen myth",
     "difficulty": "easy",
     "verdict": "contradicted",
-    "evidence_summary": "Brain imaging shows nearly all regions active over a day; neuroscience consensus rejects the myth."
+    "evidence_summary": "Brain-damage, imaging and metabolic evidence reviewed in BMJ contradict the literal 10% claim; this does not mean every brain region is equally active at every moment.",
+    "review": {
+      "reviewedAt": "2026-10-28",
+      "reviewer": "Verfiai",
+      "attribution": {
+        "origin": "The first author of this widespread belief is not established here. It must not be attributed to Albert Einstein: the cited review says no such recorded statement by him has been found.",
+        "documentedAppearance": "Rachel C. Vreeman and Aaron E. Carroll document and critically review the assertion “We use only 10% of our brains” in Medical myths (BMJ, 2007). They are reviewers of the myth, not its original claimants.",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2151163/"
+      },
+      "analysis": [
+        {
+          "text": "The claim asserts that most of the brain is unused. Vreeman and Carroll’s review describes evidence from brain damage, brain imaging, localisation of function, microstructural analysis and metabolism showing that people use much more than ten percent. These are different ways of investigating brain function, not repeated votes by AI engines.",
+          "citations": [
+            1
+          ]
+        },
+        {
+          "text": "The brain-damage evidence matters because damage to almost any region can have specific lasting effects on mental, bodily and behavioural abilities. The imaging and metabolic evidence described in the review does not reveal a permanently dormant ninety percent. Together, these observations contradict the premise that most brain tissue has no functioning role.",
+          "citations": [
+            1
+          ]
+        },
+        {
+          "text": "This verdict does not imply that all neurons fire simultaneously, that each region is equally busy, or that people cannot learn new skills. Activity depends on the task and the time of observation. The popular self-improvement interpretation of “untapped potential” is different from a literal claim that ninety percent of the brain is unused.",
+          "citations": [
+            1
+          ]
+        },
+        {
+          "text": "The review notes that the belief persisted for over a century and discusses an earlier literature review of its origins. It also warns that the Einstein attribution has no recorded statement behind it. We have not independently traced the first publication, so the historical origin remains unknown rather than being assigned to a famous person.",
+          "citations": [
+            1
+          ]
+        }
+      ],
+      "limitations": "This is a dated editorial reading of one peer-reviewed narrative review, not a new systematic neuroscience review or an individual brain assessment. The historical references cited by that article have not all been independently examined. The finding addresses literal brain use, not a numerical measure of human potential.",
+      "sources": [
+        {
+          "title": "Medical myths",
+          "publisher": "BMJ / PubMed Central",
+          "authors": "Rachel C. Vreeman and Aaron E. Carroll",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2151163/",
+          "publishedAt": "2007",
+          "accessedAt": "2026-10-28",
+          "quote": "Numerous types of brain imaging studies show that no area of the brain is completely silent or inactive.",
+          "relevance": "The review draws together brain-damage, imaging, localisation and metabolic findings rather than treating the popularity of the saying as evidence. Its discussion explicitly addresses the literal ten-percent assertion."
+        }
+      ]
+    }
   },
   {
     "id": 2,
@@ -19,7 +67,54 @@
     "why_searched": "evergreen myth",
     "difficulty": "easy",
     "verdict": "contradicted",
-    "evidence_summary": "Astronauts including China's own confirm it is NOT visible to the naked eye from the Moon or orbit; NASA notes it's hard even from low orbit."
+    "evidence_summary": "NASA says the Wall is not visible from the Moon and is difficult or impossible to see from Earth orbit without the high-powered lenses used for its photograph. The broad naked-eye claim needs this distance and viewing-condition qualification.",
+    "review": {
+      "reviewedAt": "2026-10-28",
+      "reviewer": "Verfiai",
+      "attribution": {
+        "origin": "The original claimant and first publication of this popular myth are not established by the available NASA source. NASA is documenting and correcting the assertion, not claiming authorship of it.",
+        "documentedAppearance": "NASA’s Great Wall image article (April 2, 2009) explicitly refers to “myths to the contrary” when explaining the Moon and Earth-orbit visibility claims.",
+        "url": "https://www.nasa.gov/image-article/great-wall/"
+      },
+      "analysis": [
+        {
+          "text": "NASA’s image article shows why an orbital photograph does not establish the naked-eye claim. The image was taken by Expedition 10 Commander Leroy Chiao on the International Space Station, and the explanatory text explicitly identifies the high-powered lenses used. A photograph taken with magnification is not equivalent to unaided human vision.",
+          "citations": [
+            1
+          ]
+        },
+        {
+          "text": "The source distinguishes two cases: the Wall is not visible from the Moon, while seeing it from Earth orbit is described as difficult or impossible without the high-powered lenses. The word “space” in the original assertion does not specify distance, altitude or observing conditions. That ambiguity matters: the Moon and low Earth orbit are not interchangeable viewpoints.",
+          "citations": [
+            1
+          ]
+        },
+        {
+          "text": "The contradicted label rejects the broad, unqualified naked-eye assertion. It is not a claim that no observer could ever identify any section under any exceptional orbital conditions. NASA’s own cautious wording is retained instead of converting “difficult or impossible” into an unsupported universal prohibition.",
+          "citations": [
+            1
+          ]
+        },
+        {
+          "text": "The NASA page is a documented institutional discussion of the myth, with an identifiable image and publication date. It does not identify the person who first spread the claim. We therefore link the correction and explicitly leave the first claimant unknown; the astronaut associated with the photograph is not presented as the originator of the myth.",
+          "citations": [
+            1
+          ]
+        }
+      ],
+      "limitations": "The evidence is NASA’s explanation of one published image, not a controlled survey of every orbital observation. It does not settle all exceptional lighting, altitude or eyesight cases, nor establish the first historical publication. Distinguish naked-eye viewing, magnified photography and Moon-distance viewing.",
+      "sources": [
+        {
+          "title": "Great Wall",
+          "publisher": "NASA",
+          "url": "https://www.nasa.gov/image-article/great-wall/",
+          "publishedAt": "2009-04-02",
+          "accessedAt": "2026-10-28",
+          "quote": "Despite myths to the contrary, the wall isn’t visible from the moon, and is difficult or impossible to see from Earth orbit without the high-powered lenses used for this photo.",
+          "relevance": "NASA explains the viewing conditions of a specific International Space Station photograph by Expedition 10 Commander Leroy Chiao. It directly distinguishes a camera image taken with high-powered lenses from naked-eye observation."
+        }
+      ]
+    }
   },
   {
     "id": 3,
@@ -52,7 +147,55 @@
     "why_searched": "evergreen fact",
     "difficulty": "easy",
     "verdict": "contradicted",
-    "evidence_summary": "Seasons come from Earth's axial tilt (~23.5°). Earth is actually closest to the Sun in early January."
+    "evidence_summary": "NASA explains that seasonal weather patterns are mainly caused by Earth’s 23.5-degree axial tilt, not the elliptical orbit. Earth is near the Sun in January while the Northern Hemisphere is in winter.",
+    "review": {
+      "reviewedAt": "2026-10-28",
+      "reviewer": "Verfiai",
+      "attribution": {
+        "origin": "No original person or first publication responsible for this misconception is established by the cited material. It is reviewed as a general causal assertion, not attributed to a named speaker.",
+        "documentedAppearance": "NASA Goddard’s StarChild question “When is Earth closest to the Sun?” (January 2003) explicitly asks whether varying Earth–Sun distance causes seasons and explains why it does not.",
+        "url": "https://starchild.gsfc.nasa.gov/docs/StarChild/questions/question53.html"
+      },
+      "analysis": [
+        {
+          "text": "NASA’s StarChild explanation identifies the 23.5-degree tilt of Earth’s spin axis as the main cause of seasonal weather patterns. The causal claim being reviewed is that changing distance from the Sun produces the seasons. The source directly contrasts that explanation with axial tilt rather than merely stating that Earth’s orbit is elliptical.",
+          "citations": [
+            1
+          ]
+        },
+        {
+          "text": "During northern winter, the north pole is tilted away from the Sun and days are shorter. NASA explains that being a little closer to the Sun in January does not make much difference to that seasonal pattern. This is a useful check on the distance explanation: proximity alone would not explain why northern winter occurs near that point in the orbit.",
+          "citations": [
+            1
+          ]
+        },
+        {
+          "text": "At the same time, the Southern Hemisphere has the opposite seasonal pattern because the south pole is tilted toward the Sun during northern winter. Keeping the hemispheric distinction is essential. “January is winter” is not a globally valid statement, and a source about Northern Hemisphere winter cannot be used as if it describes both hemispheres.",
+          "citations": [
+            1
+          ]
+        },
+        {
+          "text": "The cited page is a January 2003 educational question with a year-specific perihelion example. We do not turn its exact calendar date into a permanent annual rule. The conclusion is about the principal cause of the seasonal cycle, not a claim that orbital distance has absolutely no effect on the energy Earth receives.",
+          "citations": [
+            1
+          ]
+        }
+      ],
+      "limitations": "This is an editorial review of NASA’s educational explanation, not a detailed climate model. The page’s calendar example is historical and its wording is “mostly caused”; the review does not assert that Earth–Sun distance has zero physical effect. The first historical author of the misconception remains unestablished.",
+      "sources": [
+        {
+          "title": "When is Earth closest to the Sun?",
+          "publisher": "NASA Goddard Space Flight Center / StarChild",
+          "authors": "The StarChild Team",
+          "url": "https://starchild.gsfc.nasa.gov/docs/StarChild/questions/question53.html",
+          "publishedAt": "2003-01",
+          "accessedAt": "2026-10-28",
+          "quote": "Seasonal weather patterns are mostly caused by the 23.5-degree tilt of our planet's spin axis and not by Earth's elliptical orbit.",
+          "relevance": "NASA’s educational explanation directly addresses the proposed cause of seasons and contrasts the simultaneous Northern and Southern Hemisphere seasons. Its historical perihelion example is explicitly about 2003."
+        }
+      ]
+    }
   },
   {
     "id": 6,

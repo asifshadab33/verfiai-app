@@ -5,6 +5,7 @@ import { ReportView } from "@/components/verifai/ReportView";
 import { getSharedReport } from "@/lib/share.functions";
 import type { ResearchReport } from "@/lib/report.functions";
 import { ReportSharingBadge } from "@/components/verifai/ReportSharingBadge";
+import { sharedReportDescription } from "@/lib/page-language";
 
 export const Route = createFileRoute("/r/$token")({
   loader: async ({ params }) => {
@@ -16,7 +17,7 @@ export const Route = createFileRoute("/r/$token")({
     if (!loaderData) return { meta: [{ title: "Report unavailable | Verfiai" }, { name: "robots", content: "noindex" }, { name: "description", content: "This shared Verfiai report is unavailable or no longer shared." }, { property: "og:title", content: "Report unavailable | Verfiai" }, { property: "og:description", content: "This shared Verfiai report is unavailable or no longer shared." }, { property: "og:type", content: "article" }, { name: "twitter:card", content: "summary" }] };
     const r = loaderData.content as ResearchReport;
     const title = `${loaderData.title} | Verfiai report`;
-    const description = (r.summary ?? "").replace(/\s+/g, " ").slice(0, 155);
+    const description = sharedReportDescription(r.summary);
     return { meta: [
       { title }, { name: "description", content: description }, { name: "robots", content: "noindex" },
       { property: "og:title", content: title }, { property: "og:description", content: description },

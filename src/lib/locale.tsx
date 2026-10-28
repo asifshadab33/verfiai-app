@@ -2,6 +2,7 @@ import { useLocation } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { isLang, type Lang } from "./translations";
 import { translations } from "./i18n/interface";
+import { documentLanguage } from "./page-language";
 
 const STORAGE_KEY = "verifai-lang";
 export const isRtl = (lang: Lang) => translations[lang].dir === "rtl";
@@ -23,9 +24,10 @@ export function useSiteLocale() {
       } catch { /* storage may be disabled */ }
     }
     try { localStorage.setItem(STORAGE_KEY, lang); } catch { /* optional */ }
-    document.documentElement.lang = lang;
-    document.documentElement.dir = isRtl(lang) ? "rtl" : "ltr";
-  }, [lang, urlLang]);
+    const pageLang = documentLanguage(location.pathname, lang);
+    document.documentElement.lang = pageLang;
+    document.documentElement.dir = isRtl(pageLang) ? "rtl" : "ltr";
+  }, [lang, urlLang, location.pathname]);
 
   function changeLang(nextLang: Lang) {
     try { localStorage.setItem(STORAGE_KEY, nextLang); } catch { /* optional */ }
