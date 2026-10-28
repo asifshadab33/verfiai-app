@@ -1,6 +1,5 @@
 {
   "independenceEstimate": "Publisher-domain and syndication estimate; shared ownership is not verified",
-
   "stage0": "Reading your text…",
   "stage1": "Identifying citations…",
   "stage2": "Checking Crossref records…",
@@ -73,5 +72,7 @@
   "dataLinked": "Possible primary-data link inferred from metadata or URL; availability and contents not verified",
   "methodsVisible": "Study or methodology indicators visible; data not inspected",
   "scoringCaution": "Quality indicators are metadata-based estimates, not truth scores or full-source verification.",
-  "scoringWeights": "Weights: authority 25%, recency 10%, independence 15%, author transparency 15%, directness 25%, original data 10%. Strong ≥80; Moderate ≥55; otherwise Weak."
+  "scoringWeights": "Weights: authority 25%, recency 10%, independence 15%, author transparency 15%, directness 25%, original data 10%. Strong ≥80; Moderate ≥55; otherwise Weak.",
+  "consensusAgreed": "The review engines agreed on this verdict.",
+  "consensusTieBreak": "The review engines disagreed; an independent tie-break review settled this verdict."
 }

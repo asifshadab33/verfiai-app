@@ -52,7 +52,9 @@
     "usedSignedIn": "Has utilizado todos los análisis gratuitos de este mes. Habrá más análisis disponibles más adelante.",
     "usedGuest": "Has utilizado tu análisis gratuito.",
     "signIn": "Iniciar sesión",
-    "usedGuestTail": "para obtener 3 análisis cada mes."
+    "usedGuestTail": "para obtener 3 análisis cada mes.",
+    "consensusAgreed": "Los motores de revisión coincidieron en este veredicto.",
+    "consensusTieBreak": "Los motores de revisión discreparon; una revisión independiente de desempate fijó este veredicto."
   },
   "recent": {
     "recent0": "Análisis",
