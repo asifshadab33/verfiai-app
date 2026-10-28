@@ -122,7 +122,7 @@ export function baseDomain(host: string): string {
 }
 
 const TIER1 = /\.(gov|edu|int|mil)(\.[a-z]{2})?$|\.(gov|ac|edu|gob|go)\.[a-z]{2}$|^(nih\.gov|who\.int|nature\.com|science\.org|thelancet\.com|nejm\.org|bmj\.com|doi\.org|crossref\.org|openalex\.org|europa\.eu|un\.org|worldbank\.org|imf\.org|oecd\.org|springer\.com|wiley\.com|sciencedirect\.com|plos\.org|arxiv\.org|jstor\.org|cochrane\.org|britannica\.com)$/i;
-const TIER2 = /^(reuters\.com|apnews\.com|afp\.com|bbc\.co\.uk|bbc\.com|nytimes\.com|washingtonpost\.com|wsj\.com|ft\.com|economist\.com|theguardian\.com|bloomberg\.com|npr\.org|pbs\.org|aljazeera\.com|dw\.com|france24\.com|lemonde\.fr|spiegel\.de|elpais\.com|cnn\.com|cbsnews\.com|nbcnews\.com|abcnews\.go\.com|abc\.net\.au|cbc\.ca|thehindu\.com|nikkei\.com|scmp\.com|politico\.com|axios\.com|time\.com|newsweek\.com|usatoday\.com|latimes\.com|wikipedia\.org|snopes\.com|politifact\.com|factcheck\.org|fullfact\.org)$/i;
+const TIER2 = /^(reuters\.com|apnews\.com|afp\.com|bbc\.co\.uk|bbc\.com|nytimes\.com|washingtonpost\.com|wsj\.com|ft\.com|economist\.com|theguardian\.com|bloomberg\.com|npr\.org|pbs\.org|aljazeera\.com|dw\.com|france24\.com|lemonde\.fr|spiegel\.de|elpais\.com|cnn\.com|cbsnews\.com|nbcnews\.com|abcnews\.go\.com|abc\.net\.au|cbc\.ca|thehindu\.com|nikkei\.com|scmp\.com|politico\.com|axios\.com|time\.com|newsweek\.com|usatoday\.com|latimes\.com|wikipedia\.org|wikidata\.org|snopes\.com|politifact\.com|factcheck\.org|fullfact\.org)$/i;
 const TIER3 = /^(medium\.com|substack\.com|blogspot\.com|wordpress\.com|reddit\.com|quora\.com|x\.com|twitter\.com|facebook\.com|instagram\.com|tiktok\.com|youtube\.com|tumblr\.com|stackexchange\.com|linkedin\.com|pinterest\.com|threads\.net)$/i;
 
 /** Tier 1 academic/government/institutional, Tier 2 established press, Tier 3 blogs/forums/social and unknown. */
@@ -202,7 +202,7 @@ export function scoreSource(source: ScoringSource, claim: string, peers: Scoring
     : /\b(methods|methodology)\s*:|\b(we (measured|collected|randomized|analysed|analyzed)|our (dataset|study))\b/i.test(text) ? "methodsVisible" : "unknown";
   const directness: SourceScore["directness"] = !tokens.size || !text.trim() ? "unknown" : !related ? "unrelated"
     : /\b(opinion|commentary|editorial|perspective)\b/i.test(role) ? "commentary"
-    : /\b(review|roundup|aggregation|encyclopedia)\b/i.test(role) || /wikipedia\.org$/.test(meta.originId) ? "aggregation"
+    : /\b(review|roundup|aggregation|encyclopedia)\b/i.test(role) || /wikipedia\.org$/.test(meta.originId) || /wikidata\.org$/.test(meta.originId) ? "aggregation"
     : hasSyndicationSignal(source, peers) ? "syndicated"
     : originalData !== "unknown" || /^(dataset|official-statistics|original-reporting)$/.test(source.sourceType ?? "") ? "primary"
     : "reporting";

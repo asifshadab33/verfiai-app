@@ -156,7 +156,7 @@ export function ReportForm({ lang, onLang }: { lang: Lang; onLang: (l: Lang) => 
         </div>
         <label htmlFor="research-question" className="mt-5 block text-sm font-semibold">{translations[lang].research_question}</label>
         <div className="relative mt-2">
-          <Textarea id="research-question" {...ocr.handlers} aria-describedby="question-ocr" dir="auto" maxLength={4000} value={question} onChange={e => setQuestion(e.target.value)} placeholder={translations[lang].placeholder_question} className={`min-h-40 border-input bg-card p-4 pb-14 text-base ${ocr.over ? "ring-2 ring-brand" : ""}`} />
+          <Textarea id="research-question" {...ocr.handlers} aria-describedby="question-ocr" dir={translations[lang].dir} lang={lang} maxLength={4000} value={question} onChange={e => setQuestion(e.target.value)} placeholder={translations[lang].placeholder_question} className={`min-h-40 border-input bg-card p-4 pb-14 text-base ${ocr.over ? "ring-2 ring-brand" : ""}`} />
           <div className="absolute bottom-3 end-3"><VoiceButton iconOnly lang={lang} label={translations[lang].speak_request} onText={t => setQuestion(q => (q ? q.trimEnd() + " " : "") + t)} /></div>
         </div>
         <div id="question-ocr">{ocr.status}</div>

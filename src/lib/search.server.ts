@@ -246,7 +246,7 @@ export async function searchAll(query: string, language?: string, engineIds: str
   return results.flat();
 }
 
-export const DEFAULT_ENGINES = ["tavily", "brave", "youcom", "searxng", "gdelt", "crossref", "wikipedia", "ddg", "openalex", "pubmed"];
+export const DEFAULT_ENGINES = ["tavily", "brave", "youcom", "searxng", "gdelt", "crossref", "wikipedia", "ddg", "openalex", "pubmed", "wikidata", "google-factcheck"];
 /** Web/news engines that also receive the counter-angle query (scholarly sources stay single-angle). */
 export const COUNTER_ENGINES = ["tavily", "brave", "youcom", "searxng"];
 
