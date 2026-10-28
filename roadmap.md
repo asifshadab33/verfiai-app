@@ -1,4 +1,8 @@
 # Verfiai roadmap
+## Oct 28 real progress streaming — Stage 1
+- [ ] Persist coarse research/verification stage events and broadcast authenticated event payloads to opaque per-run Realtime topics; keep content out of progress data.
+- [ ] Replace timer-led progress with real events, with a labeled no-event grace fallback; complete only after results are ready. No provider detail or reconnect/replay work.
+- [ ] Run regression tests, verify a real streamed result and check automatic production build; report saved version.
 ## Oct 28 approved SEO fixes 1–2
 - [x] Add substantive dated reviews to 3/75 editorial pages (brain-use myth, Great Wall visibility, seasons); NASA and BMJ source text verified live through existing cached PageExtractionProvider on Oct 28. Explain documented discussions versus unknown first claimants, preserve qualifications and cite short verified excerpts. Withhold ClaimReview on the remaining 72 pages; all pages retained. NOAA lightning page fetched directly but existing extractor could not retrieve it, so no review added in this conservative subset.
 - [x] Preserve shared-report noindex/sitemap exclusion and token/access rules unchanged; add nonempty fallback for absent/blank summaries. English primary-copy pages now declare en/ltr, localized tools keep their own language boundary; root search middleware retains explicit locale. Browser verified Arabic home → English About → Arabic home, three reviewed and one withheld ClaimReview pages, no runtime errors, invalid shared link 404/noindex, sitemap still 94 URLs without /r/. No private user report accessed.
