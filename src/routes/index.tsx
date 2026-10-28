@@ -24,6 +24,7 @@ import { siteText } from "@/lib/site-i18n";
 import { useSiteLocale } from "@/lib/locale";
 import { COMMUNITY_LABELS } from "@/lib/community";
 import { translations } from "@/lib/i18n/interface";
+import { useVerificationProgress } from "@/hooks/useVerificationProgress";
 
 const SITE = "https://verfiai.app";
 
@@ -117,6 +118,7 @@ export function ReportForm({ lang, onLang }: { lang: Lang; onLang: (l: Lang) => 
   const [report, setReport] = useState<ResearchReport | null>(null);
   const [reportId, setReportId] = useState<string | undefined>(undefined);
   const [busy, setBusy] = useState(false);
+  const progress = useVerificationProgress();
   const [error, setError] = useState("");
   const [used, setUsed] = useState(0);
   const [limit, setLimit] = useState(MONTHLY_REPORT_LIMIT);
@@ -137,13 +139,14 @@ export function ReportForm({ lang, onLang }: { lang: Lang; onLang: (l: Lang) => 
     if (question.trim().length < 10) { setError(tx("tooShort")); return; }
     setBusy(true); setError(""); setReport(null);
     try {
-      const payload = { task, question, attachment, language: languages.find(l => l.code === lang)?.name ?? "English", mode, company, website, industry, competitors, focus, format };
+      const stream = await progress.start();
+      const payload = { task, question, attachment, language: languages.find(l => l.code === lang)?.name ?? "English", mode, company, website, industry, competitors, focus, format, progress: stream };
       const result = user ? await generate({ data: payload }) : await generateGuest({ data: payload });
       if ("limitReached" in result) { setError(result.message ?? ""); if (!user) setGuestDone(true); return; }
       setReport(result.report); setReportId("id" in result ? String(result.id) : undefined); if (user) setUsed(used + 1); else setGuestDone(true);
       setTimeout(() => document.getElementById("report-output")?.scrollIntoView({ behavior: "smooth" }), 100);
     } catch (e) { setError(e instanceof Error ? e.message : tx("errorTitle")); }
-    finally { setBusy(false); }
+    finally { progress.stop(); setBusy(false); }
   }
   return <div>
     <div className="grid gap-9 lg:grid-cols-[1fr_300px]">
@@ -174,7 +177,7 @@ export function ReportForm({ lang, onLang }: { lang: Lang; onLang: (l: Lang) => 
          : <div className="mt-6 flex flex-wrap items-center gap-4"><Button size="lg" className="h-12 px-7" onClick={submit} disabled={busy || (!!user && left === 0) || authLoading}>{busy ? <LoaderCircle className="animate-spin" /> : <ArrowRight />}{busy ? tx("reportBusy") : translations[lang].generate_report}</Button><span className="text-sm text-muted-foreground">{user ? `${left} / ${limit} ${tx("reportRemaining")}` : <>{tx("guestReport")} · <Link to="/auth" className="text-brand underline">{tx("navSignIn")}</Link> {tx("guestMonthly")}</>}</span></div>}
         {user && left === 0 && <p role="status" className="mt-4 text-sm text-muted-foreground">{tx("limit")}</p>}
         {error && <div role="alert" className="mt-5 flex flex-wrap items-center gap-3 text-sm text-destructive">{error}{!/used your/.test(error) && <Button variant="outline" size="sm" disabled={busy} onClick={submit}>{tx("retry")}</Button>}</div>}
-        <GenerationProgress active={busy} lang={lang} />
+        <GenerationProgress active={busy} lang={lang} event={progress.event} />
         <p className="mt-5 text-xs leading-5 text-muted-foreground">{tx("reportPrivacy")}</p>
         <p role="note" className="mt-3 border-s-2 border-warning bg-warning-soft p-3 text-xs font-medium leading-5">{translations[lang].disclaimer}</p>
       </div>

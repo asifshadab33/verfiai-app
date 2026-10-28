@@ -1,10 +1,12 @@
 import { z } from "zod";
 import { sourceScoreSchema } from "./evidence";
+import { progressInput } from "./progress";
 
 export const MONTHLY_REPORT_LIMIT = 3;
 export const MIN_WORDS = 1000; // roughly two printed pages
 
 export const reportInput = z.object({
+  progress: progressInput.optional(),
   task: z.enum(["claim", "topic", "business"]).optional(),
   question: z.string().trim().min(10).max(4000),
   attachment: z.string().max(12000).optional(),

@@ -6,7 +6,7 @@ import { recentText, localizedBreakdown } from "@/lib/recent-i18n";
 import { StrengthBadge } from "./StrengthBadge";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
-import { Check, CircleAlert, CircleCheck, CircleHelp, CircleX, Link2, LoaderCircle, Scale, ScanSearch, XCircle } from "lucide-react";
+import { CircleAlert, CircleCheck, CircleHelp, CircleX, Link2, LoaderCircle, Scale, ScanSearch, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -18,9 +18,10 @@ import { siteText } from "@/lib/site-i18n";
 import { languages, type Lang } from "@/lib/translations";
 import { evidenceStrength, sourceQuality } from "@/lib/evidence";
 import { VerdictFeedback } from "./VerdictFeedback";
+import { GenerationProgress } from "./GenerationProgress";
+import { useVerificationProgress } from "@/hooks/useVerificationProgress";
 
 const verdictKeys = { SUPPORTED: "verdictSupported", CONTRADICTED: "verdictContradicted", MIXED: "verdictMixed", UNVERIFIABLE: "verdictInsufficient" } as const;
-const STAGES = ["Extracting claims…", "Searching providers…", "Cross-checking sources…", "Synthesizing verdict…"];
 // Verdict pill styling per verdict, on the shared semantic brand tokens.
 const pill: Record<Verdict, { cls: string; Icon: typeof CircleCheck; accent: string }> = {
   SUPPORTED: { cls: "bg-success-soft text-success border-success/40", Icon: CircleCheck, accent: "border-s-success" },
@@ -42,26 +43,26 @@ export function FactChecker({ lang }: { lang: Lang }) {
   const [mode, setMode] = useState<"text" | "url">("text");
   const [text, setText] = useState("");
   const [url, setUrl] = useState("");
-  const [stage, setStage] = useState(-1);
+  const [busy, setBusy] = useState(false);
+  const progress = useVerificationProgress();
   const [error, setError] = useState("");
   const [claims, setClaims] = useState<ClaimResult[] | null>(null);
   const [usage, setUsage] = useState<{ signedIn: boolean; used: number; limit: number } | null>(null);
   useEffect(() => { if (!loading) fetchUsage().then(setUsage).catch(() => {}); }, [user, loading]); // eslint-disable-line react-hooks/exhaustive-deps
   const left = usage ? Math.max(0, usage.limit - usage.used) : 1;
   const ocr = useImageOcr(lang, t => setText(q => ((q ? q.trimEnd() + "\n\n" : "") + t).slice(0, 15000)));
-  const busy = stage >= 0;
   const ready = mode === "text" ? text.trim().length >= 30 : /^https:\/\//i.test(url.trim());
 
   async function submit() {
     if (!ready || busy) return;
-    setError(""); setClaims(null); setStage(0);
-    const timers = [setTimeout(() => setStage(1), 1500), setTimeout(() => setStage(2), 6000), setTimeout(() => setStage(3), 14000)];
+    setError(""); setClaims(null); setBusy(true);
     try {
-      const r = await run({ data: { ...(mode === "text" ? { text } : { url: url.trim() }), language: languages.find(l => l.code === lang)?.name ?? "English" } });
+      const stream = await progress.start();
+      const r = await run({ data: { ...(mode === "text" ? { text } : { url: url.trim() }), language: languages.find(l => l.code === lang)?.name ?? "English", progress: stream } });
       setClaims(r.claims);
       if (r.claims.length) setUsage(await fetchUsage());
     } catch (e) { setError(e instanceof Error ? e.message : tx("factError")); }
-    finally { timers.forEach(clearTimeout); setStage(-1); }
+    finally { progress.stop(); setBusy(false); }
   }
 
   const counts = claims ? (["SUPPORTED", "CONTRADICTED", "MIXED", "UNVERIFIABLE"] as const).map(v => [v, claims.filter(c => c.verdict === v).length] as const) : [];
@@ -83,10 +84,10 @@ export function FactChecker({ lang }: { lang: Lang }) {
       <p className="mt-2 text-xs text-muted-foreground">{tx("factLinkHint")}</p>
     </>}
     <div className="mt-6 flex flex-wrap items-center gap-4">
-      <Button size="lg" className="h-12 px-6" onClick={submit} disabled={!ready || busy}>{busy ? <LoaderCircle className="animate-spin" /> : <ScanSearch />}{busy ? tx((["factStage1", "factStage2", "factStage3", "factStage4"] as const)[stage] ?? "factStage1") : tx("factCheck")}</Button>
+      <Button size="lg" className="h-12 px-6" onClick={submit} disabled={!ready || busy}>{busy ? <LoaderCircle className="animate-spin" /> : <ScanSearch />}{progress.event && busy ? <span lang="en">{progress.event.label}</span> : tx("factCheck")}</Button>
       <span className="text-xs text-muted-foreground">{usage ? (usage.signedIn ? `${left} / ${usage.limit} ${tx("factRemaining")}` : left ? tx("factGuest") : "") : ""} · {tx("factUpTo")}</span>
     </div>
-    {busy && <ol role="status" className="mt-6 space-y-2 text-sm">{STAGES.map((s, i) => <li key={s} className={`flex items-center gap-2 ${i > stage ? "text-muted-foreground" : ""}`}>{i < stage ? <Check className="size-4 text-success" /> : i === stage ? <LoaderCircle className="size-4 animate-spin text-brand" /> : <span className="size-4" />}{tx((["factStage1", "factStage2", "factStage3", "factStage4"] as const)[i] ?? "factStage1")}</li>)}</ol>}
+    <GenerationProgress active={busy} lang={lang} event={progress.event} />
     {left === 0 && !busy && <p className="mt-6 rounded-xl bg-brand-soft p-4 text-sm">{usage?.signedIn ? tx("factLimit") : <>{tx("factGuestLimit")} <a href="/auth" className="font-semibold text-brand underline">{tx("navSignIn")}</a> {tx("factGuestMore")}</>}</p>}
     {error && <div role="alert" className="mt-6 flex flex-wrap items-center gap-3 rounded-xl bg-danger-soft p-4 text-sm text-destructive"><XCircle className="size-4" />{error}{!/used your/.test(error) && <Button size="sm" variant="outline" onClick={submit}>{tx("retry")}</Button>}</div>}
     <p className="mt-5 text-xs leading-5 text-muted-foreground">{tx("factPrivacy")}</p>

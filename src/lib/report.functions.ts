@@ -6,6 +6,7 @@ import { buildReport } from "./research.server";
 import { sha } from "./cache.server";
 import { paymentEnvironment } from "./payments-env.server";
 import { guardVerificationRequest } from "./verification-guard.server";
+import { createProgressEmitter } from "./progress.server";
 
 export { MONTHLY_REPORT_LIMIT };
 export type { ResearchReport } from "./report-schema";
@@ -39,14 +40,19 @@ export const generateReport = createServerFn({ method: "POST" })
     const credits = await consumeCredits(context.userId, "report_created", CREDIT_COSTS.report_created, `report:${crypto.randomUUID()}`);
     const t0 = Date.now();
     if (data.attachment) void meter({ userId: context.userId, event: "document_upload" });
+    const { progress: progressInput, ...request } = data;
+    const progress = createProgressEmitter(progressInput);
+    await progress("validation");
     let report;
-    try { report = await buildReport(data, meta); }
+    try { report = await buildReport(request, meta, progress); }
     catch (e) { await credits.refund(); void meter({ userId: context.userId, event: "report_created", success: false, latencyMs: Date.now() - t0 }); throw e; }
+    await progress("rendering");
     const { data: row, error } = await context.supabase.from("reports")
       .insert({ user_id: context.userId, question: data.question, title: report.title, content: report as never })
       .select("id").single();
     if (error) throw new Error("The report was written but could not be saved. Please try again.");
     void meter({ userId: context.userId, event: "report_created", reportId: row.id, latencyMs: Date.now() - t0, provider: "openrouter", modelRoute: "deepseek>qwen" });
+    await progress("complete");
     return { id: row.id, report, words: wordCount(report) };
   });
 
@@ -61,10 +67,15 @@ export const generateGuestReport = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error: claimErr } = await supabaseAdmin.from("guest_usage").insert({ fingerprint });
     if (claimErr) return { limitReached: true as const, message: "You've used your free report. Sign in with Google or email to get 3 more every month." };
+    const { progress: progressInput, ...request } = data;
+    const progress = createProgressEmitter(progressInput);
+    await progress("validation");
     try {
-      const report = await buildReport(data, { userId: null, guestFingerprint: fingerprint });
+      const report = await buildReport(request, { userId: null, guestFingerprint: fingerprint }, progress);
+      await progress("rendering");
       const { meter } = await import("./metering.server");
       void meter({ userId: null, guestFingerprint: fingerprint, event: "report_created", provider: "openrouter" });
+      await progress("complete");
       return { report, words: wordCount(report) };
     } catch (e) {
       await supabaseAdmin.from("guest_usage").delete().eq("fingerprint", fingerprint);

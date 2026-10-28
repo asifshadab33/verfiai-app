@@ -254,6 +254,27 @@ export type Database = {
         }
         Relationships: []
       }
+      progress_events: {
+        Row: {
+          created_at: string
+          event: Json
+          id: number
+          run_id: string
+        }
+        Insert: {
+          created_at?: string
+          event: Json
+          id?: never
+          run_id: string
+        }
+        Update: {
+          created_at?: string
+          event?: Json
+          id?: never
+          run_id?: string
+        }
+        Relationships: []
+      }
       reports: {
         Row: {
           content: Json
@@ -692,6 +713,10 @@ export type Database = {
           replay: boolean
           used: number
         }[]
+      }
+      emit_progress_event: {
+        Args: { p_event: Json; p_run_id: string; p_signature: string }
+        Returns: undefined
       }
       has_active_subscription: {
         Args: { check_env?: string; user_uuid: string }
