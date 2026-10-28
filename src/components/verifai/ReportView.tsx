@@ -1,4 +1,5 @@
-import { isLang, translations } from "@/lib/translations";
+import { isLang } from "@/lib/translations";
+import { translations } from "@/lib/i18n/interface";
 import { uiText } from "@/lib/ui-extra-i18n";
 import { SourceQualityDetails } from "./SourceQualityDetails";
 import { getFeatureFlags } from "@/lib/flags.functions";
