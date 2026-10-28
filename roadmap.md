@@ -1,4 +1,9 @@
 # Verfiai roadmap
+## Oct 28 workspace pull-forward
+- [ ] Item 1 — Republish and verify 5 pages × 3 hosts. (Publish already requested earlier this turn with current state incl. FactChecker restyle + GSC verification tag; verify, skip second publish if all 200.)
+- [ ] Item 2 — Add Wikidata SPARQL engine and Google Fact Check Tools engine (silent skip without key) to SearchProvider cascade; honest tier/labeling; methodology + FAQ wording; tests; build.
+- [ ] Item 3a — Bind explicit dir/lang from active locale on research textarea and #report-output.
+- [ ] Item 3b — SKIPPED: the "Sign in for Pro" visitor button does not exist anywhere in the code; creating a new "$9/mo" CTA would contradict the community transition (monetization hidden, Pro pricing not a current offer). Reported to owner for confirmation.
 ## Oct 27 accessibility and follow-up
 - [x] Accessibility: fix verdict contrast, file input labeling, main/skip target and focus indicators; keyboard/Escape Tools menu; Radix demo/studio tabs with RTL navigation; voice privacy button. Axe WCAG A/AA + best-practice: zero violations on 13 routes × en/de/ar; desktop/mobile layout checked. See docs-accessibility-test-matrix.md and docs-asset-licenses.md.
 - [x] Link existing PostHog connection; add browser-only initialization, automatic $pageview on initial/history navigation, custom page_view per route, autocapture and pageleave. Mask content/attributes, redact queries/share tokens, disable recording and account identification; privacy disclosure updated.
