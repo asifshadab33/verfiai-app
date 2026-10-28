@@ -8,6 +8,7 @@ import { MIN_WORDS, reportSchema, wordCount, charCount, clampExtended, EXTENDED_
 import { z } from "zod";
 import { uniqueSources, scoreSource, hasSyndicationSignal } from "./evidence";
 import { businessPrompt } from "./prompts/business-analyst";
+import type { ProgressEmitter } from "./progress";
 
 export type { Source };
 export { searchAll, webSearch, crossrefSearch, wikipediaSearch, duckduckgoSearch, openAlexSearch, pubmedSearch } from "./search.server";
@@ -115,7 +116,7 @@ async function generateExtendedReport(
   return { ...final, format: "extended", passes, searchAudit: searchAuditLog([data.question, data.company, data.focus].filter(Boolean).join(" "), ctx.found ?? sources, sources, fetchedAt) };
 }
 
-export async function buildReport(data: ReportInput, meta?: CallMeta): Promise<ResearchReport> {
+export async function buildReport(data: ReportInput, meta?: CallMeta, progress?: ProgressEmitter): Promise<ResearchReport> {
   const targetLang = getLanguageName(data.language);
   const isEnglish = targetLang.toLowerCase() === 'english';
   const languageInstruction = !isEnglish
@@ -123,7 +124,9 @@ export async function buildReport(data: ReportInput, meta?: CallMeta): Promise<R
     : '';
   const query = [data.question, data.company, data.industry, data.focus].filter(Boolean).join(" ");
   // CacheProvider is checked inside each SearchProvider engine before any external call.
+  await progress?.("search");
   const found = await dualAngleSearch(query, data.language);
+  await progress?.("scoring");
   const want = data.format === "extended" ? 10 : 6;
   // Over-fetch, then drop dead links (live HTTP check) so the report never cites a broken URL.
   const { filterLiveSources } = await import("./link-check.server");
@@ -133,6 +136,7 @@ export async function buildReport(data: ReportInput, meta?: CallMeta): Promise<R
   const fetchedAt = new Date().toISOString();
 
   const reportKey = "report:" + sha(JSON.stringify([data, sources.map(s => s.url)]));
+  await progress?.("synthesis");
   const report = await cached({
     key: reportKey, kind: "report", ttlMs: CACHE_TTL.report(), compute: () => (data.format === "extended" ? generateExtendedReport : generateReport)(data, { sources, web, fetchedAt, targetLang, languageInstruction, found, ...(meta ? { meta } : {}) }),
   });
