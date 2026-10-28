@@ -6,7 +6,7 @@ import { recentText, localizedBreakdown } from "@/lib/recent-i18n";
 import { StrengthBadge } from "./StrengthBadge";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
-import { Check, Link2, LoaderCircle, ScanSearch, XCircle } from "lucide-react";
+import { Check, CircleAlert, CircleCheck, CircleHelp, CircleX, Link2, LoaderCircle, Scale, ScanSearch, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -21,11 +21,12 @@ import { VerdictFeedback } from "./VerdictFeedback";
 
 const verdictKeys = { SUPPORTED: "verdictSupported", CONTRADICTED: "verdictContradicted", MIXED: "verdictMixed", UNVERIFIABLE: "verdictInsufficient" } as const;
 const STAGES = ["Extracting claims…", "Searching providers…", "Cross-checking sources…", "Synthesizing verdict…"];
-const style: Record<Verdict, { label: string; cls: string }> = {
-  SUPPORTED: { label: "Supported", cls: "bg-success-soft text-success border-success/30" },
-  CONTRADICTED: { label: "Contradicted", cls: "bg-danger-soft text-destructive border-destructive/30" },
-  MIXED: { label: "Mixed evidence", cls: "bg-warning-soft text-warning border-warning/40" },
-  UNVERIFIABLE: { label: "Insufficient evidence", cls: "bg-muted text-muted-foreground border-border" },
+// Verdict pill styling per verdict, on the shared semantic brand tokens.
+const pill: Record<Verdict, { cls: string; Icon: typeof CircleCheck; accent: string }> = {
+  SUPPORTED: { cls: "bg-success-soft text-success border-success/40", Icon: CircleCheck, accent: "border-s-success" },
+  CONTRADICTED: { cls: "bg-danger-soft text-destructive border-destructive/40", Icon: CircleX, accent: "border-s-destructive" },
+  MIXED: { cls: "bg-warning-soft text-warning border-warning/50", Icon: CircleAlert, accent: "border-s-warning" },
+  UNVERIFIABLE: { cls: "bg-muted text-muted-foreground border-border", Icon: CircleHelp, accent: "border-s-border" },
 };
 const SAMPLE = "The Great Wall of China is visible from the Moon with the naked eye. Water boils at 100 degrees Celsius at sea level. Humans only use 10 percent of their brains. Mount Everest is the highest mountain above sea level.";
 
