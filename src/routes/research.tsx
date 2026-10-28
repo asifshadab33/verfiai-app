@@ -8,6 +8,8 @@ import { ContentPage } from "@/components/verifai/ContentPage";
 import { ReportView } from "@/components/verifai/ReportView";
 import { useAuth } from "@/hooks/useAuth";
 import { generateReport, generateGuestReport, type ResearchReport } from "@/lib/report.functions";
+import { GenerationProgress } from "@/components/verifai/GenerationProgress";
+import { useVerificationProgress } from "@/hooks/useVerificationProgress";
 
 type Kind = "summary" | "deep" | "matrix";
 const KINDS: { id: Kind; label: string; hint: string }[] = [
@@ -47,24 +49,26 @@ function Research() {
   const [kind, setKind] = useState<Kind>("summary");
   const [question, setQuestion] = useState("");
   const [busy, setBusy] = useState(false);
+  const progress = useVerificationProgress();
   const [error, setError] = useState("");
   const [result, setResult] = useState<{ report: ResearchReport; id?: string; kind: Kind } | null>(null);
   async function run() {
     setBusy(true); setError(""); setResult(null);
     try {
-      const data = { question, language: "English", mode: "Balanced" as const, task: "topic" as const, format: "extended" as const };
+      const stream = await progress.start();
+      const data = { question, language: "English", mode: "Balanced" as const, task: "topic" as const, format: "extended" as const, progress: stream };
       const r = user ? await gen({ data }) : await genGuest({ data });
       if ("limitReached" in r) setError(r.message ?? "Limit reached.");
       else { const id = "id" in r && typeof r.id === "string" ? r.id : undefined; setResult({ report: r.report, ...(id ? { id } : {}), kind }); }
     } catch (e) { setError(e instanceof Error ? e.message : "The report could not be generated."); }
-    finally { setBusy(false); }
+    finally { progress.stop(); setBusy(false); }
   }
   return <ContentPage title="Research with citations" intro="Choose a format, ask a question, and get a source-linked report with its search audit trail.">
     <div className="grid gap-3 md:grid-cols-3" role="radiogroup" aria-label="Report format">{KINDS.map(k => <button key={k.id} role="radio" aria-checked={kind === k.id} onClick={() => setKind(k.id)} className={`border p-4 text-start ${kind === k.id ? "border-brand bg-brand-soft" : "border-border bg-card"}`}><span className="font-display font-bold">{k.label}</span><span className="mt-1 block text-sm text-muted-foreground">{k.hint}</span></button>)}</div>
     <p className="mt-6 text-xs text-muted-foreground">Your submission may be processed by search and AI providers. Do not submit confidential, regulated, or unpublished material. See <Link to="/privacy" className="underline">Privacy</Link> and <Link to="/methodology" className="underline">Methodology</Link>.</p>
     <Textarea className="mt-2 min-h-32" value={question} onChange={e => setQuestion(e.target.value)} maxLength={4000} placeholder="What do you want to research?" aria-label="Research question" />
     <Button className="mt-4" disabled={busy || question.trim().length < 10} onClick={run}>{busy ? <><Loader2 className="animate-spin" /> Generating…</> : "Generate report"}</Button>
-    {busy && <p className="mt-2 text-sm text-muted-foreground" aria-live="polite">{kind === "deep" ? "Deep dives can take a few minutes." : "This usually takes under a minute."}</p>}
+    <GenerationProgress active={busy} event={progress.event} />
     {error && <p role="alert" className="mt-4 text-sm text-destructive">{error}</p>}
     {result && <div className="mt-12 border-t border-border pt-8">{result.kind === "matrix" && <section className="mb-10"><h2 className="mb-4 font-display text-2xl font-bold">Evidence Matrix</h2><Matrix report={result.report} /></section>}<ReportView report={result.report} reportId={result.id} /></div>}
   </ContentPage>;

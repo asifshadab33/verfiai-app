@@ -30,7 +30,7 @@ export function makeProgressEvent(runId: string, stage: ProgressStage, sequence:
 
 export async function signProgress(event: ProgressEvent, secret: string): Promise<string> {
   const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
-  const signature = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(JSON.stringify(event)));
+  const signature = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(JSON.stringify(progressEventSchema.parse(event))));
   return Array.from(new Uint8Array(signature), n => n.toString(16).padStart(2, "0")).join("");
 }
 
