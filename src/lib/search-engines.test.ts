@@ -31,9 +31,9 @@ describe("first-wave search engines", () => {
       expect(new Headers(init?.headers).get("User-Agent")).toContain("mailto:hello@verfiai.app");
       expect(decodeURIComponent(url)).toContain("mwapi:language \u0022en\u0022");
       return json({ results: { bindings: [
-        { item: { value: "https://www.wikidata.org/wiki/Q42" }, itemLabel: { value: "Douglas Adams" }, itemDescription: { value: "English writer and humorist" } },
-        { item: { value: "https://www.wikidata.org/wiki/Q42" }, itemLabel: { value: "Douglas Adams" }, itemDescription: { value: "duplicate row" } },
-        { item: { value: "http://insecure.example/Q1" }, itemLabel: { value: "Skip" } },
+        { item: { value: "http://www.wikidata.org/entity/Q42" }, itemLabel: { value: "Douglas Adams" }, itemDescription: { value: "English writer and humorist" } },
+        { item: { value: "http://www.wikidata.org/entity/Q42" }, itemLabel: { value: "Douglas Adams" }, itemDescription: { value: "duplicate row" } },
+        { item: { value: "https://example.org/not-an-entity" }, itemLabel: { value: "Skip" } },
       ] } });
     });
     vi.stubGlobal("fetch", request);

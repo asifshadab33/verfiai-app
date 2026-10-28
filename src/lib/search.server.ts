@@ -183,14 +183,15 @@ const wikidata: SearchEngine = { id: "wikidata", run: async (query, language) =>
   type Row = { item?: { value: string }; itemLabel?: { value?: string }; itemDescription?: { value?: string } };
   const j = await res.json() as { results?: { bindings?: Row[] } };
   const seen = new Set<string>();
-  return (j.results?.bindings ?? []).filter(r => {
-    const url = r.item?.value ?? "";
-    if (!url.startsWith("https://") || seen.has(url)) return false;
-    seen.add(url); return true;
-  }).map(r => ({
-    title: stripTags(r.itemLabel?.value ?? r.item!.value.split("/").pop() ?? "Wikidata entry"),
-    url: r.item!.value,
-    content: stripTags(`Wikidata structured reference: ${r.itemLabel?.value ?? ""} — ${r.itemDescription?.value ?? ""}`).slice(0, 1500),
+  // The endpoint returns http://www.wikidata.org/entity/Q… URIs; results are
+  // normalized to the canonical https://www.wikidata.org/wiki/Q… entry URL.
+  return (j.results?.bindings ?? []).map(r => {
+    const qid = (r.item?.value ?? "").split("/").pop() ?? "";
+    return { r, qid };
+  }).filter(({ qid }) => /^Q\d+$/.test(qid) && !seen.has(qid) && (seen.add(qid), true)).map(({ r, qid }) => ({
+    title: stripTags(r.itemLabel?.value ?? qid),
+    url: `https://www.wikidata.org/wiki/${qid}`,
+    content: stripTags(`Wikidata structured reference: ${r.itemLabel?.value ?? qid} — ${r.itemDescription?.value ?? ""}`).slice(0, 1500),
     sourceType: "reference",
     score: 0.5,
   }));
