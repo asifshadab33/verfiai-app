@@ -84,7 +84,7 @@ export function FactChecker({ lang }: { lang: Lang }) {
       <p className="mt-2 text-xs text-muted-foreground">{tx("factLinkHint")}</p>
     </>}
     <div className="mt-6 flex flex-wrap items-center gap-4">
-      <Button size="lg" className="h-12 px-6" onClick={submit} disabled={!ready || busy}>{busy ? <LoaderCircle className="animate-spin" /> : <ScanSearch />}{busy ? tx("factStage1") : tx("factCheck")}</Button>
+      <Button size="lg" className="h-12 px-6" onClick={submit} disabled={!ready || busy}>{busy ? <LoaderCircle className="animate-spin" /> : <ScanSearch />}{progress.event && busy ? <span lang="en">{progress.event.label}</span> : tx("factCheck")}</Button>
       <span className="text-xs text-muted-foreground">{usage ? (usage.signedIn ? `${left} / ${usage.limit} ${tx("factRemaining")}` : left ? tx("factGuest") : "") : ""} · {tx("factUpTo")}</span>
     </div>
     <GenerationProgress active={busy} lang={lang} event={progress.event} />

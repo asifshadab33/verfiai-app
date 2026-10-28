@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { CheckCircle2, LoaderCircle } from "lucide-react";
 import { siteText } from "@/lib/site-i18n";
 import type { Lang } from "@/lib/translations";
-import { PROGRESS_STAGES, type ProgressEvent } from "@/lib/progress";
+import { PROGRESS_LABELS, PROGRESS_STAGES, type ProgressEvent } from "@/lib/progress";
 
 const STEPS = ["progressExtract", "progressFind", "progressCompare", "progressPrepare"] as const;
 
@@ -26,10 +26,9 @@ export function GenerationProgress({ active, lang = "en", event }: { active: boo
     <ol className="mt-4 space-y-2.5">{PROGRESS_STAGES.map((stage, i) => {
       const done = i < event.completedSteps;
       const current = stage === event.stage;
-      const labels = ["progressExtract", "progressFind", "progressCompare", "progressPrepare", "progressPrepare"] as const;
       return <li key={stage} className={`flex items-center gap-2.5 text-sm ${done || current ? "text-foreground" : "text-muted-foreground"}`}>
         {done ? <CheckCircle2 className="size-4 shrink-0 text-brand" aria-hidden /> : current ? <LoaderCircle className="size-4 shrink-0 animate-spin text-brand motion-reduce:animate-none" aria-hidden /> : <span className="size-4 shrink-0 rounded-full border border-border" aria-hidden />}
-        {siteText(lang, labels[i] ?? "progressPrepare")}{i === 4 && <span lang="en">— display</span>}
+        <span lang="en">{PROGRESS_LABELS[stage][0]}</span>
       </li>;
     })}</ol>
     <p className="mt-4 text-xs text-muted-foreground" lang="en">{event.stage === "complete" ? "100% — result ready" : `${event.completedSteps} / 5 stages completed`}</p>
