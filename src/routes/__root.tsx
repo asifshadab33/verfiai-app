@@ -81,7 +81,7 @@ function ErrorComponent({ error, reset }: import("@tanstack/react-router").Error
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   validateSearch: (search: Record<string, unknown>): { lang?: string } =>
-    typeof search.lang === "string" ? { lang: search.lang } : {},
+    typeof search["lang"] === "string" ? { lang: search["lang"] } : {},
   search: { middlewares: [retainSearchParams(["lang"])] },
   beforeLoad: async ({ location }) => {
     const value = new URLSearchParams(location.searchStr).get("lang");

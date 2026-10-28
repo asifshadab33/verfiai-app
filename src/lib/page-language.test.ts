@@ -21,7 +21,7 @@ describe("page language and private report metadata", () => {
     expect(sharedReportDescription(" A\n report. ")).toBe("A report.");
   });
   it("keeps shared report URLs out of the sitemap", () => {
-    const sitemap = readFileSync(new URL("../../public/sitemap.xml", import.meta.url), "utf8");
-    expect(sitemap).not.toMatch(/<loc>[^<]*\/r\//);
+    const sitemap = readFileSync(new URL("../routes/sitemap[.]xml.ts", import.meta.url), "utf8");
+    expect(sitemap).not.toMatch(/["']\/r\//);
   });
 });
