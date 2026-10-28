@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { dictionary, ensureLocale } from "./locale-dictionaries";
+import { siteText } from "./site-i18n";
 import { languages } from "./translations";
 
 describe("lazy locale dictionaries", () => {
@@ -20,5 +21,15 @@ describe("lazy locale dictionaries", () => {
       expect(dictionary(code)).toBe(result);
     }
     expect(languages).toHaveLength(19);
+  });
+  it("serves the nav labels the dictionaries omit from the English fallback", async () => {
+    await ensureLocale("ar");
+    // The Arabic site dictionary must stay without these keys, so the fallback is the active path.
+    expect(dictionary("ar")?.site.navAbout).toBeUndefined();
+    expect(dictionary("ar")?.site.navAccuracy).toBeUndefined();
+    expect(siteText("ar", "navAbout")).toBe("About");
+    expect(siteText("ar", "navAccuracy")).toBe("Accuracy");
+    expect(siteText("en", "navAbout")).toBe("About");
+    expect(siteText("en", "navAccuracy")).toBe("Accuracy");
   });
 });
