@@ -106,7 +106,7 @@ export function FactChecker({ lang }: { lang: Lang }) {
           <VerdictFeedback claim={c.claim} verdict={c.verdict} explanation={`${c.explanation} ${uiText(lang, "consensus")}`} />
           <p className="mt-3 text-xs text-muted-foreground">{tx("factSourceNote")}</p>
           <a href={`mailto:hello@verfiai.app?subject=${encodeURIComponent("Verfiai claim issue")}&body=${encodeURIComponent(`Claim: ${c.claim}\n\nWhat seems wrong? (Do not include confidential material):\n`)}`} className="inline-flex min-h-11 items-center text-xs font-semibold text-brand underline">{t("Report an issue")}</a>
-        </li>)}</ul>
+        </li>; })}</ul>
       </>}
     </section>}
   </div>;
