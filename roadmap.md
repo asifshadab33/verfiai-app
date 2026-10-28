@@ -1,4 +1,9 @@
 # Verfiai roadmap
+## Oct 28 approved SEO fixes 1–2
+- [ ] Add verified citations, dated editorial review and honest claim provenance to a small substantive subset; withhold unsupported ClaimReview on all remaining editorial pages.
+- [ ] Preserve shared-report noindex/sitemap exclusion; supply nonempty description fallback, correct English-only document language and retain explicit locale in navigation.
+- [ ] Run regression suite, confirm automatic production build, republish and verify rendered evidence/privacy metadata.
+- Scope: no hreflang, leaf canonical, utility noindex, engine, pricing, library or owner-deferred changes.
 ## Oct 28 workspace pull-forward
 - [x] Item 1 — Published the current project state (includes the FactChecker restyle, the Google site-verification meta tag, and this turn's engine/UI work). Verified 5 pages × 3 hosts: verfiai.app all HTTP 200; www.verfiai.app and verfiai-app.lovable.app 302→apex, final 200 after redirect.
 - [x] Item 2 — Added `wikidata` (SPARQL EntitySearch at query.wikidata.org, entity URIs normalized to https://www.wikidata.org/wiki/Q…, Tier 2 structured-reference tier, directness classified "aggregation" so structured entries never directly strengthen verdicts) and `google-factcheck` (ClaimReview claims:search, silent skip without GOOGLE_FACTCHECK_API_KEY, score 0.7 strongest claim signal, publisher/date/rating mapped). Both wired into DEFAULT_ENGINES with the shared cache/timeout/failure-to-empty behavior. Methodology "How sources are found" + "Model and data handling" and FAQ wording updated. New src/lib/search-engines.test.ts (7 cases incl. live-shaped http entity URIs); live SPARQL invocation returned real results.
