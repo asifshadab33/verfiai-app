@@ -125,10 +125,10 @@ export async function buildReport(data: ReportInput, meta?: CallMeta, progress?:
   const query = [data.question, data.company, data.industry, data.focus].filter(Boolean).join(" ");
   // CacheProvider is checked inside each SearchProvider engine before any external call.
   await progress?.("search");
-  const [web, communityContext] = await Promise.all([dualAngleSearch(query, data.language), engineSearch("community", query)]);
+  const [webResults, communityContext] = await Promise.all([dualAngleSearch(query, data.language), engineSearch("community", query)]);
   // Community (Quora/Reddit) snippets are low-weight context for reports only;
   // they are never part of fact-check verdict evidence.
-  const found = [...web, ...communityContext];
+  const found = [...webResults, ...communityContext];
   await progress?.("scoring");
   const want = data.format === "extended" ? 10 : 6;
   // Over-fetch, then drop dead links (live HTTP check) so the report never cites a broken URL.
