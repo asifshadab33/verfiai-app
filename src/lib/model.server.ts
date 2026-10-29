@@ -111,6 +111,7 @@ function recordStat(provider: string, modelRoute: string, latencyMs: number, suc
   const s = routeStats.get(key) ?? { attempts: 0, successes: 0, totalLatencyMs: 0 };
   s.attempts += 1; s.totalLatencyMs += latencyMs; if (success) s.successes += 1;
   routeStats.set(key, s);
+  maybeLogSummary();
 }
 /** Aggregated routing outcomes: provider, model_route, attempts, success rate, average latency. */
 export function modelRoutingSummary() {
