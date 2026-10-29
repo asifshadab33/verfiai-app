@@ -217,8 +217,99 @@ const googleFactCheck: SearchEngine = { id: "google-factcheck", run: async (quer
   })));
 } };
 
+// Community sentiment (Quora + Reddit) through site-scoped Tavily searches.
+// Tier 3 context only: registered outside DEFAULT_ENGINES so fact-check verdicts
+// can never consume it; research reports may list it as low-weight context.
+const COMMUNITY_HOSTS = new Set(["quora.com", "reddit.com"]);
+const community: SearchEngine = { id: "community", run: async (query) => {
+  const key = process.env["TAVILY_API_KEY"];
+  if (!key) return [];
+  const res = await fetch("https://api.tavily.com/search", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ query: query.slice(0, 400), search_depth: "basic", max_results: 6, include_answer: false, include_domains: ["quora.com", "www.quora.com", "reddit.com", "www.reddit.com"] }),
+    signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS),
+  });
+  if (!res.ok) { console.error("Tavily community error", res.status); return []; }
+  const json = await res.json() as { results?: { title: string; url: string; content: string; published_date?: string }[] };
+  return (json.results ?? []).filter(r => {
+    if (!r.url?.startsWith("https://")) return false;
+    try { return COMMUNITY_HOSTS.has(new URL(r.url).hostname.replace(/^www\./, "")); } catch { return false; }
+  }).map(r => ({ title: stripTags(r.title), url: r.url, content: stripTags(r.content ?? "").slice(0, 1500), published: r.published_date, score: 0.3, sourceType: "community" }));
+} };
+
+// Stack Exchange (Skeptics) public Q&A via the official SE API (free, no key).
+const stackexchange: SearchEngine = { id: "stackexchange", run: async (query) => {
+  const res = await fetch(`https://api.stackexchange.com/2.3/search/advanced?order=desc&sort=relevance&site=skeptics&pagesize=5&filter=withbody&q=${encodeURIComponent(query.slice(0, 300))}`, { headers: UA_SEARCH, signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
+  if (!res.ok) { console.error("Stack Exchange error", res.status); return []; }
+  const j = await res.json() as { items?: { title?: string; link?: string; score?: number; creation_date?: number; body?: string }[] };
+  return (j.items ?? []).filter(it => it.link?.startsWith("https://") && it.title).map(it => ({
+    title: stripTags(it.title!), url: it.link!,
+    content: stripTags(it.body ?? it.title!).slice(0, 1500),
+    published: it.creation_date ? new Date(it.creation_date * 1000).toISOString().slice(0, 10) : undefined,
+    score: 0.45,
+  }));
+} };
+
+// Archive.org item search (free, no key): archived texts and documents.
+const wayback: SearchEngine = { id: "wayback", run: async (query) => {
+  const res = await fetch(`https://archive.org/advancedsearch.php?q=${encodeURIComponent(query.slice(0, 300))}&fl[]=identifier&fl[]=title&fl[]=description&fl[]=date&rows=5&output=json`, { headers: UA_SEARCH, signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
+  if (!res.ok) { console.error("Archive.org error", res.status); return []; }
+  const j = await res.json() as { response?: { docs?: { identifier?: string; title?: string | string[]; description?: string | string[]; date?: string }[] } };
+  return (j.response?.docs ?? []).filter(d => d.identifier).map(d => ({
+    title: stripTags([d.title ?? ""].flat()[0] ?? d.identifier!),
+    url: `https://archive.org/details/${encodeURIComponent(d.identifier!)}`,
+    content: stripTags([d.description ?? ""].flat()[0] ?? "").slice(0, 1500),
+    published: d.date?.slice(0, 10),
+    score: 0.4,
+  })).filter(s => s.content.length > 0);
+} };
+
+// World Bank Documents & Reports (free, no key).
+const worldbank: SearchEngine = { id: "worldbank", run: async (query) => {
+  const res = await fetch(`https://search.worldbank.org/api/v2/wds?format=json&qterm=${encodeURIComponent(query.slice(0, 300))}&rows=5`, { headers: UA_SEARCH, signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
+  if (!res.ok) { console.error("World Bank error", res.status); return []; }
+  const j = await res.json() as { documents?: Record<string, { display_title?: string; pdfurl?: string; url?: string; docdt?: string; abstract?: string | { cdata?: string } }> };
+  return Object.values(j.documents ?? {}).filter(d => d.display_title).flatMap(d => {
+    const link = (d.pdfurl ?? d.url ?? "").replace(/^http:/, "https:");
+    if (!link.startsWith("https://")) return [];
+    const abs = typeof d.abstract === "string" ? d.abstract : d.abstract?.cdata ?? "";
+    return [{ title: stripTags(d.display_title!), url: link, content: stripTags(abs || d.display_title!).slice(0, 1500), published: d.docdt?.slice(0, 10), score: 0.6, sourceType: "official-statistics" }];
+  });
+} };
+
+// SEC EDGAR full-text search (free, no key; fair-access User-Agent with contact).
+const secEdgar: SearchEngine = { id: "sec-edgar", run: async (query) => {
+  const res = await fetch(`https://efts.sec.gov/LATEST/search-index?q=${encodeURIComponent(`"${query.slice(0, 200)}"`)}`, { headers: { "User-Agent": "Verfiai hello@verfiai.app", Accept: "application/json" }, signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
+  if (!res.ok) { console.error("SEC EDGAR error", res.status); return []; }
+  type Hit = { _id?: string; _source?: { display_names?: string[]; file_date?: string; form?: string; file_description?: string } };
+  const j = await res.json() as { hits?: { hits?: Hit[] } };
+  return (j.hits?.hits ?? []).flatMap(h => {
+    const [adsh, file] = (h._id ?? "").split(":");
+    const cik = h._source?.display_names?.length ? (h as unknown as { _source: { ciks?: string[] } })._source.ciks?.[0] : undefined;
+    if (!adsh || !file || !cik || !/^\d+$/.test(cik)) return [];
+    const url = `https://www.sec.gov/Archives/edgar/data/${Number(cik)}/${adsh.replace(/-/g, "")}/${file}`;
+    const name = h._source?.display_names?.[0] ?? "SEC filing";
+    const form = h._source?.form ? ` (${h._source.form})` : "";
+    return [{ title: stripTags(`${name}${form} filing`), url, content: stripTags(`${h._source?.file_description ?? "SEC EDGAR filing"} — ${name}${form}`).slice(0, 1500), published: h._source?.file_date, score: 0.6, sourceType: "official-statistics" }];
+  });
+} };
+
+// Europe PMC biomedical literature (free, no key).
+const europepmc: SearchEngine = { id: "europepmc", run: async (query) => {
+  const res = await fetch(`https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=${encodeURIComponent(query.slice(0, 300))}&format=json&pageSize=5&resultType=core`, { headers: UA_SEARCH, signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
+  if (!res.ok) { console.error("Europe PMC error", res.status); return []; }
+  const j = await res.json() as { resultList?: { result?: { id?: string; title?: string; authorString?: string; pubYear?: string; doi?: string; abstractText?: string }[] } };
+  return (j.resultList?.result ?? []).flatMap(r => {
+    const url = r.doi ? `https://doi.org/${r.doi}` : r.id ? `https://europepmc.org/article/MED/${r.id}` : "";
+    if (!r.title || !url.startsWith("https://")) return [];
+    return [{ title: stripTags(r.title), url, content: stripTags(r.abstractText ?? r.title).slice(0, 1500), published: r.pubYear, author: r.authorString, score: 0.6 }];
+  });
+} };
+
+const UA_SEARCH = { "User-Agent": "Verfiai/1.0 (https://verfiai.app; mailto:hello@verfiai.app)", Accept: "application/json" };
 const docEngine = (id: string, fn: (q: string) => Promise<Source[]>): SearchEngine => ({ id, run: fn });
-const ENGINES: Record<string, SearchEngine> = { tavily, brave, youcom, searxng, gdelt, crossref, wikipedia, ddg: duckduckgo, openalex, pubmed, wikidata, "google-factcheck": googleFactCheck,
+const ENGINES: Record<string, SearchEngine> = { tavily, brave, youcom, searxng, gdelt, crossref, wikipedia, ddg: duckduckgo, openalex, pubmed, wikidata, "google-factcheck": googleFactCheck, community, stackexchange, wayback, worldbank, "sec-edgar": secEdgar, europepmc,
   openalex_oa: docEngine("openalex_oa", async q => (await import("./providers/documents.server")).openAlexOaSearch(q)),
   semanticscholar: docEngine("semanticscholar", async q => (await import("./providers/documents.server")).semanticScholarSearch(q)),
   core: docEngine("core", async q => (await import("./providers/documents.server")).coreSearch(q)),
