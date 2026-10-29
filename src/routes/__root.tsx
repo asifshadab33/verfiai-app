@@ -120,6 +120,8 @@ function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang={lang} dir={translations[lang].dir}>
       <head>
+        {/* Restore the saved locale before first paint so there is no English-then-localized flash. Keep in sync with STORAGE_KEY in lib/locale.tsx. */}
+        <script dangerouslySetInnerHTML={{ __html: `try{var q=new URLSearchParams(location.search).get("lang");var l=localStorage.getItem("verifai-lang");if(!q&&l&&/^(es|fr|de|pt|it|nl|ru|tr|ar|hi|bn|ur|fa|zh|ja|ko|id|sw)$/.test(l)){var u=new URL(location.href);u.searchParams.set("lang",l);location.replace(u.href);}}catch(e){}` }} />
         <HeadContent />
       </head>
       <body>
