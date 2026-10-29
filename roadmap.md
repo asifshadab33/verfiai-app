@@ -1,4 +1,9 @@
 # Verfiai roadmap
+## Oct 29 hydration fix + Day 1 stages A/B
+- [ ] Fix homepage hydration warning: declarative id/tabIndex on index.tsx main, remove __root.tsx DOM mutation.
+- [ ] Stage A: delete unused bundles src/lib/i18n/checker.json, recent.json, ui-extra.json; dedupe speak_request/hide_advanced/attachment keys between interface.ts extras and site dictionaries.
+- [ ] Stage B: ReportView renders <ResponseAgreementPanel /> only when a measured state is supplied; component stays intact.
+- Constraints: no Paddle/billing changes, MONETIZATION_ENABLED=false, no checkout, no publish. Verify: full suite (baseline 107 passed/4 skipped), build OK, spot-check 3 locales incl. Arabic RTL, report page clean with panel hidden.
 ## Oct 28 real progress streaming — Stage 1
 - [x] Persist coarse research/verification stages in service-only progress_events, broadcasting HMAC-authenticated payloads to opaque per-run Realtime topics. Guests require no anonymous signup; browser cannot forge accepted events. No prompts, claims, reports or signing secret persisted in telemetry.
 - [x] Research (homepage and /research) and FactChecker subscribe before dispatch and render real stage counts, not smooth percentages. After four seconds without an event, show clearly labeled estimated fallback; it never completes. Complete emitted after genuine result readiness (and successful report save for accounts). Cache hits skip unused stages. No provider detail or reconnect/replay work.
