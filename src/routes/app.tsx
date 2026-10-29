@@ -8,12 +8,13 @@ import { languages } from "@/lib/translations";
 import { siteText } from "@/lib/site-i18n";
 import { useSiteLocale } from "@/lib/locale";
 import { translations } from "@/lib/i18n/interface";
+import { pageSeoLinks } from "@/lib/seo";
 
 const title = "Research Workspace — Verfiai";
 const description = "Check a claim, generate a source-linked research report, or scan citations in one workspace.";
 
 export const Route = createFileRoute("/app")({
-  head: () => ({
+  head: ({ match }) => ({
     meta: [
       { title },
       { name: "description", content: description },
@@ -22,7 +23,7 @@ export const Route = createFileRoute("/app")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
-    links: [{ rel: "canonical", href: "https://verfiai.app/app" }],
+    links: pageSeoLinks("/app", match.search.lang),
   }),
   validateSearch: z.object({ tab: z.enum(["claim", "fact", "report", "citation", "dossier"]).optional().catch(undefined) }).passthrough(),
   component: Workspace,

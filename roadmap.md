@@ -1,4 +1,9 @@
 # Verfiai roadmap
+## Oct 29 Stage 4 SEO wave (pulled forward)
+- [x] Audited public leaves; added missing bare apex canonicals to 8 routes: features, how-it-works, sample-report, faq, methodology, sources, fact-checks, research. Preserved correct existing canonicals; /app now self-canonicalizes genuine locale variants.
+- [x] German/Arabic SSR comparison confirmed primary-copy localization only on / and /app. Both now emit reciprocal 19-language plus English x-default alternates; all 38 served language variants checked. English primary-copy pages, including fact-checker/pricing with localized tool/waitlist islands, deliberately excluded.
+- [x] Added noindex,nofollow to auth, reset-password, reports, account/library-usage; strengthened account/usage and checkout/success from noindex to noindex,nofollow. Admin already correct and untouched. All seven outside sitemap; robots.txt, shared reports and editorial indexing logic unchanged. Public guest workspaces /app and /research remain indexable.
+- [x] Full suite: 116 passed, four pre-existing privileged tests skipped. Automatic production build OK (05:21:57 UTC). Browser Arabic home RTL → English About LTR verified with locale query retained, correct metadata and zero runtime errors. Sitemap remains 22 URLs; no publish or excluded work.
 ## Oct 29 hydration fix + Day 1 stages A/B — PAUSED by owner (03:55 UTC)
 - [~] Hydration fix APPLIED but NOT YET VERIFIED: index.tsx `<main>` now has declarative id="main-content" tabIndex={-1}; __root.tsx effect now only sets the id as a fallback when missing. Reproduction confirmed the warning beforehand (SSR `<main>` had no id; mutation added it post-hydration). Pending: reload check for warning absence, tests, build.
 - [ ] Stage A (NOT STARTED): delete unused bundles src/lib/i18n/checker.json, recent.json, ui-extra.json; dedupe speak_request/hide_advanced/attachment keys between interface.ts extras and site dictionaries.

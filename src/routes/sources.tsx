@@ -29,7 +29,7 @@ export const Route = createFileRoute('/sources')({
     { property: 'og:description', content: 'Search public research databases by field, region, and purpose, with supplied catalog descriptions and registry links.' },
     { property: 'og:type', content: 'website' },
     { name: 'twitter:card', content: 'summary' },
-  ] }),
+  ], links: [{ rel: 'canonical', href: 'https://verfiai.app/sources' }] }),
   component: SourceDirectory,
 });
 

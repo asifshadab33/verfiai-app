@@ -11,7 +11,7 @@ export const Route = createFileRoute("/fact-checks")({
     { property: "og:title", content: "Fact checks | Verfiai" },
     { property: "og:description", content: "Common myths and claims, with verdicts and evidence summaries." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
-  ] }),
+  ], links: [{ rel: "canonical", href: "https://verfiai.app/fact-checks" }] }),
   component: FactChecks,
 });
 

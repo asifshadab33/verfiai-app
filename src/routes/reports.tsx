@@ -13,6 +13,7 @@ import { useServerFn } from "@tanstack/react-start";
 
 export const Route = createFileRoute("/reports")({
   head: () => ({ meta: [
+    { name: "robots", content: "noindex,nofollow" },
     { title: "My reports | Verfiai" }, { name: "description", content: "Your saved Verfiai research reports." },
     { property: "og:title", content: "My reports | Verfiai" }, { property: "og:description", content: "Your saved Verfiai research reports." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },

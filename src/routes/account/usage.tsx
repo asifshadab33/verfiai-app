@@ -9,7 +9,7 @@ const title = "Credits and usage | Verfiai";
 export const Route = createFileRoute("/account/usage")({
   head: () => ({
     meta: [
-      { name: "robots", content: "noindex" },
+      { name: "robots", content: "noindex,nofollow" },
       { title },
       { name: "description", content: "See your Verfiai credits used, remaining, and reset date." },
       { property: "og:title", content: title },
