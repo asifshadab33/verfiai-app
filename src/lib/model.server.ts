@@ -120,7 +120,35 @@ export function modelRoutingSummary() {
   }).sort((a, b) => b.attempts - a.attempts);
 }
 /** Test hook: clears in-memory cooldown and summary state. */
-export function resetModelRoutingState() { cooldownUntil.clear(); routeStats.clear(); }
+export function resetModelRoutingState() { cooldownUntil.clear(); routeStats.clear(); summaryLoggedAt = 0; }
+
+// Logged summary of the durable ai_model_call metering rows (usage_meter), to
+// inform route reordering. Never throws; diagnostics must not break model calls.
+let summaryLoggedAt = 0;
+export async function logModelCallSummary(hours = 24): Promise<{ provider: string; model_route: string; calls: number; successes: number; avg_latency_ms: number }[]> {
+  try {
+    const { admin } = await import("./db.server");
+    const db = await admin();
+    const since = new Date(Date.now() - hours * 3600_000).toISOString();
+    const { data, error } = await db.from("usage_meter").select("provider, model_route, latency_ms, success").eq("event_type", "ai_model_call").gte("created_at", since).limit(5000);
+    if (error) return [];
+    const agg = new Map<string, { provider: string; model_route: string; calls: number; successes: number; latency: number }>();
+    for (const r of data ?? []) {
+      const key = `${r.provider ?? "?"}|${r.model_route ?? "?"}`;
+      const a = agg.get(key) ?? { provider: r.provider ?? "?", model_route: r.model_route ?? "?", calls: 0, successes: 0, latency: 0 };
+      a.calls += 1; if (r.success) a.successes += 1; a.latency += r.latency_ms ?? 0;
+      agg.set(key, a);
+    }
+    const rows = [...agg.values()].map(a => ({ provider: a.provider, model_route: a.model_route, calls: a.calls, successes: a.successes, avg_latency_ms: a.calls ? Math.round(a.latency / a.calls) : 0 })).sort((x, y) => y.calls - x.calls);
+    console.info("ai_model_call summary (last 24h)", JSON.stringify(rows));
+    return rows;
+  } catch { return []; }
+}
+/** Fire-and-forget: logs the metering summary at most once every 50 recorded calls. */
+function maybeLogSummary() {
+  const calls = [...routeStats.values()].reduce((s, r) => s + r.attempts, 0);
+  if (calls > 0 && calls % 50 === 0 && summaryLoggedAt !== calls) { summaryLoggedAt = calls; void logModelCallSummary(); }
+}
 const timeoutMs = () => { const n = Number(process.env["MODEL_TIMEOUT_MS"]); return Number.isFinite(n) && n > 0 ? n : 45000; };
 
 /** JSON mode providers require the word "json" somewhere in the messages. */
