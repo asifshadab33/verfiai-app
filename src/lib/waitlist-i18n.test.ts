@@ -31,8 +31,8 @@ describe("waitlist and report-label translations", () => {
       for (const english of WAITLIST_ENGLISH) {
         const translated = recentText(code, english);
         expect(translated, `${code}: ${english}`).toBeTruthy();
+        // "Word" legitimately stays "Word" in many locales; every other string must be translated.
         if (code !== "en" && english !== "Word") expect(translated, `${code} left untranslated: ${english}`).not.toBe(english);
-        expect(recentText(code, english), `${code} missing key: ${english}`).not.toBe(english === "Word" ? "" : translated === english && code === "en" ? "" : translated);
       }
     }
   });
