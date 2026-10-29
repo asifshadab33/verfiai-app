@@ -338,7 +338,8 @@ export async function searchAll(query: string, language?: string, engineIds: str
   return results.flat();
 }
 
-export const DEFAULT_ENGINES = ["tavily", "brave", "youcom", "searxng", "gdelt", "crossref", "wikipedia", "ddg", "openalex", "pubmed", "wikidata", "google-factcheck"];
+// Community (Quora/Reddit) is deliberately absent: verdict evidence must never include it.
+export const DEFAULT_ENGINES = ["tavily", "brave", "youcom", "searxng", "gdelt", "crossref", "wikipedia", "ddg", "openalex", "pubmed", "wikidata", "google-factcheck", "stackexchange", "wayback", "worldbank", "sec-edgar", "europepmc"];
 /** Web/news engines that also receive the counter-angle query (scholarly sources stay single-angle). */
 export const COUNTER_ENGINES = ["tavily", "brave", "youcom", "searxng"];
 

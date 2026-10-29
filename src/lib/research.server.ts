@@ -2,7 +2,7 @@
 // model calls from the ModelProvider, and every lookup is checked against the
 // CacheProvider first. Ranking (BM25 + RRF) stays local.
 import { cached, sha, CACHE_TTL } from "./cache.server";
-import { dualAngleSearch, type Source } from "./search.server";
+import { dualAngleSearch, engineSearch, type Source } from "./search.server";
 import { synthesize, type CallMeta } from "./model.server";
 import { MIN_WORDS, reportSchema, wordCount, charCount, clampExtended, EXTENDED_MIN_CHARS, EXTENDED_MAX_CHARS, type ReportInput, type ResearchReport } from "./report-schema";
 import { z } from "zod";
