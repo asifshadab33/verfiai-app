@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { meter } from "./metering.server";
 vi.mock("./metering.server", () => ({ meter: vi.fn(async () => {}) }));
+vi.mock("./db.server", () => ({ admin: async () => { throw new Error("store unavailable"); } }));
 import { callEngine, logModelCallSummary, modelRoutingSummary, resetModelRoutingState, runRoute } from "./model.server";
 
 afterEach(() => { resetModelRoutingState(); vi.unstubAllGlobals(); vi.unstubAllEnvs(); vi.restoreAllMocks(); });
