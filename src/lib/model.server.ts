@@ -4,9 +4,25 @@
 import { meter } from "./metering.server";
 
 // Approximate USD per 1M tokens (input, output) — estimates for metering only,
-// never shown to users or billed.
+// never shown to users or billed. Providers used through their free tier are
+// metered at $0; paid models keep published-list estimates.
+const FREE = { in: 0, out: 0 };
 const RATES: Record<string, { in: number; out: number }> = {
+  // Free-tier providers (Cerebras, Groq, SambaNova, NVIDIA, GitHub Models).
+  "cerebras:llama-3.3-70b": FREE,
+  "cerebras:deepseek-r1-distill-llama-70b": FREE,
+  "groq:openai/gpt-oss-120b": FREE,
+  "groq:openai/gpt-oss-20b": FREE,
+  "sambanova:Meta-Llama-3.3-70B-Instruct": FREE,
+  "nvidia:meta/llama-3.3-70b-instruct": FREE,
+  "nvidia:deepseek-ai/deepseek-r1": FREE,
+  "github:openai/gpt-4o-mini": FREE,
+  // OpenRouter :free variants.
+  "google/gemma-4-26b-a4b-it:free": FREE,
+  "nvidia/nemotron-3-super-120b-a12b:free": FREE,
+  // Paid models (published list prices at time of writing).
   "deepseek/deepseek-chat": { in: 0.27, out: 1.1 },
+  "deepseek:deepseek-chat": { in: 0.27, out: 1.1 },
   "qwen/qwen-2.5-72b-instruct": { in: 0.35, out: 0.35 },
 };
 const FALLBACK_RATES = { in: 0.35, out: 0.35 };
