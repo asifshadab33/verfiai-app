@@ -170,13 +170,13 @@
 - [x] Publish
 
 ## Oct 29 scheduled run 1 of 3 (3:15 AM Qatar)
-- [ ] Stage 2 model routing hardening in src/lib/model.server.ts: in-memory provider cooldown after 429/503, admin-facing summary of ai_model_call metering (provider, model_route, latency_ms, success), RATES table pricing update with free-tier providers at $0.
-- [ ] Stage 3 engine wave (CORE deliverable, not optional): Quora (+ optional Reddit) Tier-3 context-only community engine via Tavily include_domains, never verdict-strengthening; add free engines in order — Stack Exchange, Wayback Machine, Crossref (verify existing first), World Bank Open Data, SEC EDGAR, Europe PMC — skipping wikidata/google-factcheck which exist; Semantic Scholar authenticated access via SEMANTIC_SCHOLAR_API_KEY secret with OpenAlex fallback.
-- [ ] If credits remain: Stage 6 i18n one-pass — CommunityWaitlist strings, ReportView headings + Word label via 19-locale system; locale-restore refresh flash fix.
+- [x] Stage 2 model routing hardening in src/lib/model.server.ts: provider cooldown map after 429/503 (3 min default, MODEL_COOLDOWN_MS, full-route fallback when all cool), in-memory modelRoutingSummary + logged usage_meter ai_model_call aggregate every 50 calls, RATES with provider-level free-tier $0. Live summary readback: groq succeeding, gemini avg 12.7s. 8 model-cooldown tests.
+- [x] Stage 3 engine wave: Quora (+ optional Reddit) Tier-3 context-only community engine via Tavily include_domains, never verdict-strengthening; add free engines in order — Stack Exchange, Wayback Machine, Crossref (verify existing first), World Bank Open Data, SEC EDGAR, Europe PMC — skipped wikidata/google-factcheck/crossref (existing); Semantic Scholar sends x-api-key when SEMANTIC_SCHOLAR_API_KEY present, conservative DB gate unchanged, OpenAlex fallback verified in tests. community engine registered but NOT in DEFAULT_ENGINES (verdicts can never consume it); wired into buildReport as low-weight context. 12 engine-wave tests.
+- [ ] Stage 6 i18n one-pass — NOT started (deferred to a later run); CommunityWaitlist, ReportView headings, Word label, locale flash all untouched.
 - Exclusions: no Stage 4 SEO, no Stage 5 extended report (4k cap stays), no Stage 1 streaming, no cost guardrail, pricing, catalog/library changes; do not request GOOGLE_FACTCHECK_API_KEY.
 
 ## Oct 29 Day 1 stages (workspace chat)
-- [ ] Stage 1 i18n bundle deletion/dedup: excluded from Run 1 per owner correction ("dispatched scope: Stage 2, Stage 3, Stage 6 if credits remain — nothing else"); parked for a later run.
+- [ ] Stage 1 i18n bundle deletion/dedup: still open; excluded from Run 1 per owner correction ("dispatched scope: Stage 2, Stage 3, Stage 6 if credits remain — nothing else"); parked for a later run.
 - [x] Stage 2 admin feedback panel: NOT in owner-approved plan for Run 1; owner correction (Oct 29 00:16 UTC) says Day 1 feedback work already landed — leave as is, do not implement here.
 - [ ] Stage 3 DEFERRED: Response Agreement panel direction pending user decision — do not touch ResponseAgreementPanel.tsx or ReportView.tsx.
 - Constraints: no Paddle/subscription/billing path changes; MONETIZATION_ENABLED=false; no new checkout.
