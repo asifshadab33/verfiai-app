@@ -26,6 +26,8 @@ const RATES: Record<string, { in: number; out: number }> = {
   "qwen/qwen-2.5-72b-instruct": { in: 0.35, out: 0.35 },
 };
 const FALLBACK_RATES = { in: 0.35, out: 0.35 };
+/** Providers accessed through their free tier meter at $0 regardless of model id. */
+const FREE_TIER_PROVIDERS = new Set(["cerebras", "groq", "sambanova", "nvidia", "github"]);
 
 const LABELS: Record<string, string> = {
   "cerebras:llama-3.3-70b": "Llama 3.3 70B (Cerebras)",
