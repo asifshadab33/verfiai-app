@@ -160,11 +160,14 @@ export async function callEngine(model: string, system: string, user: string, me
     const txt0 = (json.choices?.[0]?.message?.content ?? "").replace(/<think>[\s\S]*?<\/think>/g, "").trim().replace(/^```(?:json)?\s*|\s*```$/g, "");
     const txt = txt0.trim();
     if (!txt) throw new Error("engine-empty");
+    recordStat(provider, model, Date.now() - t0, true);
     void meter({ userId: meta?.userId ?? null, ...(meta?.guestFingerprint ? { guestFingerprint: meta.guestFingerprint } : {}), event: "ai_model_call", provider, modelRoute: model, latencyMs: Date.now() - t0, success: true, estimatedCostUsd: estimate(txt.length) });
     return txt;
   } catch (e) {
-    if (!(e instanceof Error && e.message === "engine-missing"))
+    if (!(e instanceof Error && e.message === "engine-missing")) {
+      recordStat(provider, model, Date.now() - t0, false);
       void meter({ userId: meta?.userId ?? null, ...(meta?.guestFingerprint ? { guestFingerprint: meta.guestFingerprint } : {}), event: "ai_model_call", provider, modelRoute: model, latencyMs: Date.now() - t0, success: false, estimatedCostUsd: estimate(0) });
+    }
     throw e;
   }
 }
