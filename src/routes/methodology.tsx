@@ -9,7 +9,7 @@ export const Route = createFileRoute("/methodology")({
     { title }, { name: "description", content: description },
     { property: "og:title", content: title }, { property: "og:description", content: description },
     { property: "og:type", content: "article" }, { name: "twitter:card", content: "summary" },
-  ] }),
+  ], links: [{ rel: "canonical", href: "https://verfiai.app/methodology" }] }),
   component: Methodology,
 });
 

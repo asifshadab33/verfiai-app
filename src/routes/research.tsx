@@ -25,7 +25,7 @@ export const Route = createFileRoute("/research")({
     { property: "og:title", content: "Research reports with citations | Verfiai" },
     { property: "og:description", content: "Executive Summary, Deep Dive and Evidence Matrix reports with citations and audit trails." },
     { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" },
-  ] }),
+  ], links: [{ rel: "canonical", href: "https://verfiai.app/research" }] }),
   component: Research,
 });
 

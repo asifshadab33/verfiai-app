@@ -8,6 +8,7 @@ import { useSiteLocale } from "@/lib/locale";
 export const Route = createFileRoute("/account/library-usage")({
   head: () => ({
     meta: [
+      { name: "robots", content: "noindex,nofollow" },
       { title: "Evidence Library usage | Verfiai" },
       {
         name: "description",

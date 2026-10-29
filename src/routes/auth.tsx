@@ -9,6 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({ meta: [
+    { name: "robots", content: "noindex,nofollow" },
     { title: "Sign in | Verfiai" },
     { name: "description", content: "Sign in to Verfiai with Google or email to generate and save AI research reports." },
     { property: "og:title", content: "Sign in | Verfiai" },

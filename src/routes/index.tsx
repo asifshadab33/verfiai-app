@@ -25,6 +25,7 @@ import { useSiteLocale } from "@/lib/locale";
 import { COMMUNITY_LABELS } from "@/lib/community";
 import { translations } from "@/lib/i18n/interface";
 import { useVerificationProgress } from "@/hooks/useVerificationProgress";
+import { pageSeoLinks } from "@/lib/seo";
 
 const SITE = "https://verfiai.app";
 
@@ -47,7 +48,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: title }, { property: "og:description", content: description },
       { property: "og:type", content: "website" }, { property: "og:url", content: url },
       { property: "og:locale", content: lang }, { name: "twitter:card", content: "summary_large_image" },
-    ], links: [{ rel: "canonical", href: url }], scripts: [
+    ], links: pageSeoLinks("/", lang), scripts: [
       { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Verfiai", applicationCategory: "BusinessApplication", operatingSystem: "Web", url: SITE, description, offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } }) },
       { type: "application/ld+json", children: JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: FAQS.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) }) },
     ] };
