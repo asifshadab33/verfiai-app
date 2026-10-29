@@ -46,7 +46,10 @@ export async function semanticScholarSearch(query: string): Promise<DocSource[]>
   const unavailable = await cacheGet<boolean>(`${key}:unavailable`, 300_000);
   if (unavailable || !(await semanticGate("reserve"))) return fallback();
   try {
-  const res = await fetch(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(query.slice(0, 200))}&limit=10&fields=title,abstract,url,year,authors,citationCount,openAccessPdf,externalIds`, { headers: UA, signal: AbortSignal.timeout(T) });
+  // Authenticated tier when the owner-supplied key is present; the conservative
+  // cross-worker gate (spacing + Retry-After backoff) stays in effect either way.
+  const apiKey = process.env["SEMANTIC_SCHOLAR_API_KEY"];
+  const res = await fetch(`https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(query.slice(0, 200))}&limit=10&fields=title,abstract,url,year,authors,citationCount,openAccessPdf,externalIds`, { headers: apiKey ? { ...UA, "x-api-key": apiKey } : UA, signal: AbortSignal.timeout(T) });
   if (res.status === 429 || res.status === 503) {
     await semanticGate("limited", retryAfterMs(res.headers.get("Retry-After")));
     await cacheSet(`${key}:unavailable`, "provider_backoff", true);

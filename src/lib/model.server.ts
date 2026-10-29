@@ -4,12 +4,30 @@
 import { meter } from "./metering.server";
 
 // Approximate USD per 1M tokens (input, output) — estimates for metering only,
-// never shown to users or billed.
+// never shown to users or billed. Providers used through their free tier are
+// metered at $0; paid models keep published-list estimates.
+const FREE = { in: 0, out: 0 };
 const RATES: Record<string, { in: number; out: number }> = {
+  // Free-tier providers (Cerebras, Groq, SambaNova, NVIDIA, GitHub Models).
+  "cerebras:llama-3.3-70b": FREE,
+  "cerebras:deepseek-r1-distill-llama-70b": FREE,
+  "groq:openai/gpt-oss-120b": FREE,
+  "groq:openai/gpt-oss-20b": FREE,
+  "sambanova:Meta-Llama-3.3-70B-Instruct": FREE,
+  "nvidia:meta/llama-3.3-70b-instruct": FREE,
+  "nvidia:deepseek-ai/deepseek-r1": FREE,
+  "github:openai/gpt-4o-mini": FREE,
+  // OpenRouter :free variants.
+  "google/gemma-4-26b-a4b-it:free": FREE,
+  "nvidia/nemotron-3-super-120b-a12b:free": FREE,
+  // Paid models (published list prices at time of writing).
   "deepseek/deepseek-chat": { in: 0.27, out: 1.1 },
+  "deepseek:deepseek-chat": { in: 0.27, out: 1.1 },
   "qwen/qwen-2.5-72b-instruct": { in: 0.35, out: 0.35 },
 };
 const FALLBACK_RATES = { in: 0.35, out: 0.35 };
+/** Providers accessed through their free tier meter at $0 regardless of model id. */
+const FREE_TIER_PROVIDERS = new Set(["cerebras", "groq", "sambanova", "nvidia", "github"]);
 
 const LABELS: Record<string, string> = {
   "cerebras:llama-3.3-70b": "Llama 3.3 70B (Cerebras)",
@@ -70,6 +88,68 @@ export function resolveModel(id: string) {
 export const hasKey = (id: string) => { const cfg = PROVIDERS[resolveModel(id).provider]; return cfg ? !!process.env[cfg.keyEnv] : false; };
 /** Sentinel statuses: rate limit, unavailable, out of credits → fail over immediately. */
 export const SENTINEL_STATUSES = [402, 429, 503] as const;
+
+// Provider cooldown: after a 429/503 the provider is skipped for a few minutes
+// (in-memory per worker). When every keyed provider is cooling, the full route
+// is used anyway so a fully-cooled state degrades to the legacy behavior.
+const cooldownMs = () => { const n = Number(process.env["MODEL_COOLDOWN_MS"]); return Number.isFinite(n) && n > 0 ? n : 3 * 60_000; };
+const cooldownUntil = new Map<string, number>();
+const coolProvider = (provider: string) => cooldownUntil.set(provider, Date.now() + cooldownMs());
+const isCooling = (provider: string) => (cooldownUntil.get(provider) ?? 0) > Date.now();
+/** Models whose providers are keyed and not cooling; falls back to the full list when all are cooling. */
+function routable(models: string[]): string[] {
+  const fresh = models.filter(m => !isCooling(resolveModel(m).provider));
+  return fresh.length ? fresh : models;
+}
+
+// In-memory routing summary (per provider + model route) for diagnostics; the
+// durable record is the ai_model_call rows meter() writes to usage_meter.
+type RouteStat = { attempts: number; successes: number; totalLatencyMs: number };
+const routeStats = new Map<string, RouteStat>();
+function recordStat(provider: string, modelRoute: string, latencyMs: number, success: boolean) {
+  const key = `${provider}|${modelRoute}`;
+  const s = routeStats.get(key) ?? { attempts: 0, successes: 0, totalLatencyMs: 0 };
+  s.attempts += 1; s.totalLatencyMs += latencyMs; if (success) s.successes += 1;
+  routeStats.set(key, s);
+  maybeLogSummary();
+}
+/** Aggregated routing outcomes: provider, model_route, attempts, success rate, average latency. */
+export function modelRoutingSummary() {
+  return [...routeStats.entries()].map(([key, s]) => {
+    const [provider, model_route] = key.split("|");
+    return { provider, model_route, attempts: s.attempts, successes: s.successes, avg_latency_ms: Math.round(s.totalLatencyMs / s.attempts) };
+  }).sort((a, b) => b.attempts - a.attempts);
+}
+/** Test hook: clears in-memory cooldown and summary state. */
+export function resetModelRoutingState() { cooldownUntil.clear(); routeStats.clear(); summaryLoggedAt = 0; }
+
+// Logged summary of the durable ai_model_call metering rows (usage_meter), to
+// inform route reordering. Never throws; diagnostics must not break model calls.
+let summaryLoggedAt = 0;
+export async function logModelCallSummary(hours = 24): Promise<{ provider: string; model_route: string; calls: number; successes: number; avg_latency_ms: number }[]> {
+  try {
+    const { admin } = await import("./db.server");
+    const db = await admin();
+    const since = new Date(Date.now() - hours * 3600_000).toISOString();
+    const { data, error } = await db.from("usage_meter").select("provider, model_route, latency_ms, success").eq("event_type", "ai_model_call").gte("created_at", since).limit(5000);
+    if (error) return [];
+    const agg = new Map<string, { provider: string; model_route: string; calls: number; successes: number; latency: number }>();
+    for (const r of data ?? []) {
+      const key = `${r.provider ?? "?"}|${r.model_route ?? "?"}`;
+      const a = agg.get(key) ?? { provider: r.provider ?? "?", model_route: r.model_route ?? "?", calls: 0, successes: 0, latency: 0 };
+      a.calls += 1; if (r.success) a.successes += 1; a.latency += r.latency_ms ?? 0;
+      agg.set(key, a);
+    }
+    const rows = [...agg.values()].map(a => ({ provider: a.provider, model_route: a.model_route, calls: a.calls, successes: a.successes, avg_latency_ms: a.calls ? Math.round(a.latency / a.calls) : 0 })).sort((x, y) => y.calls - x.calls);
+    console.info("ai_model_call summary (last 24h)", JSON.stringify(rows));
+    return rows;
+  } catch { return []; }
+}
+/** Fire-and-forget: logs the metering summary at most once every 50 recorded calls. */
+function maybeLogSummary() {
+  const calls = [...routeStats.values()].reduce((s, r) => s + r.attempts, 0);
+  if (calls > 0 && calls % 50 === 0 && summaryLoggedAt !== calls) { summaryLoggedAt = calls; void logModelCallSummary(); }
+}
 const timeoutMs = () => { const n = Number(process.env["MODEL_TIMEOUT_MS"]); return Number.isFinite(n) && n > 0 ? n : 45000; };
 
 /** JSON mode providers require the word "json" somewhere in the messages. */
@@ -86,7 +166,7 @@ export async function callEngine(model: string, system: string, user: string, me
   if (!key) throw new Error("engine-missing");
   const t0 = Date.now();
   const estimate = (outLen: number) => {
-    const r = RATES[model] ?? FALLBACK_RATES;
+    const r = RATES[model] ?? (FREE_TIER_PROVIDERS.has(provider) || model.endsWith(":free") ? FREE : FALLBACK_RATES);
     return ((system.length + user.length) / 4 * r.in + outLen / 4 * r.out) / 1e6;
   };
   // JSON mode (e.g. Groq) rejects requests whose messages never mention "json" with HTTP 400.
@@ -104,24 +184,28 @@ export async function callEngine(model: string, system: string, user: string, me
       // Provider bodies can contain account identifiers or credential-bearing links.
       // Status plus provider/model is sufficient for diagnostics; never log the body.
       console.error("model provider", provider, providerModel, res.status);
+      if (res.status === 429 || res.status === 503) coolProvider(provider);
       throw new Error(res.status === 402 ? "credits" : res.status === 429 ? "rate-limited" : res.status === 503 ? "unavailable" : "engine");
     }
     const json = await res.json() as { choices?: { message?: { content?: string } }[] };
     const txt0 = (json.choices?.[0]?.message?.content ?? "").replace(/<think>[\s\S]*?<\/think>/g, "").trim().replace(/^```(?:json)?\s*|\s*```$/g, "");
     const txt = txt0.trim();
     if (!txt) throw new Error("engine-empty");
+    recordStat(provider, model, Date.now() - t0, true);
     void meter({ userId: meta?.userId ?? null, ...(meta?.guestFingerprint ? { guestFingerprint: meta.guestFingerprint } : {}), event: "ai_model_call", provider, modelRoute: model, latencyMs: Date.now() - t0, success: true, estimatedCostUsd: estimate(txt.length) });
     return txt;
   } catch (e) {
-    if (!(e instanceof Error && e.message === "engine-missing"))
+    if (!(e instanceof Error && e.message === "engine-missing")) {
+      recordStat(provider, model, Date.now() - t0, false);
       void meter({ userId: meta?.userId ?? null, ...(meta?.guestFingerprint ? { guestFingerprint: meta.guestFingerprint } : {}), event: "ai_model_call", provider, modelRoute: model, latencyMs: Date.now() - t0, success: false, estimatedCostUsd: estimate(0) });
+    }
     throw e;
   }
 }
 
 /** Fails over across the route's models without exposing provider errors to users. */
 export async function runRoute(name: "triage" | "evaluation", system: string, user: string, meta?: CallMeta): Promise<string> {
-  const models = getRoute(name).filter(hasKey);
+  const models = routable(getRoute(name).filter(hasKey));
   let lastErr: unknown;
   for (const m of models) {
     try { return await callEngine(m, system, user, meta, name === "triage" ? 2500 : 3500); }
@@ -132,7 +216,7 @@ export async function runRoute(name: "triage" | "evaluation", system: string, us
 
 /** Synthesis route with engine labels (used by report generation). */
 export async function synthesize(system: string, user: string, meta?: CallMeta, validate?: (raw: string) => boolean): Promise<{ raw: string; engine: string }> {
-  for (const m of getRoute("evaluation").filter(hasKey)) {
+  for (const m of routable(getRoute("evaluation").filter(hasKey))) {
     try {
       const raw = await callEngine(m, system, user, meta);
       if (validate && !validate(raw)) continue;

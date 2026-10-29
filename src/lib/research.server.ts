@@ -2,7 +2,7 @@
 // model calls from the ModelProvider, and every lookup is checked against the
 // CacheProvider first. Ranking (BM25 + RRF) stays local.
 import { cached, sha, CACHE_TTL } from "./cache.server";
-import { dualAngleSearch, type Source } from "./search.server";
+import { dualAngleSearch, engineSearch, type Source } from "./search.server";
 import { synthesize, type CallMeta } from "./model.server";
 import { MIN_WORDS, reportSchema, wordCount, charCount, clampExtended, EXTENDED_MIN_CHARS, EXTENDED_MAX_CHARS, type ReportInput, type ResearchReport } from "./report-schema";
 import { z } from "zod";
@@ -125,7 +125,10 @@ export async function buildReport(data: ReportInput, meta?: CallMeta, progress?:
   const query = [data.question, data.company, data.industry, data.focus].filter(Boolean).join(" ");
   // CacheProvider is checked inside each SearchProvider engine before any external call.
   await progress?.("search");
-  const found = await dualAngleSearch(query, data.language);
+  const [webResults, communityContext] = await Promise.all([dualAngleSearch(query, data.language), engineSearch("community", query)]);
+  // Community (Quora/Reddit) snippets are low-weight context for reports only;
+  // they are never part of fact-check verdict evidence.
+  const found = [...webResults, ...communityContext];
   await progress?.("scoring");
   const want = data.format === "extended" ? 10 : 6;
   // Over-fetch, then drop dead links (live HTTP check) so the report never cites a broken URL.
