@@ -34,7 +34,7 @@ export function CommunityWaitlist({ interest = "pro_teams" }: { interest?: keyof
       e.preventDefault(); if (busy || !consent) return;
       setBusy(true); setError("");
       try { await join({ data: { email, consent: true, website, interest } }); setDone(true); setEmail(""); }
-      catch { setError(t("We couldn’t save your email. Please try again.")); }
+      catch (err) { const m = err instanceof Error ? err.message : ""; setError(m.includes("Too many requests") ? t("Too many requests. Please try again in an hour.") : t("We couldn’t save your email. Please try again.")); }
       finally { setBusy(false); }
     }}>
       <div><label htmlFor={`${id}-email`} className="text-sm font-medium">{t("Email address")}</label><Input id={`${id}-email`} type="email" autoComplete="email" required maxLength={254} value={email} onChange={e => setEmail(e.target.value)} className="mt-2" dir="ltr" /></div>
