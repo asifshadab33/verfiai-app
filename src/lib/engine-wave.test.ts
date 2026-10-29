@@ -150,6 +150,7 @@ describe("Semantic Scholar authenticated access", () => {
     expect(new Headers(init?.headers).get("x-api-key")).toBe("test-only");
   });
   it("omits the key header when the secret is absent", async () => {
+    vi.stubEnv("SEMANTIC_SCHOLAR_API_KEY", "");
     const request = vi.fn(async (_url: string, _init?: RequestInit) => json(paper));
     vi.stubGlobal("fetch", request);
     await engineSearch("semanticscholar", "metformin");
