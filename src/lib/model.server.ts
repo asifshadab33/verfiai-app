@@ -153,6 +153,7 @@ export async function callEngine(model: string, system: string, user: string, me
       // Provider bodies can contain account identifiers or credential-bearing links.
       // Status plus provider/model is sufficient for diagnostics; never log the body.
       console.error("model provider", provider, providerModel, res.status);
+      if (res.status === 429 || res.status === 503) coolProvider(provider);
       throw new Error(res.status === 402 ? "credits" : res.status === 429 ? "rate-limited" : res.status === 503 ? "unavailable" : "engine");
     }
     const json = await res.json() as { choices?: { message?: { content?: string } }[] };
