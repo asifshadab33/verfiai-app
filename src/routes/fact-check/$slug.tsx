@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
-import { getClaimBySlug, VERDICT_LABEL, claimReviewSchema, type ClaimEntry } from "@/data/claims";
+import { getClaimBySlug, VERDICT_LABEL, claimReviewSchema, claimRobotsMeta, type ClaimEntry } from "@/data/claims";
 
 const BASE = "https://verfiai.app";
 const tone = { supported: "bg-success-soft text-success border-success/30", contradicted: "bg-danger-soft text-destructive border-destructive/30", mixed: "bg-warning-soft text-warning border-warning/40" } as const;
@@ -25,6 +25,7 @@ export const Route = createFileRoute("/fact-check/$slug")({
       { property: "og:description", content: `${VERDICT_LABEL[c.verdict]} — ${c.evidence_summary}`.slice(0, 200) },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary" },
+      ...claimRobotsMeta(c),
     ],
     links: [{ rel: "canonical", href: `${BASE}/fact-check/${c.slug}` }],
     scripts: [

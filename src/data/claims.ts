@@ -20,6 +20,8 @@ export const CLAIMS = raw as ClaimEntry[];
 const BY_SLUG = new Map(CLAIMS.map(c => [c.slug, c]));
 export const getClaimBySlug = (slug: string) => BY_SLUG.get(slug);
 export const listClaimSlugs = () => CLAIMS.map(c => c.slug);
+export const listReviewedClaimSlugs = () => CLAIMS.filter(c => claimReviewSchema(c)).map(c => c.slug);
+export const claimRobotsMeta = (c: ClaimEntry) => claimReviewSchema(c) ? [] : [{ name: "robots", content: "noindex,follow" }];
 export const claimCategories = () => [...new Set(CLAIMS.map(c => c.category))].sort();
 export const VERDICT_LABEL: Record<ClaimVerdict, string> = { supported: "Supported", contradicted: "Contradicted", mixed: "Mixed evidence" };
 // schema.org ClaimReview rating scale: 1 = false, 3 = mixed, 5 = true.
