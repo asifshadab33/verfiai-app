@@ -137,7 +137,7 @@ export async function callEngine(model: string, system: string, user: string, me
   if (!key) throw new Error("engine-missing");
   const t0 = Date.now();
   const estimate = (outLen: number) => {
-    const r = RATES[model] ?? FALLBACK_RATES;
+    const r = RATES[model] ?? (FREE_TIER_PROVIDERS.has(provider) || model.endsWith(":free") ? FREE : FALLBACK_RATES);
     return ((system.length + user.length) / 4 * r.in + outLen / 4 * r.out) / 1e6;
   };
   // JSON mode (e.g. Groq) rejects requests whose messages never mention "json" with HTTP 400.
