@@ -174,7 +174,7 @@ export async function callEngine(model: string, system: string, user: string, me
 
 /** Fails over across the route's models without exposing provider errors to users. */
 export async function runRoute(name: "triage" | "evaluation", system: string, user: string, meta?: CallMeta): Promise<string> {
-  const models = getRoute(name).filter(hasKey);
+  const models = routable(getRoute(name).filter(hasKey));
   let lastErr: unknown;
   for (const m of models) {
     try { return await callEngine(m, system, user, meta, name === "triage" ? 2500 : 3500); }
@@ -185,7 +185,7 @@ export async function runRoute(name: "triage" | "evaluation", system: string, us
 
 /** Synthesis route with engine labels (used by report generation). */
 export async function synthesize(system: string, user: string, meta?: CallMeta, validate?: (raw: string) => boolean): Promise<{ raw: string; engine: string }> {
-  for (const m of getRoute("evaluation").filter(hasKey)) {
+  for (const m of routable(getRoute("evaluation").filter(hasKey))) {
     try {
       const raw = await callEngine(m, system, user, meta);
       if (validate && !validate(raw)) continue;
