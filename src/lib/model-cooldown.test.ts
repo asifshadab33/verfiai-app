@@ -18,7 +18,7 @@ describe("provider cooldown", () => {
     const first = vi.fn(async () => new Response("", { status: 429 }));
     vi.stubGlobal("fetch", first);
     await expect(callEngine("cerebras:first", "Return JSON", "test")).rejects.toThrow("rate-limited");
-    const second = vi.fn(async () => success('{"ok":true}'));
+    const second = vi.fn(async (_url: string) => success('{"ok":true}'));
     vi.stubGlobal("fetch", second);
     expect(await runRoute("triage", "Return JSON", "test")).toBe('{"ok":true}');
     expect(second).toHaveBeenCalledTimes(1);
@@ -28,7 +28,7 @@ describe("provider cooldown", () => {
     setup();
     vi.stubGlobal("fetch", vi.fn(async () => new Response("", { status: 503 })));
     await expect(callEngine("groq:second", "Return JSON", "test")).rejects.toThrow("unavailable");
-    const second = vi.fn(async () => success('{"ok":true}'));
+    const second = vi.fn(async (_url: string) => success('{"ok":true}'));
     vi.stubGlobal("fetch", second);
     await runRoute("triage", "Return JSON", "test");
     expect(String(second.mock.calls[0]?.[0])).not.toContain("groq.com");
@@ -37,7 +37,7 @@ describe("provider cooldown", () => {
     setup();
     vi.stubGlobal("fetch", vi.fn(async () => new Response("", { status: 429 })));
     await expect(runRoute("triage", "Return JSON", "test")).rejects.toThrow();
-    const second = vi.fn(async () => success('{"ok":true}'));
+    const second = vi.fn(async (_url: string) => success('{"ok":true}'));
     vi.stubGlobal("fetch", second);
     expect(await runRoute("triage", "Return JSON", "test")).toBe('{"ok":true}');
     expect(second.mock.calls[0]?.[0]).toBe("https://api.cerebras.ai/v1/chat/completions");
@@ -47,7 +47,7 @@ describe("provider cooldown", () => {
     vi.stubGlobal("fetch", vi.fn(async () => new Response("", { status: 429 })));
     await expect(callEngine("cerebras:first", "Return JSON", "test")).rejects.toThrow();
     const now = vi.spyOn(Date, "now").mockReturnValue(Date.now() + 2000);
-    const second = vi.fn(async () => success('{"ok":true}'));
+    const second = vi.fn(async (_url: string) => success('{"ok":true}'));
     vi.stubGlobal("fetch", second);
     await runRoute("triage", "Return JSON", "test");
     expect(second.mock.calls[0]?.[0]).toBe("https://api.cerebras.ai/v1/chat/completions");
@@ -57,7 +57,7 @@ describe("provider cooldown", () => {
     setup();
     vi.stubGlobal("fetch", vi.fn(async () => new Response("", { status: 500 })));
     await expect(callEngine("cerebras:first", "Return JSON", "test")).rejects.toThrow("engine");
-    const second = vi.fn(async () => success('{"ok":true}'));
+    const second = vi.fn(async (_url: string) => success('{"ok":true}'));
     vi.stubGlobal("fetch", second);
     await runRoute("triage", "Return JSON", "test");
     expect(second.mock.calls[0]?.[0]).toBe("https://api.cerebras.ai/v1/chat/completions");
