@@ -46,6 +46,7 @@ describe("engine wave registration", () => {
 
 describe("community sentiment engine (Quora/Reddit)", () => {
   it("skips silently without a Tavily key", async () => {
+    vi.stubEnv("TAVILY_API_KEY", "");
     const request = vi.fn(); vi.stubGlobal("fetch", request);
     await expect(engineSearch("community", "does coffee dehydrate you")).resolves.toEqual([]);
     expect(request).not.toHaveBeenCalled();
@@ -83,7 +84,8 @@ describe("free reference engines", () => {
     vi.stubGlobal("fetch", request);
     const rows = await engineSearch("stackexchange", "coffee dehydration");
     expect(rows).toHaveLength(1);
-    expect(rows[0]).toMatchObject({ title: "Does coffee & dehydrate you?", url: "https://skeptics.stackexchange.com/questions/1/coffee", published: "2023-11-14", score: 0.45 });
+    // stripTags removes markup but, like the other engines, does not decode entities.
+    expect(rows[0]).toMatchObject({ title: "Does coffee &amp; dehydrate you?", url: "https://skeptics.stackexchange.com/questions/1/coffee", published: "2023-11-14", score: 0.45 });
     expect(rows[0]!.content).toContain("No, studies show it does not.");
   });
   it("maps archive.org items to canonical details URLs", async () => {
