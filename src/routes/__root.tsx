@@ -136,8 +136,11 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const location = useLocation();
   useEffect(() => {
+    // Fallback skip-link target for routes whose <main> lacks a declarative id.
+    // Routes that render id="main-content" themselves (home, auth, ContentPage) are
+    // left untouched so server and client markup match and hydration stays clean.
     const main = document.querySelector("main");
-    if (main) { main.id = "main-content"; main.tabIndex = -1; }
+    if (main && !main.id) { main.id = "main-content"; main.tabIndex = -1; }
     let current = true;
     void import("../lib/posthog").then(({ trackPage }) => {
       if (current) trackPage(location.pathname);
