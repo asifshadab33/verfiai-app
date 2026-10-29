@@ -16,7 +16,8 @@ describe("editorial evidence publication", () => {
     expect(claimRobotsMeta(reviewed)).toEqual([]);
     expect(sitemapPaths()).toContain(`/fact-check/${reviewed.slug}`);
     expect(sitemapPaths()).toHaveLength(22);
-    expect(claimRobotsMeta({ ...reviewed, review: undefined })).toEqual([{ name: "robots", content: "noindex,follow" }]);
+    const { review: _review, ...withoutReview } = reviewed;
+    expect(claimRobotsMeta(withoutReview)).toEqual([{ name: "robots", content: "noindex,follow" }]);
   });
   it("retains all 75 pages but withholds ClaimReview for the 72 unsubstantiated entries", () => {
     expect(CLAIMS).toHaveLength(75);
