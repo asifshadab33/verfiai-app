@@ -171,13 +171,13 @@
 
 ## Oct 29 scheduled run 1 of 3 (3:15 AM Qatar)
 - [ ] Stage 2 model routing hardening in src/lib/model.server.ts: in-memory provider cooldown after 429/503, admin-facing summary of ai_model_call metering (provider, model_route, latency_ms, success), RATES table pricing update with free-tier providers at $0.
-- [ ] Stage 3 engine wave: Quora (+ optional Reddit) Tier-3 context-only community engine via Tavily include_domains, never verdict-strengthening; add free engines in order — Stack Exchange, Wayback Machine, Crossref (verify existing first), World Bank Open Data, SEC EDGAR, Europe PMC — skipping wikidata/google-factcheck which exist; Semantic Scholar authenticated access via SEMANTIC_SCHOLAR_API_KEY secret with OpenAlex fallback.
+- [ ] Stage 3 engine wave (CORE deliverable, not optional): Quora (+ optional Reddit) Tier-3 context-only community engine via Tavily include_domains, never verdict-strengthening; add free engines in order — Stack Exchange, Wayback Machine, Crossref (verify existing first), World Bank Open Data, SEC EDGAR, Europe PMC — skipping wikidata/google-factcheck which exist; Semantic Scholar authenticated access via SEMANTIC_SCHOLAR_API_KEY secret with OpenAlex fallback.
 - [ ] If credits remain: Stage 6 i18n one-pass — CommunityWaitlist strings, ReportView headings + Word label via 19-locale system; locale-restore refresh flash fix.
 - Exclusions: no Stage 4 SEO, no Stage 5 extended report (4k cap stays), no Stage 1 streaming, no cost guardrail, pricing, catalog/library changes; do not request GOOGLE_FACTCHECK_API_KEY.
 
 ## Oct 29 Day 1 stages (workspace chat)
-- [ ] Stage 1: delete unused merged bundles src/lib/i18n/checker.json, recent.json, ui-extra.json; deduplicate speak_request/hide_advanced/attachment keys between interface.ts extras and site dictionaries.
-- [ ] Stage 2: surface verdict feedback in admin dashboard (admin.tsx + admin.functions.ts): counts by kind over 7/30 days plus recent submissions, behind existing has_role admin check; leave 30/hour submit limit untouched.
+- [ ] Stage 1 i18n bundle deletion/dedup: excluded from Run 1 per owner correction ("dispatched scope: Stage 2, Stage 3, Stage 6 if credits remain — nothing else"); parked for a later run.
+- [x] Stage 2 admin feedback panel: NOT in owner-approved plan for Run 1; owner correction (Oct 29 00:16 UTC) says Day 1 feedback work already landed — leave as is, do not implement here.
 - [ ] Stage 3 DEFERRED: Response Agreement panel direction pending user decision — do not touch ResponseAgreementPanel.tsx or ReportView.tsx.
 - Constraints: no Paddle/subscription/billing path changes; MONETIZATION_ENABLED=false; no new checkout.
 - Verification after stages 1–2: full regression suite (baseline 79 passed, 4 privileged skipped), production build, spot-check three locales incl. Arabic RTL.
