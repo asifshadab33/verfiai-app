@@ -1,7 +1,24 @@
 import { describe, expect, it } from "vitest";
-import { CLAIMS, claimReviewSchema, type ClaimEntry } from "./claims";
+import { CLAIMS, claimReviewSchema, claimRobotsMeta, type ClaimEntry } from "./claims";
+import { sitemapPaths } from "../routes/sitemap[.]xml";
 
 describe("editorial evidence publication", () => {
+  it("noindexes unreviewed pages and excludes them from the sitemap", () => {
+    const unreviewed = CLAIMS.find(c => c.slug === "lightning-hotter-than-sun");
+    if (!unreviewed) throw new Error("Unreviewed fixture missing");
+    expect(claimRobotsMeta(unreviewed)).toEqual([{ name: "robots", content: "noindex,follow" }]);
+    expect(sitemapPaths()).not.toContain(`/fact-check/${unreviewed.slug}`);
+    expect(CLAIMS.filter(c => claimRobotsMeta(c).length)).toHaveLength(72);
+  });
+  it("keeps reviewed pages indexable and includes them in the 22-URL sitemap", () => {
+    const reviewed = CLAIMS.find(c => c.slug === "humans-use-10-percent-of-brain");
+    if (!reviewed?.review) throw new Error("Reviewed fixture missing");
+    expect(claimRobotsMeta(reviewed)).toEqual([]);
+    expect(sitemapPaths()).toContain(`/fact-check/${reviewed.slug}`);
+    expect(sitemapPaths()).toHaveLength(22);
+    const { review: _review, ...withoutReview } = reviewed;
+    expect(claimRobotsMeta(withoutReview)).toEqual([{ name: "robots", content: "noindex,follow" }]);
+  });
   it("retains all 75 pages but withholds ClaimReview for the 72 unsubstantiated entries", () => {
     expect(CLAIMS).toHaveLength(75);
     expect(CLAIMS.filter(c => claimReviewSchema(c))).toHaveLength(3);
