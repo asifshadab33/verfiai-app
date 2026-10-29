@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { meter } from "./metering.server";
 vi.mock("./metering.server", () => ({ meter: vi.fn(async () => {}) }));
-import { callEngine, modelRoutingSummary, resetModelRoutingState, runRoute } from "./model.server";
+import { callEngine, logModelCallSummary, modelRoutingSummary, resetModelRoutingState, runRoute } from "./model.server";
 
 afterEach(() => { resetModelRoutingState(); vi.unstubAllGlobals(); vi.unstubAllEnvs(); vi.restoreAllMocks(); });
 function setup() {
@@ -83,5 +83,8 @@ describe("routing summary and rates", () => {
     await callEngine("cerebras:first", "Return JSON", "test");
     const call = vi.mocked(meter).mock.calls.find(([e]) => e.event === "ai_model_call")?.[0];
     expect(call?.estimatedCostUsd).toBe(0);
+  });
+  it("returns an empty summary instead of throwing when the metering store is unavailable", async () => {
+    await expect(logModelCallSummary()).resolves.toEqual([]);
   });
 });
