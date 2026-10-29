@@ -1,4 +1,9 @@
 # Verfiai roadmap
+## Oct 29 Stage 4 SEO wave (pulled forward)
+- [ ] Audit public leaf canonicals; add missing apex self-references, preserving correct existing links and genuine localized variants.
+- [ ] Compare German/Arabic server-rendered primary copy per route; add reciprocal 19-language plus English x-default alternates only to genuinely localized, indexable pages.
+- [ ] Noindex,nofollow private/auth/account/transactional pages and verify sitemap exclusion without robots.txt restrictions; shared reports and editorial indexing logic unchanged.
+- [ ] Run full regression suite, automatic production build, metadata checks and Arabic RTL/English-only browser checks. No publish; all owner exclusions remain untouched.
 ## Oct 29 hydration fix + Day 1 stages A/B — PAUSED by owner (03:55 UTC)
 - [~] Hydration fix APPLIED but NOT YET VERIFIED: index.tsx `<main>` now has declarative id="main-content" tabIndex={-1}; __root.tsx effect now only sets the id as a fallback when missing. Reproduction confirmed the warning beforehand (SSR `<main>` had no id; mutation added it post-hydration). Pending: reload check for warning absence, tests, build.
 - [ ] Stage A (NOT STARTED): delete unused bundles src/lib/i18n/checker.json, recent.json, ui-extra.json; dedupe speak_request/hide_advanced/attachment keys between interface.ts extras and site dictionaries.
