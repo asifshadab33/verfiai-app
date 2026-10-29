@@ -86,6 +86,39 @@ export function resolveModel(id: string) {
 export const hasKey = (id: string) => { const cfg = PROVIDERS[resolveModel(id).provider]; return cfg ? !!process.env[cfg.keyEnv] : false; };
 /** Sentinel statuses: rate limit, unavailable, out of credits → fail over immediately. */
 export const SENTINEL_STATUSES = [402, 429, 503] as const;
+
+// Provider cooldown: after a 429/503 the provider is skipped for a few minutes
+// (in-memory per worker). When every keyed provider is cooling, the full route
+// is used anyway so a fully-cooled state degrades to the legacy behavior.
+const cooldownMs = () => { const n = Number(process.env["MODEL_COOLDOWN_MS"]); return Number.isFinite(n) && n > 0 ? n : 3 * 60_000; };
+const cooldownUntil = new Map<string, number>();
+const coolProvider = (provider: string) => cooldownUntil.set(provider, Date.now() + cooldownMs());
+const isCooling = (provider: string) => (cooldownUntil.get(provider) ?? 0) > Date.now();
+/** Models whose providers are keyed and not cooling; falls back to the full list when all are cooling. */
+function routable(models: string[]): string[] {
+  const fresh = models.filter(m => !isCooling(resolveModel(m).provider));
+  return fresh.length ? fresh : models;
+}
+
+// In-memory routing summary (per provider + model route) for diagnostics; the
+// durable record is the ai_model_call rows meter() writes to usage_meter.
+type RouteStat = { attempts: number; successes: number; totalLatencyMs: number };
+const routeStats = new Map<string, RouteStat>();
+function recordStat(provider: string, modelRoute: string, latencyMs: number, success: boolean) {
+  const key = `${provider}|${modelRoute}`;
+  const s = routeStats.get(key) ?? { attempts: 0, successes: 0, totalLatencyMs: 0 };
+  s.attempts += 1; s.totalLatencyMs += latencyMs; if (success) s.successes += 1;
+  routeStats.set(key, s);
+}
+/** Aggregated routing outcomes: provider, model_route, attempts, success rate, average latency. */
+export function modelRoutingSummary() {
+  return [...routeStats.entries()].map(([key, s]) => {
+    const [provider, model_route] = key.split("|");
+    return { provider, model_route, attempts: s.attempts, successes: s.successes, avg_latency_ms: Math.round(s.totalLatencyMs / s.attempts) };
+  }).sort((a, b) => b.attempts - a.attempts);
+}
+/** Test hook: clears in-memory cooldown and summary state. */
+export function resetModelRoutingState() { cooldownUntil.clear(); routeStats.clear(); }
 const timeoutMs = () => { const n = Number(process.env["MODEL_TIMEOUT_MS"]); return Number.isFinite(n) && n > 0 ? n : 45000; };
 
 /** JSON mode providers require the word "json" somewhere in the messages. */
