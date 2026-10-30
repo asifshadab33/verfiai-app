@@ -2,7 +2,7 @@ import { AccountLink, LanguagePicker } from "@/components/verifai/HomeNavControl
 import { SampleReportDialog } from "@/components/verifai/SampleReportDialog";
 import { ReportForm } from "@/components/verifai/ReportForm";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { ArrowRight, ChevronDown, FileCheck2, Menu, ShieldCheck, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ResourceLibrary } from "@/components/verifai/ResourceLibrary";

@@ -39,7 +39,7 @@ describe("leaf search metadata policy", () => {
       expect(source).toMatch(/name: "robots", content: "noindex,\s*nofollow"/);
       expect(sitemapPaths()).not.toContain(`/${route}`);
     }
-    expect(sitemapPaths()).toHaveLength(22);
+    expect(sitemapPaths()).toHaveLength(24);
     expect(sitemapPaths().some(path => path.startsWith("/r/") || path.startsWith("/resources") || path === "/knowledge")).toBe(false);
   });
 });

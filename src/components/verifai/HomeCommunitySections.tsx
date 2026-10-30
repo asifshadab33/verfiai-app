@@ -3,7 +3,7 @@ import { siteText } from "@/lib/site-i18n";
 import type { Lang } from "@/lib/translations";
 import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
-import { AlertTriangle, HelpCircle, ChevronDown, ArrowRight, BookOpenCheck, Briefcase, Check, CheckCircle2, Code2, FileSearch, Globe, Newspaper, ScanSearch, ShieldCheck, XCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { CommunityWaitlist } from "./CommunityWaitlist";
 import { COMMUNITY_LABELS, FREE_ACCESS_END, FREE_TRY_LINE, IS_FREE_Q, IS_FREE_A } from "@/lib/community";
 import { PricingTiers } from "./PricingTiers";

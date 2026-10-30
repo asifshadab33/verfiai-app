@@ -1,9 +1,7 @@
 import { recentText } from "@/lib/recent-i18n";
-import { siteText } from "@/lib/site-i18n";
 import type { Lang } from "@/lib/translations";
 import { Button } from "@/components/ui/button";
-import { Link } from "@tanstack/react-router";
-import { AlertTriangle, HelpCircle, ChevronDown, ArrowRight, BookOpenCheck, Briefcase, Check, CheckCircle2, Code2, FileSearch, Globe, Newspaper, ScanSearch, ShieldCheck, XCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Pill, type ClaimState } from "./HomeClaimPill";
 
 const SAMPLE_CLAIMS: { claim: string; s: ClaimState; strength: string; count: number; quality: string; excerpt: string; pub: string; conflict?: string }[] = [

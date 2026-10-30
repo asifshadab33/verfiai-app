@@ -3,7 +3,7 @@ import { siteText } from "@/lib/site-i18n";
 import type { Lang } from "@/lib/translations";
 import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
-import { AlertTriangle, HelpCircle, ChevronDown, ArrowRight, BookOpenCheck, Briefcase, Check, CheckCircle2, Code2, FileSearch, Globe, Newspaper, ScanSearch, ShieldCheck, XCircle } from "lucide-react";
+import { AlertTriangle, ArrowRight, BookOpenCheck, Briefcase, Check, CheckCircle2, Code2, FileSearch, Globe, Newspaper, ScanSearch, ShieldCheck } from "lucide-react";
 
 export function HowItWorksSection({ lang }: { lang: Lang }) {
   const t = (text: string) => recentText(lang, text);
