@@ -1,6 +1,6 @@
 # Verfiai roadmap
 ## Oct 30 Day 2 scheduled work
-- [ ] Gemini addendum: inspect existing server-only Gemini integration, request GEMINI_API_KEY securely, wire existing AI routes with graceful missing/invalid-key fallback; never expose key values.
+- [ ] Gemini addendum (07:03 correction): additive only; preserve all working AI routes. Inspect existing GEMINI_API_KEY server-only option and secure request without replacing/removing any existing key or setup; missing/invalid key must preserve fallback.
 - [ ] Finish Google Analytics page tracking using G-NSGRV2SG6X, preserving private URL redaction.
 - [ ] 0: Verify applied homepage hydration fix with SSR/reload, full tests and automatic production build before Stage A.
 - [ ] 1 / Stage A: remove unused merged translation bundles and deduplicate interface extras; verify all 19 locales.
