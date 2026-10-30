@@ -3,4 +3,9 @@ import { isLang, type Lang } from "./translations";
 import { dictionary } from "./locale-dictionaries";
 
 export const hasSiteTranslation = (lang: Lang) => isLang(lang);
-export const siteText = (lang: Lang, key: keyof typeof en) => dictionary(lang)?.site[key] ?? en[key];
+type ConsentKey = "consentTitle" | "consentBody" | "consentAccept" | "consentReject" | "consentPrivacy" | "cookieSettings" | "consentClose";
+export const siteText = (lang: Lang, key: keyof typeof en | ConsentKey): string => {
+  const english: Record<string, string> = en;
+  const localized: Partial<Record<string, string>> | undefined = dictionary(lang)?.site;
+  return localized?.[key] ?? english[key] ?? "";
+};
