@@ -1,7 +1,8 @@
 # Verfiai roadmap
 ## Oct 30 analytics consent
-- [ ] Gate GA and PostHog with versioned twelve-month consent; add accessible nineteen-locale banner and Cookie settings on every page, with withdrawal cleanup.
-- [ ] Update privacy/README disclosures; run consent/component regressions, full suite, en/de/ar axe and real-browser accept/reject/reload/withdrawal checks. No publishing or unrelated stages.
+- [x] Gate GA and PostHog with versioned twelve-month consent; nineteen-locale fixed banner and root-owned shared Cookie settings footer, with withdrawal cleanup. Existing sanitization/configuration preserved.
+- [x] Privacy/README disclosures updated; 162 tests passed, four privileged skipped, automatic production build OK. Consent lifecycle, expiry/version/GPC, keyboard and nineteen-locale dictionary regressions pass.
+- [ ] Live browser/axe acceptance, reload, rejection, withdrawal and RTL verification blocked: localhost SSR responds but browser client module requests stall and hydration never mounts, even after fresh contexts and one supervised cache/restart recovery. Do not claim these checks passed; no publishing.
 ## Oct 30 Day 2 scheduled work
 - PAUSED by owner at 07:31 UTC; finish current verification only. Remaining work awaits tomorrow's instructions; no publishing, key changes or new items.
 - [x] Key addendum (07:13 correction): GOOGLE_FACT_CHECK_API_KEY saved securely; existing cached Google Fact Check engine accepts new spelling plus legacy fallback and sends key in a header. Live provider returned 10 reviews; missing/invalid/quota tests pass. Gemini and all existing keys untouched; no GEMINI_API_KEY_2 created.
