@@ -321,5 +321,12 @@
   "progressFind": "情報源を検索中",
   "progressCompare": "情報源を照合中",
   "progressPrepare": "判定をまとめています",
-  "progressEstimate": "調査中の推定進捗です。レポートが完成するまで各ステップは確定しません。"
+  "progressEstimate": "調査中の推定進捗です。レポートが完成するまで各ステップは確定しません。",
+  "consentTitle": "分析用 Cookie",
+  "consentBody": "Google Analytics と PostHog で訪問数を数え、役立つページを知りたいと考えています。同意するまで動作しません。研究テキストやレポートが分析サービスに送られることはありません。",
+  "consentAccept": "分析を許可",
+  "consentReject": "拒否",
+  "consentPrivacy": "プライバシーポリシー",
+  "cookieSettings": "Cookie 設定",
+  "consentClose": "閉じる"
 }

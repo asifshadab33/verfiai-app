@@ -321,5 +321,12 @@
   "progressFind": "Inatafuta kwenye vyanzo",
   "progressCompare": "Inalinganisha vyanzo",
   "progressPrepare": "Inaandaa hitimisho",
-  "progressEstimate": "Maendeleo yanayokadiriwa wakati utafiti unaendelea. Hatua hazithibitishwi hadi ripoti iwe tayari."
+  "progressEstimate": "Maendeleo yanayokadiriwa wakati utafiti unaendelea. Hatua hazithibitishwi hadi ripoti iwe tayari.",
+  "consentTitle": "Vidakuzi vya uchanganuzi",
+  "consentBody": "Tungependa kutumia Google Analytics na PostHog kuhesabu ziara na kuona kurasa zinazofaa. Hazifanyi kazi hadi ukubali. Uchanganuzi haupokei kamwe maandishi ya utafiti au ripoti zako.",
+  "consentAccept": "Kubali uchanganuzi",
+  "consentReject": "Kataa",
+  "consentPrivacy": "Sera ya faragha",
+  "cookieSettings": "Mipangilio ya vidakuzi",
+  "consentClose": "Funga"
 }
