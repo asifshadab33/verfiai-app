@@ -9,6 +9,7 @@ function setup() {
   for (const key of ["CEREBRAS_API_KEY", "GROQ_API_KEY", "SAMBANOVA_API_KEY", "OPENROUTER_API_KEY"]) vi.stubEnv(key, "test-only");
   const route = "cerebras:first,groq:second,sambanova:third,google/gemma-4-26b-a4b-it:free";
   vi.stubEnv("MODEL_ROUTE_TRIAGE", route); vi.stubEnv("MODEL_ROUTE_EVALUATION", route);
+  vi.stubEnv("MODEL_ROTATION", "off"); // legacy-order assertions
 }
 const success = (content: string) => new Response(JSON.stringify({ choices: [{ message: { content } }] }), { status: 200 });
 
@@ -53,9 +54,9 @@ describe("provider cooldown", () => {
     expect(second.mock.calls[0]?.[0]).toBe("https://api.cerebras.ai/v1/chat/completions");
     now.mockRestore();
   });
-  it("does not cool a provider on non-sentinel failures", async () => {
+  it("does not cool a provider on a single request-shape failure", async () => {
     setup();
-    vi.stubGlobal("fetch", vi.fn(async () => new Response("", { status: 500 })));
+    vi.stubGlobal("fetch", vi.fn(async () => new Response("", { status: 400 })));
     await expect(callEngine("cerebras:first", "Return JSON", "test")).rejects.toThrow("engine");
     const second = vi.fn(async (_url: string) => success('{"ok":true}'));
     vi.stubGlobal("fetch", second);
