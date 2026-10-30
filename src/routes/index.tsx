@@ -7,7 +7,6 @@ import { ArrowRight, ChevronDown, FileCheck2, Menu, ShieldCheck, X } from "lucid
 import { Button } from "@/components/ui/button";
 import { ResourceLibrary } from "@/components/verifai/ResourceLibrary";
 import { CitationFeature, FAQS, FaqSection, FinalCta, ReportProofSection, HeroBadges, HeroMockup, HowItWorksSection, PricingSection, ProductDemo, TrustSection, UseCases, WorkspaceCards } from "@/components/verifai/HomeSections";
-import { SiteFooter } from "@/components/verifai/SiteFooter";
 import { StudioWorkspace, type StudioTab } from "@/components/verifai/StudioWorkspace";
 import { uiText } from "@/lib/ui-extra-i18n";
 import { PaymentTestModeBanner } from "@/components/verifai/PaymentTestModeBanner";
@@ -60,6 +59,5 @@ function Home() {
       <ProductDemo lang={lang} onTry={() => selectTab("fact")} />
       <section id="studio" className="mx-auto max-w-7xl scroll-mt-24 px-5 py-14 md:py-20"><div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-bold uppercase text-brand">Verfiai / Workspace</p><h2 className="mt-2 font-display text-3xl font-bold">{tx("workspace")}</h2></div><div className="flex items-center gap-2 text-xs text-muted-foreground"><ShieldCheck className="size-4" /> AI output is not independent verification</div></div><div className="mt-9"><StudioWorkspace lang={lang} tab={tab} onTab={setTab} report={<ReportForm lang={lang} onLang={changeLang} />} /></div></section>
       <ReportProofSection lang={lang} /><CitationFeature lang={lang} onScan={() => selectTab("citation")} /><HowItWorksSection lang={lang} /><UseCases lang={lang} /><ResourceLibrary /><TrustSection lang={lang} /><PricingSection lang={lang} onStart={() => selectTab("report")} /><FaqSection lang={lang} /><FinalCta lang={lang} onStart={() => selectTab("fact")} /></main>
-    <SiteFooter lang={lang} />
   </div>;
 }
