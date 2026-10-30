@@ -1,3 +1,4 @@
+import { analyticsAccepted } from "./analytics-consent";
 let initialized = false;
 let previousPath: string | undefined;
 
@@ -19,7 +20,8 @@ export function googleAnalyticsPath(path: string) {
 /** Imported by the root after hydration, never evaluated during SSR. */
 export function trackGooglePage(path: string) {
   const id = import.meta.env["VITE_LOVABLE_CONNECTOR_GOOGLE_ANALYTICS_API_KEY"];
-  if (!id || typeof window === "undefined") return;
+  if (!id || typeof window === "undefined" || !analyticsAccepted()) return;
+  (window as unknown as Record<string, unknown>)[`ga-disable-${id}`] = false;
   const pagePath = googleAnalyticsPath(path);
   const parameters = {
     page_path: pagePath,
@@ -49,4 +51,12 @@ export function trackGooglePage(path: string) {
   previousPath = path;
   window.gtag?.("set", parameters);
   window.gtag?.("event", "page_view", { ...parameters, send_to: id });
+}
+
+export function stopGoogleAnalytics() {
+  const id = import.meta.env["VITE_LOVABLE_CONNECTOR_GOOGLE_ANALYTICS_API_KEY"];
+  if (id) (window as unknown as Record<string, unknown>)[`ga-disable-${id}`] = true;
+  previousPath = undefined;
+  // Keep the loaded SDK disabled; reacceptance reuses it without another config.
+  if (window.dataLayer) window.dataLayer.length = 0;
 }
