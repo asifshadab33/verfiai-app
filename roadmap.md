@@ -1,4 +1,13 @@
 # Verfiai roadmap
+## Oct 30 Day 2 scheduled work
+- [ ] Finish Google Analytics page tracking using G-NSGRV2SG6X, preserving private URL redaction.
+- [ ] 0: Verify applied homepage hydration fix with SSR/reload, full tests and automatic production build before Stage A.
+- [ ] 1 / Stage A: remove unused merged translation bundles and deduplicate interface extras; verify all 19 locales.
+- [ ] 2 / Stage B: hide unmeasured Response Agreement; verify measured state and Arabic RTL.
+- [ ] 3 / Stage 4: split index and HomeSections into focused modules without behavior changes.
+- [ ] 4 / Stage 5: add a small editorial review batch only after live cached extraction verifies cited excerpts; retain conservative indexing validator.
+- [ ] 5 / Stage 6: full regression suite and security pre-check; STOP for owner approval before publishing. After approved publishing, check five requested pages across all three hosts and sitemap shared-link exclusion.
+- Constraints: no Paddle/existing billing, checkout, monetization, provider/cache boundary or admin-feedback changes.
 ## Oct 29 Stage 4 SEO wave (pulled forward)
 - [x] Audited public leaves; added missing bare apex canonicals to 8 routes: features, how-it-works, sample-report, faq, methodology, sources, fact-checks, research. Preserved correct existing canonicals; /app now self-canonicalizes genuine locale variants.
 - [x] German/Arabic SSR comparison confirmed primary-copy localization only on / and /app. Both now emit reciprocal 19-language plus English x-default alternates; all 38 served language variants checked. English primary-copy pages, including fact-checker/pricing with localized tool/waitlist islands, deliberately excluded.
