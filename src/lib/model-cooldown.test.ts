@@ -9,6 +9,7 @@ function setup() {
   for (const key of ["CEREBRAS_API_KEY", "GROQ_API_KEY", "SAMBANOVA_API_KEY", "OPENROUTER_API_KEY"]) vi.stubEnv(key, "test-only");
   const route = "cerebras:first,groq:second,sambanova:third,google/gemma-4-26b-a4b-it:free";
   vi.stubEnv("MODEL_ROUTE_TRIAGE", route); vi.stubEnv("MODEL_ROUTE_EVALUATION", route);
+  vi.stubEnv("MODEL_ROTATION", "off"); // legacy-order assertions
 }
 const success = (content: string) => new Response(JSON.stringify({ choices: [{ message: { content } }] }), { status: 200 });
 
