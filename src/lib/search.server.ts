@@ -197,13 +197,13 @@ const wikidata: SearchEngine = { id: "wikidata", run: async (query, language) =>
   }));
 } };
 
-// Google Fact Check Tools ClaimReview search (free; requires a key the owner has
-// not provided yet — skipped silently when GOOGLE_FACTCHECK_API_KEY is unset).
+// Google Fact Check Tools ClaimReview search; missing keys silently skip it.
+// Preserve the legacy secret name while accepting the owner's new spelling.
 // Each result is a professional fact-check verdict: the strongest claim signal.
 const googleFactCheck: SearchEngine = { id: "google-factcheck", run: async (query) => {
-  const key = process.env["GOOGLE_FACTCHECK_API_KEY"];
+  const key = process.env["GOOGLE_FACT_CHECK_API_KEY"] || process.env["GOOGLE_FACTCHECK_API_KEY"];
   if (!key) return [];
-  const res = await fetch(`https://factchecktools.googleapis.com/v1alpha1/claims:search?query=${encodeURIComponent(query.slice(0, 380))}&pageSize=10&key=${encodeURIComponent(key)}`, { signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
+  const res = await fetch(`https://factchecktools.googleapis.com/v1alpha1/claims:search?query=${encodeURIComponent(query.slice(0, 380))}&pageSize=10`, { headers: { "X-Goog-Api-Key": key }, signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS) });
   if (!res.ok) { console.error("Google Fact Check error", res.status); return []; }
   type Review = { url?: string; title?: string; textualRating?: string; reviewDate?: string; publisher?: { name?: string; site?: string } };
   const j = await res.json() as { claims?: { text?: string; claimReview?: Review[] }[] };

@@ -56,6 +56,8 @@ describe("first-wave search engines", () => {
   });
 
   it("skips the Google Fact Check engine silently when no key is configured", async () => {
+    vi.stubEnv("GOOGLE_FACT_CHECK_API_KEY", "");
+    vi.stubEnv("GOOGLE_FACTCHECK_API_KEY", "");
     const request = vi.fn(); vi.stubGlobal("fetch", request);
     await expect(engineSearch("google-factcheck", "vaccine claim")).resolves.toEqual([]);
     expect(request).not.toHaveBeenCalled();
@@ -63,9 +65,11 @@ describe("first-wave search engines", () => {
 
   it("maps Google Fact Check ClaimReview results to the source shape with the strongest claim signal", async () => {
     vi.stubEnv("GOOGLE_FACTCHECK_API_KEY", "test-only");
-    const request = vi.fn(async (url: string) => {
+    vi.stubEnv("GOOGLE_FACT_CHECK_API_KEY", "");
+    const request = vi.fn(async (url: string, init?: RequestInit) => {
       expect(url).toContain("factchecktools.googleapis.com/v1alpha1/claims:search");
-      expect(url).toContain("key=test-only");
+      expect(url).not.toContain("key=");
+      expect(new Headers(init?.headers).get("X-Goog-Api-Key")).toBe("test-only");
       expect(url).toContain("query=");
       return json({ claims: [
         { text: "Drinking bleach cures disease.", claimReview: [
@@ -92,6 +96,25 @@ describe("first-wave search engines", () => {
   it("treats a Google Fact Check failure as an empty result without rejecting", async () => {
     vi.stubEnv("GOOGLE_FACTCHECK_API_KEY", "test-only");
     vi.stubGlobal("fetch", vi.fn(async () => new Response("", { status: 503 })));
+    await expect(engineSearch("google-factcheck", "claim")).resolves.toEqual([]);
+  });
+
+  it("uses the new Google Fact Check secret and reuses the provider cache", async () => {
+    vi.stubEnv("GOOGLE_FACT_CHECK_API_KEY", "test-new-key");
+    vi.stubEnv("GOOGLE_FACTCHECK_API_KEY", "test-legacy-key");
+    const request = vi.fn(async (_url: string, init?: RequestInit) => {
+      expect(new Headers(init?.headers).get("X-Goog-Api-Key")).toBe("test-new-key");
+      return json({ claims: [{ text: "Claim", claimReview: [{ url: "https://example.org/review" }] }] });
+    });
+    vi.stubGlobal("fetch", request);
+    expect(await engineSearch("google-factcheck", "cached claim")).toHaveLength(1);
+    expect(await engineSearch("google-factcheck", "cached claim")).toHaveLength(1);
+    expect(request).toHaveBeenCalledTimes(1);
+  });
+
+  it.each([401, 403, 429])("keeps the cascade working when Google returns %s", async status => {
+    vi.stubEnv("GOOGLE_FACT_CHECK_API_KEY", "test-new-key");
+    vi.stubGlobal("fetch", vi.fn(async () => new Response("", { status })));
     await expect(engineSearch("google-factcheck", "claim")).resolves.toEqual([]);
   });
 

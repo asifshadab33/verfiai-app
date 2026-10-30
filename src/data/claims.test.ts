@@ -8,24 +8,33 @@ describe("editorial evidence publication", () => {
     if (!unreviewed) throw new Error("Unreviewed fixture missing");
     expect(claimRobotsMeta(unreviewed)).toEqual([{ name: "robots", content: "noindex,follow" }]);
     expect(sitemapPaths()).not.toContain(`/fact-check/${unreviewed.slug}`);
-    expect(CLAIMS.filter(c => claimRobotsMeta(c).length)).toHaveLength(72);
+    expect(CLAIMS.filter(c => claimRobotsMeta(c).length)).toHaveLength(70);
   });
-  it("keeps reviewed pages indexable and includes them in the 22-URL sitemap", () => {
+  it("keeps reviewed pages indexable and includes them in the 24-URL sitemap", () => {
     const reviewed = CLAIMS.find(c => c.slug === "humans-use-10-percent-of-brain");
     if (!reviewed?.review) throw new Error("Reviewed fixture missing");
     expect(claimRobotsMeta(reviewed)).toEqual([]);
     expect(sitemapPaths()).toContain(`/fact-check/${reviewed.slug}`);
-    expect(sitemapPaths()).toHaveLength(22);
+    expect(sitemapPaths()).toHaveLength(24);
     const { review: _review, ...withoutReview } = reviewed;
     expect(claimRobotsMeta(withoutReview)).toEqual([{ name: "robots", content: "noindex,follow" }]);
   });
-  it("retains all 75 pages but withholds ClaimReview for the 72 unsubstantiated entries", () => {
+  it("retains all 75 pages but withholds ClaimReview for the 70 unsubstantiated entries", () => {
     expect(CLAIMS).toHaveLength(75);
-    expect(CLAIMS.filter(c => claimReviewSchema(c))).toHaveLength(3);
-    expect(CLAIMS.filter(c => !claimReviewSchema(c))).toHaveLength(72);
+    expect(CLAIMS.filter(c => claimReviewSchema(c))).toHaveLength(5);
+    expect(CLAIMS.filter(c => !claimReviewSchema(c))).toHaveLength(70);
     expect(CLAIMS.filter(c => c.review).map(c => c.slug)).toEqual([
-      "humans-use-10-percent-of-brain", "great-wall-visible-from-space", "seasons-earth-distance",
+      "humans-use-10-percent-of-brain", "great-wall-visible-from-space", "seasons-earth-distance", "moon-dark-side", "flu-shot-gives-flu",
     ]);
+  });
+  it.each(["moon-dark-side", "flu-shot-gives-flu"])("publishes the live-excerpt-reviewed %s record through the shared validator", slug => {
+    const claim = CLAIMS.find(c => c.slug === slug);
+    if (!claim) throw new Error("Review fixture missing");
+    expect(claimReviewSchema(claim)?.datePublished).toBe("2026-10-30");
+    expect(claimReviewSchema(claim)?.reviewRating.ratingValue).toBe(1);
+    expect(claim.review?.sources[0]?.accessedAt).toBe("2026-10-30");
+    expect(claimRobotsMeta(claim)).toEqual([]);
+    expect(sitemapPaths()).toContain(`/fact-check/${slug}`);
   });
   it("requires citations, dated review and honest provenance before emitting ClaimReview", () => {
     const reviewed = CLAIMS.find(c => c.review);

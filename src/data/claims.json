@@ -216,8 +216,29 @@
     "search_phrase": "dark side of the moon",
     "why_searched": "evergreen myth",
     "difficulty": "easy",
-    "verdict": "mixed",
-    "evidence_summary": "The far side gets equal sunlight; 'dark' meant 'unknown.' Both sides experience day and night."
+    "verdict": "contradicted",
+    "evidence_summary": "NASA StarChild explains that the far side receives as much sunlight as the near side. A hemisphere hidden from Earth is not permanently unlit.",
+    "review": {
+      "reviewedAt": "2026-10-30",
+      "reviewer": "Verfiai",
+      "attribution": {
+        "origin": "The first claimant and first publication are unknown here. NASA documents the popular phrase but is not presented as its original author.",
+        "documentedAppearance": "NASA Goddard's StarChild Team explicitly discusses the phrase 'dark side of the Moon' in The Dark Side of the Moon. The retrieved page has no established publication date; it is a documented explanation, not proof of the phrase's historical origin.",
+        "url": "https://starchild.gsfc.nasa.gov/docs/StarChild/solar_system_level2/dark_side.html"
+      },
+      "analysis": [
+        { "text": "The reviewed claim is about a permanently dark hemisphere, not merely the hemisphere hidden from an Earth-based observer. NASA distinguishes these meanings explicitly: the unseen hemisphere is more accurately called the far side. Being out of our view does not mean being out of sunlight.", "citations": [1] },
+        { "text": "NASA's explanation states that the side we do not see from Earth receives just as much sunlight as the side we see. That directly contradicts the unqualified permanent-darkness assertion. The relevant distinction is illumination by the Sun versus visibility from Earth; those are different observing geometries.", "citations": [1] },
+        { "text": "The source explains that the dark side at a given time is the side pointed away from the Sun. This is a temporary illumination condition rather than a fixed hemisphere. The verdict therefore rejects the literal permanent-dark-side claim while retaining the ordinary use of far side for the hemisphere facing away from Earth.", "citations": [1] }
+      ],
+      "limitations": "This is an editorial reading of NASA's educational explanation, verified through the existing cached page-extraction provider on October 30, 2026, not a new lunar illumination study. It concerns hemispheres, not every local crater or permanently shadowed polar region. No first historical claimant or publication date for the NASA page was established.",
+      "sources": [{
+        "title": "The Dark Side of the Moon", "publisher": "NASA Goddard Space Flight Center / StarChild", "authors": "The StarChild Team",
+        "url": "https://starchild.gsfc.nasa.gov/docs/StarChild/solar_system_level2/dark_side.html", "accessedAt": "2026-10-30",
+        "quote": "The side of the Moon we do not see from Earth gets just as much sunlight on it as the side we do see.",
+        "relevance": "The excerpt was found verbatim in the live cached PageExtractionProvider output; NASA directly distinguishes the far side from permanent darkness."
+      }]
+    }
   },
   {
     "id": 8,
@@ -448,7 +469,28 @@
     "why_searched": "seasonal search",
     "difficulty": "easy",
     "verdict": "contradicted",
-    "evidence_summary": "Injectable flu vaccines use inactivated virus that cannot cause infection (CDC)."
+    "evidence_summary": "CDC states that flu vaccines cannot cause flu illness: injected vaccines use inactivated viruses or a single viral protein. Side effects and infections acquired around vaccination are different from vaccine-caused flu.",
+    "review": {
+      "reviewedAt": "2026-10-30", "reviewer": "Verfiai",
+      "attribution": {
+        "origin": "The first speaker or publication responsible for this misconception is not established. CDC is a documented institutional reviewer of the assertion, not its original claimant.",
+        "documentedAppearance": "CDC's Misconceptions About Seasonal Flu and Flu Vaccines, dated September 6, 2024, addresses the assertion under 'Getting a flu vaccine will not give you flu'.",
+        "url": "https://www.cdc.gov/flu/prevention/misconceptions.html"
+      },
+      "analysis": [
+        { "text": "CDC directly states that flu vaccines cannot cause flu illness. Its explanation identifies the material in injected flu vaccines as either inactivated viruses or a single protein from an influenza virus. The reviewed assertion is that the shot causes influenza infection, not that vaccination can have no adverse effects.", "citations": [1] },
+        { "text": "CDC separately describes soreness, redness, tenderness or swelling after a shot and possible low-grade fever, headache and muscle aches. These reactions are not evidence that the injected vaccine gave someone influenza. Keeping side effects separate from flu illness avoids replacing the misconception with an equally inaccurate claim that reactions never happen.", "citations": [1] },
+        { "text": "The same source explains why someone may become ill after vaccination: exposure shortly before vaccination or during the roughly two-week period needed for protection, another respiratory virus, imperfect vaccine effectiveness or a mismatch with circulating influenza viruses. A later infection does not by itself establish that the shot caused it.", "citations": [1] },
+        { "text": "The source acknowledges rare serious allergic reactions and variation in effectiveness. The contradicted verdict is deliberately narrow: it addresses vaccine-caused influenza, not guaranteed protection against every respiratory illness or a universal assessment of an individual's eligibility for vaccination.", "citations": [1] }
+      ],
+      "limitations": "This review uses one dated CDC public-health explanation, with short excerpts verified through the existing cached page-extraction provider on October 30, 2026. It is not an independent systematic review, a diagnosis or individual medical advice. The historical origin of the misconception remains unknown; symptoms and suitability should be discussed with a qualified clinician.",
+      "sources": [{
+        "title": "Misconceptions About Seasonal Flu and Flu Vaccines", "publisher": "Centers for Disease Control and Prevention (CDC)",
+        "url": "https://www.cdc.gov/flu/prevention/misconceptions.html", "publishedAt": "2024-09-06", "accessedAt": "2026-10-30",
+        "quote": "Flu vaccines cannot cause flu illness.",
+        "relevance": "Verified verbatim in the cached PageExtractionProvider output. The surrounding CDC explanation distinguishes injected vaccine ingredients, side effects, imperfect protection and respiratory infections acquired around vaccination."
+      }]
+    }
   },
   {
     "id": 29,

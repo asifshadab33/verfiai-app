@@ -1,13 +1,15 @@
 # Verfiai roadmap
 ## Oct 30 Day 2 scheduled work
-- [ ] Key addendum (07:13 correction supersedes Gemini requests): request GOOGLE_FACT_CHECK_API_KEY securely and support it in the existing cached server-side Google Fact Check engine with missing-key/quota handling. Do not alter Gemini or create GEMINI_API_KEY_2.
-- [ ] Finish Google Analytics page tracking using G-NSGRV2SG6X, preserving private URL redaction.
-- [ ] 0: Verify applied homepage hydration fix with SSR/reload, full tests and automatic production build before Stage A.
-- [ ] 1 / Stage A: remove unused merged translation bundles and deduplicate interface extras; verify all 19 locales.
-- [ ] 2 / Stage B: hide unmeasured Response Agreement; verify measured state and Arabic RTL.
-- [ ] 3 / Stage 4: split index and HomeSections into focused modules without behavior changes.
-- [ ] 4 / Stage 5: add a small editorial review batch only after live cached extraction verifies cited excerpts; retain conservative indexing validator.
-- [ ] 5 / Stage 6: full regression suite and security pre-check; STOP for owner approval before publishing. After approved publishing, check five requested pages across all three hosts and sitemap shared-link exclusion.
+- PAUSED by owner at 07:31 UTC; finish current verification only. Remaining work awaits tomorrow's instructions; no publishing, key changes or new items.
+- [x] Key addendum (07:13 correction): GOOGLE_FACT_CHECK_API_KEY saved securely; existing cached Google Fact Check engine accepts new spelling plus legacy fallback and sends key in a header. Live provider returned 10 reviews; missing/invalid/quota tests pass. Gemini and all existing keys untouched; no GEMINI_API_KEY_2 created.
+- [x] Google Analytics G-NSGRV2SG6X: connected browser tracking, one startup script/config, sanitized explicit initial/navigation pageviews, no automatic duplicates. Browser reload and home→About confirmed one script and two pageviews; dashboard ingestion not confirmed.
+- [x] 0: SSR and hydrated main both id=main-content/tabindex=-1; repeated reload has no hydration warning. 121 tests/4 skipped and automatic production build passed before Stage A.
+- [x] 1 / Stage A: deleted only three unused merged bundles; all 19 locale loaders verified, English/German/Arabic rendered. No duplicate speak_request/hide_advanced/attachment entries exist in current site dictionaries, so interface extras retained to avoid deleting the sole translations. 121 tests/4 skipped, build OK.
+- [x] 2 / Stage B: ReportView accepts an optional genuine agreement state and hides panel when absent; component unchanged. Five tests cover absent/null and all measured states, Arabic RTL measured browser fixture verified. Signed-in saved-report check found no reports; populated report readback remains unverified. 126 tests/4 skipped, build OK.
+- [x] 3 / Stage 4: index reduced to 65 lines, HomeSections to a compatibility barrel; focused nav/dialog/form/parser and section modules. Original Home and section bodies checked identical; three locale renders and demo tabs verified; 126 tests/4 skipped, build OK.
+- [x] 4 / Stage 5: NASA Moon and CDC flu-shot reviews added with verbatim cached PageExtractionProvider excerpts, 2026-10-30 review/access dates, honest unknown origins and limitations. NOAA lightning extractor still unavailable, so left withheld. Five eligible ClaimReviews, 70 noindexed claims, 24 sitemap URLs; shared reports excluded. 128 tests/4 skipped, build OK.
+- [x] 5 / Stage 6 pre-publish QA: full suite 130 passed/4 privileged skipped (includes two dossier unit tests, no live dossier run); automatic production build OK 07:28:30 UTC. Basic security checks found no issues; historical guest-cost warning remains, no new deep scan. Extra lint check unavailable due pre-existing ESLint dependency error; no dependencies changed.
+- [ ] Publishing and post-publish five-page/three-host verification: waits on tomorrow's owner approval; no publish attempted.
 - Constraints: no Paddle/existing billing, checkout, monetization, provider/cache boundary or admin-feedback changes.
 ## Oct 29 Stage 4 SEO wave (pulled forward)
 - [x] Audited public leaves; added missing bare apex canonicals to 8 routes: features, how-it-works, sample-report, faq, methodology, sources, fact-checks, research. Preserved correct existing canonicals; /app now self-canonicalizes genuine locale variants.

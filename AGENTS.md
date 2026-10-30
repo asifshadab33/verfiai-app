@@ -11,6 +11,7 @@
 - Editorial robots metadata and sitemap inclusion use the same ClaimReview eligibility validator so review publication requires only one state change.
 - Leaf search alternates use the primary-page language policy, not localized tool islands; shared SEO link generation keeps canonical and hreflang URLs consistent.
 - Keep report generation on the index route with the citation checker as a separate tab; this preserves the existing Crossref workflow while making research the primary entry point.
+- HomeSections is a compatibility barrel; focused modules separate homepage helpers and ReportForm from route metadata.
 - Keep brochure sections as separate content routes with leaf metadata because each is independently shareable.
 - Library browsing is an index leaf beside the resource-detail leaf, not a parent page that hides its child; this keeps detail and issue-reporting views reachable.
 - Keep cybersecurity exploration on a separate concept route with a browser-only file preview and no claimed scan results, because the research product does not provide media-forensics scanning.
@@ -36,4 +37,5 @@
 - Load only the URL-selected non-English dictionary before root route loading and hydration; keep English eager and cache by locale, with interface values resolved on access so SSR and browser copy agree. Aggregate review dictionaries mirror the per-locale lazy files.
 - Blocked source services use cache-first alternatives with honest provenance; Semantic Scholar uses a service-only atomic database gate for cross-worker spacing and exponential backoff without shortening Retry-After, and skips upstream when coordination is unavailable; Wikipedia editions fail independently so one blocked language cannot discard other evidence.
 - Analytics initializes through a browser-only dynamic import after hydration; mask content and attributes, redact private URL identifiers and disable session recording so research content is not tracked.
+- Google Analytics uses one browser startup configuration with automatic pageviews disabled and explicit sanitized page_view events per navigation, avoiding duplicate visits and research-content leakage.
 - Use Radix tabs for tool/demo navigation and a shared main-content skip target so keyboard behavior and panel relationships remain accessible.
