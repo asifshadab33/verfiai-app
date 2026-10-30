@@ -60,7 +60,7 @@ export function cleanupAnalyticsStorage() {
   const paths = ["/", ...window.location.pathname.split("/").slice(1).map((_, i, values) => "/" + values.slice(0, i + 1).join("/"))];
   for (const name of names) {
     if (!name || !(name === "_ga" || name.startsWith("_ga_") || /^ph_.*_posthog/.test(name) || name.startsWith("__ph_opt_in_out_"))) continue;
-    for (const domain of domains) for (const cookiePath of paths) document.cookie = `${name}=; Max-Age=0; path=${cookiePath}${domain ? `; domain=${domain}` : ""}; SameSite=Lax`;
+    for (const domain of domains) for (const cookiePath of paths) document.cookie = `${name}=; Max-Age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=${cookiePath}${domain ? `; domain=${domain}` : ""}; SameSite=Lax`;
   }
 }
 

@@ -137,6 +137,8 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const location = useLocation();
+  const locale = new URLSearchParams(location.searchStr).get("lang");
+  const footerLang = isLang(locale) ? locale : "en";
   useEffect(() => {
     // Fallback skip-link target for routes whose <main> lacks a declarative id.
     // Routes that render id="main-content" themselves (home, auth, ContentPage) are
@@ -152,7 +154,7 @@ function RootComponent() {
       <FreeAccessBanner />
       <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-3 focus:text-primary-foreground">Skip to main content</a>
       <Outlet />
-      <SiteFooter lang={isLang(new URLSearchParams(location.searchStr).get("lang")) ? new URLSearchParams(location.searchStr).get("lang") as import("../lib/translations").Lang : "en"} />
+      <SiteFooter lang={footerLang} />
       <AnalyticsConsent />
     </QueryClientProvider>
   );
