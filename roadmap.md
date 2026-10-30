@@ -2,7 +2,7 @@
 ## Oct 30 analytics consent
 - [x] Gate GA and PostHog with versioned twelve-month consent; nineteen-locale fixed banner and root-owned shared Cookie settings footer, with withdrawal cleanup. Existing sanitization/configuration preserved.
 - [x] Privacy/README disclosures updated; 162 tests passed, four privileged skipped, automatic production build OK. Consent lifecycle, expiry/version/GPC, keyboard and nineteen-locale dictionary regressions pass.
-- [ ] Live browser/axe acceptance, reload, rejection, withdrawal and RTL verification blocked: localhost SSR responds but browser client module requests stall and hydration never mounts, even after fresh contexts and one supervised cache/restart recovery. Do not claim these checks passed; no publishing.
+- [x] Live acceptance/reload/rejection/withdrawal/GPC and en/de/ar mobile checks pass after restoring the installed entities dependency expected by the existing configuration. Axe WCAG A/AA: zero violations; equal 169×44 action buttons at 390px, no overflow or console/hydration errors. Withdrawal cleanup includes all ph_ session keys; subsequent navigation sends no analytics requests. Previously queued GA requests cannot be recalled. No publishing.
 ## Oct 30 Day 2 scheduled work
 - PAUSED by owner at 07:31 UTC; finish current verification only. Remaining work awaits tomorrow's instructions; no publishing, key changes or new items.
 - [x] Key addendum (07:13 correction): GOOGLE_FACT_CHECK_API_KEY saved securely; existing cached Google Fact Check engine accepts new spelling plus legacy fallback and sends key in a header. Live provider returned 10 reviews; missing/invalid/quota tests pass. Gemini and all existing keys untouched; no GEMINI_API_KEY_2 created.
