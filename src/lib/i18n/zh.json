@@ -321,5 +321,12 @@
   "progressFind": "正在检索来源",
   "progressCompare": "正在交叉核对来源",
   "progressPrepare": "正在形成结论",
-  "progressEstimate": "研究进行中的预估进度。报告完成前，各步骤均未确认。"
+  "progressEstimate": "研究进行中的预估进度。报告完成前，各步骤均未确认。",
+  "consentTitle": "分析 Cookie",
+  "consentBody": "我们希望使用 Google Analytics 和 PostHog 统计访问量，了解哪些页面有用。在您接受之前，它们保持关闭。分析服务绝不会收到您的研究文本或报告。",
+  "consentAccept": "接受分析",
+  "consentReject": "拒绝",
+  "consentPrivacy": "隐私政策",
+  "cookieSettings": "Cookie 设置",
+  "consentClose": "关闭"
 }

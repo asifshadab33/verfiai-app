@@ -323,5 +323,12 @@
   "progressFind": "Searching providers",
   "progressCompare": "Cross-checking sources",
   "progressPrepare": "Synthesizing verdict",
-  "progressEstimate": "Estimated progress while research runs. Steps are not confirmed until the report is ready."
+  "progressEstimate": "Estimated progress while research runs. Steps are not confirmed until the report is ready.",
+  "consentTitle": "Analytics cookies",
+  "consentBody": "We would like to use Google Analytics and PostHog to count visits and see which pages are useful. They stay off unless you accept. Analytics never receives your research text or reports.",
+  "consentAccept": "Accept analytics",
+  "consentReject": "Reject",
+  "consentPrivacy": "Privacy policy",
+  "cookieSettings": "Cookie settings",
+  "consentClose": "Close"
 }

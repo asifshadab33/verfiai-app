@@ -321,5 +321,12 @@
   "progressFind": "Recherche dans les sources",
   "progressCompare": "Recoupement des sources",
   "progressPrepare": "Rédaction du verdict",
-  "progressEstimate": "Progression estimée pendant la recherche. Les étapes ne sont confirmées qu'une fois le rapport prêt."
+  "progressEstimate": "Progression estimée pendant la recherche. Les étapes ne sont confirmées qu'une fois le rapport prêt.",
+  "consentTitle": "Cookies de mesure",
+  "consentBody": "Nous souhaitons utiliser Google Analytics et PostHog pour compter les visites et savoir quelles pages sont utiles. Ils restent désactivés sans votre accord. Vos textes de recherche et rapports ne sont jamais envoyés aux outils de mesure.",
+  "consentAccept": "Accepter la mesure",
+  "consentReject": "Refuser",
+  "consentPrivacy": "Confidentialité",
+  "cookieSettings": "Paramètres des cookies",
+  "consentClose": "Fermer"
 }

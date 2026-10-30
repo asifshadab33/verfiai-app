@@ -321,5 +321,12 @@
   "progressFind": "Mencari di sumber",
   "progressCompare": "Memeriksa silang sumber",
   "progressPrepare": "Menyusun kesimpulan",
-  "progressEstimate": "Perkiraan kemajuan selama riset berjalan. Langkah belum dikonfirmasi sampai laporan siap."
+  "progressEstimate": "Perkiraan kemajuan selama riset berjalan. Langkah belum dikonfirmasi sampai laporan siap.",
+  "consentTitle": "Cookie analitik",
+  "consentBody": "Kami ingin memakai Google Analytics dan PostHog untuk menghitung kunjungan dan melihat halaman yang berguna. Keduanya tetap mati sampai Anda menerima. Analitik tidak pernah menerima teks riset atau laporan Anda.",
+  "consentAccept": "Terima analitik",
+  "consentReject": "Tolak",
+  "consentPrivacy": "Kebijakan privasi",
+  "cookieSettings": "Pengaturan cookie",
+  "consentClose": "Tutup"
 }

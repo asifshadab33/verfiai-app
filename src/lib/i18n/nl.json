@@ -321,5 +321,12 @@
   "progressFind": "Bronnen doorzoeken",
   "progressCompare": "Bronnen vergelijken",
   "progressPrepare": "Oordeel opstellen",
-  "progressEstimate": "Geschatte voortgang tijdens het onderzoek. Stappen zijn pas bevestigd als het rapport klaar is."
+  "progressEstimate": "Geschatte voortgang tijdens het onderzoek. Stappen zijn pas bevestigd als het rapport klaar is.",
+  "consentTitle": "Analysecookies",
+  "consentBody": "We willen Google Analytics en PostHog gebruiken om bezoeken te tellen en te zien welke pagina’s nuttig zijn. Ze blijven uit totdat je accepteert. Je onderzoeksteksten en rapporten worden nooit naar de analyse gestuurd.",
+  "consentAccept": "Analyse accepteren",
+  "consentReject": "Weigeren",
+  "consentPrivacy": "Privacybeleid",
+  "cookieSettings": "Cookie-instellingen",
+  "consentClose": "Sluiten"
 }

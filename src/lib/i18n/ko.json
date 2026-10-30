@@ -321,5 +321,12 @@
   "progressFind": "출처 검색 중",
   "progressCompare": "출처 교차 확인 중",
   "progressPrepare": "판정 작성 중",
-  "progressEstimate": "조사 중 예상 진행 상황입니다. 보고서가 준비될 때까지 단계는 확정되지 않습니다."
+  "progressEstimate": "조사 중 예상 진행 상황입니다. 보고서가 준비될 때까지 단계는 확정되지 않습니다.",
+  "consentTitle": "분석 쿠키",
+  "consentBody": "Google Analytics와 PostHog로 방문 수를 세고 유용한 페이지를 확인하고자 합니다. 동의하기 전에는 작동하지 않습니다. 연구 텍스트나 보고서는 분석 서비스에 절대 전송되지 않습니다.",
+  "consentAccept": "분석 허용",
+  "consentReject": "거부",
+  "consentPrivacy": "개인정보 처리방침",
+  "cookieSettings": "쿠키 설정",
+  "consentClose": "닫기"
 }

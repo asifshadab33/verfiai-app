@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+vi.mock("./analytics-consent", () => ({ analyticsAccepted: () => true }));
 vi.mock("posthog-js", () => ({ default: { init: vi.fn(), capture: vi.fn() } }));
 import posthog from "posthog-js";
 import { analyticsPath, analyticsUrl, trackPage } from "./posthog";

@@ -321,5 +321,12 @@
   "progressFind": "Kaynaklarda aranıyor",
   "progressCompare": "Kaynaklar karşılaştırılıyor",
   "progressPrepare": "Sonuç hazırlanıyor",
-  "progressEstimate": "Araştırma sürerken tahmini ilerleme. Rapor hazır olana kadar adımlar kesinleşmez."
+  "progressEstimate": "Araştırma sürerken tahmini ilerleme. Rapor hazır olana kadar adımlar kesinleşmez.",
+  "consentTitle": "Analiz çerezleri",
+  "consentBody": "Ziyaretleri saymak ve hangi sayfaların yararlı olduğunu görmek için Google Analytics ve PostHog kullanmak istiyoruz. Kabul etmedikçe kapalı kalırlar. Araştırma metinleriniz ve raporlarınız analiz araçlarına asla gönderilmez.",
+  "consentAccept": "Analizi kabul et",
+  "consentReject": "Reddet",
+  "consentPrivacy": "Gizlilik politikası",
+  "cookieSettings": "Çerez ayarları",
+  "consentClose": "Kapat"
 }

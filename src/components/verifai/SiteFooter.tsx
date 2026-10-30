@@ -1,3 +1,6 @@
+import { Button } from "@/components/ui/button";
+import { openCookieSettings } from "@/lib/analytics-consent";
+import { isRtl } from "@/lib/locale";
 import { Link } from "@tanstack/react-router";
 import { COMMUNITY_LABELS } from "@/lib/community";
 import { siteText } from "@/lib/site-i18n";
@@ -6,7 +9,7 @@ import { FileCheck2, Lock } from "lucide-react";
 
 export function SiteFooter({ lang }: { lang?: Lang }) {
   const tx = (key: Parameters<typeof siteText>[1]) => siteText(lang ?? "en", key);
-  return <footer className="bg-footer text-footer-foreground">
+  return <footer lang={lang ?? "en"} dir={isRtl(lang ?? "en") ? "rtl" : "ltr"} className="bg-footer text-footer-foreground">
     <div className="mx-auto max-w-7xl px-5 py-12">
       <div className="grid gap-10 md:grid-cols-3">
         <div>
@@ -31,6 +34,7 @@ export function SiteFooter({ lang }: { lang?: Lang }) {
             <li><Link to="/security" className="transition-colors hover:text-footer-foreground hover:underline">Security</Link></li>
             <li><a href="mailto:hello@verfiai.app?subject=Verfiai%20feedback" className="transition-colors hover:text-footer-foreground hover:underline">Share feedback</a></li>
             <li><Link to="/privacy" className="transition-colors hover:text-footer-foreground hover:underline">{tx("privacy")}</Link></li>
+            <li><Button variant="link" className="min-h-11 px-0 text-footer-muted hover:text-footer-foreground" onClick={openCookieSettings}>{tx("cookieSettings")}</Button></li>
             <li><Link to="/terms" className="transition-colors hover:text-footer-foreground hover:underline">{tx("footerTerms")}</Link></li>
             <li><Link to="/refunds" className="transition-colors hover:text-footer-foreground hover:underline">{tx("footerRefund")}</Link></li>
           </ul>

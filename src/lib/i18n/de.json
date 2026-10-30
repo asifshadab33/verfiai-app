@@ -321,5 +321,12 @@
   "progressFind": "Quellen werden durchsucht",
   "progressCompare": "Quellen werden abgeglichen",
   "progressPrepare": "Bewertung wird erstellt",
-  "progressEstimate": "Geschätzter Fortschritt während der Recherche. Schritte gelten erst als abgeschlossen, wenn der Bericht fertig ist."
+  "progressEstimate": "Geschätzter Fortschritt während der Recherche. Schritte gelten erst als abgeschlossen, wenn der Bericht fertig ist.",
+  "consentTitle": "Analyse-Cookies",
+  "consentBody": "Wir möchten mit Google Analytics und PostHog Besuche zählen und sehen, welche Seiten hilfreich sind. Ohne Ihre Zustimmung bleiben sie aus. Ihre Forschungstexte und Berichte werden nie an die Analyse gesendet.",
+  "consentAccept": "Analyse akzeptieren",
+  "consentReject": "Ablehnen",
+  "consentPrivacy": "Datenschutz",
+  "cookieSettings": "Cookie-Einstellungen",
+  "consentClose": "Schließen"
 }
