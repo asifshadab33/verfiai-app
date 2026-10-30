@@ -22,6 +22,8 @@ describe("analytics consent", () => {
     await vi.waitFor(() => expect(sdk.google).toHaveBeenCalledTimes(1));
     expect(sdk.google).toHaveBeenLastCalledWith("/sources"); expect(sdk.posthog).toHaveBeenCalledTimes(1);
     localStorage.setItem("ph_test_posthog", "identifier"); sessionStorage.setItem("ph_test_posthog_session", "identifier");
+    sessionStorage.setItem("ph_test_primary_window_exists", "true");
+    sessionStorage.setItem("ph_test_session_registered_properties", "identifier");
     localStorage.setItem("auth-test", "keep"); document.cookie = "_ga=abc; path=/"; document.cookie = "_ga_NSGRV2SG6X=abc; path=/";
     consent.chooseConsent("rejected"); await consent.trackConsentedPage("/privacy");
     expect(sdk.stopGoogle).toHaveBeenCalledOnce(); expect(sdk.stopPosthog).toHaveBeenCalledOnce();

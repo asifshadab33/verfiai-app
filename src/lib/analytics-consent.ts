@@ -50,7 +50,7 @@ export function cleanupAnalyticsStorage() {
     try {
       const store = window[storage];
       const keys = Array.from({ length: store.length }, (_, i) => store.key(i));
-      for (const key of keys) if (key && (/^ph_.*_posthog(?:_|$)/.test(key) || key.startsWith("__ph_opt_in_out_"))) store.removeItem(key);
+      for (const key of keys) if (key && (key.startsWith("ph_") || key.startsWith("__ph_opt_in_out_"))) store.removeItem(key);
     } catch { /* Storage can be blocked. */ }
   }
   const names = document.cookie.split(";").map(value => value.trim().split("=")[0]);
