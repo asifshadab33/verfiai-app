@@ -54,9 +54,9 @@ describe("provider cooldown", () => {
     expect(second.mock.calls[0]?.[0]).toBe("https://api.cerebras.ai/v1/chat/completions");
     now.mockRestore();
   });
-  it("does not cool a provider on non-sentinel failures", async () => {
+  it("does not cool a provider on a single request-shape failure", async () => {
     setup();
-    vi.stubGlobal("fetch", vi.fn(async () => new Response("", { status: 500 })));
+    vi.stubGlobal("fetch", vi.fn(async () => new Response("", { status: 400 })));
     await expect(callEngine("cerebras:first", "Return JSON", "test")).rejects.toThrow("engine");
     const second = vi.fn(async (_url: string) => success('{"ok":true}'));
     vi.stubGlobal("fetch", second);
