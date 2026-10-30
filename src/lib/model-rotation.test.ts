@@ -64,19 +64,19 @@ describe("lovable policy", () => {
   const route = "lovable:google/gemini-2.5-flash-lite,cerebras:a";
   it("leads on its slot when enabled and under cap", async () => {
     keys(); vi.stubEnv("MODEL_ROUTE_TRIAGE", route); vi.setSystemTime(0);
-    const f = vi.fn(async () => success()); vi.stubGlobal("fetch", f);
+    const f = vi.fn(async (_u: string) => success()); vi.stubGlobal("fetch", f);
     await runRoute("triage", "json", "x");
     expect(firstHost(f)).toBe("ai.gateway.lovable.dev");
   });
   it("is dropped when disabled", async () => {
     keys(); vi.stubEnv("MODEL_ROUTE_TRIAGE", route); vi.stubEnv("LOVABLE_AI_ENABLED", "false"); vi.setSystemTime(0);
-    const f = vi.fn(async () => success()); vi.stubGlobal("fetch", f);
+    const f = vi.fn(async (_u: string) => success()); vi.stubGlobal("fetch", f);
     await runRoute("triage", "json", "x");
     expect(f.mock.calls.every(c => !String(c[0]).includes("lovable"))).toBe(true);
   });
   it("is dropped when the monthly cap is reached", async () => {
     keys(); vi.stubEnv("MODEL_ROUTE_TRIAGE", route); vi.setSystemTime(0); spend.usd = 1.0;
-    const f = vi.fn(async () => new Response("", { status: 500 })); vi.stubGlobal("fetch", f);
+    const f = vi.fn(async (_u: string) => new Response("", { status: 500 })); vi.stubGlobal("fetch", f);
     await expect(runRoute("triage", "json", "x")).rejects.toThrow();
     expect(f.mock.calls.every(c => !String(c[0]).includes("lovable"))).toBe(true);
   });
@@ -94,7 +94,7 @@ describe("broadened cooldown", () => {
     keys(); vi.stubEnv("MODEL_ROUTE_TRIAGE", route); vi.stubEnv("MODEL_ROTATION", "off");
     vi.stubGlobal("fetch", vi.fn(fail));
     for (let i = 0; i < times; i++) await expect(callEngine("cerebras:a", "json", "x")).rejects.toThrow();
-    const f = vi.fn(async () => success()); vi.stubGlobal("fetch", f);
+    const f = vi.fn(async (_u: string) => success()); vi.stubGlobal("fetch", f);
     await runRoute("triage", "json", "x");
     return firstHost(f) !== "api.cerebras.ai";
   }
@@ -122,14 +122,14 @@ describe("broadened cooldown", () => {
     keys(); vi.stubEnv("MODEL_ROUTE_TRIAGE", route);
     vi.stubGlobal("fetch", vi.fn(async () => new Response("", { status: 429 })));
     await expect(runRoute("triage", "json", "x")).rejects.toThrow();
-    const f = vi.fn(async () => success()); vi.stubGlobal("fetch", f);
+    const f = vi.fn(async (_u: string) => success()); vi.stubGlobal("fetch", f);
     expect(await runRoute("triage", "json", "x")).toBe('{"ok":true}');
   });
   it("honors PROVIDER_COOLDOWN_MS expiry", async () => {
     vi.stubEnv("PROVIDER_COOLDOWN_MS", "1000");
     expect(await cooledAfter(() => new Response("", { status: 429 }), 1)).toBe(true);
     vi.advanceTimersByTime(1500);
-    const f = vi.fn(async () => success()); vi.stubGlobal("fetch", f);
+    const f = vi.fn(async (_u: string) => success()); vi.stubGlobal("fetch", f);
     await runRoute("triage", "json", "x");
     expect(firstHost(f)).toBe("api.cerebras.ai");
   });
