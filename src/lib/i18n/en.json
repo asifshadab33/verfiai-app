@@ -330,5 +330,6 @@
   "consentReject": "Reject",
   "consentPrivacy": "Privacy policy",
   "cookieSettings": "Cookie settings",
-  "consentClose": "Close"
+  "consentClose": "Close",
+  "consentDictionaryVersion": "2026-10-30"
 }
