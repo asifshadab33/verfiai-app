@@ -145,6 +145,9 @@ function RootComponent() {
     void import("../lib/posthog").then(({ trackPage }) => {
       if (current) trackPage(location.pathname);
     }).catch(() => { /* Analytics must never block the app. */ });
+    void import("../lib/google-analytics").then(({ trackGooglePage }) => {
+      if (current) trackGooglePage(location.pathname);
+    }).catch(() => { /* Analytics must never block the app. */ });
     return () => { current = false; };
   }, [location.pathname]);
 
