@@ -18,7 +18,7 @@ export function googleAnalyticsPath(path: string) {
 
 /** Imported by the root after hydration, never evaluated during SSR. */
 export function trackGooglePage(path: string) {
-  const id = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_ANALYTICS_API_KEY;
+  const id = import.meta.env["VITE_LOVABLE_CONNECTOR_GOOGLE_ANALYTICS_API_KEY"];
   if (!id || typeof window === "undefined") return;
   const pagePath = googleAnalyticsPath(path);
   const parameters = {
