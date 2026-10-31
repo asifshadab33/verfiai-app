@@ -1,11 +1,12 @@
 # Verfiai roadmap
 ## Oct 31 approved scale-up reliability and efficiency
-- [ ] Verify existing provider rotation; preserve it without rebuilding.
-- [ ] Extend popular/repeated research lookups beyond the short TTL; preserve private verification-cache isolation and existing limits.
-- [ ] Keep search/AI explicitly visitor-initiated; verify ordinary visits make no search/model calls.
-- [ ] Degrade to clearly dated matching cached/stale research or sources-only output on exhausted providers, never an invented answer.
-- [ ] Review Privacy, Methodology, Cookies, Terms/disclaimer and Contact; legal text is a draft for owner review.
-- [ ] Basic and requested deep security scans; fix confirmed critical findings; full regression and live checks, automatic build verification, Cloud baseline report. No publishing.
+- [x] Existing provider rotation verified; unchanged.
+- [x] Added caller/exact-input/scoring-cohort research reuse before search: 24h rare / 7d after three fresh uses, non-sliding dates; bounded 30d stale-on-exhaustion fallback. Existing limits and private verification boundaries preserved.
+- [x] Explicit submission remains the opt-in; six live page visits made zero research/model requests, no runtime errors; Arabic home RTL and English content LTR verified.
+- [x] Research/dossier and claim evaluation degrade to sources-only on recognized cascade exhaustion; no invented synthesis or measured verdict, no degraded answer caching. Unit tests verify fresh zero-call, stale and sources-only paths.
+- [x] Privacy, Methodology, Terms and Contact refreshed; Cookies page linked in footer and sitemap (25 URLs); legal pages explicitly drafts for owner review.
+- [x] Full suite 170 passed / 4 privileged skipped; automatic production build OK. Cloud baseline Oct 28–31: 1.362870582 credits; spendable Cloud 18.76 at initial check. No publishing.
+- [ ] Deep security completion and authenticated live cached/outage report save/readback remain unverified; basic scan found no issues. Citation extraction retains its existing friendly retry behavior when AI is unavailable. No custom IP limiter, per owner decision.
 - Owner decision: retain existing limits, no custom per-client limiter. With no matching cached answer, show sources only where available.
 ## Oct 30 analytics consent
 - [x] Gate GA and PostHog with versioned twelve-month consent; nineteen-locale fixed banner and root-owned shared Cookie settings footer, with withdrawal cleanup. Existing sanitization/configuration preserved.
