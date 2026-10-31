@@ -11,8 +11,8 @@
 - Editorial robots metadata and sitemap inclusion use the same ClaimReview eligibility validator so review publication requires only one state change.
 - Leaf search alternates use the primary-page language policy, not localized tool islands; shared SEO link generation keeps canonical and hreflang URLs consistent.
 - Keep report generation on the index route with the citation checker as a separate tab; this preserves the existing Crossref workflow while making research the primary entry point.
-- HomeSections is a compatibility barrel; focused modules separate helpers/forms from metadata.
-- Brochure sections use separate content routes with leaf metadata for sharing.
+- HomeSections is a compatibility barrel; helpers/forms are separate from metadata.
+- Brochure sections use content routes with leaf metadata.
 - Library browsing is an index leaf beside the resource-detail leaf, not a parent page that hides its child; this keeps detail and issue-reporting views reachable.
 - Keep cybersecurity exploration on a separate concept route with a browser-only file preview and no claimed scan results, because the research product does not provide media-forensics scanning.
 - Reports use Cloud auth (Google + email); generation, plan limits and saving run server-side against reports/subscriptions, because browser counters cannot enforce access.
