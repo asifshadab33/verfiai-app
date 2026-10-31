@@ -16,6 +16,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as FactCheckerRouteImport } from './routes/fact-checker'
 import { Route as FactChecksRouteImport } from './routes/fact-checks'
 import { Route as FaqRouteImport } from './routes/faq'
@@ -77,6 +78,11 @@ const AuthRoute = AuthRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FactCheckerRoute = FactCheckerRouteImport.update({
@@ -225,6 +231,7 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
   '/fact-checker': typeof FactCheckerRoute
   '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
@@ -261,6 +268,7 @@ export interface FileRoutesByTo {
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
   '/fact-checker': typeof FactCheckerRoute
   '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
@@ -298,6 +306,7 @@ export interface FileRoutesById {
   '/app': typeof AppRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
   '/fact-checker': typeof FactCheckerRoute
   '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
@@ -336,6 +345,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/auth'
     | '/contact'
+    | '/cookies'
     | '/fact-checker'
     | '/fact-checks'
     | '/faq'
@@ -372,6 +382,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/auth'
     | '/contact'
+    | '/cookies'
     | '/fact-checker'
     | '/fact-checks'
     | '/faq'
@@ -408,6 +419,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/auth'
     | '/contact'
+    | '/cookies'
     | '/fact-checker'
     | '/fact-checks'
     | '/faq'
@@ -445,6 +457,7 @@ export interface RootRouteChildren {
   AppRoute: typeof AppRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
+  CookiesRoute: typeof CookiesRoute
   FactCheckerRoute: typeof FactCheckerRoute
   FactChecksRoute: typeof FactChecksRoute
   FaqRoute: typeof FaqRoute
@@ -523,6 +536,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/fact-checker': {
@@ -725,6 +745,7 @@ const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
+  CookiesRoute: CookiesRoute,
   FactCheckerRoute: FactCheckerRoute,
   FactChecksRoute: FactChecksRoute,
   FaqRoute: FaqRoute,

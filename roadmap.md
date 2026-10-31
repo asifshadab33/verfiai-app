@@ -1,4 +1,13 @@
 # Verfiai roadmap
+## Oct 31 approved scale-up reliability and efficiency
+- [x] Existing provider rotation verified; unchanged.
+- [x] Added caller/exact-input/scoring-cohort research reuse before search: 24h rare / 7d after three fresh uses, non-sliding dates; bounded 30d stale-on-exhaustion fallback. Existing limits and private verification boundaries preserved.
+- [x] Explicit submission remains the opt-in; six live page visits made zero research/model requests, no runtime errors; Arabic home RTL and English content LTR verified.
+- [x] Research/dossier and claim evaluation degrade to sources-only on recognized cascade exhaustion; no invented synthesis or measured verdict, no degraded answer caching. Unit tests verify fresh zero-call, stale and sources-only paths.
+- [x] Privacy, Methodology, Terms and Contact refreshed; Cookies page linked in footer and sitemap (25 URLs); legal pages explicitly drafts for owner review.
+- [x] Full suite 170 passed / 4 privileged skipped; automatic production build OK. Cloud baseline Oct 28–31: 1.362870582 credits; spendable Cloud 18.76 at initial check. No publishing.
+- [ ] Deep security completion and authenticated live cached/outage report save/readback remain unverified; basic scan found no issues. Citation extraction retains its existing friendly retry behavior when AI is unavailable. No custom IP limiter, per owner decision.
+- Owner decision: retain existing limits, no custom per-client limiter. With no matching cached answer, show sources only where available.
 ## Oct 30 analytics consent
 - [x] Gate GA and PostHog with versioned twelve-month consent; nineteen-locale fixed banner and root-owned shared Cookie settings footer, with withdrawal cleanup. Existing sanitization/configuration preserved.
 - [x] Privacy/README disclosures updated; 162 tests passed, four privileged skipped, automatic production build OK. Consent lifecycle, expiry/version/GPC, keyboard and nineteen-locale dictionary regressions pass.

@@ -9,6 +9,9 @@ import { z } from "zod";
 import { uniqueSources, scoreSource, hasSyndicationSignal } from "./evidence";
 import { businessPrompt } from "./prompts/business-analyst";
 import type { ProgressEmitter } from "./progress";
+import { readResearchCache, writeResearchCache, researchResultKey } from "./research-cache.server";
+import { cachedReport, sourcesOnlyReport } from "./research-fallback";
+import { providerExhausted } from "./research-policy";
 
 export type { Source };
 export { searchAll, webSearch, crossrefSearch, wikipediaSearch, duckduckgoSearch, openAlexSearch, pubmedSearch } from "./search.server";
@@ -117,6 +120,20 @@ async function generateExtendedReport(
 }
 
 export async function buildReport(data: ReportInput, meta?: CallMeta, progress?: ProgressEmitter): Promise<ResearchReport> {
+  const { isEnabled } = await import("./flags.server");
+  const advanced = await isEnabled("ADVANCED_SOURCE_SCORING_ENABLED", meta?.userId ?? null);
+  const scope = meta?.userId ?? meta?.guestFingerprint;
+  // No caller identity means no shared full-input/report cache. Public source caches remain separate.
+  const key = scope ? researchResultKey(scope, data, advanced ? "scoring-v1" : "legacy") : null;
+  const hit = key ? await readResearchCache<ResearchReport>(key) : null;
+  if (hit?.fresh) return cachedReport(hit.value, hit.createdAt, false);
+  const report = await buildFreshReport(data, meta, progress, hit, scope);
+  // Never persist a degraded answer or reset the age of an outage fallback.
+  if (key && !report.delivery) await writeResearchCache(key, report);
+  return report;
+}
+
+async function buildFreshReport(data: ReportInput, meta?: CallMeta, progress?: ProgressEmitter, previous?: { value: ResearchReport; createdAt: string; fresh: boolean } | null, scope?: string): Promise<ResearchReport> {
   const targetLang = getLanguageName(data.language);
   const isEnglish = targetLang.toLowerCase() === 'english';
   const languageInstruction = !isEnglish
@@ -138,11 +155,16 @@ export async function buildReport(data: ReportInput, meta?: CallMeta, progress?:
   const web = sources.length > 0;
   const fetchedAt = new Date().toISOString();
 
-  const reportKey = "report:" + sha(JSON.stringify([data, sources.map(s => s.url)]));
+  const reportKey = "report-private-v1:" + sha(JSON.stringify([scope ?? crypto.randomUUID(), data, sources.map(s => s.url)]));
   await progress?.("synthesis");
-  const report = await cached({
+  let report: ResearchReport;
+  try { report = await cached({
     key: reportKey, kind: "report", ttlMs: CACHE_TTL.report(), compute: () => (data.format === "extended" ? generateExtendedReport : generateReport)(data, { sources, web, fetchedAt, targetLang, languageInstruction, found, ...(meta ? { meta } : {}) }),
-  });
+  }); } catch (error) {
+    if (!providerExhausted(error)) throw error;
+    if (previous) return cachedReport(previous.value, previous.createdAt, true);
+    return sourcesOnlyReport(data.question, sources.map(s => ({ title: s.title, url: s.url, publisher: new URL(s.url).hostname, date: s.published ?? "", snippet: s.content.slice(0, 300), fetchedAt })), fetchedAt);
+  }
   const { isEnabled } = await import("./flags.server");
   if (!(await isEnabled("ADVANCED_SOURCE_SCORING_ENABLED", meta?.userId ?? null))) return report;
   // Computed only from retrieved metadata, after synthesis/cache: model-written scores are never trusted.

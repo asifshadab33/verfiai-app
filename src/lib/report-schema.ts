@@ -33,6 +33,7 @@ export const reportSchema = z.object({
   verification: z.enum(["web", "model"]).optional(),
   engines: z.array(z.string()).optional(),
   format: z.enum(["standard", "extended", "dossier"]).optional(),
+  delivery: z.object({ mode: z.enum(["cached", "stale", "sources-only"]), generatedAt: z.string() }).optional(),
   // Extended Report sections (Day 10). Absent on Standard Briefs.
   proceduralGuidance: z.string().optional(),
   timeline: z.array(z.object({ date: z.string(), event: z.string() })).max(20).optional(),

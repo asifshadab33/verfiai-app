@@ -7,6 +7,8 @@ import { synthesize, type CallMeta } from "./model.server";
 import { sourceTier } from "./evidence";
 import { reportSchema, type ResearchReport } from "./report-schema";
 import { z } from "zod";
+import { providerExhausted } from "./research-policy";
+import { sourcesOnlyReport } from "./research-fallback";
 
 export const DOSSIER_MAX_SOURCES = 50;
 export const DOSSIER_MIN_TARGET = 30;
@@ -77,6 +79,7 @@ export async function generateDeepDossier(topic: string, opts: { strict: boolean
   const sources: (Source & Partial<DocSource>)[] = [...docs, ...webKept].slice(0, DOSSIER_MAX_SOURCES);
   if (!sources.length) throw new Error("We couldn't find enough public sources for this topic. Try a broader question.");
 
+  try {
   // Numbered evidence stays within a bounded context; complete URLs/metadata are attached deterministically below.
   const excerptBudget = Math.max(100, Math.min(500, Math.floor(14000 / sources.length) - 130));
   const line = (s: Source & Partial<DocSource>, i: number) => `[${i + 1}] ${s.title.slice(0, 90)} — ${hostOf(s.url)} (Tier ${tierOf(s.url)}, ${s.published ?? "date unknown"})\nSnippet: ${s.content.slice(0, excerptBudget)}`;
@@ -126,4 +129,8 @@ export async function generateDeepDossier(topic: string, opts: { strict: boolean
       `Source mix: Tier 1 ${tiers[0]}, Tier 2 ${tiers[1]}, Tier 3 ${tiers[2]}.`,
     ],
   };
+  } catch (error) {
+    if (!providerExhausted(error)) throw error;
+    return { ...sourcesOnlyReport(topic, sources.map(s => ({ title: s.title, url: s.url, publisher: hostOf(s.url), date: s.published ?? "", snippet: s.content.slice(0, 300), fetchedAt })), fetchedAt), format: "dossier" };
+  }
 }
