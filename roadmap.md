@@ -1,4 +1,12 @@
 # Verfiai roadmap
+## Oct 31 approved scale-up reliability and efficiency
+- [ ] Verify existing provider rotation; preserve it without rebuilding.
+- [ ] Extend popular/repeated research lookups beyond the short TTL; preserve private verification-cache isolation and existing limits.
+- [ ] Keep search/AI explicitly visitor-initiated; verify ordinary visits make no search/model calls.
+- [ ] Degrade to clearly dated matching cached/stale research or sources-only output on exhausted providers, never an invented answer.
+- [ ] Review Privacy, Methodology, Cookies, Terms/disclaimer and Contact; legal text is a draft for owner review.
+- [ ] Basic and requested deep security scans; fix confirmed critical findings; full regression and live checks, automatic build verification, Cloud baseline report. No publishing.
+- Owner decision: retain existing limits, no custom per-client limiter. With no matching cached answer, show sources only where available.
 ## Oct 30 analytics consent
 - [x] Gate GA and PostHog with versioned twelve-month consent; nineteen-locale fixed banner and root-owned shared Cookie settings footer, with withdrawal cleanup. Existing sanitization/configuration preserved.
 - [x] Privacy/README disclosures updated; 162 tests passed, four privileged skipped, automatic production build OK. Consent lifecycle, expiry/version/GPC, keyboard and nineteen-locale dictionary regressions pass.
