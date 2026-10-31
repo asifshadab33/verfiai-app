@@ -1,6 +1,7 @@
 import { describe, expect, it, vi, afterEach } from "vitest";
 const state = vi.hoisted(() => ({ enabled: false }));
 vi.mock("./flags.server", () => ({ isEnabled: vi.fn(async () => state.enabled) }));
+vi.mock("./research-cache.server", () => ({ researchResultKey: () => "scoped", readResearchCache: async () => null, writeResearchCache: async () => {} }));
 vi.mock("./search.server", () => ({ engineSearch: async () => [], dualAngleSearch: async () => [
   { url: "https://cdc.gov/data.csv", title: "Water temperatures increased worldwide", content: "Methods: we measured water temperatures worldwide.", author: "Jane Smith", published: "2026-10-01", score: 1 },
 ] }));
