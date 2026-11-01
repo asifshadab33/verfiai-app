@@ -11,7 +11,7 @@ import { ReportView } from "./ReportView";
 import { UploadNotice } from "./UploadNotice";
 import { VoiceButton } from "./VoiceButton";
 import { useAuth } from "@/hooks/useAuth";
-import { generateReport, generateGuestReport, getReportUsage, MONTHLY_REPORT_LIMIT, type ResearchReport } from "@/lib/report.functions";
+import { generateReport, getReportUsage, MONTHLY_REPORT_LIMIT, type ResearchReport } from "@/lib/report.functions";
 import { languages, type Lang } from "@/lib/translations";
 import { siteText } from "@/lib/site-i18n";
 import { translations } from "@/lib/i18n/interface";
@@ -22,8 +22,6 @@ type TextKey = Parameters<typeof siteText>[1];
 export function ReportForm({ lang, onLang }: { lang: Lang; onLang: (l: Lang) => void }) {
   const tx = (key: TextKey) => siteText(lang, key);
   const generate = useServerFn(generateReport);
-  const generateGuest = useServerFn(generateGuestReport);
-  const [guestDone, setGuestDone] = useState(false);
   const fetchUsage = useServerFn(getReportUsage);
   const { user, loading: authLoading } = useAuth();
   const [question, setQuestion] = useState("");
@@ -59,15 +57,15 @@ export function ReportForm({ lang, onLang }: { lang: Lang; onLang: (l: Lang) => 
     } catch { setFileError(tx("fileUnreadable")); }
   }
   async function submit() {
-    if (busy || authLoading || (user && left === 0)) return;
+    if (busy || authLoading || !user || left === 0) return; // reports require a signed-in account
     if (question.trim().length < 10) { setError(tx("tooShort")); return; }
     setBusy(true); setError(""); setReport(null);
     try {
       const stream = await progress.start();
       const payload = { task, question, attachment, language: languages.find(l => l.code === lang)?.name ?? "English", mode, company, website, industry, competitors, focus, format, progress: stream };
-      const result = user ? await generate({ data: payload }) : await generateGuest({ data: payload });
-      if ("limitReached" in result) { setError(result.message ?? ""); if (!user) setGuestDone(true); return; }
-      setReport(result.report); setReportId("id" in result ? String(result.id) : undefined); if (user) setUsed(used + 1); else setGuestDone(true);
+      const result = await generate({ data: payload });
+      if ("limitReached" in result) { setError(result.message ?? ""); return; }
+      setReport(result.report); setReportId("id" in result ? String(result.id) : undefined); setUsed(used + 1);
       setTimeout(() => document.getElementById("report-output")?.scrollIntoView({ behavior: "smooth" }), 100);
     } catch (e) { setError(e instanceof Error ? e.message : tx("errorTitle")); }
     finally { progress.stop(); setBusy(false); }
@@ -97,8 +95,8 @@ export function ReportForm({ lang, onLang }: { lang: Lang; onLang: (l: Lang) => 
         <details className="group border-b border-border py-5"><summary className="flex cursor-pointer list-none items-center gap-2 font-semibold"><span className="group-open:hidden">{translations[lang].show_advanced}</span><span className="hidden group-open:inline">{translations[lang].hide_advanced}</span><span className="font-normal text-muted-foreground">{tx("optional")}</span><ChevronDown className="size-4 transition-transform group-open:rotate-180" /></summary>
           <div className="mt-5 grid gap-4 sm:grid-cols-2">{([["company", company, setCompany], ["website", website, setWebsite], ["industry", industry, setIndustry], ["competitors", competitors, setCompetitors]] as const).map(([key, value, setter]) => <label key={key} className="text-sm font-medium">{tx(key)}<Input value={value} maxLength={200} onChange={e => setter(e.target.value)} className="mt-2 bg-card" dir="auto" /></label>)}<label className="text-sm font-medium sm:col-span-2">{tx("focus")}<Textarea id="focus-data" dir="auto" value={focus} maxLength={500} onChange={e => setFocus(e.target.value)} className="mt-2 min-h-20 bg-card" /></label><label className="text-sm font-medium">{tx("mode")}<select value={mode} onChange={e => setMode(e.target.value as typeof mode)} className="mt-2 h-9 w-full rounded-md border border-input bg-card px-3">{(["Balanced", "Fast", "Focused", "Comparative"] as const).map((m) => <option key={m} value={m}>{tx(({ Balanced: "modeBalanced", Fast: "modeQuick", Focused: "modeDeep", Comparative: "modeComparative" } as const)[m])}</option>)}</select></label></div>
         </details>
-        {!authLoading && !user && guestDone ? <div className="mt-6 flex flex-wrap items-center gap-4 border border-border bg-secondary p-5"><p className="text-sm">{tx("guestUsed")}</p><Button asChild><Link to="/auth">{tx("signInContinue")}</Link></Button></div>
-         : <div className="mt-6 flex flex-wrap items-center gap-4"><Button size="lg" className="h-12 px-7" onClick={submit} disabled={busy || (!!user && left === 0) || authLoading}>{busy ? <LoaderCircle className="animate-spin" /> : <ArrowRight />}{busy ? tx("reportBusy") : translations[lang].generate_report}</Button><span className="text-sm text-muted-foreground">{user ? `${left} / ${limit} ${tx("reportRemaining")}` : <>{tx("guestReport")} · <Link to="/auth" className="text-brand underline">{tx("navSignIn")}</Link> {tx("guestMonthly")}</>}</span></div>}
+        {!authLoading && !user ? <div className="mt-6 flex flex-wrap items-center gap-4 border border-border bg-secondary p-5"><p className="text-sm">{tx("signInForReports")}</p><Button asChild><Link to="/auth">{tx("signInContinue")}</Link></Button></div>
+         : <div className="mt-6 flex flex-wrap items-center gap-4"><Button size="lg" className="h-12 px-7" onClick={submit} disabled={busy || left === 0 || authLoading}>{busy ? <LoaderCircle className="animate-spin" /> : <ArrowRight />}{busy ? tx("reportBusy") : translations[lang].generate_report}</Button><span className="text-sm text-muted-foreground">{`${left} / ${limit} ${tx("reportRemaining")}`}</span></div>}
         {user && left === 0 && <p role="status" className="mt-4 text-sm text-muted-foreground">{tx("limit")}</p>}
         {error && <div role="alert" className="mt-5 flex flex-wrap items-center gap-3 text-sm text-destructive">{error}{!/used your/.test(error) && <Button variant="outline" size="sm" disabled={busy} onClick={submit}>{tx("retry")}</Button>}</div>}
         <GenerationProgress active={busy} lang={lang} event={progress.event} />

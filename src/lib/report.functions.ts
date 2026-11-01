@@ -1,9 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
-import { getRequestHeader } from "@tanstack/react-start/server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { MONTHLY_REPORT_LIMIT, reportInput, wordCount } from "./report-schema";
 import { buildReport } from "./research.server";
-import { sha } from "./cache.server";
 import { paymentEnvironment } from "./payments-env.server";
 import { guardVerificationRequest } from "./verification-guard.server";
 import { createProgressEmitter } from "./progress.server";
@@ -56,29 +54,7 @@ export const generateReport = createServerFn({ method: "POST" })
     return { id: row.id, report, words: wordCount(report) };
   });
 
-// One free report per device/network for visitors who are not signed in (server-enforced).
-export const generateGuestReport = createServerFn({ method: "POST" })
-  .inputValidator((data) => reportInput.parse(data))
-  .handler(async ({ data }) => {
-    const ip = getRequestHeader("cf-connecting-ip") ?? getRequestHeader("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-    const ua = getRequestHeader("user-agent") ?? "";
-    const fingerprint = sha(`${ip}|${ua}|verifai-guest`);
-    await guardVerificationRequest({ userId: null, fingerprint });
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { error: claimErr } = await supabaseAdmin.from("guest_usage").insert({ fingerprint });
-    if (claimErr) return { limitReached: true as const, message: "You've used your free report. Sign in with Google or email to get 3 more every month." };
-    const { progress: progressInput, ...request } = data;
-    const progress = createProgressEmitter(progressInput);
-    await progress("validation");
-    try {
-      const report = await buildReport(request, { userId: null, guestFingerprint: fingerprint }, progress);
-      await progress("rendering");
-      const { meter } = await import("./metering.server");
-      void meter({ userId: null, guestFingerprint: fingerprint, event: "report_created", provider: "openrouter" });
-      await progress("complete");
-      return { report, words: wordCount(report) };
-    } catch (e) {
-      await supabaseAdmin.from("guest_usage").delete().eq("fingerprint", fingerprint);
-      throw e;
-    }
-  });
+// Research reports require a signed-in account (owner decision, Nov 1 2026):
+// guests may run claim checks and citation scans, but fresh report generation
+// is authenticated-only so unauthenticated callers can never trigger paid model
+// calls. There is intentionally no guest report server function.
