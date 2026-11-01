@@ -11,7 +11,7 @@ import { ReportView } from "./ReportView";
 import { UploadNotice } from "./UploadNotice";
 import { VoiceButton } from "./VoiceButton";
 import { useAuth } from "@/hooks/useAuth";
-import { generateReport, generateGuestReport, getReportUsage, MONTHLY_REPORT_LIMIT, type ResearchReport } from "@/lib/report.functions";
+import { generateReport, getReportUsage, MONTHLY_REPORT_LIMIT, type ResearchReport } from "@/lib/report.functions";
 import { languages, type Lang } from "@/lib/translations";
 import { siteText } from "@/lib/site-i18n";
 import { translations } from "@/lib/i18n/interface";
@@ -22,8 +22,6 @@ type TextKey = Parameters<typeof siteText>[1];
 export function ReportForm({ lang, onLang }: { lang: Lang; onLang: (l: Lang) => void }) {
   const tx = (key: TextKey) => siteText(lang, key);
   const generate = useServerFn(generateReport);
-  const generateGuest = useServerFn(generateGuestReport);
-  const [guestDone, setGuestDone] = useState(false);
   const fetchUsage = useServerFn(getReportUsage);
   const { user, loading: authLoading } = useAuth();
   const [question, setQuestion] = useState("");
