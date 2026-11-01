@@ -29,7 +29,7 @@ export const FAQS = [
   ["Can Verfiai access paywalled sources?", "No. It can only evaluate publicly accessible content. Paywalled or offline sources cannot be read."],
   ["How does Verfiai handle conflicting evidence?", "Two AI engines review the same retrieved excerpts. If they materially disagree, a third engine reviews the conflicting evidence, and conflicting excerpts are shown side by side. AI agreement is one input to confidence, not proof of accuracy."],
   ["Is my submitted text private?", "Signed-in reports are saved privately to your account. Your text is sent to search and AI providers to produce results. Don't submit confidential, regulated or unpublished material."],
-  ["What are the free-plan limits?", "A free account gets 3 reports, 3 fact-checks and 3 citation scans a month. You can try each tool once without an account. Verfiai is free until October 13, 2027, subject to fair-use limits. Academic, educator and high-volume users can request extended access at hello@verfiai.app."],
+  ["What are the free-plan limits?", "A free account gets 3 reports, 3 fact-checks and 3 citation scans a month. You can try a claim check without an account. Verfiai is free until October 13, 2027, subject to fair-use limits. Academic, educator and high-volume users can request extended access at hello@verfiai.app."],
   ["Can I export or share reports?", "Yes — Word, Markdown or PDF, plus read-only share links you can turn off. Community exports carry a Verfiai watermark. Paid checkout is currently unavailable."],
 ] as const;
 

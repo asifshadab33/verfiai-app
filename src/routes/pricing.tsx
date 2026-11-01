@@ -17,7 +17,7 @@ function CommunityAccess() {
       <div>
         <PageSection title="Plans during the launch period"><PricingTiers /></PageSection>
         <PageSection title="Our one-year free pledge"><p>Research should be open to everyone. Use Verfiai’s research reports, factual claim checks and citation checker without paying until October 13, 2027.</p></PageSection>
-        <PageSection title="Fair use keeps Verfiai available"><p>Reasonable rate limits apply to protect service availability. Current allowances are 3 reports, 3 fact-checks and 3 citation scans per month with a free account, with up to 20 references per scan. You can try each tool once without an account. These safeguards remain in place; free access is not unlimited access.</p><p className="mt-3">Community exports retain the Verfiai watermark.</p></PageSection>
+        <PageSection title="Fair use keeps Verfiai available"><p>Reasonable rate limits apply to protect service availability. Current allowances are 3 reports, 3 fact-checks and 3 citation scans per month with a free account, with up to 20 references per scan. You can try a claim check without an account; research reports require a free account. These safeguards remain in place; free access is not unlimited access.</p><p className="mt-3">Community exports retain the Verfiai watermark.</p></PageSection>
         <Button asChild><Link to="/">Start researching free</Link></Button>
       </div>
       <div className="border-t border-border pt-8"><CommunityWaitlist /></div>
