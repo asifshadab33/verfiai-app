@@ -54,7 +54,7 @@ export function cleanText(input: string, o: CleanOptions = {}): string {
   if (o.trimLines) s = s.split("\n").map(l => l.trim()).join("\n");
   if (o.fixHyphenation) s = s.replace(/(\p{L})-\n(\p{Ll})/gu, "$1$2");
   if (o.unwrapLines) s = s.split(/\n{2,}/).map(p => p.replace(/\n/g, " ")).join("\n\n");
-  if (o.collapseSpaces) s = s.replace(/[ \t ]{2,}/g, " ");
+  if (o.collapseSpaces) s = s.replace(/[ \t\u00A0]{2,}/g, " ");
   if (o.blankLines === "collapse") s = s.replace(/\n{3,}/g, "\n\n");
   else if (o.blankLines === "remove") s = s.split("\n").filter(l => l.trim()).join("\n");
   if (o.removeDuplicateLines) { const seen = new Set<string>(); s = s.split("\n").filter(l => { const k = l.trim().toLowerCase(); if (!k) return true; if (seen.has(k)) return false; seen.add(k); return true; }).join("\n"); }

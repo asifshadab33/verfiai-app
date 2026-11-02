@@ -4,7 +4,7 @@ export type ClaimLike = { claim: string; verdict: Verdict };
 export type Annotation = { start: number; end: number; text: string; verdict: Verdict | null; claims: number[] };
 
 const RANK: Record<Verdict, number> = { CONTRADICTED: 3, MIXED: 2, UNVERIFIABLE: 1, SUPPORTED: 0 };
-const CJK = /[぀-ヿ㐀-鿿가-힯]/;
+const CJK = /[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]/;
 const hasSegmenter = typeof Intl !== "undefined" && typeof Intl.Segmenter === "function";
 
 function tokens(text: string): string[] {

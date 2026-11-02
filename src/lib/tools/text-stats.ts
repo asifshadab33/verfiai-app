@@ -5,7 +5,7 @@ export type TextStats = {
   fleschReadingEase: number | null; topWords: { word: string; count: number }[];
 };
 
-const CJK = /[぀-ヿ㐀-鿿가-힯]/g;
+const CJK = /[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]/g;
 const hasSegmenter = typeof Intl !== "undefined" && typeof Intl.Segmenter === "function";
 const STOP = new Set("the and for are but not you all any can had her was one our out has have this that with from they will would there their what about which when your said each she how its who did get may him his now old see two way use been into than then them these some could other more very just also only over such even most made after where those being because should while".split(" "));
 

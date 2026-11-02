@@ -1,3 +1,4 @@
+import { collectNotices, integrityOf, type Integrity, type Notice } from "./tools/doi-notices";
 // CitationProvider: citation extraction and Crossref source verification.
 // Extraction runs on the cheap triage model; lookups are cached for a month.
 import { runRoute } from "./model.server";
@@ -190,4 +191,68 @@ export async function extractRefs(text: string): Promise<Ref[]> {
   let parsed: { citations?: any[] } = {};
   try { parsed = JSON.parse(raw); } catch { const m = raw.match(/\{[\s\S]*\}/); try { parsed = m ? JSON.parse(m[0]) : {}; } catch { /* empty */ } }
   return (parsed.citations ?? []).map((c) => ({ raw: String(c.raw ?? "").slice(0, 600), title: String(c.title ?? "").slice(0, 400), author: c.author ? String(c.author) : undefined, year: c.year ? String(c.year) : undefined, doi: c.doi ? String(c.doi) : undefined })).filter((c) => c.raw || c.title);
+}
+
+// ---- DOI-only lookup for the free DOI checker (appended to citation.server.ts) ----
+// Import at the top of the file: import { collectNotices, integrityOf, type Integrity, type Notice } from "./tools/doi-notices";
+export type DoiRecord = {
+  doi: string; status: "found" | "not_found" | "unreachable"; integrity: Integrity;
+  title?: string | undefined; journal?: string | undefined; year?: string | undefined; type?: string | undefined;
+  publisher?: string | undefined; citedBy?: number | undefined; notices: Notice[]; source: "crossref" | "openalex" | "doi.org";
+};
+
+class DoiMiss extends Error {
+  kind: "not_found" | "unreachable";
+  constructor(kind: "not_found" | "unreachable") { super(kind); this.kind = kind; }
+}
+
+/** Crossref work record, distinguishing "does not exist" from "could not reach". */
+async function crossrefWork(doi: string): Promise<any | "missing" | "error"> {
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const res = await fetch(`https://api.crossref.org/works/${encodeURIComponent(doi)}`, { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(8000) });
+      if (res.ok) return ((await res.json()) as { message: any }).message;
+      if (res.status === 404) return "missing";
+      if (res.status !== 429 && res.status < 500) return "error";
+    } catch { /* timeout/network: retry once */ }
+    if (attempt === 0) await new Promise(r => setTimeout(r, 800));
+  }
+  return "error";
+}
+
+/** The DOI Foundation's resolver confirms registration even when Crossref has no metadata (e.g. DataCite DOIs). */
+async function doiRegistered(doi: string): Promise<boolean> {
+  try {
+    const res = await fetch(`https://doi.org/api/handles/${doi.split("/").map(encodeURIComponent).join("/")}`, { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(6000) });
+    return res.ok && ((await res.json()) as { responseCode?: number }).responseCode === 1;
+  } catch { return false; }
+}
+
+async function lookupDoiUncached(doi: string): Promise<DoiRecord> {
+  let work = await crossrefWork(doi);
+  let source: DoiRecord["source"] = "crossref";
+  if (work === "missing" || work === "error") {
+    const alt = (await openAlex({ raw: doi, title: "" }, doi))[0];
+    if (alt) { work = alt; source = "openalex"; }
+    else if (await doiRegistered(doi)) return { doi, status: "found", integrity: "none", notices: [], source: "doi.org" };
+    else throw new DoiMiss(work === "missing" ? "not_found" : "unreachable");
+  }
+  const title = String(work.title?.[0] ?? "");
+  const noticeItems: any[] = source === "crossref" ? ((await crossref(`works?filter=updates:${encodeURIComponent(doi)}&rows=20`))?.message?.items ?? []) : [];
+  const notices = collectNotices(doi, work, noticeItems);
+  return {
+    doi: String(work.DOI ?? doi), status: "found", integrity: integrityOf(title, notices), title: title || undefined,
+    journal: work["container-title"]?.[0], year: String(work.issued?.["date-parts"]?.[0]?.[0] ?? "") || undefined,
+    type: work.type, publisher: work.publisher, citedBy: work["is-referenced-by-count"], notices, source,
+  };
+}
+
+/** DOI-only lookup (no title matching): existence, metadata, retraction/correction notices. Found records cache ~1 month; misses are never cached. */
+export async function lookupDoiRecord(input: string): Promise<DoiRecord> {
+  const doi = input.replace(/^https?:\/\/(dx\.)?doi\.org\//i, "").replace(/^doi:\s*/i, "").trim();
+  try {
+    return await cached({ key: cacheKey("doirecord", [doi]), kind: "crossref", ttlMs: CACHE_TTL.citation(), compute: () => lookupDoiUncached(doi) });
+  } catch (e) {
+    return { doi, status: e instanceof DoiMiss ? e.kind : "unreachable", integrity: "none", notices: [], source: "crossref" };
+  }
 }
