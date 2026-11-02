@@ -49,7 +49,7 @@ export type CleanOptions = {
 
 export function cleanText(input: string, o: CleanOptions = {}): string {
   let s = input.replace(/\r\n?/g, "\n");
-  if (o.removeInvisible) s = s.replace(/[​-‍⁠﻿­]/g, "");
+  if (o.removeInvisible) s = s.replace(/[\u200B-\u200D\u2060\uFEFF\u00AD]/g, "");
   if (o.straightenQuotes) s = s.replace(/[“”„‟]/g, '"').replace(/[‘’‚‛]/g, "'");
   if (o.trimLines) s = s.split("\n").map(l => l.trim()).join("\n");
   if (o.fixHyphenation) s = s.replace(/(\p{L})-\n(\p{Ll})/gu, "$1$2");
