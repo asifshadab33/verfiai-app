@@ -328,5 +328,6 @@
   "consentReject": "Refuser",
   "consentPrivacy": "Confidentialité",
   "cookieSettings": "Paramètres des cookies",
-  "consentClose": "Fermer"
+  "consentClose": "Fermer",
+  "navAllTools": "Tous les outils"
 }

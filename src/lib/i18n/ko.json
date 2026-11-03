@@ -328,5 +328,6 @@
   "consentReject": "거부",
   "consentPrivacy": "개인정보 처리방침",
   "cookieSettings": "쿠키 설정",
-  "consentClose": "닫기"
+  "consentClose": "닫기",
+  "navAllTools": "모든 도구"
 }

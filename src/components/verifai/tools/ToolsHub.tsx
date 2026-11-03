@@ -34,14 +34,14 @@ const CATEGORIES = [
       {
         to: "/tools/claim-spotter",
         Icon: Highlighter,
-        title: "Claim Spotter: Find Checkable Claims and Vague Wording | Verfiai",
+        title: "Claim Spotter",
         blurb: "Find checkable claims and vague or absolute wording in text.",
         note: BROWSER,
       },
       {
         to: "/tools/evidence-matrix",
         Icon: TableProperties,
-        title: "Free Claim Evidence Matrix | Verfiai",
+        title: "Claim Evidence Matrix",
         blurb: "Organize excerpts and compare how sources relate to a claim.",
         note: BROWSER,
       },
@@ -81,7 +81,7 @@ const CATEGORIES = [
       {
         to: "/tools/word-counter",
         Icon: Hash,
-        title: "Free Word & Character Counter with Reading Time | Verfiai",
+        title: "Word & Character Counter",
         blurb: "Count words and characters and estimate reading time.",
         note: BROWSER,
       },
@@ -95,14 +95,14 @@ const CATEGORIES = [
       {
         to: "/tools/text-cleaner",
         Icon: Eraser,
-        title: "Text Cleaner & Case Converter: Fix Copied Text | Verfiai",
+        title: "Text Cleaner & Case Converter: Fix Copied Text",
         blurb: "Clean copied text and change its capitalization.",
         note: BROWSER,
       },
       {
         to: "/tools/text-compare",
         Icon: GitCompare,
-        title: "Free Text Compare: See Differences Between Two Texts | Verfiai",
+        title: "Free Text Compare: See Differences Between Two Texts",
         blurb: "See which words changed between two versions.",
         note: BROWSER,
       },
@@ -186,7 +186,7 @@ const CATEGORIES = [
       {
         to: "/tools/headline-analyzer",
         Icon: Newspaper,
-        title: "Free Headline Analyzer: Length, Clickbait and Absolute Claims | Verfiai",
+        title: "Free Headline Analyzer: Length, Clickbait and Absolute Claims",
         blurb: "Check length, clickbait phrasing and absolute claims.",
         note: BROWSER,
       },
@@ -212,14 +212,14 @@ const CATEGORIES = [
       {
         to: "/tools/doi-checker",
         Icon: FileSearch,
-        title: "Free DOI & Retraction Checker | Verfiai",
+        title: "Free DOI & Retraction Checker",
         blurb: "Check DOI records for listed retractions or corrections.",
         note: REGISTRY,
       },
       {
         to: "/tools/citation-generator",
         Icon: Quote,
-        title: "Free DOI Citation Generator: APA, MLA, Chicago, Harvard | Verfiai",
+        title: "Free DOI Citation Generator: APA, MLA, Chicago, Harvard",
         blurb: "Turn DOIs into references in six citation styles.",
         note: REGISTRY,
       },
@@ -329,7 +329,7 @@ const CATEGORIES = [
       {
         to: "/tools/photo-check",
         Icon: Camera,
-        title: "Photo Check: View Photo Metadata and Reverse Image Search | Verfiai",
+        title: "Photo Check: View Photo Metadata and Reverse Image Search",
         blurb: "Read photo metadata and open reverse image searches.",
         note: "Metadata stays in your browser; search links open external services",
       },
