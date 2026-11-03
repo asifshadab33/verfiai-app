@@ -41,6 +41,7 @@ export default function ArxivFinder() {
     <div className="space-y-4">
       <div className="flex gap-2">
         <input
+          aria-label="Search arXiv papers"
           className="flex-1 p-3 border border-gray-300 rounded-lg"
           placeholder="Search physics, CS, math papers..."
           value={query}

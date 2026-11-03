@@ -31,6 +31,7 @@ export default function TextToSpeech() {
   return (
     <div className="space-y-4">
       <textarea
+        aria-label="Text to read aloud"
         className="w-full p-3 border border-gray-300 rounded-lg"
         rows={5}
         placeholder="Enter text to read aloud..."
@@ -39,6 +40,7 @@ export default function TextToSpeech() {
       />
       <div className="flex gap-4">
         <select
+          aria-label="Reading voice"
           className="flex-1 p-2 border border-gray-300 rounded-lg"
           onChange={(e) => setSelectedVoice(voices.find((v) => v.name === e.target.value) || null)}
           value={selectedVoice?.name || ""}

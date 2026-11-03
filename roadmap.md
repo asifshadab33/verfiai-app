@@ -2,6 +2,8 @@
 
 ## Nov 3 free-tools directory completion
 
+- [x] Light Accessibility Review: add input/voice names, copy-button names and an associated QR size label in five tool components. Existing QR image alt and shared headings retained. Larger contrast/tap-target sweep deferred; no tests or manual build.
+
 - [x] Add /tools/evidence-matrix to the existing sitemap; preserve editorial eligibility and omit lastmod.
 - [x] Expand /tools to all 52 tool routes with categories, icons, descriptions and browser/registry notes.
 - [x] Add /tools to the shared site footer.
