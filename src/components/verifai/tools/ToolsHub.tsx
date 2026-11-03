@@ -2,7 +2,6 @@ import { Link } from "@tanstack/react-router";
 import { Camera, Eraser, FileSearch, GitCompare, Hash, Highlighter, Newspaper, Quote, ScanSearch } from "lucide-react";
 
 const TOOLS = [
-  { to: "/ai-answer-checker", Icon: ScanSearch, title: "AI answer checker", blurb: "Paste an AI answer and see which sentences are backed by sources.", note: "Uses your free claim-check allowance" },
   { to: "/tools/claim-spotter", Icon: Highlighter, title: "Claim spotter", blurb: "Find checkable claims and vague or absolute wording in any text.", note: "Runs in your browser" },
   { to: "/tools/doi-checker", Icon: FileSearch, title: "DOI & retraction checker", blurb: "See whether a DOI exists and whether a retraction or correction is listed.", note: "Looks up public registries" },
   { to: "/tools/citation-generator", Icon: Quote, title: "Citation generator", blurb: "Turn DOIs into APA, MLA, Chicago, Harvard, IEEE or Vancouver references.", note: "Looks up public registries" },
