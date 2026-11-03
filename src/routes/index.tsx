@@ -224,6 +224,9 @@ function Home() {
             <Button variant="ghost" className="justify-start" onClick={() => selectTab("citation")}>
               {tx("navCitation")}
             </Button>
+            <Link to="/tools" className="px-4 py-2" onClick={() => setMenuOpen(false)}>
+              {tx("navAllTools")}
+            </Link>
             <Link to="/how-it-works" className="px-4 py-2">
               {tx("navHow")}
             </Link>
