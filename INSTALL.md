@@ -4,7 +4,7 @@ Ten pages built from your pasted ideas (Tier 1 + Top 5) and the earlier citation
 
 | Page | What it is | Cost to run |
 |---|---|---|
-| /ai-answer-checker | Your claim checker + sentence-level marking + evidence summary | Your existing free claim-check allowance |
+|  | Your claim checker + sentence-level marking + evidence summary | Your existing free claim-check allowance |
 | /tools | Hub page | none |
 | /tools/doi-checker | DOI exists? retraction / correction / concern? free full text? | Free public registries, cached, rate-limited |
 | /tools/citation-generator | DOIs to APA, MLA, Chicago, Harvard, IEEE, Vancouver | Free DOI resolver, cached, rate-limited |
@@ -35,7 +35,7 @@ C. Lovable chat: only when you have credits, and only for the small edits below 
 1. src/lib/citation.server.ts: add the import and append the block in snippets/citation.server.append.ts.
 2. src/components/verifai/FactChecker.tsx: nine find/replace edits (listed below).
 3. src/routes/sitemap[.]xml.ts: add the 10 new paths to PAGES, then update the sitemap test count.
-4. src/components/verifai/SiteFooter.tsx: add "Free tools" and "AI answer checker" links.
+4. src/components/verifai/SiteFooter.tsx: add "Free tools" and "deleted AI answer checker" links.
 5. Privacy, Methodology and FAQ wording (below).
 
 ### FactChecker.tsx edits (exact)
@@ -58,14 +58,14 @@ C. Lovable chat: only when you have credits, and only for the small edits below 
    change to `` <li key={i} id={`claim-${i}`} className={`scroll-mt-24 rounded-2xl border border-border bg-card p-5 ${P.accent} border-s-4`}> ``
 
 ### Sitemap and footer
-New paths: /ai-answer-checker, /tools, /tools/doi-checker, /tools/citation-generator, /tools/claim-spotter,
+New paths: , /tools, /tools/doi-checker, /tools/citation-generator, /tools/claim-spotter,
 /tools/photo-check, /tools/headline-analyzer, /tools/text-compare, /tools/word-counter, /tools/text-cleaner.
 Footer: add `<li><Link to="/tools" className="transition-colors hover:text-footer-foreground hover:underline">Free tools</Link></li>`
-and the same for `/ai-answer-checker` with the label "AI answer checker", next to the Fact checker link.
+and the same for `` with the label "deleted AI answer checker", next to the Fact checker link.
 
 ### Disclosure wording (English)
 Privacy Policy, in the AI and search processors section:
-"Free tools. The DOI checker and citation generator send only the DOIs you enter, from our servers, to Crossref, OpenAlex, the DOI Foundation (doi.org) and Unpaywall. The word counter, text compare, text cleaner, headline analyzer, claim spotter and photo check run in your browser; the text and photos you use in them are not uploaded to us or to analytics. Reverse image search links open Google Lens, Bing, Yandex or TinEye in a new tab only when you click them, and send that service the image address you entered. The AI answer checker uses the same processors as the fact checker."
+"Free tools. The DOI checker and citation generator send only the DOIs you enter, from our servers, to Crossref, OpenAlex, the DOI Foundation (doi.org) and Unpaywall. The word counter, text compare, text cleaner, headline analyzer, claim spotter and photo check run in your browser; the text and photos you use in them are not uploaded to us or to analytics. Reverse image search links open Google Lens, Bing, Yandex or TinEye in a new tab only when you click them, and send that service the image address you entered. The deleted AI answer checker uses the same processors as the fact checker."
 
 Methodology, new section "Free tools": say that the DOI checker uses Crossref (including Retraction Watch data),
 OpenAlex as a fallback, the DOI Foundation resolver and Unpaywall; that "No notices found" is not proof a paper is
@@ -74,7 +74,7 @@ and word counter use simple English-language rules and do not judge truth; and t
 
 FAQ, two new questions:
 - "Does Verfiai detect AI-written text?" "No. Verfiai checks whether claims and citations are supported by sources. It does not try to tell whether a person or an AI wrote a text, because such detectors are unreliable and can wrongly flag honest writers."
-- "Are the free tools really free?" "Yes. Tools that run in your browser have no limit. Tools that look things up in public registries (DOI checker, citation generator) have fair-use limits, and the AI answer checker uses your free claim-check allowance."
+- "Are the free tools really free?" "Yes. Tools that run in your browser have no limit. Tools that look things up in public registries (DOI checker, citation generator) have fair-use limits, and the deleted AI answer checker uses your free claim-check allowance."
 
 Before publishing the privacy sentence: confirm in PostHog that autocapture does not record text typed into
 textarea fields (the roadmap says masking is on; check it once), otherwise change "or to analytics".
@@ -83,7 +83,7 @@ textarea fields (the roadmap says masking is on; check it once), otherwise chang
 1. Build passes; the new routes appear (src/routeTree.gen.ts regenerates by itself).
 2. /tools/doi-checker with the "Try an example" text: the Wakefield DOI shows Retracted, the Nature DOI shows No notices, the fake DOI shows DOI not found.
 3. /tools/citation-generator: all six styles return text for 10.1038/nature14539. If one style fails, tell me which; its id in src/lib/tools/cite-format.ts may need changing.
-4. /ai-answer-checker: paste the example, run it, confirm sentences are marked and the numbered links jump to the claims.
+4. : paste the example, run it, confirm sentences are marked and the numbered links jump to the claims.
 5. /tools/photo-check with a phone photo: location shows, "Download a copy without metadata" works, Arabic (?lang=ar) pages still render.
 6. Keyboard-only pass on each page, and the cookie banner still works.
 

@@ -3,7 +3,8 @@ import { listReviewedClaimSlugs } from "@/data/claims";
 
 const BASE = "https://verfiai.app";
 const PAGES = ["/", "/features", "/how-it-works", "/sample-report", "/pricing", "/faq", "/methodology", "/about", "/accuracy", "/privacy", "/cookies", "/terms", "/refunds", "/app", "/research", "/fact-checker", "/fact-checks", "/sources", "/security", "/contact"];
-export const sitemapPaths = () => [...PAGES, ...listReviewedClaimSlugs().map(s => `/fact-check/${s}`)  '/tools',
+export const sitemapPaths = () => [...PAGES, ...listReviewedClaimSlugs().map(s => `/fact-check/${s}`),
+  '/tools',
   '/tools/claim-spotter',
   '/tools/doi-checker',
   '/tools/citation-generator',

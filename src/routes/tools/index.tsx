@@ -4,7 +4,7 @@ import { ToolsHub } from "@/components/verifai/tools/ToolsHub";
 import { toolHead } from "@/lib/tools/tool-head";
 
 export const Route = createFileRoute("/tools/")({
- head: () => toolHead({ path: "/tools", name: "Verfiai Free Research Tools", title: "Free Research Tools: Fact, Citation and Photo Checks | Verfiai", description: "Free tools for checking facts, sources and writing: , DOI and retraction checker, citation generator, photo metadata, headline analyzer and more." }),
+ head: () => toolHead({ path: "/tools", name: "Verfiai Free Research Tools", title: "Free Research Tools: Fact, Citation and Photo Checks | Verfiai", description: 'Free tools for checking facts, sources and writing: DOI and retraction checker, citation generator, photo metadata, headline analyzer and more.' }),
  component: Page,
 });
 
