@@ -166,6 +166,13 @@ function Home() {
                 >
                   {tx("navCitation")}
                 </Button>
+                <Link
+                  to="/tools"
+                  className="flex h-9 w-full items-center justify-start gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+                  onClick={() => setToolsOpen(false)}
+                >
+                  {tx("navAllTools")}
+                </Link>
               </div>
             </div>
             <Link to="/how-it-works" className="hover:text-brand">
