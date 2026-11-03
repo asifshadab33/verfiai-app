@@ -43,9 +43,11 @@ import { Route as RTokenRouteImport } from './routes/r.$token'
 import { Route as ResourcesIndexRouteImport } from './routes/resources/index'
 import { Route as ResourcesSlugRouteImport } from './routes/resources/$slug'
 import { Route as ToolsIndexRouteImport } from './routes/tools/index'
+import { Route as ToolsArxivRouteImport } from './routes/tools/arxiv'
 import { Route as ToolsCharacterCounterRouteImport } from './routes/tools/character-counter'
 import { Route as ToolsCitationGeneratorRouteImport } from './routes/tools/citation-generator'
 import { Route as ToolsClaimSpotterRouteImport } from './routes/tools/claim-spotter'
+import { Route as ToolsClicheFillerRouteImport } from './routes/tools/cliche-filler'
 import { Route as ToolsCsvJsonRouteImport } from './routes/tools/csv-json'
 import { Route as ToolsDisposableEmailRouteImport } from './routes/tools/disposable-email'
 import { Route as ToolsDoiCheckerRouteImport } from './routes/tools/doi-checker'
@@ -58,9 +60,11 @@ import { Route as ToolsHeadlineAnalyzerRouteImport } from './routes/tools/headli
 import { Route as ToolsInvisibleCharsRouteImport } from './routes/tools/invisible-chars'
 import { Route as ToolsIsbnCiterRouteImport } from './routes/tools/isbn-citer'
 import { Route as ToolsKeywordDensityRouteImport } from './routes/tools/keyword-density'
+import { Route as ToolsLinkExpanderRouteImport } from './routes/tools/link-expander'
 import { Route as ToolsMailtoBuilderRouteImport } from './routes/tools/mailto-builder'
 import { Route as ToolsMarkdownEditorRouteImport } from './routes/tools/markdown-editor'
 import { Route as ToolsNumbersCheckRouteImport } from './routes/tools/numbers-check'
+import { Route as ToolsOrcidRouteImport } from './routes/tools/orcid'
 import { Route as ToolsPassiveHedgeRouteImport } from './routes/tools/passive-hedge'
 import { Route as ToolsPasswordGeneratorRouteImport } from './routes/tools/password-generator'
 import { Route as ToolsPhishingChecklistRouteImport } from './routes/tools/phishing-checklist'
@@ -68,12 +72,16 @@ import { Route as ToolsPhotoCheckRouteImport } from './routes/tools/photo-check'
 import { Route as ToolsPomodoroRouteImport } from './routes/tools/pomodoro'
 import { Route as ToolsPubmedRouteImport } from './routes/tools/pubmed'
 import { Route as ToolsQrCodeRouteImport } from './routes/tools/qr-code'
+import { Route as ToolsQuoteCardRouteImport } from './routes/tools/quote-card'
 import { Route as ToolsRandomPickerRouteImport } from './routes/tools/random-picker'
 import { Route as ToolsReadabilityRouteImport } from './routes/tools/readability'
 import { Route as ToolsReferenceConverterRouteImport } from './routes/tools/reference-converter'
 import { Route as ToolsSampleSizeRouteImport } from './routes/tools/sample-size'
+import { Route as ToolsSentenceRhythmRouteImport } from './routes/tools/sentence-rhythm'
+import { Route as ToolsSerpPreviewRouteImport } from './routes/tools/serp-preview'
 import { Route as ToolsSimilarityRouteImport } from './routes/tools/similarity'
 import { Route as ToolsSlugifierRouteImport } from './routes/tools/slugifier'
+import { Route as ToolsSourceChecklistRouteImport } from './routes/tools/source-checklist'
 import { Route as ToolsSpeechToTextRouteImport } from './routes/tools/speech-to-text'
 import { Route as ToolsSubjectLinePreviewRouteImport } from './routes/tools/subject-line-preview'
 import { Route as ToolsTextCleanerRouteImport } from './routes/tools/text-cleaner'
@@ -81,6 +89,7 @@ import { Route as ToolsTextCompareRouteImport } from './routes/tools/text-compar
 import { Route as ToolsTextToSpeechRouteImport } from './routes/tools/text-to-speech'
 import { Route as ToolsTimestampConverterRouteImport } from './routes/tools/timestamp-converter'
 import { Route as ToolsTitleCaseRouteImport } from './routes/tools/title-case'
+import { Route as ToolsUrlInspectorRouteImport } from './routes/tools/url-inspector'
 import { Route as ToolsWaybackRouteImport } from './routes/tools/wayback'
 import { Route as ToolsWeaselWordsRouteImport } from './routes/tools/weasel-words'
 import { Route as ToolsWordCounterRouteImport } from './routes/tools/word-counter'
@@ -257,6 +266,11 @@ const ToolsIndexRoute = ToolsIndexRouteImport.update({
   path: '/tools/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsArxivRoute = ToolsArxivRouteImport.update({
+  id: '/tools/arxiv',
+  path: '/tools/arxiv',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ToolsCharacterCounterRoute = ToolsCharacterCounterRouteImport.update({
   id: '/tools/character-counter',
   path: '/tools/character-counter',
@@ -270,6 +284,11 @@ const ToolsCitationGeneratorRoute = ToolsCitationGeneratorRouteImport.update({
 const ToolsClaimSpotterRoute = ToolsClaimSpotterRouteImport.update({
   id: '/tools/claim-spotter',
   path: '/tools/claim-spotter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsClicheFillerRoute = ToolsClicheFillerRouteImport.update({
+  id: '/tools/cliche-filler',
+  path: '/tools/cliche-filler',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ToolsCsvJsonRoute = ToolsCsvJsonRouteImport.update({
@@ -332,6 +351,11 @@ const ToolsKeywordDensityRoute = ToolsKeywordDensityRouteImport.update({
   path: '/tools/keyword-density',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsLinkExpanderRoute = ToolsLinkExpanderRouteImport.update({
+  id: '/tools/link-expander',
+  path: '/tools/link-expander',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ToolsMailtoBuilderRoute = ToolsMailtoBuilderRouteImport.update({
   id: '/tools/mailto-builder',
   path: '/tools/mailto-builder',
@@ -345,6 +369,11 @@ const ToolsMarkdownEditorRoute = ToolsMarkdownEditorRouteImport.update({
 const ToolsNumbersCheckRoute = ToolsNumbersCheckRouteImport.update({
   id: '/tools/numbers-check',
   path: '/tools/numbers-check',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsOrcidRoute = ToolsOrcidRouteImport.update({
+  id: '/tools/orcid',
+  path: '/tools/orcid',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ToolsPassiveHedgeRoute = ToolsPassiveHedgeRouteImport.update({
@@ -382,6 +411,11 @@ const ToolsQrCodeRoute = ToolsQrCodeRouteImport.update({
   path: '/tools/qr-code',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsQuoteCardRoute = ToolsQuoteCardRouteImport.update({
+  id: '/tools/quote-card',
+  path: '/tools/quote-card',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ToolsRandomPickerRoute = ToolsRandomPickerRouteImport.update({
   id: '/tools/random-picker',
   path: '/tools/random-picker',
@@ -402,6 +436,16 @@ const ToolsSampleSizeRoute = ToolsSampleSizeRouteImport.update({
   path: '/tools/sample-size',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsSentenceRhythmRoute = ToolsSentenceRhythmRouteImport.update({
+  id: '/tools/sentence-rhythm',
+  path: '/tools/sentence-rhythm',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsSerpPreviewRoute = ToolsSerpPreviewRouteImport.update({
+  id: '/tools/serp-preview',
+  path: '/tools/serp-preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ToolsSimilarityRoute = ToolsSimilarityRouteImport.update({
   id: '/tools/similarity',
   path: '/tools/similarity',
@@ -410,6 +454,11 @@ const ToolsSimilarityRoute = ToolsSimilarityRouteImport.update({
 const ToolsSlugifierRoute = ToolsSlugifierRouteImport.update({
   id: '/tools/slugifier',
   path: '/tools/slugifier',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsSourceChecklistRoute = ToolsSourceChecklistRouteImport.update({
+  id: '/tools/source-checklist',
+  path: '/tools/source-checklist',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ToolsSpeechToTextRoute = ToolsSpeechToTextRouteImport.update({
@@ -445,6 +494,11 @@ const ToolsTimestampConverterRoute = ToolsTimestampConverterRouteImport.update({
 const ToolsTitleCaseRoute = ToolsTitleCaseRouteImport.update({
   id: '/tools/title-case',
   path: '/tools/title-case',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsUrlInspectorRoute = ToolsUrlInspectorRouteImport.update({
+  id: '/tools/url-inspector',
+  path: '/tools/url-inspector',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ToolsWaybackRoute = ToolsWaybackRouteImport.update({
@@ -508,9 +562,11 @@ export interface FileRoutesByFullPath {
   '/fact-check/$slug': typeof FactCheckSlugRoute
   '/r/$token': typeof RTokenRoute
   '/resources/$slug': typeof ResourcesSlugRoute
+  '/tools/arxiv': typeof ToolsArxivRoute
   '/tools/character-counter': typeof ToolsCharacterCounterRoute
   '/tools/citation-generator': typeof ToolsCitationGeneratorRoute
   '/tools/claim-spotter': typeof ToolsClaimSpotterRoute
+  '/tools/cliche-filler': typeof ToolsClicheFillerRoute
   '/tools/csv-json': typeof ToolsCsvJsonRoute
   '/tools/disposable-email': typeof ToolsDisposableEmailRoute
   '/tools/doi-checker': typeof ToolsDoiCheckerRoute
@@ -523,9 +579,11 @@ export interface FileRoutesByFullPath {
   '/tools/invisible-chars': typeof ToolsInvisibleCharsRoute
   '/tools/isbn-citer': typeof ToolsIsbnCiterRoute
   '/tools/keyword-density': typeof ToolsKeywordDensityRoute
+  '/tools/link-expander': typeof ToolsLinkExpanderRoute
   '/tools/mailto-builder': typeof ToolsMailtoBuilderRoute
   '/tools/markdown-editor': typeof ToolsMarkdownEditorRoute
   '/tools/numbers-check': typeof ToolsNumbersCheckRoute
+  '/tools/orcid': typeof ToolsOrcidRoute
   '/tools/passive-hedge': typeof ToolsPassiveHedgeRoute
   '/tools/password-generator': typeof ToolsPasswordGeneratorRoute
   '/tools/phishing-checklist': typeof ToolsPhishingChecklistRoute
@@ -533,12 +591,16 @@ export interface FileRoutesByFullPath {
   '/tools/pomodoro': typeof ToolsPomodoroRoute
   '/tools/pubmed': typeof ToolsPubmedRoute
   '/tools/qr-code': typeof ToolsQrCodeRoute
+  '/tools/quote-card': typeof ToolsQuoteCardRoute
   '/tools/random-picker': typeof ToolsRandomPickerRoute
   '/tools/readability': typeof ToolsReadabilityRoute
   '/tools/reference-converter': typeof ToolsReferenceConverterRoute
   '/tools/sample-size': typeof ToolsSampleSizeRoute
+  '/tools/sentence-rhythm': typeof ToolsSentenceRhythmRoute
+  '/tools/serp-preview': typeof ToolsSerpPreviewRoute
   '/tools/similarity': typeof ToolsSimilarityRoute
   '/tools/slugifier': typeof ToolsSlugifierRoute
+  '/tools/source-checklist': typeof ToolsSourceChecklistRoute
   '/tools/speech-to-text': typeof ToolsSpeechToTextRoute
   '/tools/subject-line-preview': typeof ToolsSubjectLinePreviewRoute
   '/tools/text-cleaner': typeof ToolsTextCleanerRoute
@@ -546,6 +608,7 @@ export interface FileRoutesByFullPath {
   '/tools/text-to-speech': typeof ToolsTextToSpeechRoute
   '/tools/timestamp-converter': typeof ToolsTimestampConverterRoute
   '/tools/title-case': typeof ToolsTitleCaseRoute
+  '/tools/url-inspector': typeof ToolsUrlInspectorRoute
   '/tools/wayback': typeof ToolsWaybackRoute
   '/tools/weasel-words': typeof ToolsWeaselWordsRoute
   '/tools/word-counter': typeof ToolsWordCounterRoute
@@ -587,9 +650,11 @@ export interface FileRoutesByTo {
   '/fact-check/$slug': typeof FactCheckSlugRoute
   '/r/$token': typeof RTokenRoute
   '/resources/$slug': typeof ResourcesSlugRoute
+  '/tools/arxiv': typeof ToolsArxivRoute
   '/tools/character-counter': typeof ToolsCharacterCounterRoute
   '/tools/citation-generator': typeof ToolsCitationGeneratorRoute
   '/tools/claim-spotter': typeof ToolsClaimSpotterRoute
+  '/tools/cliche-filler': typeof ToolsClicheFillerRoute
   '/tools/csv-json': typeof ToolsCsvJsonRoute
   '/tools/disposable-email': typeof ToolsDisposableEmailRoute
   '/tools/doi-checker': typeof ToolsDoiCheckerRoute
@@ -602,9 +667,11 @@ export interface FileRoutesByTo {
   '/tools/invisible-chars': typeof ToolsInvisibleCharsRoute
   '/tools/isbn-citer': typeof ToolsIsbnCiterRoute
   '/tools/keyword-density': typeof ToolsKeywordDensityRoute
+  '/tools/link-expander': typeof ToolsLinkExpanderRoute
   '/tools/mailto-builder': typeof ToolsMailtoBuilderRoute
   '/tools/markdown-editor': typeof ToolsMarkdownEditorRoute
   '/tools/numbers-check': typeof ToolsNumbersCheckRoute
+  '/tools/orcid': typeof ToolsOrcidRoute
   '/tools/passive-hedge': typeof ToolsPassiveHedgeRoute
   '/tools/password-generator': typeof ToolsPasswordGeneratorRoute
   '/tools/phishing-checklist': typeof ToolsPhishingChecklistRoute
@@ -612,12 +679,16 @@ export interface FileRoutesByTo {
   '/tools/pomodoro': typeof ToolsPomodoroRoute
   '/tools/pubmed': typeof ToolsPubmedRoute
   '/tools/qr-code': typeof ToolsQrCodeRoute
+  '/tools/quote-card': typeof ToolsQuoteCardRoute
   '/tools/random-picker': typeof ToolsRandomPickerRoute
   '/tools/readability': typeof ToolsReadabilityRoute
   '/tools/reference-converter': typeof ToolsReferenceConverterRoute
   '/tools/sample-size': typeof ToolsSampleSizeRoute
+  '/tools/sentence-rhythm': typeof ToolsSentenceRhythmRoute
+  '/tools/serp-preview': typeof ToolsSerpPreviewRoute
   '/tools/similarity': typeof ToolsSimilarityRoute
   '/tools/slugifier': typeof ToolsSlugifierRoute
+  '/tools/source-checklist': typeof ToolsSourceChecklistRoute
   '/tools/speech-to-text': typeof ToolsSpeechToTextRoute
   '/tools/subject-line-preview': typeof ToolsSubjectLinePreviewRoute
   '/tools/text-cleaner': typeof ToolsTextCleanerRoute
@@ -625,6 +696,7 @@ export interface FileRoutesByTo {
   '/tools/text-to-speech': typeof ToolsTextToSpeechRoute
   '/tools/timestamp-converter': typeof ToolsTimestampConverterRoute
   '/tools/title-case': typeof ToolsTitleCaseRoute
+  '/tools/url-inspector': typeof ToolsUrlInspectorRoute
   '/tools/wayback': typeof ToolsWaybackRoute
   '/tools/weasel-words': typeof ToolsWeaselWordsRoute
   '/tools/word-counter': typeof ToolsWordCounterRoute
@@ -667,9 +739,11 @@ export interface FileRoutesById {
   '/fact-check/$slug': typeof FactCheckSlugRoute
   '/r/$token': typeof RTokenRoute
   '/resources/$slug': typeof ResourcesSlugRoute
+  '/tools/arxiv': typeof ToolsArxivRoute
   '/tools/character-counter': typeof ToolsCharacterCounterRoute
   '/tools/citation-generator': typeof ToolsCitationGeneratorRoute
   '/tools/claim-spotter': typeof ToolsClaimSpotterRoute
+  '/tools/cliche-filler': typeof ToolsClicheFillerRoute
   '/tools/csv-json': typeof ToolsCsvJsonRoute
   '/tools/disposable-email': typeof ToolsDisposableEmailRoute
   '/tools/doi-checker': typeof ToolsDoiCheckerRoute
@@ -682,9 +756,11 @@ export interface FileRoutesById {
   '/tools/invisible-chars': typeof ToolsInvisibleCharsRoute
   '/tools/isbn-citer': typeof ToolsIsbnCiterRoute
   '/tools/keyword-density': typeof ToolsKeywordDensityRoute
+  '/tools/link-expander': typeof ToolsLinkExpanderRoute
   '/tools/mailto-builder': typeof ToolsMailtoBuilderRoute
   '/tools/markdown-editor': typeof ToolsMarkdownEditorRoute
   '/tools/numbers-check': typeof ToolsNumbersCheckRoute
+  '/tools/orcid': typeof ToolsOrcidRoute
   '/tools/passive-hedge': typeof ToolsPassiveHedgeRoute
   '/tools/password-generator': typeof ToolsPasswordGeneratorRoute
   '/tools/phishing-checklist': typeof ToolsPhishingChecklistRoute
@@ -692,12 +768,16 @@ export interface FileRoutesById {
   '/tools/pomodoro': typeof ToolsPomodoroRoute
   '/tools/pubmed': typeof ToolsPubmedRoute
   '/tools/qr-code': typeof ToolsQrCodeRoute
+  '/tools/quote-card': typeof ToolsQuoteCardRoute
   '/tools/random-picker': typeof ToolsRandomPickerRoute
   '/tools/readability': typeof ToolsReadabilityRoute
   '/tools/reference-converter': typeof ToolsReferenceConverterRoute
   '/tools/sample-size': typeof ToolsSampleSizeRoute
+  '/tools/sentence-rhythm': typeof ToolsSentenceRhythmRoute
+  '/tools/serp-preview': typeof ToolsSerpPreviewRoute
   '/tools/similarity': typeof ToolsSimilarityRoute
   '/tools/slugifier': typeof ToolsSlugifierRoute
+  '/tools/source-checklist': typeof ToolsSourceChecklistRoute
   '/tools/speech-to-text': typeof ToolsSpeechToTextRoute
   '/tools/subject-line-preview': typeof ToolsSubjectLinePreviewRoute
   '/tools/text-cleaner': typeof ToolsTextCleanerRoute
@@ -705,6 +785,7 @@ export interface FileRoutesById {
   '/tools/text-to-speech': typeof ToolsTextToSpeechRoute
   '/tools/timestamp-converter': typeof ToolsTimestampConverterRoute
   '/tools/title-case': typeof ToolsTitleCaseRoute
+  '/tools/url-inspector': typeof ToolsUrlInspectorRoute
   '/tools/wayback': typeof ToolsWaybackRoute
   '/tools/weasel-words': typeof ToolsWeaselWordsRoute
   '/tools/word-counter': typeof ToolsWordCounterRoute
@@ -748,9 +829,11 @@ export interface FileRouteTypes {
     | '/fact-check/$slug'
     | '/r/$token'
     | '/resources/$slug'
+    | '/tools/arxiv'
     | '/tools/character-counter'
     | '/tools/citation-generator'
     | '/tools/claim-spotter'
+    | '/tools/cliche-filler'
     | '/tools/csv-json'
     | '/tools/disposable-email'
     | '/tools/doi-checker'
@@ -763,9 +846,11 @@ export interface FileRouteTypes {
     | '/tools/invisible-chars'
     | '/tools/isbn-citer'
     | '/tools/keyword-density'
+    | '/tools/link-expander'
     | '/tools/mailto-builder'
     | '/tools/markdown-editor'
     | '/tools/numbers-check'
+    | '/tools/orcid'
     | '/tools/passive-hedge'
     | '/tools/password-generator'
     | '/tools/phishing-checklist'
@@ -773,12 +858,16 @@ export interface FileRouteTypes {
     | '/tools/pomodoro'
     | '/tools/pubmed'
     | '/tools/qr-code'
+    | '/tools/quote-card'
     | '/tools/random-picker'
     | '/tools/readability'
     | '/tools/reference-converter'
     | '/tools/sample-size'
+    | '/tools/sentence-rhythm'
+    | '/tools/serp-preview'
     | '/tools/similarity'
     | '/tools/slugifier'
+    | '/tools/source-checklist'
     | '/tools/speech-to-text'
     | '/tools/subject-line-preview'
     | '/tools/text-cleaner'
@@ -786,6 +875,7 @@ export interface FileRouteTypes {
     | '/tools/text-to-speech'
     | '/tools/timestamp-converter'
     | '/tools/title-case'
+    | '/tools/url-inspector'
     | '/tools/wayback'
     | '/tools/weasel-words'
     | '/tools/word-counter'
@@ -827,9 +917,11 @@ export interface FileRouteTypes {
     | '/fact-check/$slug'
     | '/r/$token'
     | '/resources/$slug'
+    | '/tools/arxiv'
     | '/tools/character-counter'
     | '/tools/citation-generator'
     | '/tools/claim-spotter'
+    | '/tools/cliche-filler'
     | '/tools/csv-json'
     | '/tools/disposable-email'
     | '/tools/doi-checker'
@@ -842,9 +934,11 @@ export interface FileRouteTypes {
     | '/tools/invisible-chars'
     | '/tools/isbn-citer'
     | '/tools/keyword-density'
+    | '/tools/link-expander'
     | '/tools/mailto-builder'
     | '/tools/markdown-editor'
     | '/tools/numbers-check'
+    | '/tools/orcid'
     | '/tools/passive-hedge'
     | '/tools/password-generator'
     | '/tools/phishing-checklist'
@@ -852,12 +946,16 @@ export interface FileRouteTypes {
     | '/tools/pomodoro'
     | '/tools/pubmed'
     | '/tools/qr-code'
+    | '/tools/quote-card'
     | '/tools/random-picker'
     | '/tools/readability'
     | '/tools/reference-converter'
     | '/tools/sample-size'
+    | '/tools/sentence-rhythm'
+    | '/tools/serp-preview'
     | '/tools/similarity'
     | '/tools/slugifier'
+    | '/tools/source-checklist'
     | '/tools/speech-to-text'
     | '/tools/subject-line-preview'
     | '/tools/text-cleaner'
@@ -865,6 +963,7 @@ export interface FileRouteTypes {
     | '/tools/text-to-speech'
     | '/tools/timestamp-converter'
     | '/tools/title-case'
+    | '/tools/url-inspector'
     | '/tools/wayback'
     | '/tools/weasel-words'
     | '/tools/word-counter'
@@ -906,9 +1005,11 @@ export interface FileRouteTypes {
     | '/fact-check/$slug'
     | '/r/$token'
     | '/resources/$slug'
+    | '/tools/arxiv'
     | '/tools/character-counter'
     | '/tools/citation-generator'
     | '/tools/claim-spotter'
+    | '/tools/cliche-filler'
     | '/tools/csv-json'
     | '/tools/disposable-email'
     | '/tools/doi-checker'
@@ -921,9 +1022,11 @@ export interface FileRouteTypes {
     | '/tools/invisible-chars'
     | '/tools/isbn-citer'
     | '/tools/keyword-density'
+    | '/tools/link-expander'
     | '/tools/mailto-builder'
     | '/tools/markdown-editor'
     | '/tools/numbers-check'
+    | '/tools/orcid'
     | '/tools/passive-hedge'
     | '/tools/password-generator'
     | '/tools/phishing-checklist'
@@ -931,12 +1034,16 @@ export interface FileRouteTypes {
     | '/tools/pomodoro'
     | '/tools/pubmed'
     | '/tools/qr-code'
+    | '/tools/quote-card'
     | '/tools/random-picker'
     | '/tools/readability'
     | '/tools/reference-converter'
     | '/tools/sample-size'
+    | '/tools/sentence-rhythm'
+    | '/tools/serp-preview'
     | '/tools/similarity'
     | '/tools/slugifier'
+    | '/tools/source-checklist'
     | '/tools/speech-to-text'
     | '/tools/subject-line-preview'
     | '/tools/text-cleaner'
@@ -944,6 +1051,7 @@ export interface FileRouteTypes {
     | '/tools/text-to-speech'
     | '/tools/timestamp-converter'
     | '/tools/title-case'
+    | '/tools/url-inspector'
     | '/tools/wayback'
     | '/tools/weasel-words'
     | '/tools/word-counter'
@@ -986,9 +1094,11 @@ export interface RootRouteChildren {
   FactCheckSlugRoute: typeof FactCheckSlugRoute
   RTokenRoute: typeof RTokenRoute
   ResourcesSlugRoute: typeof ResourcesSlugRoute
+  ToolsArxivRoute: typeof ToolsArxivRoute
   ToolsCharacterCounterRoute: typeof ToolsCharacterCounterRoute
   ToolsCitationGeneratorRoute: typeof ToolsCitationGeneratorRoute
   ToolsClaimSpotterRoute: typeof ToolsClaimSpotterRoute
+  ToolsClicheFillerRoute: typeof ToolsClicheFillerRoute
   ToolsCsvJsonRoute: typeof ToolsCsvJsonRoute
   ToolsDisposableEmailRoute: typeof ToolsDisposableEmailRoute
   ToolsDoiCheckerRoute: typeof ToolsDoiCheckerRoute
@@ -1001,9 +1111,11 @@ export interface RootRouteChildren {
   ToolsInvisibleCharsRoute: typeof ToolsInvisibleCharsRoute
   ToolsIsbnCiterRoute: typeof ToolsIsbnCiterRoute
   ToolsKeywordDensityRoute: typeof ToolsKeywordDensityRoute
+  ToolsLinkExpanderRoute: typeof ToolsLinkExpanderRoute
   ToolsMailtoBuilderRoute: typeof ToolsMailtoBuilderRoute
   ToolsMarkdownEditorRoute: typeof ToolsMarkdownEditorRoute
   ToolsNumbersCheckRoute: typeof ToolsNumbersCheckRoute
+  ToolsOrcidRoute: typeof ToolsOrcidRoute
   ToolsPassiveHedgeRoute: typeof ToolsPassiveHedgeRoute
   ToolsPasswordGeneratorRoute: typeof ToolsPasswordGeneratorRoute
   ToolsPhishingChecklistRoute: typeof ToolsPhishingChecklistRoute
@@ -1011,12 +1123,16 @@ export interface RootRouteChildren {
   ToolsPomodoroRoute: typeof ToolsPomodoroRoute
   ToolsPubmedRoute: typeof ToolsPubmedRoute
   ToolsQrCodeRoute: typeof ToolsQrCodeRoute
+  ToolsQuoteCardRoute: typeof ToolsQuoteCardRoute
   ToolsRandomPickerRoute: typeof ToolsRandomPickerRoute
   ToolsReadabilityRoute: typeof ToolsReadabilityRoute
   ToolsReferenceConverterRoute: typeof ToolsReferenceConverterRoute
   ToolsSampleSizeRoute: typeof ToolsSampleSizeRoute
+  ToolsSentenceRhythmRoute: typeof ToolsSentenceRhythmRoute
+  ToolsSerpPreviewRoute: typeof ToolsSerpPreviewRoute
   ToolsSimilarityRoute: typeof ToolsSimilarityRoute
   ToolsSlugifierRoute: typeof ToolsSlugifierRoute
+  ToolsSourceChecklistRoute: typeof ToolsSourceChecklistRoute
   ToolsSpeechToTextRoute: typeof ToolsSpeechToTextRoute
   ToolsSubjectLinePreviewRoute: typeof ToolsSubjectLinePreviewRoute
   ToolsTextCleanerRoute: typeof ToolsTextCleanerRoute
@@ -1024,6 +1140,7 @@ export interface RootRouteChildren {
   ToolsTextToSpeechRoute: typeof ToolsTextToSpeechRoute
   ToolsTimestampConverterRoute: typeof ToolsTimestampConverterRoute
   ToolsTitleCaseRoute: typeof ToolsTitleCaseRoute
+  ToolsUrlInspectorRoute: typeof ToolsUrlInspectorRoute
   ToolsWaybackRoute: typeof ToolsWaybackRoute
   ToolsWeaselWordsRoute: typeof ToolsWeaselWordsRoute
   ToolsWordCounterRoute: typeof ToolsWordCounterRoute
@@ -1273,6 +1390,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/arxiv': {
+      id: '/tools/arxiv'
+      path: '/tools/arxiv'
+      fullPath: '/tools/arxiv'
+      preLoaderRoute: typeof ToolsArxivRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/character-counter': {
       id: '/tools/character-counter'
       path: '/tools/character-counter'
@@ -1292,6 +1416,13 @@ declare module '@tanstack/react-router' {
       path: '/tools/claim-spotter'
       fullPath: '/tools/claim-spotter'
       preLoaderRoute: typeof ToolsClaimSpotterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/cliche-filler': {
+      id: '/tools/cliche-filler'
+      path: '/tools/cliche-filler'
+      fullPath: '/tools/cliche-filler'
+      preLoaderRoute: typeof ToolsClicheFillerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools/csv-json': {
@@ -1378,6 +1509,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsKeywordDensityRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/link-expander': {
+      id: '/tools/link-expander'
+      path: '/tools/link-expander'
+      fullPath: '/tools/link-expander'
+      preLoaderRoute: typeof ToolsLinkExpanderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/mailto-builder': {
       id: '/tools/mailto-builder'
       path: '/tools/mailto-builder'
@@ -1397,6 +1535,13 @@ declare module '@tanstack/react-router' {
       path: '/tools/numbers-check'
       fullPath: '/tools/numbers-check'
       preLoaderRoute: typeof ToolsNumbersCheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/orcid': {
+      id: '/tools/orcid'
+      path: '/tools/orcid'
+      fullPath: '/tools/orcid'
+      preLoaderRoute: typeof ToolsOrcidRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools/passive-hedge': {
@@ -1448,6 +1593,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsQrCodeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/quote-card': {
+      id: '/tools/quote-card'
+      path: '/tools/quote-card'
+      fullPath: '/tools/quote-card'
+      preLoaderRoute: typeof ToolsQuoteCardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/random-picker': {
       id: '/tools/random-picker'
       path: '/tools/random-picker'
@@ -1476,6 +1628,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsSampleSizeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/sentence-rhythm': {
+      id: '/tools/sentence-rhythm'
+      path: '/tools/sentence-rhythm'
+      fullPath: '/tools/sentence-rhythm'
+      preLoaderRoute: typeof ToolsSentenceRhythmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/serp-preview': {
+      id: '/tools/serp-preview'
+      path: '/tools/serp-preview'
+      fullPath: '/tools/serp-preview'
+      preLoaderRoute: typeof ToolsSerpPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/similarity': {
       id: '/tools/similarity'
       path: '/tools/similarity'
@@ -1488,6 +1654,13 @@ declare module '@tanstack/react-router' {
       path: '/tools/slugifier'
       fullPath: '/tools/slugifier'
       preLoaderRoute: typeof ToolsSlugifierRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/source-checklist': {
+      id: '/tools/source-checklist'
+      path: '/tools/source-checklist'
+      fullPath: '/tools/source-checklist'
+      preLoaderRoute: typeof ToolsSourceChecklistRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools/speech-to-text': {
@@ -1537,6 +1710,13 @@ declare module '@tanstack/react-router' {
       path: '/tools/title-case'
       fullPath: '/tools/title-case'
       preLoaderRoute: typeof ToolsTitleCaseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/url-inspector': {
+      id: '/tools/url-inspector'
+      path: '/tools/url-inspector'
+      fullPath: '/tools/url-inspector'
+      preLoaderRoute: typeof ToolsUrlInspectorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools/wayback': {
@@ -1610,9 +1790,11 @@ const rootRouteChildren: RootRouteChildren = {
   FactCheckSlugRoute: FactCheckSlugRoute,
   RTokenRoute: RTokenRoute,
   ResourcesSlugRoute: ResourcesSlugRoute,
+  ToolsArxivRoute: ToolsArxivRoute,
   ToolsCharacterCounterRoute: ToolsCharacterCounterRoute,
   ToolsCitationGeneratorRoute: ToolsCitationGeneratorRoute,
   ToolsClaimSpotterRoute: ToolsClaimSpotterRoute,
+  ToolsClicheFillerRoute: ToolsClicheFillerRoute,
   ToolsCsvJsonRoute: ToolsCsvJsonRoute,
   ToolsDisposableEmailRoute: ToolsDisposableEmailRoute,
   ToolsDoiCheckerRoute: ToolsDoiCheckerRoute,
@@ -1625,9 +1807,11 @@ const rootRouteChildren: RootRouteChildren = {
   ToolsInvisibleCharsRoute: ToolsInvisibleCharsRoute,
   ToolsIsbnCiterRoute: ToolsIsbnCiterRoute,
   ToolsKeywordDensityRoute: ToolsKeywordDensityRoute,
+  ToolsLinkExpanderRoute: ToolsLinkExpanderRoute,
   ToolsMailtoBuilderRoute: ToolsMailtoBuilderRoute,
   ToolsMarkdownEditorRoute: ToolsMarkdownEditorRoute,
   ToolsNumbersCheckRoute: ToolsNumbersCheckRoute,
+  ToolsOrcidRoute: ToolsOrcidRoute,
   ToolsPassiveHedgeRoute: ToolsPassiveHedgeRoute,
   ToolsPasswordGeneratorRoute: ToolsPasswordGeneratorRoute,
   ToolsPhishingChecklistRoute: ToolsPhishingChecklistRoute,
@@ -1635,12 +1819,16 @@ const rootRouteChildren: RootRouteChildren = {
   ToolsPomodoroRoute: ToolsPomodoroRoute,
   ToolsPubmedRoute: ToolsPubmedRoute,
   ToolsQrCodeRoute: ToolsQrCodeRoute,
+  ToolsQuoteCardRoute: ToolsQuoteCardRoute,
   ToolsRandomPickerRoute: ToolsRandomPickerRoute,
   ToolsReadabilityRoute: ToolsReadabilityRoute,
   ToolsReferenceConverterRoute: ToolsReferenceConverterRoute,
   ToolsSampleSizeRoute: ToolsSampleSizeRoute,
+  ToolsSentenceRhythmRoute: ToolsSentenceRhythmRoute,
+  ToolsSerpPreviewRoute: ToolsSerpPreviewRoute,
   ToolsSimilarityRoute: ToolsSimilarityRoute,
   ToolsSlugifierRoute: ToolsSlugifierRoute,
+  ToolsSourceChecklistRoute: ToolsSourceChecklistRoute,
   ToolsSpeechToTextRoute: ToolsSpeechToTextRoute,
   ToolsSubjectLinePreviewRoute: ToolsSubjectLinePreviewRoute,
   ToolsTextCleanerRoute: ToolsTextCleanerRoute,
@@ -1648,6 +1836,7 @@ const rootRouteChildren: RootRouteChildren = {
   ToolsTextToSpeechRoute: ToolsTextToSpeechRoute,
   ToolsTimestampConverterRoute: ToolsTimestampConverterRoute,
   ToolsTitleCaseRoute: ToolsTitleCaseRoute,
+  ToolsUrlInspectorRoute: ToolsUrlInspectorRoute,
   ToolsWaybackRoute: ToolsWaybackRoute,
   ToolsWeaselWordsRoute: ToolsWeaselWordsRoute,
   ToolsWordCounterRoute: ToolsWordCounterRoute,
