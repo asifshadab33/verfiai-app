@@ -8,7 +8,7 @@ export default function ArxivFinder() {
   const search = async () => {
     setLoading(true); setError(''); setResults([]);
     try {
-      const res = await fetch(`http://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(query)}&max_results=5`);
+      const res = await fetch(`https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(query)}&max_results=5`);
       const text = await res.text();
       const parser = new DOMParser();
       const doc = parser.parseFromString(text, 'text/xml');
