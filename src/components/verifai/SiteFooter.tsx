@@ -35,6 +35,14 @@ export function SiteFooter({ lang }: { lang?: Lang }) {
             <ul className="space-y-2.5 text-sm text-footer-muted">
               <li>
                 <Link
+                  to="/tools"
+                  className="transition-colors hover:text-footer-foreground hover:underline"
+                >
+                  Free tools
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/fact-checker"
                   className="transition-colors hover:text-footer-foreground hover:underline"
                 >
