@@ -6,8 +6,8 @@ describe("detectFillers", () => {
     const text = "This is very important and really matters.";
     const matches = detectFillers(text);
     expect(matches.length).toBe(2);
-    expect(matches[0].word).toBe("very");
-    expect(matches[1].word).toBe("really");
+    expect(matches[0]?.word).toBe("very");
+    expect(matches[1]?.word).toBe("really");
   });
 
   it('detects multi-word fillers like "in order to"', () => {

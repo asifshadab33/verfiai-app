@@ -43,16 +43,17 @@ export function collectNotices(doi: string, work: unknown, noticeItems: unknown[
       noticeDoi: nd || undefined,
     });
   };
-  for (const item of asRecord(work)?.["updated-by"] ?? []) {
+  const updatedBy = asRecord(work)?.["updated-by"];
+  for (const item of Array.isArray(updatedBy) ? updatedBy : []) {
     const u = asRecord(item);
-    add(u?.type, u?.label, u?.updated, u?.DOI);
+    add(u?.["type"], u?.["label"], u?.["updated"], u?.["DOI"]);
   }
   for (const item of noticeItems ?? []) {
     const it = asRecord(item);
     for (const value of (it?.["update-to"] as unknown[] | undefined) ?? []) {
       const u = asRecord(value);
-      if (String(u?.DOI ?? "").toLowerCase() === doi.toLowerCase())
-        add(u?.type, u?.label, u?.updated, it?.DOI);
+      if (String(u?.["DOI"] ?? "").toLowerCase() === doi.toLowerCase())
+        add(u?.["type"], u?.["label"], u?.["updated"], it?.["DOI"]);
     }
   }
   return out;

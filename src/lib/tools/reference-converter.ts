@@ -4,11 +4,12 @@ export function bibtexToText(
   const titleMatch = bibtex.match(/title\s*=\s*\{([^}]+)\}/i);
   const authorMatch = bibtex.match(/author\s*=\s*\{([^}]+)\}/i);
   const yearMatch = bibtex.match(/year\s*=\s*\{([^}]+)\}/i);
-  if (!titleMatch) return null;
+  const title = titleMatch?.[1];
+  if (title === undefined) return null;
   return {
-    title: titleMatch[1].trim(),
-    author: authorMatch ? authorMatch[1].trim() : "Unknown",
-    year: yearMatch ? yearMatch[1].trim() : "n.d.",
+    title: title.trim(),
+    author: authorMatch?.[1]?.trim() ?? "Unknown",
+    year: yearMatch?.[1]?.trim() ?? "n.d.",
   };
 }
 export function formatReference(

@@ -88,7 +88,7 @@ export function VoiceButton({
   const restarts = useRef(0);
 
   useEffect(() => {
-    const w = window as Window & {
+    const w = window as unknown as {
       SpeechRecognition?: new () => Rec;
       webkitSpeechRecognition?: new () => Rec;
     };
@@ -126,7 +126,7 @@ export function VoiceButton({
   async function start() {
     setError("");
     setInterim("");
-    const w = window as Window & {
+    const w = window as unknown as {
       SpeechRecognition?: new () => Rec;
       webkitSpeechRecognition?: new () => Rec;
     };
@@ -172,11 +172,14 @@ export function VoiceButton({
       let interimText = "";
       let heard = false;
       for (let i = e.resultIndex; i < e.results.length; i++) {
+        const result = e.results[i];
+        if (!result) continue;
         heard = true;
-        if (e.results[i].isFinal) finalText += e.results[i][0].transcript + " ";
+        if (result.isFinal) finalText += result[0].transcript + " ";
       }
       for (let i = 0; i < e.results.length; i++) {
-        if (!e.results[i].isFinal) interimText += e.results[i][0].transcript + " ";
+        const result = e.results[i];
+        if (result && !result.isFinal) interimText += result[0].transcript + " ";
       }
       if (heard) setPhase("processing");
       const cleaned = cleanVoiceTranscript(finalText);

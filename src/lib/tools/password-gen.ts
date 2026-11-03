@@ -16,6 +16,6 @@ export function generatePassword(
   let password = "";
   const values = new Uint32Array(length);
   crypto.getRandomValues(values);
-  for (let i = 0; i < length; i++) password += charset[values[i] % charset.length];
+  for (const value of values) password += charset[value % charset.length];
   return password;
 }

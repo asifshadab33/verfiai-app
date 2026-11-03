@@ -15,16 +15,17 @@ export default function PdfTools() {
     setResult(null);
     try {
       let res: Uint8Array | undefined;
+      const firstFile = files[0];
       if (mode === "merge" && files.length > 1) res = await mergePdfs(files);
-      else if (mode === "split" && files.length === 1 && pageStr)
+      else if (mode === "split" && files.length === 1 && firstFile && pageStr)
         res = await splitPdf(
-          files[0],
+          firstFile,
           pageStr
             .split(",")
             .map((n) => parseInt(n.trim()))
             .filter((n) => !isNaN(n)),
         );
-      else if (mode === "rotate" && files.length === 1) res = await rotatePdf(files[0], rot);
+      else if (mode === "rotate" && files.length === 1 && firstFile) res = await rotatePdf(firstFile, rot);
       else setError("Invalid input.");
       if (res) setResult(res);
     } catch {
@@ -34,7 +35,7 @@ export default function PdfTools() {
 
   const download = () => {
     if (!result) return;
-    const blob = new Blob([result], { type: "application/pdf" });
+    const blob = new Blob([new Uint8Array(result)], { type: "application/pdf" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
