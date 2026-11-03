@@ -62,7 +62,7 @@ describe("leaf search metadata policy", () => {
       expect(source).toMatch(/name: "robots", content: "noindex,\s*nofollow"/);
       expect(sitemapPaths()).not.toContain(`/${route}`);
     }
-    expect(sitemapPaths()).toHaveLength(78);
+    expect(sitemapPaths()).toHaveLength(83);
     expect(
       sitemapPaths().some(
         (path) => path.startsWith("/r/") || path.startsWith("/resources") || path === "/knowledge",

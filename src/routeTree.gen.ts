@@ -21,8 +21,10 @@ import { Route as FactCheckerRouteImport } from './routes/fact-checker'
 import { Route as FactChecksRouteImport } from './routes/fact-checks'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FeaturesRouteImport } from './routes/features'
+import { Route as GlossaryRouteImport } from './routes/glossary'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as KnowledgeRouteImport } from './routes/knowledge'
+import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as MethodologyRouteImport } from './routes/methodology'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -30,6 +32,7 @@ import { Route as RefundsRouteImport } from './routes/refunds'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
 import { Route as SampleReportRouteImport } from './routes/sample-report'
 import { Route as SecurityRouteImport } from './routes/security'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -53,11 +56,13 @@ import { Route as ToolsDisposableEmailRouteImport } from './routes/tools/disposa
 import { Route as ToolsDoiCheckerRouteImport } from './routes/tools/doi-checker'
 import { Route as ToolsDomainAgeRouteImport } from './routes/tools/domain-age'
 import { Route as ToolsEmailHeadersRouteImport } from './routes/tools/email-headers'
+import { Route as ToolsEvaluationChecklistRouteImport } from './routes/tools/evaluation-checklist'
 import { Route as ToolsEvidenceMatrixRouteImport } from './routes/tools/evidence-matrix'
 import { Route as ToolsFallacySpotterRouteImport } from './routes/tools/fallacy-spotter'
 import { Route as ToolsFileHashRouteImport } from './routes/tools/file-hash'
 import { Route as ToolsFoiLetterRouteImport } from './routes/tools/foi-letter'
 import { Route as ToolsHeadlineAnalyzerRouteImport } from './routes/tools/headline-analyzer'
+import { Route as ToolsHeadlineQuizRouteImport } from './routes/tools/headline-quiz'
 import { Route as ToolsInvisibleCharsRouteImport } from './routes/tools/invisible-chars'
 import { Route as ToolsIsbnCiterRouteImport } from './routes/tools/isbn-citer'
 import { Route as ToolsKeywordDensityRouteImport } from './routes/tools/keyword-density'
@@ -158,6 +163,11 @@ const FeaturesRoute = FeaturesRouteImport.update({
   path: '/features',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GlossaryRoute = GlossaryRouteImport.update({
+  id: '/glossary',
+  path: '/glossary',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HowItWorksRoute = HowItWorksRouteImport.update({
   id: '/how-it-works',
   path: '/how-it-works',
@@ -166,6 +176,11 @@ const HowItWorksRoute = HowItWorksRouteImport.update({
 const KnowledgeRoute = KnowledgeRouteImport.update({
   id: '/knowledge',
   path: '/knowledge',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
+  id: '/llms.txt',
+  path: '/llms.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MethodologyRoute = MethodologyRouteImport.update({
@@ -201,6 +216,11 @@ const ResearchRoute = ResearchRouteImport.update({
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RssDotxmlRoute = RssDotxmlRouteImport.update({
+  id: '/rss.xml',
+  path: '/rss.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SampleReportRoute = SampleReportRouteImport.update({
@@ -318,6 +338,12 @@ const ToolsEmailHeadersRoute = ToolsEmailHeadersRouteImport.update({
   path: '/tools/email-headers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsEvaluationChecklistRoute =
+  ToolsEvaluationChecklistRouteImport.update({
+    id: '/tools/evaluation-checklist',
+    path: '/tools/evaluation-checklist',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ToolsEvidenceMatrixRoute = ToolsEvidenceMatrixRouteImport.update({
   id: '/tools/evidence-matrix',
   path: '/tools/evidence-matrix',
@@ -341,6 +367,11 @@ const ToolsFoiLetterRoute = ToolsFoiLetterRouteImport.update({
 const ToolsHeadlineAnalyzerRoute = ToolsHeadlineAnalyzerRouteImport.update({
   id: '/tools/headline-analyzer',
   path: '/tools/headline-analyzer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsHeadlineQuizRoute = ToolsHeadlineQuizRouteImport.update({
+  id: '/tools/headline-quiz',
+  path: '/tools/headline-quiz',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ToolsInvisibleCharsRoute = ToolsInvisibleCharsRouteImport.update({
@@ -554,8 +585,10 @@ export interface FileRoutesByFullPath {
   '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
+  '/glossary': typeof GlossaryRoute
   '/how-it-works': typeof HowItWorksRoute
   '/knowledge': typeof KnowledgeRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/methodology': typeof MethodologyRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
@@ -563,6 +596,7 @@ export interface FileRoutesByFullPath {
   '/reports': typeof ReportsRoute
   '/research': typeof ResearchRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/rss.xml': typeof RssDotxmlRoute
   '/sample-report': typeof SampleReportRoute
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -584,11 +618,13 @@ export interface FileRoutesByFullPath {
   '/tools/doi-checker': typeof ToolsDoiCheckerRoute
   '/tools/domain-age': typeof ToolsDomainAgeRoute
   '/tools/email-headers': typeof ToolsEmailHeadersRoute
+  '/tools/evaluation-checklist': typeof ToolsEvaluationChecklistRoute
   '/tools/evidence-matrix': typeof ToolsEvidenceMatrixRoute
   '/tools/fallacy-spotter': typeof ToolsFallacySpotterRoute
   '/tools/file-hash': typeof ToolsFileHashRoute
   '/tools/foi-letter': typeof ToolsFoiLetterRoute
   '/tools/headline-analyzer': typeof ToolsHeadlineAnalyzerRoute
+  '/tools/headline-quiz': typeof ToolsHeadlineQuizRoute
   '/tools/invisible-chars': typeof ToolsInvisibleCharsRoute
   '/tools/isbn-citer': typeof ToolsIsbnCiterRoute
   '/tools/keyword-density': typeof ToolsKeywordDensityRoute
@@ -644,8 +680,10 @@ export interface FileRoutesByTo {
   '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
+  '/glossary': typeof GlossaryRoute
   '/how-it-works': typeof HowItWorksRoute
   '/knowledge': typeof KnowledgeRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/methodology': typeof MethodologyRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
@@ -653,6 +691,7 @@ export interface FileRoutesByTo {
   '/reports': typeof ReportsRoute
   '/research': typeof ResearchRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/rss.xml': typeof RssDotxmlRoute
   '/sample-report': typeof SampleReportRoute
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -674,11 +713,13 @@ export interface FileRoutesByTo {
   '/tools/doi-checker': typeof ToolsDoiCheckerRoute
   '/tools/domain-age': typeof ToolsDomainAgeRoute
   '/tools/email-headers': typeof ToolsEmailHeadersRoute
+  '/tools/evaluation-checklist': typeof ToolsEvaluationChecklistRoute
   '/tools/evidence-matrix': typeof ToolsEvidenceMatrixRoute
   '/tools/fallacy-spotter': typeof ToolsFallacySpotterRoute
   '/tools/file-hash': typeof ToolsFileHashRoute
   '/tools/foi-letter': typeof ToolsFoiLetterRoute
   '/tools/headline-analyzer': typeof ToolsHeadlineAnalyzerRoute
+  '/tools/headline-quiz': typeof ToolsHeadlineQuizRoute
   '/tools/invisible-chars': typeof ToolsInvisibleCharsRoute
   '/tools/isbn-citer': typeof ToolsIsbnCiterRoute
   '/tools/keyword-density': typeof ToolsKeywordDensityRoute
@@ -735,8 +776,10 @@ export interface FileRoutesById {
   '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
   '/features': typeof FeaturesRoute
+  '/glossary': typeof GlossaryRoute
   '/how-it-works': typeof HowItWorksRoute
   '/knowledge': typeof KnowledgeRoute
+  '/llms.txt': typeof LlmsDottxtRoute
   '/methodology': typeof MethodologyRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
@@ -744,6 +787,7 @@ export interface FileRoutesById {
   '/reports': typeof ReportsRoute
   '/research': typeof ResearchRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/rss.xml': typeof RssDotxmlRoute
   '/sample-report': typeof SampleReportRoute
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -765,11 +809,13 @@ export interface FileRoutesById {
   '/tools/doi-checker': typeof ToolsDoiCheckerRoute
   '/tools/domain-age': typeof ToolsDomainAgeRoute
   '/tools/email-headers': typeof ToolsEmailHeadersRoute
+  '/tools/evaluation-checklist': typeof ToolsEvaluationChecklistRoute
   '/tools/evidence-matrix': typeof ToolsEvidenceMatrixRoute
   '/tools/fallacy-spotter': typeof ToolsFallacySpotterRoute
   '/tools/file-hash': typeof ToolsFileHashRoute
   '/tools/foi-letter': typeof ToolsFoiLetterRoute
   '/tools/headline-analyzer': typeof ToolsHeadlineAnalyzerRoute
+  '/tools/headline-quiz': typeof ToolsHeadlineQuizRoute
   '/tools/invisible-chars': typeof ToolsInvisibleCharsRoute
   '/tools/isbn-citer': typeof ToolsIsbnCiterRoute
   '/tools/keyword-density': typeof ToolsKeywordDensityRoute
@@ -827,8 +873,10 @@ export interface FileRouteTypes {
     | '/fact-checks'
     | '/faq'
     | '/features'
+    | '/glossary'
     | '/how-it-works'
     | '/knowledge'
+    | '/llms.txt'
     | '/methodology'
     | '/pricing'
     | '/privacy'
@@ -836,6 +884,7 @@ export interface FileRouteTypes {
     | '/reports'
     | '/research'
     | '/reset-password'
+    | '/rss.xml'
     | '/sample-report'
     | '/security'
     | '/sitemap.xml'
@@ -857,11 +906,13 @@ export interface FileRouteTypes {
     | '/tools/doi-checker'
     | '/tools/domain-age'
     | '/tools/email-headers'
+    | '/tools/evaluation-checklist'
     | '/tools/evidence-matrix'
     | '/tools/fallacy-spotter'
     | '/tools/file-hash'
     | '/tools/foi-letter'
     | '/tools/headline-analyzer'
+    | '/tools/headline-quiz'
     | '/tools/invisible-chars'
     | '/tools/isbn-citer'
     | '/tools/keyword-density'
@@ -917,8 +968,10 @@ export interface FileRouteTypes {
     | '/fact-checks'
     | '/faq'
     | '/features'
+    | '/glossary'
     | '/how-it-works'
     | '/knowledge'
+    | '/llms.txt'
     | '/methodology'
     | '/pricing'
     | '/privacy'
@@ -926,6 +979,7 @@ export interface FileRouteTypes {
     | '/reports'
     | '/research'
     | '/reset-password'
+    | '/rss.xml'
     | '/sample-report'
     | '/security'
     | '/sitemap.xml'
@@ -947,11 +1001,13 @@ export interface FileRouteTypes {
     | '/tools/doi-checker'
     | '/tools/domain-age'
     | '/tools/email-headers'
+    | '/tools/evaluation-checklist'
     | '/tools/evidence-matrix'
     | '/tools/fallacy-spotter'
     | '/tools/file-hash'
     | '/tools/foi-letter'
     | '/tools/headline-analyzer'
+    | '/tools/headline-quiz'
     | '/tools/invisible-chars'
     | '/tools/isbn-citer'
     | '/tools/keyword-density'
@@ -1007,8 +1063,10 @@ export interface FileRouteTypes {
     | '/fact-checks'
     | '/faq'
     | '/features'
+    | '/glossary'
     | '/how-it-works'
     | '/knowledge'
+    | '/llms.txt'
     | '/methodology'
     | '/pricing'
     | '/privacy'
@@ -1016,6 +1074,7 @@ export interface FileRouteTypes {
     | '/reports'
     | '/research'
     | '/reset-password'
+    | '/rss.xml'
     | '/sample-report'
     | '/security'
     | '/sitemap.xml'
@@ -1037,11 +1096,13 @@ export interface FileRouteTypes {
     | '/tools/doi-checker'
     | '/tools/domain-age'
     | '/tools/email-headers'
+    | '/tools/evaluation-checklist'
     | '/tools/evidence-matrix'
     | '/tools/fallacy-spotter'
     | '/tools/file-hash'
     | '/tools/foi-letter'
     | '/tools/headline-analyzer'
+    | '/tools/headline-quiz'
     | '/tools/invisible-chars'
     | '/tools/isbn-citer'
     | '/tools/keyword-density'
@@ -1098,8 +1159,10 @@ export interface RootRouteChildren {
   FactChecksRoute: typeof FactChecksRoute
   FaqRoute: typeof FaqRoute
   FeaturesRoute: typeof FeaturesRoute
+  GlossaryRoute: typeof GlossaryRoute
   HowItWorksRoute: typeof HowItWorksRoute
   KnowledgeRoute: typeof KnowledgeRoute
+  LlmsDottxtRoute: typeof LlmsDottxtRoute
   MethodologyRoute: typeof MethodologyRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -1107,6 +1170,7 @@ export interface RootRouteChildren {
   ReportsRoute: typeof ReportsRoute
   ResearchRoute: typeof ResearchRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  RssDotxmlRoute: typeof RssDotxmlRoute
   SampleReportRoute: typeof SampleReportRoute
   SecurityRoute: typeof SecurityRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -1128,11 +1192,13 @@ export interface RootRouteChildren {
   ToolsDoiCheckerRoute: typeof ToolsDoiCheckerRoute
   ToolsDomainAgeRoute: typeof ToolsDomainAgeRoute
   ToolsEmailHeadersRoute: typeof ToolsEmailHeadersRoute
+  ToolsEvaluationChecklistRoute: typeof ToolsEvaluationChecklistRoute
   ToolsEvidenceMatrixRoute: typeof ToolsEvidenceMatrixRoute
   ToolsFallacySpotterRoute: typeof ToolsFallacySpotterRoute
   ToolsFileHashRoute: typeof ToolsFileHashRoute
   ToolsFoiLetterRoute: typeof ToolsFoiLetterRoute
   ToolsHeadlineAnalyzerRoute: typeof ToolsHeadlineAnalyzerRoute
+  ToolsHeadlineQuizRoute: typeof ToolsHeadlineQuizRoute
   ToolsInvisibleCharsRoute: typeof ToolsInvisibleCharsRoute
   ToolsIsbnCiterRoute: typeof ToolsIsbnCiterRoute
   ToolsKeywordDensityRoute: typeof ToolsKeywordDensityRoute
@@ -1262,6 +1328,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeaturesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/glossary': {
+      id: '/glossary'
+      path: '/glossary'
+      fullPath: '/glossary'
+      preLoaderRoute: typeof GlossaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/how-it-works': {
       id: '/how-it-works'
       path: '/how-it-works'
@@ -1274,6 +1347,13 @@ declare module '@tanstack/react-router' {
       path: '/knowledge'
       fullPath: '/knowledge'
       preLoaderRoute: typeof KnowledgeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms.txt': {
+      id: '/llms.txt'
+      path: '/llms.txt'
+      fullPath: '/llms.txt'
+      preLoaderRoute: typeof LlmsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/methodology': {
@@ -1323,6 +1403,13 @@ declare module '@tanstack/react-router' {
       path: '/reset-password'
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rss.xml': {
+      id: '/rss.xml'
+      path: '/rss.xml'
+      fullPath: '/rss.xml'
+      preLoaderRoute: typeof RssDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sample-report': {
@@ -1486,6 +1573,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsEmailHeadersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/evaluation-checklist': {
+      id: '/tools/evaluation-checklist'
+      path: '/tools/evaluation-checklist'
+      fullPath: '/tools/evaluation-checklist'
+      preLoaderRoute: typeof ToolsEvaluationChecklistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/evidence-matrix': {
       id: '/tools/evidence-matrix'
       path: '/tools/evidence-matrix'
@@ -1519,6 +1613,13 @@ declare module '@tanstack/react-router' {
       path: '/tools/headline-analyzer'
       fullPath: '/tools/headline-analyzer'
       preLoaderRoute: typeof ToolsHeadlineAnalyzerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/headline-quiz': {
+      id: '/tools/headline-quiz'
+      path: '/tools/headline-quiz'
+      fullPath: '/tools/headline-quiz'
+      preLoaderRoute: typeof ToolsHeadlineQuizRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools/invisible-chars': {
@@ -1810,8 +1911,10 @@ const rootRouteChildren: RootRouteChildren = {
   FactChecksRoute: FactChecksRoute,
   FaqRoute: FaqRoute,
   FeaturesRoute: FeaturesRoute,
+  GlossaryRoute: GlossaryRoute,
   HowItWorksRoute: HowItWorksRoute,
   KnowledgeRoute: KnowledgeRoute,
+  LlmsDottxtRoute: LlmsDottxtRoute,
   MethodologyRoute: MethodologyRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
@@ -1819,6 +1922,7 @@ const rootRouteChildren: RootRouteChildren = {
   ReportsRoute: ReportsRoute,
   ResearchRoute: ResearchRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  RssDotxmlRoute: RssDotxmlRoute,
   SampleReportRoute: SampleReportRoute,
   SecurityRoute: SecurityRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
@@ -1840,11 +1944,13 @@ const rootRouteChildren: RootRouteChildren = {
   ToolsDoiCheckerRoute: ToolsDoiCheckerRoute,
   ToolsDomainAgeRoute: ToolsDomainAgeRoute,
   ToolsEmailHeadersRoute: ToolsEmailHeadersRoute,
+  ToolsEvaluationChecklistRoute: ToolsEvaluationChecklistRoute,
   ToolsEvidenceMatrixRoute: ToolsEvidenceMatrixRoute,
   ToolsFallacySpotterRoute: ToolsFallacySpotterRoute,
   ToolsFileHashRoute: ToolsFileHashRoute,
   ToolsFoiLetterRoute: ToolsFoiLetterRoute,
   ToolsHeadlineAnalyzerRoute: ToolsHeadlineAnalyzerRoute,
+  ToolsHeadlineQuizRoute: ToolsHeadlineQuizRoute,
   ToolsInvisibleCharsRoute: ToolsInvisibleCharsRoute,
   ToolsIsbnCiterRoute: ToolsIsbnCiterRoute,
   ToolsKeywordDensityRoute: ToolsKeywordDensityRoute,

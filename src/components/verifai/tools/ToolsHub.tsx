@@ -60,6 +60,27 @@ const CATEGORIES = [
         note: BROWSER,
       },
       {
+        to: "/tools/evaluation-checklist",
+        Icon: ShieldCheck,
+        title: "Printable Evaluation Checklist",
+        blurb: "Print a source evaluation worksheet for offline review.",
+        note: BROWSER,
+      },
+      {
+        to: "/tools/headline-quiz",
+        Icon: Newspaper,
+        title: "Spot the Fake Headline",
+        blurb: "Test your eye for misleading framing in a scored quiz.",
+        note: BROWSER,
+      },
+      {
+        to: "/glossary",
+        Icon: BookOpen,
+        title: "Misinformation Glossary",
+        blurb: "Browse plain-language definitions of reasoning and source-checking terms.",
+        note: "Static reference",
+      },
+      {
         to: "/tools/numbers-check",
         Icon: Calculator,
         title: "Numbers-in-News Checker",
@@ -420,8 +441,10 @@ const CATEGORIES = [
 ] as const;
 
 export function ToolsHub() {
+  const toolCount = CATEGORIES.reduce((total, category) => total + category.tools.length, 0);
   return (
     <div className="space-y-10">
+      <p className="text-sm text-muted-foreground">{toolCount} free tools and references</p>
       {CATEGORIES.map((category) => (
         <section key={category.title} aria-label={category.title}>
           <h2 className="mb-4 font-display text-xl font-bold">{category.title}</h2>

@@ -21,7 +21,15 @@ export const Route = createFileRoute("/fact-checks")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
-    links: [{ rel: "canonical", href: "https://verfiai.app/fact-checks" }],
+    links: [
+      { rel: "canonical", href: "https://verfiai.app/fact-checks" },
+      {
+        rel: "alternate",
+        type: "application/rss+xml",
+        title: "Verfiai fact checks",
+        href: "https://verfiai.app/rss.xml",
+      },
+    ],
   }),
   component: FactChecks,
 });
