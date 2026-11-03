@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { Camera, Eraser, FileSearch, GitCompare, Hash, Highlighter, Newspaper, Quote, ScanSearch } from "lucide-react";
+import { Camera, Eraser, FileSearch, GitCompare, Hash, Highlighter, Newspaper, Quote, TableProperties } from "lucide-react";
 
 const TOOLS = [
   { to: "/tools/claim-spotter", Icon: Highlighter, title: "Claim spotter", blurb: "Find checkable claims and vague or absolute wording in any text.", note: "Runs in your browser" },
+  { to: "/tools/evidence-matrix", Icon: TableProperties, title: "Claim evidence matrix", blurb: "Organize excerpts and compare how sources relate to a claim.", note: "Runs in your browser" },
   { to: "/tools/doi-checker", Icon: FileSearch, title: "DOI & retraction checker", blurb: "See whether a DOI exists and whether a retraction or correction is listed.", note: "Looks up public registries" },
   { to: "/tools/citation-generator", Icon: Quote, title: "Citation generator", blurb: "Turn DOIs into APA, MLA, Chicago, Harvard, IEEE or Vancouver references.", note: "Looks up public registries" },
   { to: "/tools/photo-check", Icon: Camera, title: "Photo check", blurb: "Read a photo's metadata and open reverse image searches.", note: "Runs in your browser" },

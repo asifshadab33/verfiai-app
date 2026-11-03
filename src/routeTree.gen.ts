@@ -53,6 +53,7 @@ import { Route as ToolsDisposableEmailRouteImport } from './routes/tools/disposa
 import { Route as ToolsDoiCheckerRouteImport } from './routes/tools/doi-checker'
 import { Route as ToolsDomainAgeRouteImport } from './routes/tools/domain-age'
 import { Route as ToolsEmailHeadersRouteImport } from './routes/tools/email-headers'
+import { Route as ToolsEvidenceMatrixRouteImport } from './routes/tools/evidence-matrix'
 import { Route as ToolsFallacySpotterRouteImport } from './routes/tools/fallacy-spotter'
 import { Route as ToolsFileHashRouteImport } from './routes/tools/file-hash'
 import { Route as ToolsFoiLetterRouteImport } from './routes/tools/foi-letter'
@@ -316,6 +317,11 @@ const ToolsEmailHeadersRoute = ToolsEmailHeadersRouteImport.update({
   path: '/tools/email-headers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsEvidenceMatrixRoute = ToolsEvidenceMatrixRouteImport.update({
+  id: '/tools/evidence-matrix',
+  path: '/tools/evidence-matrix',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ToolsFallacySpotterRoute = ToolsFallacySpotterRouteImport.update({
   id: '/tools/fallacy-spotter',
   path: '/tools/fallacy-spotter',
@@ -572,6 +578,7 @@ export interface FileRoutesByFullPath {
   '/tools/doi-checker': typeof ToolsDoiCheckerRoute
   '/tools/domain-age': typeof ToolsDomainAgeRoute
   '/tools/email-headers': typeof ToolsEmailHeadersRoute
+  '/tools/evidence-matrix': typeof ToolsEvidenceMatrixRoute
   '/tools/fallacy-spotter': typeof ToolsFallacySpotterRoute
   '/tools/file-hash': typeof ToolsFileHashRoute
   '/tools/foi-letter': typeof ToolsFoiLetterRoute
@@ -660,6 +667,7 @@ export interface FileRoutesByTo {
   '/tools/doi-checker': typeof ToolsDoiCheckerRoute
   '/tools/domain-age': typeof ToolsDomainAgeRoute
   '/tools/email-headers': typeof ToolsEmailHeadersRoute
+  '/tools/evidence-matrix': typeof ToolsEvidenceMatrixRoute
   '/tools/fallacy-spotter': typeof ToolsFallacySpotterRoute
   '/tools/file-hash': typeof ToolsFileHashRoute
   '/tools/foi-letter': typeof ToolsFoiLetterRoute
@@ -749,6 +757,7 @@ export interface FileRoutesById {
   '/tools/doi-checker': typeof ToolsDoiCheckerRoute
   '/tools/domain-age': typeof ToolsDomainAgeRoute
   '/tools/email-headers': typeof ToolsEmailHeadersRoute
+  '/tools/evidence-matrix': typeof ToolsEvidenceMatrixRoute
   '/tools/fallacy-spotter': typeof ToolsFallacySpotterRoute
   '/tools/file-hash': typeof ToolsFileHashRoute
   '/tools/foi-letter': typeof ToolsFoiLetterRoute
@@ -839,6 +848,7 @@ export interface FileRouteTypes {
     | '/tools/doi-checker'
     | '/tools/domain-age'
     | '/tools/email-headers'
+    | '/tools/evidence-matrix'
     | '/tools/fallacy-spotter'
     | '/tools/file-hash'
     | '/tools/foi-letter'
@@ -927,6 +937,7 @@ export interface FileRouteTypes {
     | '/tools/doi-checker'
     | '/tools/domain-age'
     | '/tools/email-headers'
+    | '/tools/evidence-matrix'
     | '/tools/fallacy-spotter'
     | '/tools/file-hash'
     | '/tools/foi-letter'
@@ -1015,6 +1026,7 @@ export interface FileRouteTypes {
     | '/tools/doi-checker'
     | '/tools/domain-age'
     | '/tools/email-headers'
+    | '/tools/evidence-matrix'
     | '/tools/fallacy-spotter'
     | '/tools/file-hash'
     | '/tools/foi-letter'
@@ -1104,6 +1116,7 @@ export interface RootRouteChildren {
   ToolsDoiCheckerRoute: typeof ToolsDoiCheckerRoute
   ToolsDomainAgeRoute: typeof ToolsDomainAgeRoute
   ToolsEmailHeadersRoute: typeof ToolsEmailHeadersRoute
+  ToolsEvidenceMatrixRoute: typeof ToolsEvidenceMatrixRoute
   ToolsFallacySpotterRoute: typeof ToolsFallacySpotterRoute
   ToolsFileHashRoute: typeof ToolsFileHashRoute
   ToolsFoiLetterRoute: typeof ToolsFoiLetterRoute
@@ -1460,6 +1473,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsEmailHeadersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/evidence-matrix': {
+      id: '/tools/evidence-matrix'
+      path: '/tools/evidence-matrix'
+      fullPath: '/tools/evidence-matrix'
+      preLoaderRoute: typeof ToolsEvidenceMatrixRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/fallacy-spotter': {
       id: '/tools/fallacy-spotter'
       path: '/tools/fallacy-spotter'
@@ -1800,6 +1820,7 @@ const rootRouteChildren: RootRouteChildren = {
   ToolsDoiCheckerRoute: ToolsDoiCheckerRoute,
   ToolsDomainAgeRoute: ToolsDomainAgeRoute,
   ToolsEmailHeadersRoute: ToolsEmailHeadersRoute,
+  ToolsEvidenceMatrixRoute: ToolsEvidenceMatrixRoute,
   ToolsFallacySpotterRoute: ToolsFallacySpotterRoute,
   ToolsFileHashRoute: ToolsFileHashRoute,
   ToolsFoiLetterRoute: ToolsFoiLetterRoute,
