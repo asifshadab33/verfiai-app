@@ -41,4 +41,5 @@
 - Analytics initializes through browser-only dynamic imports after hydration and explicit versioned consent; the root owns the shared footer and consent banner on every page; withdrawal disables both SDKs and removes only analytics storage, because declining must keep the site usable; mask content and attributes, redact private URL identifiers and disable session recording so research content is not tracked.
 - Google Analytics uses one browser startup configuration with automatic pageviews disabled and explicit sanitized page_view events per navigation, avoiding duplicate visits and research-content leakage.
 - Use Radix tabs for tool/demo navigation and a shared main-content skip target so keyboard behavior and panel relationships remain accessible.
+- Keep the free-tools hub grouped by category with a per-tool processing/service note, so local utilities are not confused with external lookups.
 - Research reuse is caller/exact-input/cohort scoped and checked before search; adaptive freshness never slides dates or caches degraded answers. Details live in src/lib/AGENTS.md.
