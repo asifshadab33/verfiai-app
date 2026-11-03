@@ -11,7 +11,7 @@ export const FREE_REF_LIMIT = 20;
 export const getScanUsage = createServerFn({ method: "GET" }).handler(() => usageFor("scan"));
 
 export const verifyCitations = createServerFn({ method: "POST" })
-  .inputValidator((d) => z.object({ text: z.string().trim().min(20).max(200000) }).parse(d))
+  .validator((d) => z.object({ text: z.string().trim().min(20).max(200000) }).parse(d))
   .handler(async ({ data }) => {
     const { identify } = await import("./usage.server");
     const { consumeCredits, meter, CREDIT_COSTS } = await import("./metering.server");

@@ -31,7 +31,7 @@ export const getSystemHealth = createServerFn({ method: "GET" }).middleware([req
   });
 
 export const testModel = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
-  .inputValidator(d => z.object({ model: z.string().min(1).max(120) }).parse(d))
+  .validator(d => z.object({ model: z.string().min(1).max(120) }).parse(d))
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
     const { callEngine, hasKey } = await import("./model.server");
@@ -44,7 +44,7 @@ export const testModel = createServerFn({ method: "POST" }).middleware([requireS
   });
 
 export const testSearch = createServerFn({ method: "POST" }).middleware([requireSupabaseAuth])
-  .inputValidator(d => z.object({ engine: z.string().min(1).max(30), query: z.string().trim().min(2).max(200) }).parse(d))
+  .validator(d => z.object({ engine: z.string().min(1).max(30), query: z.string().trim().min(2).max(200) }).parse(d))
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
     const { engineSearch } = await import("./search.server");
@@ -55,7 +55,7 @@ export const testSearch = createServerFn({ method: "POST" }).middleware([require
 
 /** Usage metering summary for the last N days (aggregated; no submitted text). */
 export const getUsageAnalytics = createServerFn({ method: "GET" }).middleware([requireSupabaseAuth])
-  .inputValidator(d => z.object({ days: z.number().int().min(1).max(90) }).parse(d))
+  .validator(d => z.object({ days: z.number().int().min(1).max(90) }).parse(d))
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
     const { admin } = await import("./db.server");

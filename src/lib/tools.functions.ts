@@ -40,7 +40,7 @@ async function openAccessFor(doi: string): Promise<OpenAccessLink | null> {
 }
 
 export const lookupDois = createServerFn({ method: "POST" })
-  .inputValidator((d) => z.object({ dois: doiList }).parse(d))
+  .validator((d) => z.object({ dois: doiList }).parse(d))
   .handler(async ({ data }): Promise<{ items: DoiLookupItem[] }> => {
     const dois = uniqueDois(data.dois);
     if (!dois.length) throw new Error(NO_DOI);
@@ -70,7 +70,7 @@ async function formatOne(doi: string, csl: string): Promise<FormattedItem> {
 }
 
 export const formatDois = createServerFn({ method: "POST" })
-  .inputValidator((d) => z.object({ dois: doiList, style: z.enum(["apa", "mla", "chicago", "harvard", "ieee", "vancouver"]) }).parse(d))
+  .validator((d) => z.object({ dois: doiList, style: z.enum(["apa", "mla", "chicago", "harvard", "ieee", "vancouver"]) }).parse(d))
   .handler(async ({ data }): Promise<{ style: string; items: FormattedItem[]; lines: string[] }> => {
     const dois = uniqueDois(data.dois);
     if (!dois.length) throw new Error(NO_DOI);

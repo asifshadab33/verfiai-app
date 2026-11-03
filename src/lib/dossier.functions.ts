@@ -4,7 +4,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 export const generateDossier = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d) => z.object({ topic: z.string().trim().min(10).max(2000), strict: z.boolean().default(true), language: z.string().max(50).default("English") }).parse(d))
+  .validator((d) => z.object({ topic: z.string().trim().min(10).max(2000), strict: z.boolean().default(true), language: z.string().max(50).default("English") }).parse(d))
   .handler(async ({ data, context }) => {
     const { guardVerificationRequest } = await import("./verification-guard.server");
     const { consumeCredits, meter, CREDIT_COSTS } = await import("./metering.server");

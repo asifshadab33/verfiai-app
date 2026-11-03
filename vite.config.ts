@@ -27,8 +27,12 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-        // A nested entities v7 copy breaks SSR (it removed ./lib/decode.js);
+        // A nested entities v7 copy breaks SSR (it removed the legacy decode/encode subpaths);
         // pin every entities import to the hoisted v4.5.0 copy.
+        "entities/decode": path.resolve(rootDir, "node_modules/entities/lib/decode.js"),
+        "entities/decode.js": path.resolve(rootDir, "node_modules/entities/lib/decode.js"),
+        "entities/encode": path.resolve(rootDir, "node_modules/entities/lib/encode.js"),
+        "entities/encode.js": path.resolve(rootDir, "node_modules/entities/lib/encode.js"),
         "entities/lib/decode.js": path.resolve(rootDir, "node_modules/entities/lib/decode.js"),
         "entities/lib/encode.js": path.resolve(rootDir, "node_modules/entities/lib/encode.js"),
         entities: path.resolve(rootDir, "node_modules/entities"),

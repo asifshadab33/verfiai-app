@@ -42,6 +42,48 @@ import { Route as FactCheckSlugRouteImport } from './routes/fact-check/$slug'
 import { Route as RTokenRouteImport } from './routes/r.$token'
 import { Route as ResourcesIndexRouteImport } from './routes/resources/index'
 import { Route as ResourcesSlugRouteImport } from './routes/resources/$slug'
+import { Route as ToolsIndexRouteImport } from './routes/tools/index'
+import { Route as ToolsCharacterCounterRouteImport } from './routes/tools/character-counter'
+import { Route as ToolsCitationGeneratorRouteImport } from './routes/tools/citation-generator'
+import { Route as ToolsClaimSpotterRouteImport } from './routes/tools/claim-spotter'
+import { Route as ToolsCsvJsonRouteImport } from './routes/tools/csv-json'
+import { Route as ToolsDisposableEmailRouteImport } from './routes/tools/disposable-email'
+import { Route as ToolsDoiCheckerRouteImport } from './routes/tools/doi-checker'
+import { Route as ToolsDomainAgeRouteImport } from './routes/tools/domain-age'
+import { Route as ToolsEmailHeadersRouteImport } from './routes/tools/email-headers'
+import { Route as ToolsFallacySpotterRouteImport } from './routes/tools/fallacy-spotter'
+import { Route as ToolsFileHashRouteImport } from './routes/tools/file-hash'
+import { Route as ToolsFoiLetterRouteImport } from './routes/tools/foi-letter'
+import { Route as ToolsHeadlineAnalyzerRouteImport } from './routes/tools/headline-analyzer'
+import { Route as ToolsInvisibleCharsRouteImport } from './routes/tools/invisible-chars'
+import { Route as ToolsIsbnCiterRouteImport } from './routes/tools/isbn-citer'
+import { Route as ToolsKeywordDensityRouteImport } from './routes/tools/keyword-density'
+import { Route as ToolsMailtoBuilderRouteImport } from './routes/tools/mailto-builder'
+import { Route as ToolsMarkdownEditorRouteImport } from './routes/tools/markdown-editor'
+import { Route as ToolsNumbersCheckRouteImport } from './routes/tools/numbers-check'
+import { Route as ToolsPassiveHedgeRouteImport } from './routes/tools/passive-hedge'
+import { Route as ToolsPasswordGeneratorRouteImport } from './routes/tools/password-generator'
+import { Route as ToolsPhishingChecklistRouteImport } from './routes/tools/phishing-checklist'
+import { Route as ToolsPhotoCheckRouteImport } from './routes/tools/photo-check'
+import { Route as ToolsPomodoroRouteImport } from './routes/tools/pomodoro'
+import { Route as ToolsPubmedRouteImport } from './routes/tools/pubmed'
+import { Route as ToolsQrCodeRouteImport } from './routes/tools/qr-code'
+import { Route as ToolsRandomPickerRouteImport } from './routes/tools/random-picker'
+import { Route as ToolsReadabilityRouteImport } from './routes/tools/readability'
+import { Route as ToolsReferenceConverterRouteImport } from './routes/tools/reference-converter'
+import { Route as ToolsSampleSizeRouteImport } from './routes/tools/sample-size'
+import { Route as ToolsSimilarityRouteImport } from './routes/tools/similarity'
+import { Route as ToolsSlugifierRouteImport } from './routes/tools/slugifier'
+import { Route as ToolsSpeechToTextRouteImport } from './routes/tools/speech-to-text'
+import { Route as ToolsSubjectLinePreviewRouteImport } from './routes/tools/subject-line-preview'
+import { Route as ToolsTextCleanerRouteImport } from './routes/tools/text-cleaner'
+import { Route as ToolsTextCompareRouteImport } from './routes/tools/text-compare'
+import { Route as ToolsTextToSpeechRouteImport } from './routes/tools/text-to-speech'
+import { Route as ToolsTimestampConverterRouteImport } from './routes/tools/timestamp-converter'
+import { Route as ToolsTitleCaseRouteImport } from './routes/tools/title-case'
+import { Route as ToolsWaybackRouteImport } from './routes/tools/wayback'
+import { Route as ToolsWeaselWordsRouteImport } from './routes/tools/weasel-words'
+import { Route as ToolsWordCounterRouteImport } from './routes/tools/word-counter'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 
@@ -210,6 +252,216 @@ const ResourcesSlugRoute = ResourcesSlugRouteImport.update({
   path: '/resources/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsIndexRoute = ToolsIndexRouteImport.update({
+  id: '/tools/',
+  path: '/tools/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsCharacterCounterRoute = ToolsCharacterCounterRouteImport.update({
+  id: '/tools/character-counter',
+  path: '/tools/character-counter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsCitationGeneratorRoute = ToolsCitationGeneratorRouteImport.update({
+  id: '/tools/citation-generator',
+  path: '/tools/citation-generator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsClaimSpotterRoute = ToolsClaimSpotterRouteImport.update({
+  id: '/tools/claim-spotter',
+  path: '/tools/claim-spotter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsCsvJsonRoute = ToolsCsvJsonRouteImport.update({
+  id: '/tools/csv-json',
+  path: '/tools/csv-json',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsDisposableEmailRoute = ToolsDisposableEmailRouteImport.update({
+  id: '/tools/disposable-email',
+  path: '/tools/disposable-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsDoiCheckerRoute = ToolsDoiCheckerRouteImport.update({
+  id: '/tools/doi-checker',
+  path: '/tools/doi-checker',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsDomainAgeRoute = ToolsDomainAgeRouteImport.update({
+  id: '/tools/domain-age',
+  path: '/tools/domain-age',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsEmailHeadersRoute = ToolsEmailHeadersRouteImport.update({
+  id: '/tools/email-headers',
+  path: '/tools/email-headers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsFallacySpotterRoute = ToolsFallacySpotterRouteImport.update({
+  id: '/tools/fallacy-spotter',
+  path: '/tools/fallacy-spotter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsFileHashRoute = ToolsFileHashRouteImport.update({
+  id: '/tools/file-hash',
+  path: '/tools/file-hash',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsFoiLetterRoute = ToolsFoiLetterRouteImport.update({
+  id: '/tools/foi-letter',
+  path: '/tools/foi-letter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsHeadlineAnalyzerRoute = ToolsHeadlineAnalyzerRouteImport.update({
+  id: '/tools/headline-analyzer',
+  path: '/tools/headline-analyzer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsInvisibleCharsRoute = ToolsInvisibleCharsRouteImport.update({
+  id: '/tools/invisible-chars',
+  path: '/tools/invisible-chars',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsIsbnCiterRoute = ToolsIsbnCiterRouteImport.update({
+  id: '/tools/isbn-citer',
+  path: '/tools/isbn-citer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsKeywordDensityRoute = ToolsKeywordDensityRouteImport.update({
+  id: '/tools/keyword-density',
+  path: '/tools/keyword-density',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsMailtoBuilderRoute = ToolsMailtoBuilderRouteImport.update({
+  id: '/tools/mailto-builder',
+  path: '/tools/mailto-builder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsMarkdownEditorRoute = ToolsMarkdownEditorRouteImport.update({
+  id: '/tools/markdown-editor',
+  path: '/tools/markdown-editor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsNumbersCheckRoute = ToolsNumbersCheckRouteImport.update({
+  id: '/tools/numbers-check',
+  path: '/tools/numbers-check',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsPassiveHedgeRoute = ToolsPassiveHedgeRouteImport.update({
+  id: '/tools/passive-hedge',
+  path: '/tools/passive-hedge',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsPasswordGeneratorRoute = ToolsPasswordGeneratorRouteImport.update({
+  id: '/tools/password-generator',
+  path: '/tools/password-generator',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsPhishingChecklistRoute = ToolsPhishingChecklistRouteImport.update({
+  id: '/tools/phishing-checklist',
+  path: '/tools/phishing-checklist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsPhotoCheckRoute = ToolsPhotoCheckRouteImport.update({
+  id: '/tools/photo-check',
+  path: '/tools/photo-check',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsPomodoroRoute = ToolsPomodoroRouteImport.update({
+  id: '/tools/pomodoro',
+  path: '/tools/pomodoro',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsPubmedRoute = ToolsPubmedRouteImport.update({
+  id: '/tools/pubmed',
+  path: '/tools/pubmed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsQrCodeRoute = ToolsQrCodeRouteImport.update({
+  id: '/tools/qr-code',
+  path: '/tools/qr-code',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsRandomPickerRoute = ToolsRandomPickerRouteImport.update({
+  id: '/tools/random-picker',
+  path: '/tools/random-picker',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsReadabilityRoute = ToolsReadabilityRouteImport.update({
+  id: '/tools/readability',
+  path: '/tools/readability',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsReferenceConverterRoute = ToolsReferenceConverterRouteImport.update({
+  id: '/tools/reference-converter',
+  path: '/tools/reference-converter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsSampleSizeRoute = ToolsSampleSizeRouteImport.update({
+  id: '/tools/sample-size',
+  path: '/tools/sample-size',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsSimilarityRoute = ToolsSimilarityRouteImport.update({
+  id: '/tools/similarity',
+  path: '/tools/similarity',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsSlugifierRoute = ToolsSlugifierRouteImport.update({
+  id: '/tools/slugifier',
+  path: '/tools/slugifier',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsSpeechToTextRoute = ToolsSpeechToTextRouteImport.update({
+  id: '/tools/speech-to-text',
+  path: '/tools/speech-to-text',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsSubjectLinePreviewRoute = ToolsSubjectLinePreviewRouteImport.update({
+  id: '/tools/subject-line-preview',
+  path: '/tools/subject-line-preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsTextCleanerRoute = ToolsTextCleanerRouteImport.update({
+  id: '/tools/text-cleaner',
+  path: '/tools/text-cleaner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsTextCompareRoute = ToolsTextCompareRouteImport.update({
+  id: '/tools/text-compare',
+  path: '/tools/text-compare',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsTextToSpeechRoute = ToolsTextToSpeechRouteImport.update({
+  id: '/tools/text-to-speech',
+  path: '/tools/text-to-speech',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsTimestampConverterRoute = ToolsTimestampConverterRouteImport.update({
+  id: '/tools/timestamp-converter',
+  path: '/tools/timestamp-converter',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsTitleCaseRoute = ToolsTitleCaseRouteImport.update({
+  id: '/tools/title-case',
+  path: '/tools/title-case',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsWaybackRoute = ToolsWaybackRouteImport.update({
+  id: '/tools/wayback',
+  path: '/tools/wayback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsWeaselWordsRoute = ToolsWeaselWordsRouteImport.update({
+  id: '/tools/weasel-words',
+  path: '/tools/weasel-words',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsWordCounterRoute = ToolsWordCounterRouteImport.update({
+  id: '/tools/word-counter',
+  path: '/tools/word-counter',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPaymentsWebhookRoute =
   ApiPublicPaymentsWebhookRouteImport.update({
     id: '/api/public/payments/webhook',
@@ -256,7 +508,49 @@ export interface FileRoutesByFullPath {
   '/fact-check/$slug': typeof FactCheckSlugRoute
   '/r/$token': typeof RTokenRoute
   '/resources/$slug': typeof ResourcesSlugRoute
+  '/tools/character-counter': typeof ToolsCharacterCounterRoute
+  '/tools/citation-generator': typeof ToolsCitationGeneratorRoute
+  '/tools/claim-spotter': typeof ToolsClaimSpotterRoute
+  '/tools/csv-json': typeof ToolsCsvJsonRoute
+  '/tools/disposable-email': typeof ToolsDisposableEmailRoute
+  '/tools/doi-checker': typeof ToolsDoiCheckerRoute
+  '/tools/domain-age': typeof ToolsDomainAgeRoute
+  '/tools/email-headers': typeof ToolsEmailHeadersRoute
+  '/tools/fallacy-spotter': typeof ToolsFallacySpotterRoute
+  '/tools/file-hash': typeof ToolsFileHashRoute
+  '/tools/foi-letter': typeof ToolsFoiLetterRoute
+  '/tools/headline-analyzer': typeof ToolsHeadlineAnalyzerRoute
+  '/tools/invisible-chars': typeof ToolsInvisibleCharsRoute
+  '/tools/isbn-citer': typeof ToolsIsbnCiterRoute
+  '/tools/keyword-density': typeof ToolsKeywordDensityRoute
+  '/tools/mailto-builder': typeof ToolsMailtoBuilderRoute
+  '/tools/markdown-editor': typeof ToolsMarkdownEditorRoute
+  '/tools/numbers-check': typeof ToolsNumbersCheckRoute
+  '/tools/passive-hedge': typeof ToolsPassiveHedgeRoute
+  '/tools/password-generator': typeof ToolsPasswordGeneratorRoute
+  '/tools/phishing-checklist': typeof ToolsPhishingChecklistRoute
+  '/tools/photo-check': typeof ToolsPhotoCheckRoute
+  '/tools/pomodoro': typeof ToolsPomodoroRoute
+  '/tools/pubmed': typeof ToolsPubmedRoute
+  '/tools/qr-code': typeof ToolsQrCodeRoute
+  '/tools/random-picker': typeof ToolsRandomPickerRoute
+  '/tools/readability': typeof ToolsReadabilityRoute
+  '/tools/reference-converter': typeof ToolsReferenceConverterRoute
+  '/tools/sample-size': typeof ToolsSampleSizeRoute
+  '/tools/similarity': typeof ToolsSimilarityRoute
+  '/tools/slugifier': typeof ToolsSlugifierRoute
+  '/tools/speech-to-text': typeof ToolsSpeechToTextRoute
+  '/tools/subject-line-preview': typeof ToolsSubjectLinePreviewRoute
+  '/tools/text-cleaner': typeof ToolsTextCleanerRoute
+  '/tools/text-compare': typeof ToolsTextCompareRoute
+  '/tools/text-to-speech': typeof ToolsTextToSpeechRoute
+  '/tools/timestamp-converter': typeof ToolsTimestampConverterRoute
+  '/tools/title-case': typeof ToolsTitleCaseRoute
+  '/tools/wayback': typeof ToolsWaybackRoute
+  '/tools/weasel-words': typeof ToolsWeaselWordsRoute
+  '/tools/word-counter': typeof ToolsWordCounterRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/tools/': typeof ToolsIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
@@ -293,7 +587,49 @@ export interface FileRoutesByTo {
   '/fact-check/$slug': typeof FactCheckSlugRoute
   '/r/$token': typeof RTokenRoute
   '/resources/$slug': typeof ResourcesSlugRoute
+  '/tools/character-counter': typeof ToolsCharacterCounterRoute
+  '/tools/citation-generator': typeof ToolsCitationGeneratorRoute
+  '/tools/claim-spotter': typeof ToolsClaimSpotterRoute
+  '/tools/csv-json': typeof ToolsCsvJsonRoute
+  '/tools/disposable-email': typeof ToolsDisposableEmailRoute
+  '/tools/doi-checker': typeof ToolsDoiCheckerRoute
+  '/tools/domain-age': typeof ToolsDomainAgeRoute
+  '/tools/email-headers': typeof ToolsEmailHeadersRoute
+  '/tools/fallacy-spotter': typeof ToolsFallacySpotterRoute
+  '/tools/file-hash': typeof ToolsFileHashRoute
+  '/tools/foi-letter': typeof ToolsFoiLetterRoute
+  '/tools/headline-analyzer': typeof ToolsHeadlineAnalyzerRoute
+  '/tools/invisible-chars': typeof ToolsInvisibleCharsRoute
+  '/tools/isbn-citer': typeof ToolsIsbnCiterRoute
+  '/tools/keyword-density': typeof ToolsKeywordDensityRoute
+  '/tools/mailto-builder': typeof ToolsMailtoBuilderRoute
+  '/tools/markdown-editor': typeof ToolsMarkdownEditorRoute
+  '/tools/numbers-check': typeof ToolsNumbersCheckRoute
+  '/tools/passive-hedge': typeof ToolsPassiveHedgeRoute
+  '/tools/password-generator': typeof ToolsPasswordGeneratorRoute
+  '/tools/phishing-checklist': typeof ToolsPhishingChecklistRoute
+  '/tools/photo-check': typeof ToolsPhotoCheckRoute
+  '/tools/pomodoro': typeof ToolsPomodoroRoute
+  '/tools/pubmed': typeof ToolsPubmedRoute
+  '/tools/qr-code': typeof ToolsQrCodeRoute
+  '/tools/random-picker': typeof ToolsRandomPickerRoute
+  '/tools/readability': typeof ToolsReadabilityRoute
+  '/tools/reference-converter': typeof ToolsReferenceConverterRoute
+  '/tools/sample-size': typeof ToolsSampleSizeRoute
+  '/tools/similarity': typeof ToolsSimilarityRoute
+  '/tools/slugifier': typeof ToolsSlugifierRoute
+  '/tools/speech-to-text': typeof ToolsSpeechToTextRoute
+  '/tools/subject-line-preview': typeof ToolsSubjectLinePreviewRoute
+  '/tools/text-cleaner': typeof ToolsTextCleanerRoute
+  '/tools/text-compare': typeof ToolsTextCompareRoute
+  '/tools/text-to-speech': typeof ToolsTextToSpeechRoute
+  '/tools/timestamp-converter': typeof ToolsTimestampConverterRoute
+  '/tools/title-case': typeof ToolsTitleCaseRoute
+  '/tools/wayback': typeof ToolsWaybackRoute
+  '/tools/weasel-words': typeof ToolsWeaselWordsRoute
+  '/tools/word-counter': typeof ToolsWordCounterRoute
   '/resources': typeof ResourcesIndexRoute
+  '/tools': typeof ToolsIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
@@ -331,7 +667,49 @@ export interface FileRoutesById {
   '/fact-check/$slug': typeof FactCheckSlugRoute
   '/r/$token': typeof RTokenRoute
   '/resources/$slug': typeof ResourcesSlugRoute
+  '/tools/character-counter': typeof ToolsCharacterCounterRoute
+  '/tools/citation-generator': typeof ToolsCitationGeneratorRoute
+  '/tools/claim-spotter': typeof ToolsClaimSpotterRoute
+  '/tools/csv-json': typeof ToolsCsvJsonRoute
+  '/tools/disposable-email': typeof ToolsDisposableEmailRoute
+  '/tools/doi-checker': typeof ToolsDoiCheckerRoute
+  '/tools/domain-age': typeof ToolsDomainAgeRoute
+  '/tools/email-headers': typeof ToolsEmailHeadersRoute
+  '/tools/fallacy-spotter': typeof ToolsFallacySpotterRoute
+  '/tools/file-hash': typeof ToolsFileHashRoute
+  '/tools/foi-letter': typeof ToolsFoiLetterRoute
+  '/tools/headline-analyzer': typeof ToolsHeadlineAnalyzerRoute
+  '/tools/invisible-chars': typeof ToolsInvisibleCharsRoute
+  '/tools/isbn-citer': typeof ToolsIsbnCiterRoute
+  '/tools/keyword-density': typeof ToolsKeywordDensityRoute
+  '/tools/mailto-builder': typeof ToolsMailtoBuilderRoute
+  '/tools/markdown-editor': typeof ToolsMarkdownEditorRoute
+  '/tools/numbers-check': typeof ToolsNumbersCheckRoute
+  '/tools/passive-hedge': typeof ToolsPassiveHedgeRoute
+  '/tools/password-generator': typeof ToolsPasswordGeneratorRoute
+  '/tools/phishing-checklist': typeof ToolsPhishingChecklistRoute
+  '/tools/photo-check': typeof ToolsPhotoCheckRoute
+  '/tools/pomodoro': typeof ToolsPomodoroRoute
+  '/tools/pubmed': typeof ToolsPubmedRoute
+  '/tools/qr-code': typeof ToolsQrCodeRoute
+  '/tools/random-picker': typeof ToolsRandomPickerRoute
+  '/tools/readability': typeof ToolsReadabilityRoute
+  '/tools/reference-converter': typeof ToolsReferenceConverterRoute
+  '/tools/sample-size': typeof ToolsSampleSizeRoute
+  '/tools/similarity': typeof ToolsSimilarityRoute
+  '/tools/slugifier': typeof ToolsSlugifierRoute
+  '/tools/speech-to-text': typeof ToolsSpeechToTextRoute
+  '/tools/subject-line-preview': typeof ToolsSubjectLinePreviewRoute
+  '/tools/text-cleaner': typeof ToolsTextCleanerRoute
+  '/tools/text-compare': typeof ToolsTextCompareRoute
+  '/tools/text-to-speech': typeof ToolsTextToSpeechRoute
+  '/tools/timestamp-converter': typeof ToolsTimestampConverterRoute
+  '/tools/title-case': typeof ToolsTitleCaseRoute
+  '/tools/wayback': typeof ToolsWaybackRoute
+  '/tools/weasel-words': typeof ToolsWeaselWordsRoute
+  '/tools/word-counter': typeof ToolsWordCounterRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/tools/': typeof ToolsIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
@@ -370,7 +748,49 @@ export interface FileRouteTypes {
     | '/fact-check/$slug'
     | '/r/$token'
     | '/resources/$slug'
+    | '/tools/character-counter'
+    | '/tools/citation-generator'
+    | '/tools/claim-spotter'
+    | '/tools/csv-json'
+    | '/tools/disposable-email'
+    | '/tools/doi-checker'
+    | '/tools/domain-age'
+    | '/tools/email-headers'
+    | '/tools/fallacy-spotter'
+    | '/tools/file-hash'
+    | '/tools/foi-letter'
+    | '/tools/headline-analyzer'
+    | '/tools/invisible-chars'
+    | '/tools/isbn-citer'
+    | '/tools/keyword-density'
+    | '/tools/mailto-builder'
+    | '/tools/markdown-editor'
+    | '/tools/numbers-check'
+    | '/tools/passive-hedge'
+    | '/tools/password-generator'
+    | '/tools/phishing-checklist'
+    | '/tools/photo-check'
+    | '/tools/pomodoro'
+    | '/tools/pubmed'
+    | '/tools/qr-code'
+    | '/tools/random-picker'
+    | '/tools/readability'
+    | '/tools/reference-converter'
+    | '/tools/sample-size'
+    | '/tools/similarity'
+    | '/tools/slugifier'
+    | '/tools/speech-to-text'
+    | '/tools/subject-line-preview'
+    | '/tools/text-cleaner'
+    | '/tools/text-compare'
+    | '/tools/text-to-speech'
+    | '/tools/timestamp-converter'
+    | '/tools/title-case'
+    | '/tools/wayback'
+    | '/tools/weasel-words'
+    | '/tools/word-counter'
     | '/resources/'
+    | '/tools/'
     | '/api/public/payments/webhook'
     | '/lovable/email/transactional/preview'
   fileRoutesByTo: FileRoutesByTo
@@ -407,7 +827,49 @@ export interface FileRouteTypes {
     | '/fact-check/$slug'
     | '/r/$token'
     | '/resources/$slug'
+    | '/tools/character-counter'
+    | '/tools/citation-generator'
+    | '/tools/claim-spotter'
+    | '/tools/csv-json'
+    | '/tools/disposable-email'
+    | '/tools/doi-checker'
+    | '/tools/domain-age'
+    | '/tools/email-headers'
+    | '/tools/fallacy-spotter'
+    | '/tools/file-hash'
+    | '/tools/foi-letter'
+    | '/tools/headline-analyzer'
+    | '/tools/invisible-chars'
+    | '/tools/isbn-citer'
+    | '/tools/keyword-density'
+    | '/tools/mailto-builder'
+    | '/tools/markdown-editor'
+    | '/tools/numbers-check'
+    | '/tools/passive-hedge'
+    | '/tools/password-generator'
+    | '/tools/phishing-checklist'
+    | '/tools/photo-check'
+    | '/tools/pomodoro'
+    | '/tools/pubmed'
+    | '/tools/qr-code'
+    | '/tools/random-picker'
+    | '/tools/readability'
+    | '/tools/reference-converter'
+    | '/tools/sample-size'
+    | '/tools/similarity'
+    | '/tools/slugifier'
+    | '/tools/speech-to-text'
+    | '/tools/subject-line-preview'
+    | '/tools/text-cleaner'
+    | '/tools/text-compare'
+    | '/tools/text-to-speech'
+    | '/tools/timestamp-converter'
+    | '/tools/title-case'
+    | '/tools/wayback'
+    | '/tools/weasel-words'
+    | '/tools/word-counter'
     | '/resources'
+    | '/tools'
     | '/api/public/payments/webhook'
     | '/lovable/email/transactional/preview'
   id:
@@ -444,7 +906,49 @@ export interface FileRouteTypes {
     | '/fact-check/$slug'
     | '/r/$token'
     | '/resources/$slug'
+    | '/tools/character-counter'
+    | '/tools/citation-generator'
+    | '/tools/claim-spotter'
+    | '/tools/csv-json'
+    | '/tools/disposable-email'
+    | '/tools/doi-checker'
+    | '/tools/domain-age'
+    | '/tools/email-headers'
+    | '/tools/fallacy-spotter'
+    | '/tools/file-hash'
+    | '/tools/foi-letter'
+    | '/tools/headline-analyzer'
+    | '/tools/invisible-chars'
+    | '/tools/isbn-citer'
+    | '/tools/keyword-density'
+    | '/tools/mailto-builder'
+    | '/tools/markdown-editor'
+    | '/tools/numbers-check'
+    | '/tools/passive-hedge'
+    | '/tools/password-generator'
+    | '/tools/phishing-checklist'
+    | '/tools/photo-check'
+    | '/tools/pomodoro'
+    | '/tools/pubmed'
+    | '/tools/qr-code'
+    | '/tools/random-picker'
+    | '/tools/readability'
+    | '/tools/reference-converter'
+    | '/tools/sample-size'
+    | '/tools/similarity'
+    | '/tools/slugifier'
+    | '/tools/speech-to-text'
+    | '/tools/subject-line-preview'
+    | '/tools/text-cleaner'
+    | '/tools/text-compare'
+    | '/tools/text-to-speech'
+    | '/tools/timestamp-converter'
+    | '/tools/title-case'
+    | '/tools/wayback'
+    | '/tools/weasel-words'
+    | '/tools/word-counter'
     | '/resources/'
+    | '/tools/'
     | '/api/public/payments/webhook'
     | '/lovable/email/transactional/preview'
   fileRoutesById: FileRoutesById
@@ -482,7 +986,49 @@ export interface RootRouteChildren {
   FactCheckSlugRoute: typeof FactCheckSlugRoute
   RTokenRoute: typeof RTokenRoute
   ResourcesSlugRoute: typeof ResourcesSlugRoute
+  ToolsCharacterCounterRoute: typeof ToolsCharacterCounterRoute
+  ToolsCitationGeneratorRoute: typeof ToolsCitationGeneratorRoute
+  ToolsClaimSpotterRoute: typeof ToolsClaimSpotterRoute
+  ToolsCsvJsonRoute: typeof ToolsCsvJsonRoute
+  ToolsDisposableEmailRoute: typeof ToolsDisposableEmailRoute
+  ToolsDoiCheckerRoute: typeof ToolsDoiCheckerRoute
+  ToolsDomainAgeRoute: typeof ToolsDomainAgeRoute
+  ToolsEmailHeadersRoute: typeof ToolsEmailHeadersRoute
+  ToolsFallacySpotterRoute: typeof ToolsFallacySpotterRoute
+  ToolsFileHashRoute: typeof ToolsFileHashRoute
+  ToolsFoiLetterRoute: typeof ToolsFoiLetterRoute
+  ToolsHeadlineAnalyzerRoute: typeof ToolsHeadlineAnalyzerRoute
+  ToolsInvisibleCharsRoute: typeof ToolsInvisibleCharsRoute
+  ToolsIsbnCiterRoute: typeof ToolsIsbnCiterRoute
+  ToolsKeywordDensityRoute: typeof ToolsKeywordDensityRoute
+  ToolsMailtoBuilderRoute: typeof ToolsMailtoBuilderRoute
+  ToolsMarkdownEditorRoute: typeof ToolsMarkdownEditorRoute
+  ToolsNumbersCheckRoute: typeof ToolsNumbersCheckRoute
+  ToolsPassiveHedgeRoute: typeof ToolsPassiveHedgeRoute
+  ToolsPasswordGeneratorRoute: typeof ToolsPasswordGeneratorRoute
+  ToolsPhishingChecklistRoute: typeof ToolsPhishingChecklistRoute
+  ToolsPhotoCheckRoute: typeof ToolsPhotoCheckRoute
+  ToolsPomodoroRoute: typeof ToolsPomodoroRoute
+  ToolsPubmedRoute: typeof ToolsPubmedRoute
+  ToolsQrCodeRoute: typeof ToolsQrCodeRoute
+  ToolsRandomPickerRoute: typeof ToolsRandomPickerRoute
+  ToolsReadabilityRoute: typeof ToolsReadabilityRoute
+  ToolsReferenceConverterRoute: typeof ToolsReferenceConverterRoute
+  ToolsSampleSizeRoute: typeof ToolsSampleSizeRoute
+  ToolsSimilarityRoute: typeof ToolsSimilarityRoute
+  ToolsSlugifierRoute: typeof ToolsSlugifierRoute
+  ToolsSpeechToTextRoute: typeof ToolsSpeechToTextRoute
+  ToolsSubjectLinePreviewRoute: typeof ToolsSubjectLinePreviewRoute
+  ToolsTextCleanerRoute: typeof ToolsTextCleanerRoute
+  ToolsTextCompareRoute: typeof ToolsTextCompareRoute
+  ToolsTextToSpeechRoute: typeof ToolsTextToSpeechRoute
+  ToolsTimestampConverterRoute: typeof ToolsTimestampConverterRoute
+  ToolsTitleCaseRoute: typeof ToolsTitleCaseRoute
+  ToolsWaybackRoute: typeof ToolsWaybackRoute
+  ToolsWeaselWordsRoute: typeof ToolsWeaselWordsRoute
+  ToolsWordCounterRoute: typeof ToolsWordCounterRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
+  ToolsIndexRoute: typeof ToolsIndexRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
 }
@@ -720,6 +1266,300 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourcesSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/': {
+      id: '/tools/'
+      path: '/tools'
+      fullPath: '/tools/'
+      preLoaderRoute: typeof ToolsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/character-counter': {
+      id: '/tools/character-counter'
+      path: '/tools/character-counter'
+      fullPath: '/tools/character-counter'
+      preLoaderRoute: typeof ToolsCharacterCounterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/citation-generator': {
+      id: '/tools/citation-generator'
+      path: '/tools/citation-generator'
+      fullPath: '/tools/citation-generator'
+      preLoaderRoute: typeof ToolsCitationGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/claim-spotter': {
+      id: '/tools/claim-spotter'
+      path: '/tools/claim-spotter'
+      fullPath: '/tools/claim-spotter'
+      preLoaderRoute: typeof ToolsClaimSpotterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/csv-json': {
+      id: '/tools/csv-json'
+      path: '/tools/csv-json'
+      fullPath: '/tools/csv-json'
+      preLoaderRoute: typeof ToolsCsvJsonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/disposable-email': {
+      id: '/tools/disposable-email'
+      path: '/tools/disposable-email'
+      fullPath: '/tools/disposable-email'
+      preLoaderRoute: typeof ToolsDisposableEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/doi-checker': {
+      id: '/tools/doi-checker'
+      path: '/tools/doi-checker'
+      fullPath: '/tools/doi-checker'
+      preLoaderRoute: typeof ToolsDoiCheckerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/domain-age': {
+      id: '/tools/domain-age'
+      path: '/tools/domain-age'
+      fullPath: '/tools/domain-age'
+      preLoaderRoute: typeof ToolsDomainAgeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/email-headers': {
+      id: '/tools/email-headers'
+      path: '/tools/email-headers'
+      fullPath: '/tools/email-headers'
+      preLoaderRoute: typeof ToolsEmailHeadersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/fallacy-spotter': {
+      id: '/tools/fallacy-spotter'
+      path: '/tools/fallacy-spotter'
+      fullPath: '/tools/fallacy-spotter'
+      preLoaderRoute: typeof ToolsFallacySpotterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/file-hash': {
+      id: '/tools/file-hash'
+      path: '/tools/file-hash'
+      fullPath: '/tools/file-hash'
+      preLoaderRoute: typeof ToolsFileHashRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/foi-letter': {
+      id: '/tools/foi-letter'
+      path: '/tools/foi-letter'
+      fullPath: '/tools/foi-letter'
+      preLoaderRoute: typeof ToolsFoiLetterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/headline-analyzer': {
+      id: '/tools/headline-analyzer'
+      path: '/tools/headline-analyzer'
+      fullPath: '/tools/headline-analyzer'
+      preLoaderRoute: typeof ToolsHeadlineAnalyzerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/invisible-chars': {
+      id: '/tools/invisible-chars'
+      path: '/tools/invisible-chars'
+      fullPath: '/tools/invisible-chars'
+      preLoaderRoute: typeof ToolsInvisibleCharsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/isbn-citer': {
+      id: '/tools/isbn-citer'
+      path: '/tools/isbn-citer'
+      fullPath: '/tools/isbn-citer'
+      preLoaderRoute: typeof ToolsIsbnCiterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/keyword-density': {
+      id: '/tools/keyword-density'
+      path: '/tools/keyword-density'
+      fullPath: '/tools/keyword-density'
+      preLoaderRoute: typeof ToolsKeywordDensityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/mailto-builder': {
+      id: '/tools/mailto-builder'
+      path: '/tools/mailto-builder'
+      fullPath: '/tools/mailto-builder'
+      preLoaderRoute: typeof ToolsMailtoBuilderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/markdown-editor': {
+      id: '/tools/markdown-editor'
+      path: '/tools/markdown-editor'
+      fullPath: '/tools/markdown-editor'
+      preLoaderRoute: typeof ToolsMarkdownEditorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/numbers-check': {
+      id: '/tools/numbers-check'
+      path: '/tools/numbers-check'
+      fullPath: '/tools/numbers-check'
+      preLoaderRoute: typeof ToolsNumbersCheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/passive-hedge': {
+      id: '/tools/passive-hedge'
+      path: '/tools/passive-hedge'
+      fullPath: '/tools/passive-hedge'
+      preLoaderRoute: typeof ToolsPassiveHedgeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/password-generator': {
+      id: '/tools/password-generator'
+      path: '/tools/password-generator'
+      fullPath: '/tools/password-generator'
+      preLoaderRoute: typeof ToolsPasswordGeneratorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/phishing-checklist': {
+      id: '/tools/phishing-checklist'
+      path: '/tools/phishing-checklist'
+      fullPath: '/tools/phishing-checklist'
+      preLoaderRoute: typeof ToolsPhishingChecklistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/photo-check': {
+      id: '/tools/photo-check'
+      path: '/tools/photo-check'
+      fullPath: '/tools/photo-check'
+      preLoaderRoute: typeof ToolsPhotoCheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/pomodoro': {
+      id: '/tools/pomodoro'
+      path: '/tools/pomodoro'
+      fullPath: '/tools/pomodoro'
+      preLoaderRoute: typeof ToolsPomodoroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/pubmed': {
+      id: '/tools/pubmed'
+      path: '/tools/pubmed'
+      fullPath: '/tools/pubmed'
+      preLoaderRoute: typeof ToolsPubmedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/qr-code': {
+      id: '/tools/qr-code'
+      path: '/tools/qr-code'
+      fullPath: '/tools/qr-code'
+      preLoaderRoute: typeof ToolsQrCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/random-picker': {
+      id: '/tools/random-picker'
+      path: '/tools/random-picker'
+      fullPath: '/tools/random-picker'
+      preLoaderRoute: typeof ToolsRandomPickerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/readability': {
+      id: '/tools/readability'
+      path: '/tools/readability'
+      fullPath: '/tools/readability'
+      preLoaderRoute: typeof ToolsReadabilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/reference-converter': {
+      id: '/tools/reference-converter'
+      path: '/tools/reference-converter'
+      fullPath: '/tools/reference-converter'
+      preLoaderRoute: typeof ToolsReferenceConverterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/sample-size': {
+      id: '/tools/sample-size'
+      path: '/tools/sample-size'
+      fullPath: '/tools/sample-size'
+      preLoaderRoute: typeof ToolsSampleSizeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/similarity': {
+      id: '/tools/similarity'
+      path: '/tools/similarity'
+      fullPath: '/tools/similarity'
+      preLoaderRoute: typeof ToolsSimilarityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/slugifier': {
+      id: '/tools/slugifier'
+      path: '/tools/slugifier'
+      fullPath: '/tools/slugifier'
+      preLoaderRoute: typeof ToolsSlugifierRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/speech-to-text': {
+      id: '/tools/speech-to-text'
+      path: '/tools/speech-to-text'
+      fullPath: '/tools/speech-to-text'
+      preLoaderRoute: typeof ToolsSpeechToTextRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/subject-line-preview': {
+      id: '/tools/subject-line-preview'
+      path: '/tools/subject-line-preview'
+      fullPath: '/tools/subject-line-preview'
+      preLoaderRoute: typeof ToolsSubjectLinePreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/text-cleaner': {
+      id: '/tools/text-cleaner'
+      path: '/tools/text-cleaner'
+      fullPath: '/tools/text-cleaner'
+      preLoaderRoute: typeof ToolsTextCleanerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/text-compare': {
+      id: '/tools/text-compare'
+      path: '/tools/text-compare'
+      fullPath: '/tools/text-compare'
+      preLoaderRoute: typeof ToolsTextCompareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/text-to-speech': {
+      id: '/tools/text-to-speech'
+      path: '/tools/text-to-speech'
+      fullPath: '/tools/text-to-speech'
+      preLoaderRoute: typeof ToolsTextToSpeechRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/timestamp-converter': {
+      id: '/tools/timestamp-converter'
+      path: '/tools/timestamp-converter'
+      fullPath: '/tools/timestamp-converter'
+      preLoaderRoute: typeof ToolsTimestampConverterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/title-case': {
+      id: '/tools/title-case'
+      path: '/tools/title-case'
+      fullPath: '/tools/title-case'
+      preLoaderRoute: typeof ToolsTitleCaseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/wayback': {
+      id: '/tools/wayback'
+      path: '/tools/wayback'
+      fullPath: '/tools/wayback'
+      preLoaderRoute: typeof ToolsWaybackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/weasel-words': {
+      id: '/tools/weasel-words'
+      path: '/tools/weasel-words'
+      fullPath: '/tools/weasel-words'
+      preLoaderRoute: typeof ToolsWeaselWordsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/word-counter': {
+      id: '/tools/word-counter'
+      path: '/tools/word-counter'
+      fullPath: '/tools/word-counter'
+      preLoaderRoute: typeof ToolsWordCounterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/payments/webhook': {
       id: '/api/public/payments/webhook'
       path: '/api/public/payments/webhook'
@@ -770,7 +1610,49 @@ const rootRouteChildren: RootRouteChildren = {
   FactCheckSlugRoute: FactCheckSlugRoute,
   RTokenRoute: RTokenRoute,
   ResourcesSlugRoute: ResourcesSlugRoute,
+  ToolsCharacterCounterRoute: ToolsCharacterCounterRoute,
+  ToolsCitationGeneratorRoute: ToolsCitationGeneratorRoute,
+  ToolsClaimSpotterRoute: ToolsClaimSpotterRoute,
+  ToolsCsvJsonRoute: ToolsCsvJsonRoute,
+  ToolsDisposableEmailRoute: ToolsDisposableEmailRoute,
+  ToolsDoiCheckerRoute: ToolsDoiCheckerRoute,
+  ToolsDomainAgeRoute: ToolsDomainAgeRoute,
+  ToolsEmailHeadersRoute: ToolsEmailHeadersRoute,
+  ToolsFallacySpotterRoute: ToolsFallacySpotterRoute,
+  ToolsFileHashRoute: ToolsFileHashRoute,
+  ToolsFoiLetterRoute: ToolsFoiLetterRoute,
+  ToolsHeadlineAnalyzerRoute: ToolsHeadlineAnalyzerRoute,
+  ToolsInvisibleCharsRoute: ToolsInvisibleCharsRoute,
+  ToolsIsbnCiterRoute: ToolsIsbnCiterRoute,
+  ToolsKeywordDensityRoute: ToolsKeywordDensityRoute,
+  ToolsMailtoBuilderRoute: ToolsMailtoBuilderRoute,
+  ToolsMarkdownEditorRoute: ToolsMarkdownEditorRoute,
+  ToolsNumbersCheckRoute: ToolsNumbersCheckRoute,
+  ToolsPassiveHedgeRoute: ToolsPassiveHedgeRoute,
+  ToolsPasswordGeneratorRoute: ToolsPasswordGeneratorRoute,
+  ToolsPhishingChecklistRoute: ToolsPhishingChecklistRoute,
+  ToolsPhotoCheckRoute: ToolsPhotoCheckRoute,
+  ToolsPomodoroRoute: ToolsPomodoroRoute,
+  ToolsPubmedRoute: ToolsPubmedRoute,
+  ToolsQrCodeRoute: ToolsQrCodeRoute,
+  ToolsRandomPickerRoute: ToolsRandomPickerRoute,
+  ToolsReadabilityRoute: ToolsReadabilityRoute,
+  ToolsReferenceConverterRoute: ToolsReferenceConverterRoute,
+  ToolsSampleSizeRoute: ToolsSampleSizeRoute,
+  ToolsSimilarityRoute: ToolsSimilarityRoute,
+  ToolsSlugifierRoute: ToolsSlugifierRoute,
+  ToolsSpeechToTextRoute: ToolsSpeechToTextRoute,
+  ToolsSubjectLinePreviewRoute: ToolsSubjectLinePreviewRoute,
+  ToolsTextCleanerRoute: ToolsTextCleanerRoute,
+  ToolsTextCompareRoute: ToolsTextCompareRoute,
+  ToolsTextToSpeechRoute: ToolsTextToSpeechRoute,
+  ToolsTimestampConverterRoute: ToolsTimestampConverterRoute,
+  ToolsTitleCaseRoute: ToolsTitleCaseRoute,
+  ToolsWaybackRoute: ToolsWaybackRoute,
+  ToolsWeaselWordsRoute: ToolsWeaselWordsRoute,
+  ToolsWordCounterRoute: ToolsWordCounterRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
+  ToolsIndexRoute: ToolsIndexRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
 }

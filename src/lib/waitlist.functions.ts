@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 export const joinCommunityWaitlist = createServerFn({ method: "POST" })
-  .inputValidator((input) => z.object({ email: z.string().trim().email().max(254), consent: z.literal(true), website: z.string().max(200).default(""), interest: z.enum(["pro_teams", "analyst"]).default("pro_teams") }).parse(input))
+  .validator((input) => z.object({ email: z.string().trim().email().max(254), consent: z.literal(true), website: z.string().max(200).default(""), interest: z.enum(["pro_teams", "analyst"]).default("pro_teams") }).parse(input))
   .handler(async ({ data }) => {
     if (data.website) return { success: true };
     const { getRequestHeader } = await import("@tanstack/react-start/server");

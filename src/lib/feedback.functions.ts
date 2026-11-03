@@ -5,7 +5,7 @@ export const FEEDBACK_KINDS = ["correct", "needs_review", "irrelevant_source", "
 
 /** Stores verdict feedback. Returns only ok/limited — never scoring rules or provider details. */
 export const sendVerdictFeedback = createServerFn({ method: "POST" })
-  .inputValidator(d => z.object({ kind: z.enum(FEEDBACK_KINDS), claim: z.string().trim().min(1).max(1000), verdict: z.string().max(40).optional(), note: z.string().trim().max(1000).optional() }).parse(d))
+  .validator(d => z.object({ kind: z.enum(FEEDBACK_KINDS), claim: z.string().trim().min(1).max(1000), verdict: z.string().max(40).optional(), note: z.string().trim().max(1000).optional() }).parse(d))
   .handler(async ({ data }) => {
     const { identify } = await import("./usage.server");
     const { admin } = await import("./db.server");

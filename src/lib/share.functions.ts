@@ -14,12 +14,12 @@ async function ownReport(supabase: any, id: string, userId: string) {
 
 export const getShareState = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d) => idInput.parse(d))
+  .validator((d) => idInput.parse(d))
   .handler(async ({ data, context }) => ({ token: (await ownReport(context.supabase, data.id, context.userId)).share_token }));
 
 export const enableShare = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d) => idInput.parse(d))
+  .validator((d) => idInput.parse(d))
   .handler(async ({ data, context }) => {
     const { requireFlag } = await import("./flags.server");
     await requireFlag("PUBLIC_REPORT_SHARING_ENABLED", context.userId);
@@ -34,7 +34,7 @@ export const enableShare = createServerFn({ method: "POST" })
 
 export const disableShare = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d) => idInput.parse(d))
+  .validator((d) => idInput.parse(d))
   .handler(async ({ data, context }) => {
     const row = await ownReport(context.supabase, data.id, context.userId);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -44,7 +44,7 @@ export const disableShare = createServerFn({ method: "POST" })
 
 // Public read-only view: returns only the report content for a valid, unguessable token.
 export const getSharedReport = createServerFn({ method: "GET" })
-  .inputValidator((d) => z.object({ token: z.string().min(16).max(64).regex(/^[A-Za-z0-9_-]+$/) }).parse(d))
+  .validator((d) => z.object({ token: z.string().min(16).max(64).regex(/^[A-Za-z0-9_-]+$/) }).parse(d))
   .handler(async ({ data }) => {
     const { isEnabled } = await import("./flags.server");
     if (!(await isEnabled("PUBLIC_REPORT_SHARING_ENABLED", null))) return null;

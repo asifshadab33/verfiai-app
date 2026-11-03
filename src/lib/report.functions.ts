@@ -27,7 +27,7 @@ export const getReportUsage = createServerFn({ method: "GET" })
 
 export const generateReport = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data) => reportInput.parse(data))
+  .validator((data) => reportInput.parse(data))
   .handler(async ({ data, context }) => {
     const meta = { userId: context.userId };
     await guardVerificationRequest({ userId: context.userId, fingerprint: "" });

@@ -8,7 +8,7 @@ import { paymentEnvironment } from "./payments-env.server";
 const environment = z.enum(["sandbox", "live"]);
 export const resolvePaddlePrice = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data) => z.object({ priceId: z.literal("pro_monthly"), environment }).parse(data))
+  .validator((data) => z.object({ priceId: z.literal("pro_monthly"), environment }).parse(data))
   .handler(async ({ data }) => {
     assertMonetizationEnabled();
     const response = await gatewayFetch(paymentEnvironment(), `/prices?external_id=${encodeURIComponent(data.priceId)}`);
@@ -21,7 +21,7 @@ export const resolvePaddlePrice = createServerFn({ method: "POST" })
 
 export const getSubscription = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data) => z.object({ environment }).parse(data))
+  .validator((data) => z.object({ environment }).parse(data))
   .handler(async ({ data, context }) => {
     const { data: rows, error } = await context.supabase.from("subscriptions")
       .select("status,current_period_end,cancel_at_period_end,paddle_customer_id,paddle_subscription_id")
@@ -35,7 +35,7 @@ export const getSubscription = createServerFn({ method: "POST" })
 
 export const getBillingPortal = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data) => z.object({ environment }).parse(data))
+  .validator((data) => z.object({ environment }).parse(data))
   .handler(async ({ data, context }) => {
     const { data: rows, error } = await context.supabase.from("subscriptions")
       .select("paddle_customer_id,paddle_subscription_id,status")

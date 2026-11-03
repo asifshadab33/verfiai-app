@@ -101,7 +101,7 @@ async function prepareClaim(claim: string, language = "en", meta?: CallMeta, adv
 export const getFactUsage = createServerFn({ method: "GET" }).handler(() => usageFor("fact"));
 
 export const factCheck = createServerFn({ method: "POST" })
-  .inputValidator((d) => z.object({ text: z.string().trim().max(15000).optional(), url: z.string().trim().max(2000).optional(), language: z.string().max(50), progress: progressInput.optional() }).refine(v => (v.text && v.text.length >= 30) || v.url, "Paste at least a sentence or a link.").parse(d))
+  .validator((d) => z.object({ text: z.string().trim().max(15000).optional(), url: z.string().trim().max(2000).optional(), language: z.string().max(50), progress: progressInput.optional() }).refine(v => (v.text && v.text.length >= 30) || v.url, "Paste at least a sentence or a link.").parse(d))
   .handler(async ({ data }) => {
     const { identify } = await import("./usage.server");
     const { consumeCredits, meter, CREDIT_COSTS } = await import("./metering.server");
