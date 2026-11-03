@@ -29,13 +29,16 @@ export default function PassiveHedgeDetector() {
   };
   return (
     <div className="space-y-4">
-      <textarea
-        className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-        rows={6}
-        placeholder="Paste your text to detect passive voice (red) and hedge words (yellow)..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
+      <label className="field-label">
+        Text to review
+        <textarea
+          className="mt-2 w-full rounded-lg border p-4 focus:ring-2 focus:ring-blue-500 outline-none"
+          rows={6}
+          placeholder="Paste your text to detect passive voice (red) and hedge words (yellow)..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+      </label>
       <button
         onClick={analyze}
         className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
@@ -44,7 +47,7 @@ export default function PassiveHedgeDetector() {
       </button>
       {matches.length > 0 && (
         <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-          <h4 className="font-bold text-gray-900 mb-2">Found {matches.length} instances:</h4>
+          <h2 className="mb-2 font-bold text-gray-900">Found {matches.length} instances</h2>
           <div className="bg-white p-4 rounded border border-gray-200 text-sm text-gray-800 leading-relaxed whitespace-pre-wrap">
             {renderHighlightedText()}
           </div>

@@ -30,31 +30,38 @@ export default function TextToSpeech() {
 
   return (
     <div className="space-y-4">
-      <textarea
-        aria-label="Text to read aloud"
-        className="w-full p-3 border border-gray-300 rounded-lg"
-        rows={5}
-        placeholder="Enter text to read aloud..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
+      <label className="field-label">
+        Text to read aloud
+        <textarea
+          className="mt-2 w-full rounded-lg border p-3"
+          rows={5}
+          placeholder="Enter text to read aloud..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+      </label>
       <div className="flex gap-4">
-        <select
-          aria-label="Reading voice"
-          className="flex-1 p-2 border border-gray-300 rounded-lg"
-          onChange={(e) => setSelectedVoice(voices.find((v) => v.name === e.target.value) || null)}
-          value={selectedVoice?.name || ""}
-        >
-          <option value="">Default Voice</option>
-          {voices.map((v) => (
-            <option key={v.name} value={v.name}>
-              {v.name} ({v.lang})
-            </option>
-          ))}
-        </select>
+        <label className="field-label flex-1">
+          Reading voice
+          <select
+            className="mt-2 w-full rounded-lg border p-2"
+            onChange={(e) =>
+              setSelectedVoice(voices.find((v) => v.name === e.target.value) || null)
+            }
+            value={selectedVoice?.name || ""}
+          >
+            <option value="">Default Voice</option>
+            {voices.map((v) => (
+              <option key={v.name} value={v.name}>
+                {v.name} ({v.lang})
+              </option>
+            ))}
+          </select>
+        </label>
         <button
           onClick={toggle}
-          className={`px-6 py-2 rounded-lg font-medium text-white flex items-center gap-2 ${isSpeaking ? "bg-red-600 hover:bg-red-700" : "bg-blue-600 hover:bg-blue-700"}`}
+          disabled={!text.trim()}
+          className={`mt-6 min-h-11 rounded-lg px-6 py-2 font-medium text-white flex items-center gap-2 ${isSpeaking ? "bg-red-700 hover:bg-red-800" : "bg-blue-700 hover:bg-blue-800"} disabled:opacity-50`}
         >
           {isSpeaking ? (
             <>

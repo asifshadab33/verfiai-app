@@ -1,19 +1,13 @@
 import React, { useState } from "react";
-import { Copy, Check, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import { generatePassword } from "@/lib/tools/password-gen";
+import { CopyButton } from "./CopyButton";
 export default function PasswordGenerator() {
   const [password, setPassword] = useState("");
   const [length, setLength] = useState(16);
   const [opts, setOpts] = useState({ upper: true, lower: true, numbers: true, symbols: true });
-  const [copied, setCopied] = useState(false);
   const generate = () => {
     setPassword(generatePassword(length, opts));
-    setCopied(false);
-  };
-  const copy = () => {
-    navigator.clipboard.writeText(password);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   };
   return (
     <div className="space-y-6">
@@ -34,8 +28,11 @@ export default function PasswordGenerator() {
         ))}
       </div>
       <div className="flex items-center gap-4">
-        <label className="text-sm font-medium">Length: {length}</label>
+        <label htmlFor="password-length" className="field-label">
+          Length: {length}
+        </label>
         <input
+          id="password-length"
           type="range"
           min="8"
           max="64"
@@ -53,9 +50,7 @@ export default function PasswordGenerator() {
       {password && (
         <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 flex items-center justify-between gap-4">
           <code className="text-sm text-gray-800 break-all font-mono">{password}</code>
-          <button onClick={copy} className="text-gray-500 hover:text-blue-600 flex-shrink-0">
-            {copied ? <Check className="w-5 h-5 text-green-600" /> : <Copy className="w-5 h-5" />}
-          </button>
+          <CopyButton text={password} label="Copy password" className="shrink-0" />
         </div>
       )}
     </div>

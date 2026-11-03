@@ -58,9 +58,9 @@ export function HeadlineAnalyzer() {
       <div className="mt-5 space-y-4">
         {reports.map((r, i) => (
           <article key={i} className="rounded-xl border border-border bg-background p-4">
-            <h3 className="font-display text-lg font-bold [overflow-wrap:anywhere]">
+            <h2 className="font-display text-lg font-bold [overflow-wrap:anywhere]">
               {r.headline}
-            </h3>
+            </h2>
             <p className="mt-1 text-xs text-muted-foreground">
               {r.characters} characters · {r.words} words · {r.good} checks look good, {r.warnings}{" "}
               to review

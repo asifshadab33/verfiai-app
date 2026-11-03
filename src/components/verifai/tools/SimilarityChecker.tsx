@@ -9,20 +9,26 @@ export default function SimilarityChecker() {
   return (
     <div className="space-y-4">
       <div className="grid md:grid-cols-2 gap-4">
-        <textarea
-          className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-          rows={6}
-          placeholder="Paste first text here..."
-          value={text1}
-          onChange={(e) => setText1(e.target.value)}
-        />
-        <textarea
-          className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-          rows={6}
-          placeholder="Paste second text here..."
-          value={text2}
-          onChange={(e) => setText2(e.target.value)}
-        />
+        <label className="field-label">
+          First text
+          <textarea
+            className="mt-2 w-full rounded-lg border p-4 focus:ring-2 focus:ring-blue-500 outline-none"
+            rows={6}
+            placeholder="Paste first text here..."
+            value={text1}
+            onChange={(e) => setText1(e.target.value)}
+          />
+        </label>
+        <label className="field-label">
+          Second text
+          <textarea
+            className="mt-2 w-full rounded-lg border p-4 focus:ring-2 focus:ring-blue-500 outline-none"
+            rows={6}
+            placeholder="Paste second text here..."
+            value={text2}
+            onChange={(e) => setText2(e.target.value)}
+          />
+        </label>
       </div>
       <button
         onClick={analyze}
@@ -32,7 +38,7 @@ export default function SimilarityChecker() {
       </button>
       {result && (
         <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg text-center">
-          <div className="text-4xl font-bold text-blue-700 mb-2">{result.overlapPercent}%</div>
+          <h2 className="mb-2 text-4xl font-bold text-blue-800">{result.overlapPercent}%</h2>
           <p className="text-sm text-blue-800 font-medium">Word Overlap (Jaccard Similarity)</p>
           <p className="text-xs text-blue-600 mt-2">
             Note: This is a basic word overlap checker, NOT a plagiarism detector.

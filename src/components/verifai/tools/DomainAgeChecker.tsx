@@ -29,15 +29,19 @@ export default function DomainAgeChecker() {
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-2">
-        <input
-          type="text"
-          placeholder="example.com"
-          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-          value={domain}
-          onChange={(e) => setDomain(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleCheck()}
-        />
+      <div className="flex flex-col gap-2 sm:flex-row">
+        <label htmlFor="domain-age-input" className="field-label flex-1">
+          Domain name
+          <input
+            id="domain-age-input"
+            type="text"
+            placeholder="example.com"
+            className="mt-2 w-full rounded-lg border px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+            value={domain}
+            onChange={(e) => setDomain(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleCheck()}
+          />
+        </label>
         <button
           onClick={handleCheck}
           disabled={loading || !domain.trim()}
@@ -55,13 +59,13 @@ export default function DomainAgeChecker() {
         <div
           className={`p-4 rounded-lg border ${new Date(result.date).getFullYear() >= new Date().getFullYear() - 1 ? "bg-yellow-50 border-yellow-200" : "bg-green-50 border-green-200"}`}
         >
-          <h4
-            className={`font-bold ${new Date(result.date).getFullYear() >= new Date().getFullYear() - 1 ? "text-yellow-800" : "text-green-800"} mb-2 flex items-center gap-2`}
+          <h2
+            className={`mb-2 flex items-center gap-2 font-bold ${new Date(result.date).getFullYear() >= new Date().getFullYear() - 1 ? "text-yellow-900" : "text-green-900"}`}
           >
             <Shield className="w-4 h-4" /> Domain Registration Info
-          </h4>
+          </h2>
           <p
-            className={`text-sm ${new Date(result.date).getFullYear() >= new Date().getFullYear() - 1 ? "text-yellow-700" : "text-green-700"}`}
+            className={`text-sm ${new Date(result.date).getFullYear() >= new Date().getFullYear() - 1 ? "text-yellow-900" : "text-green-900"}`}
           >
             <strong>{result.domain}</strong> was registered on: <strong>{result.date}</strong>
           </p>

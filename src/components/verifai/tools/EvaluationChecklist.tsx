@@ -27,7 +27,7 @@ export function EvaluationChecklist() {
           body:has(.evaluation-checklist-page) #main-content > div > a,
           body:has(.evaluation-checklist-page) #main-content > div > h1,
           body:has(.evaluation-checklist-page) #main-content > div > p,
-          body:has(.evaluation-checklist-page) #main-content > div > div > p,
+          body:has(.evaluation-checklist-page) #main-content > div > div > .tool-page-content > p,
           body:has(.evaluation-checklist-page) #main-content > div > div > section {
             display: none !important;
           }
@@ -80,7 +80,10 @@ export function EvaluationChecklist() {
           <ol className="mt-3 space-y-3">
             {prompts.map((prompt) => (
               <li key={prompt} className="flex items-start gap-3">
-                <span className="mt-1 inline-block size-4 shrink-0 border border-current" aria-hidden="true" />
+                <span
+                  className="mt-1 inline-block size-4 shrink-0 border border-current"
+                  aria-hidden="true"
+                />
                 <span>{prompt}</span>
               </li>
             ))}

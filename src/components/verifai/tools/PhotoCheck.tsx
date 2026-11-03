@@ -107,12 +107,10 @@ export function PhotoCheck() {
             e.target.value = "";
           }}
         />
-        <Button
-          type="button"
-          className="mt-4"
-          onClick={() => inputRef.current?.click()}
-          disabled={busy}
-        >
+        <label htmlFor="pc-file" className="mt-4 block text-sm font-semibold">
+          Select an image file
+        </label>
+        <Button type="button" onClick={() => inputRef.current?.click()} disabled={busy}>
           Choose a photo
         </Button>
         {error && (

@@ -1,53 +1,44 @@
 import React, { useState } from "react";
-import { ExternalLink, Copy, Check } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { buildMailtoLink, MailtoData } from "@/lib/tools/mailto-builder";
+import { CopyButton } from "./CopyButton";
 export default function MailtoBuilder() {
   const [data, setData] = useState<MailtoData>({ to: "", cc: "", bcc: "", subject: "", body: "" });
   const [link, setLink] = useState("");
-  const [copied, setCopied] = useState(false);
   const generate = () => {
     setLink(buildMailtoLink(data));
-    setCopied(false);
-  };
-  const copy = () => {
-    navigator.clipboard.writeText(link);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   };
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <input
-          className="p-3 border border-gray-300 rounded-lg"
-          placeholder="To (required)"
-          value={data.to}
-          onChange={(e) => setData({ ...data, to: e.target.value })}
-        />
-        <input
-          className="p-3 border border-gray-300 rounded-lg"
-          placeholder="CC"
-          value={data.cc}
-          onChange={(e) => setData({ ...data, cc: e.target.value })}
-        />
-        <input
-          className="p-3 border border-gray-300 rounded-lg"
-          placeholder="BCC"
-          value={data.bcc}
-          onChange={(e) => setData({ ...data, bcc: e.target.value })}
-        />
-        <input
-          className="p-3 border border-gray-300 rounded-lg"
-          placeholder="Subject"
-          value={data.subject}
-          onChange={(e) => setData({ ...data, subject: e.target.value })}
-        />
-        <textarea
-          className="p-3 border border-gray-300 rounded-lg md:col-span-2"
-          rows={3}
-          placeholder="Body"
-          value={data.body}
-          onChange={(e) => setData({ ...data, body: e.target.value })}
-        />
+        {(
+          [
+            ["to", "To (required)", "to"],
+            ["cc", "CC", "cc"],
+            ["bcc", "BCC", "bcc"],
+            ["subject", "Subject", "subject"],
+          ] as const
+        ).map(([key, label, placeholder]) => (
+          <label key={key} className="field-label">
+            {label}
+            <input
+              className="mt-2 w-full rounded-lg border p-3"
+              placeholder={placeholder}
+              value={data[key]}
+              onChange={(e) => setData({ ...data, [key]: e.target.value })}
+            />
+          </label>
+        ))}
+        <label className="field-label md:col-span-2">
+          Message body
+          <textarea
+            className="mt-2 w-full rounded-lg border p-3"
+            rows={3}
+            placeholder="Body"
+            value={data.body}
+            onChange={(e) => setData({ ...data, body: e.target.value })}
+          />
+        </label>
       </div>
       <button
         onClick={generate}
@@ -58,11 +49,13 @@ export default function MailtoBuilder() {
       {link && (
         <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 flex items-center justify-between gap-4">
           <code className="text-sm text-gray-800 font-mono break-all">{link}</code>
-          <div className="flex gap-2">
-            <button onClick={copy} className="text-gray-500 hover:text-blue-600">
-              {copied ? <Check className="w-5 h-5 text-green-600" /> : <Copy className="w-5 h-5" />}
-            </button>
-            <a href={link} className="text-blue-600 hover:text-blue-800">
+          <div className="flex flex-wrap gap-2">
+            <CopyButton text={link} label="Copy mailto link" />
+            <a
+              href={link}
+              aria-label="Open mailto link"
+              className="inline-flex min-w-11 min-h-11 items-center justify-center text-blue-700 hover:text-blue-900"
+            >
               <ExternalLink className="w-5 h-5" />
             </a>
           </div>

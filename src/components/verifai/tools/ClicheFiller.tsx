@@ -22,13 +22,16 @@ export default function ClicheFiller() {
   };
   return (
     <div className="space-y-4">
-      <textarea
-        className="w-full p-3 border border-gray-300 rounded-lg"
-        rows={5}
-        placeholder="Paste text to find filler words..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
+      <label className="field-label">
+        Text to check
+        <textarea
+          className="mt-2 w-full rounded-lg border p-3"
+          rows={5}
+          placeholder="Paste text to find filler words..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+      </label>
       <button
         onClick={analyze}
         className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium"
@@ -37,7 +40,7 @@ export default function ClicheFiller() {
       </button>
       {matches.length > 0 && (
         <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-          <strong className="text-yellow-800">Found {matches.length} fillers:</strong>
+          <h2 className="font-bold text-yellow-900">Found {matches.length} fillers</h2>
           <div className="mt-2 bg-white p-3 rounded border text-sm">{render()}</div>
         </div>
       )}

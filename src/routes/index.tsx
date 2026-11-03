@@ -133,7 +133,7 @@ function Home() {
               <Button
                 ref={toolsRef}
                 variant="ghost"
-                className="gap-1"
+                className="min-h-11 gap-1"
                 aria-expanded={toolsOpen}
                 aria-controls="research-tools-menu"
                 onClick={() => setToolsOpen((open) => !open)}
@@ -147,28 +147,28 @@ function Home() {
               >
                 <Button
                   variant="ghost"
-                  className="w-full justify-start"
+                  className="min-h-11 w-full justify-start"
                   onClick={() => selectTab("report")}
                 >
                   {tx("navReport")}
                 </Button>
                 <Button
                   variant="ghost"
-                  className="w-full justify-start"
+                  className="min-h-11 w-full justify-start"
                   onClick={() => selectTab("fact")}
                 >
                   {tx("navFact")}
                 </Button>
                 <Button
                   variant="ghost"
-                  className="w-full justify-start"
+                  className="min-h-11 w-full justify-start"
                   onClick={() => selectTab("citation")}
                 >
                   {tx("navCitation")}
                 </Button>
                 <Link
                   to="/tools"
-                  className="flex h-9 w-full items-center justify-start gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+                  className="flex min-h-11 w-full items-center justify-start gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
                   onClick={() => setToolsOpen(false)}
                 >
                   {tx("navAllTools")}
@@ -205,6 +205,7 @@ function Home() {
             <Button
               size="icon"
               variant="ghost"
+              className="min-h-11 min-w-11"
               aria-label={tx("menu")}
               aria-expanded={menuOpen}
               aria-controls="mobile-navigation-menu"
@@ -219,34 +220,58 @@ function Home() {
             id="mobile-navigation-menu"
             className="flex flex-col gap-1 border-t border-border bg-background px-5 py-3 text-sm lg:hidden"
           >
-            <Button variant="ghost" className="justify-start" onClick={() => selectTab("report")}>
+            <Button
+              variant="ghost"
+              className="min-h-11 justify-start"
+              onClick={() => selectTab("report")}
+            >
               {tx("navReport")}
             </Button>
-            <Button variant="ghost" className="justify-start" onClick={() => selectTab("fact")}>
+            <Button
+              variant="ghost"
+              className="min-h-11 justify-start"
+              onClick={() => selectTab("fact")}
+            >
               {tx("navFact")}
             </Button>
-            <Button variant="ghost" className="justify-start" onClick={() => selectTab("citation")}>
+            <Button
+              variant="ghost"
+              className="min-h-11 justify-start"
+              onClick={() => selectTab("citation")}
+            >
               {tx("navCitation")}
             </Button>
-            <Link to="/tools" className="px-4 py-2" onClick={() => setMenuOpen(false)}>
+            <Link
+              to="/tools"
+              className="flex min-h-11 items-center px-4 py-2"
+              onClick={() => setMenuOpen(false)}
+            >
               {tx("navAllTools")}
             </Link>
-            <Link to="/how-it-works" className="px-4 py-2">
+            <Link to="/how-it-works" className="flex min-h-11 items-center px-4 py-2">
               {tx("navHow")}
             </Link>
-            <Link to="/about" className="px-4 py-2">
+            <Link to="/about" className="flex min-h-11 items-center px-4 py-2">
               {tx("navAbout")}
             </Link>
-            <Link to="/methodology" className="px-4 py-2">
+            <Link to="/methodology" className="flex min-h-11 items-center px-4 py-2">
               {tx("navMethodology")}
             </Link>
-            <Link to="/accuracy" className="px-4 py-2">
+            <Link to="/accuracy" className="flex min-h-11 items-center px-4 py-2">
               {tx("navAccuracy")}
             </Link>
-            <Link to="/pricing" className="px-4 py-2" onClick={() => setMenuOpen(false)}>
+            <Link
+              to="/pricing"
+              className="flex min-h-11 items-center px-4 py-2"
+              onClick={() => setMenuOpen(false)}
+            >
               {COMMUNITY_LABELS[lang]}
             </Link>
-            <a href="#faq" className="px-4 py-2" onClick={() => setMenuOpen(false)}>
+            <a
+              href="#faq"
+              className="flex min-h-11 items-center px-4 py-2"
+              onClick={() => setMenuOpen(false)}
+            >
               {tx("navFaq")}
             </a>
           </nav>

@@ -9,19 +9,23 @@ export default function QrCode() {
     : "";
   return (
     <div className="space-y-4">
-      <textarea
-        aria-label="QR code text or URL"
-        className="w-full p-3 border border-gray-300 rounded-lg"
-        rows={3}
-        placeholder="Enter URL or text to generate QR code..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
+      <label className="field-label">
+        Text or URL for QR code
+        <textarea
+          className="mt-2 w-full rounded-lg border p-3"
+          rows={3}
+          placeholder="Enter URL or text to generate QR code..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+      </label>
       <div className="flex items-center gap-4">
-        <label htmlFor={sizeId} className="text-sm font-medium">Size:</label>
+        <label htmlFor={sizeId} className="field-label">
+          Size
+        </label>
         <select
           id={sizeId}
-          className="p-2 border border-gray-300 rounded-lg"
+          className="rounded-lg border p-2"
           value={size}
           onChange={(e) => setSize(Number(e.target.value))}
         >

@@ -30,15 +30,19 @@ export default function IsbnCiter() {
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-2">
-        <input
-          type="text"
-          placeholder="Enter ISBN (e.g., 9780134685991)"
-          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-          value={isbn}
-          onChange={(e) => setIsbn(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleLookup()}
-        />
+      <div className="flex flex-col gap-2 sm:flex-row">
+        <label htmlFor="isbn-input" className="field-label flex-1">
+          ISBN
+          <input
+            id="isbn-input"
+            type="text"
+            placeholder="Enter ISBN (e.g., 9780134685991)"
+            className="mt-2 w-full rounded-lg border px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+            value={isbn}
+            onChange={(e) => setIsbn(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleLookup()}
+          />
+        </label>
         <button
           onClick={handleLookup}
           disabled={loading || !isbn.trim()}
@@ -54,7 +58,7 @@ export default function IsbnCiter() {
       )}
       {result && (
         <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
-          <h4 className="font-bold text-green-900 mb-2">{result.title}</h4>
+          <h2 className="mb-2 font-bold text-green-900">{result.title}</h2>
           <p className="text-sm text-green-800 mb-1">
             <strong>Authors:</strong> {result.authors?.map((a: any) => a.name).join(", ")}
           </p>

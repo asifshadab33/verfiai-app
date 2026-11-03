@@ -138,7 +138,7 @@ export function CitationGenerator() {
           )}
           {out.failed.length > 0 && (
             <div className="mt-4 rounded-xl bg-warning-soft p-4 text-sm">
-              <h3 className="font-semibold">Could not format</h3>
+              <h2 className="font-semibold">Could not format</h2>
               <ul className="mt-1 space-y-1">
                 {out.failed.map((f) => (
                   <li key={f.doi}>

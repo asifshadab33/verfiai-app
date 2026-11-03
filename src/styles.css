@@ -126,6 +126,52 @@
     font-weight: 400;
     color: var(--color-muted-foreground);
   }
+  .tool-page-content {
+    --border: oklch(0.66 0.015 255);
+    --input: oklch(0.66 0.015 255);
+    --muted-foreground: oklch(0.4 0.03 260);
+  }
+  .tool-page-content [class*="border"] {
+    border-color: var(--color-border) !important;
+  }
+  .tool-page-content
+    :is(input:not([type="checkbox"], [type="radio"], [type="range"]), textarea, select) {
+    min-height: 2.75rem;
+    border-color: var(--color-border) !important;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+  .tool-page-content :is(a, button, select, input, textarea):focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+  @media (pointer: coarse) {
+    .tool-page-content
+      :is(
+        button,
+        input:not([type="checkbox"], [type="radio"], [type="range"]),
+        select,
+        a[role="button"]
+      ) {
+      min-height: 2.75rem;
+      min-width: 2.75rem;
+    }
+    .tool-page-content a {
+      display: inline-flex;
+      min-height: 2.75rem;
+      align-items: center;
+    }
+    .tool-page-content :is(input[type="checkbox"], input[type="radio"]) {
+      min-width: 1.25rem;
+      min-height: 1.25rem;
+    }
+    footer a,
+    footer button {
+      display: inline-flex;
+      min-height: 2.75rem;
+      align-items: center;
+    }
+  }
   .answer-markdown {
     color: var(--color-foreground);
     font-size: 0.9375rem;

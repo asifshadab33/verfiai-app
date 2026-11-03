@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Copy, Check } from "lucide-react";
 import { generateFoiLetter, FoiData } from "@/lib/tools/foi-letter";
+import { CopyButton } from "./CopyButton";
 export default function FoiLetter() {
   const [data, setData] = useState<FoiData>({
     country: "",
@@ -10,50 +10,58 @@ export default function FoiLetter() {
     requesterName: "",
   });
   const [letter, setLetter] = useState("");
-  const [copied, setCopied] = useState(false);
   const generate = () => {
     setLetter(generateFoiLetter(data));
-    setCopied(false);
-  };
-  const copy = () => {
-    navigator.clipboard.writeText(letter);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
   };
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <input
-          className="p-3 border border-gray-300 rounded-lg"
-          placeholder="Country/Jurisdiction"
-          value={data.country}
-          onChange={(e) => setData({ ...data, country: e.target.value })}
-        />
-        <input
-          className="p-3 border border-gray-300 rounded-lg"
-          placeholder="Agency/Department Name"
-          value={data.agency}
-          onChange={(e) => setData({ ...data, agency: e.target.value })}
-        />
-        <input
-          className="p-3 border border-gray-300 rounded-lg md:col-span-2"
-          placeholder="Subject of Request"
-          value={data.subject}
-          onChange={(e) => setData({ ...data, subject: e.target.value })}
-        />
-        <textarea
-          className="p-3 border border-gray-300 rounded-lg md:col-span-2"
-          rows={4}
-          placeholder="Describe the specific records you need..."
-          value={data.details}
-          onChange={(e) => setData({ ...data, details: e.target.value })}
-        />
-        <input
-          className="p-3 border border-gray-300 rounded-lg md:col-span-2"
-          placeholder="Your Name"
-          value={data.requesterName}
-          onChange={(e) => setData({ ...data, requesterName: e.target.value })}
-        />
+        <label className="field-label">
+          Country or jurisdiction
+          <input
+            className="mt-2 w-full rounded-lg border p-3"
+            placeholder="Country/Jurisdiction"
+            value={data.country}
+            onChange={(e) => setData({ ...data, country: e.target.value })}
+          />
+        </label>
+        <label className="field-label">
+          Agency or department
+          <input
+            className="mt-2 w-full rounded-lg border p-3"
+            placeholder="Agency/Department Name"
+            value={data.agency}
+            onChange={(e) => setData({ ...data, agency: e.target.value })}
+          />
+        </label>
+        <label className="field-label md:col-span-2">
+          Subject of request
+          <input
+            className="mt-2 w-full rounded-lg border p-3"
+            placeholder="Subject of Request"
+            value={data.subject}
+            onChange={(e) => setData({ ...data, subject: e.target.value })}
+          />
+        </label>
+        <label className="field-label md:col-span-2">
+          Records requested
+          <textarea
+            className="mt-2 w-full rounded-lg border p-3"
+            rows={4}
+            placeholder="Describe the specific records you need..."
+            value={data.details}
+            onChange={(e) => setData({ ...data, details: e.target.value })}
+          />
+        </label>
+        <label className="field-label md:col-span-2">
+          Your name
+          <input
+            className="mt-2 w-full rounded-lg border p-3"
+            placeholder="Your Name"
+            value={data.requesterName}
+            onChange={(e) => setData({ ...data, requesterName: e.target.value })}
+          />
+        </label>
       </div>
       <button
         onClick={generate}
@@ -66,12 +74,7 @@ export default function FoiLetter() {
           <pre className="w-full p-4 bg-gray-50 border border-gray-200 rounded-lg whitespace-pre-wrap text-sm font-sans text-gray-800">
             {letter}
           </pre>
-          <button
-            onClick={copy}
-            className="absolute top-2 right-2 bg-white border border-gray-200 hover:bg-gray-100 p-2 rounded shadow-sm"
-          >
-            {copied ? <Check className="w-4 h-4 text-green-600" /> : <Copy className="w-4 h-4" />}
-          </button>
+          <CopyButton text={letter} label="Copy letter" className="absolute right-2 top-2" />
         </div>
       )}
     </div>

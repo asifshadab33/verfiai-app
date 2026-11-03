@@ -11,13 +11,16 @@ export default function CharacterCounter() {
   }, [text]);
   return (
     <div className="space-y-4">
-      <textarea
-        className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-        rows={8}
-        placeholder="Paste your text here..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
+      <label className="field-label">
+        Text to count
+        <textarea
+          className="mt-2 w-full rounded-lg border p-4 focus:ring-2 focus:ring-blue-500 outline-none"
+          rows={8}
+          placeholder="Paste your text here..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+      </label>
       {text && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="bg-blue-50 p-4 rounded-lg text-center">
@@ -26,15 +29,15 @@ export default function CharacterCounter() {
           </div>
           <div className="bg-green-50 p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-green-700">{stats.charsNoSpace}</div>
-            <div className="text-xs text-green-600 uppercase font-semibold">No Spaces</div>
+            <div className="text-xs text-green-800 uppercase font-semibold">No Spaces</div>
           </div>
           <div className="bg-purple-50 p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-purple-700">{stats.words}</div>
-            <div className="text-xs text-purple-600 uppercase font-semibold">Words</div>
+            <div className="text-xs text-purple-800 uppercase font-semibold">Words</div>
           </div>
           <div className="bg-orange-50 p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-orange-700">{stats.lines}</div>
-            <div className="text-xs text-orange-600 uppercase font-semibold">Lines</div>
+            <div className="text-xs text-orange-800 uppercase font-semibold">Lines</div>
           </div>
         </div>
       )}

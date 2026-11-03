@@ -39,14 +39,17 @@ export default function ArxivFinder() {
   };
   return (
     <div className="space-y-4">
-      <div className="flex gap-2">
-        <input
-          aria-label="Search arXiv papers"
-          className="flex-1 p-3 border border-gray-300 rounded-lg"
-          placeholder="Search physics, CS, math papers..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
+      <div className="flex flex-col gap-2 sm:flex-row">
+        <label htmlFor="arxiv-search" className="field-label flex-1">
+          Search arXiv papers
+          <input
+            id="arxiv-search"
+            className="mt-2 w-full rounded-lg border p-3"
+            placeholder="Search physics, CS, math papers..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </label>
         <button
           onClick={search}
           disabled={loading || !query}

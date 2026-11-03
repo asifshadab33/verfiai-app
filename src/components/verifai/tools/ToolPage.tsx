@@ -10,6 +10,7 @@ export function ToolPage({
   intro,
   description,
   privacy,
+  styleControls = true,
   notes = [],
   children,
 }: {
@@ -17,6 +18,7 @@ export function ToolPage({
   intro?: string;
   description?: string;
   privacy?: string;
+  styleControls?: boolean;
   notes?: ToolNote[];
   children: ReactNode;
 }) {
@@ -26,8 +28,17 @@ export function ToolPage({
 
   return (
     <ContentPage title={title} intro={resolvedIntro}>
-      <p className="mb-5 text-xs leading-5 text-muted-foreground">{resolvedPrivacy}</p>
-      {children}
+      {styleControls ? (
+        <div className="tool-page-content">
+          <p className="mb-5 text-xs leading-5 text-muted-foreground">{resolvedPrivacy}</p>
+          {children}
+        </div>
+      ) : (
+        <>
+          <p className="mb-5 text-xs leading-5 text-muted-foreground">{resolvedPrivacy}</p>
+          {children}
+        </>
+      )}
       {notes.map((n) => (
         <PageSection key={n.title} title={n.title}>
           <div>{n.body}</div>
@@ -36,11 +47,14 @@ export function ToolPage({
       <PageSection title="More free tools">
         <p>
           Verfiai&rsquo;s free tools help you check facts, sources and writing.{" "}
-          <Link to="/tools" className="text-brand underline">
+          <Link to="/tools" className="inline-flex min-h-11 items-center text-brand underline">
             Browse all free tools
           </Link>{" "}
           or{" "}
-          <Link to="/fact-checker" className="text-brand underline">
+          <Link
+            to="/fact-checker"
+            className="inline-flex min-h-11 items-center text-brand underline"
+          >
             check a claim against sources
           </Link>
           .

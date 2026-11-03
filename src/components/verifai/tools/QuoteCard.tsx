@@ -47,23 +47,31 @@ export default function QuoteCard() {
 
   return (
     <div className="space-y-4">
-      <textarea
-        className="w-full p-3 border border-gray-300 rounded-lg"
-        rows={3}
-        placeholder="Enter quote..."
-        value={quote}
-        onChange={(e) => setQuote(e.target.value)}
-      />
-      <input
-        className="w-full p-3 border border-gray-300 rounded-lg"
-        placeholder="Author / Source"
-        value={author}
-        onChange={(e) => setAuthor(e.target.value)}
-      />
+      <label className="field-label">
+        Quote
+        <textarea
+          className="mt-2 w-full rounded-lg border p-3"
+          rows={3}
+          placeholder="Enter quote..."
+          value={quote}
+          onChange={(e) => setQuote(e.target.value)}
+        />
+      </label>
+      <label className="field-label">
+        Author or source
+        <input
+          className="mt-2 w-full rounded-lg border p-3"
+          placeholder="Author / Source"
+          value={author}
+          onChange={(e) => setAuthor(e.target.value)}
+        />
+      </label>
       <canvas
         ref={canvasRef}
         width={800}
         height={400}
+        role="img"
+        aria-label={`Quote card preview${quote ? `: ${quote}` : ""}${author ? `, attributed to ${author}` : ""}`}
         className="w-full h-auto rounded-lg border border-gray-200"
       />
       <button

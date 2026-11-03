@@ -22,13 +22,17 @@ export default function LinkExpander() {
   };
   return (
     <div className="space-y-4">
-      <div className="flex gap-2">
-        <input
-          className="flex-1 p-3 border border-gray-300 rounded-lg"
-          placeholder="Paste shortened URL..."
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-        />
+      <div className="flex flex-col gap-2 sm:flex-row">
+        <label htmlFor="link-expander-input" className="field-label flex-1">
+          Shortened URL
+          <input
+            id="link-expander-input"
+            className="mt-2 w-full rounded-lg border p-3"
+            placeholder="Paste shortened URL..."
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+          />
+        </label>
         <button
           onClick={expand}
           disabled={loading || !url}
@@ -44,7 +48,7 @@ export default function LinkExpander() {
       )}
       {finalUrl && finalUrl !== url && (
         <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
-          <h4 className="font-bold text-green-800 mb-2">✅ Final Destination:</h4>
+          <h2 className="mb-2 font-bold text-green-900">Final destination</h2>
           <a
             href={finalUrl}
             target="_blank"

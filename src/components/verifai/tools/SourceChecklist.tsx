@@ -36,7 +36,7 @@ export default function SourceChecklist() {
       <div
         className={`p-4 rounded-lg border ${score >= 5 ? "bg-green-50 border-green-200" : score >= 3 ? "bg-yellow-50 border-yellow-200" : "bg-red-50 border-red-200"}`}
       >
-        <h4 className="font-bold">Source Reliability Score: {score}/6</h4>
+        <h2 className="font-bold">Source reliability score: {score}/6</h2>
         <p className="text-sm mt-1">
           {score >= 5
             ? "Highly reliable source."

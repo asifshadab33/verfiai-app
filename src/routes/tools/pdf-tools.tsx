@@ -6,6 +6,7 @@ export const Route = createFileRoute("/tools/pdf-tools")({
     <ToolPage
       title="PDF Merge, Split & Rotate"
       description="Process PDFs entirely in your browser. Files never leave your device."
+      styleControls={false}
     >
       <PdfTools />
     </ToolPage>

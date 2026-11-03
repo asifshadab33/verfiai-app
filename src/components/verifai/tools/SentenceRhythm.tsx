@@ -5,13 +5,16 @@ export default function SentenceRhythm() {
   const [stats, setStats] = useState<ReturnType<typeof analyzeRhythm>>(null);
   return (
     <div className="space-y-4">
-      <textarea
-        className="w-full p-3 border border-gray-300 rounded-lg"
-        rows={5}
-        placeholder="Paste text to analyze sentence flow..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
+      <label className="field-label">
+        Text to analyze
+        <textarea
+          className="mt-2 w-full rounded-lg border p-3"
+          rows={5}
+          placeholder="Paste text to analyze sentence flow..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+      </label>
       <button
         onClick={() => setStats(analyzeRhythm(text))}
         className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium"
@@ -26,11 +29,11 @@ export default function SentenceRhythm() {
           </div>
           <div className="bg-green-50 p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-green-700">{stats.avg}</div>
-            <div className="text-xs text-green-600 uppercase">Avg Words</div>
+            <div className="text-xs text-green-800 uppercase">Avg Words</div>
           </div>
           <div className="bg-purple-50 p-4 rounded-lg text-center">
             <div className="text-2xl font-bold text-purple-700">{stats.variance}</div>
-            <div className="text-xs text-purple-600 uppercase">Variance</div>
+            <div className="text-xs text-purple-800 uppercase">Variance</div>
           </div>
           <div
             className={`p-4 rounded-lg text-center ${stats.longSentences > 0 ? "bg-red-50" : "bg-gray-50"}`}

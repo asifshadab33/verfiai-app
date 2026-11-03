@@ -77,7 +77,7 @@ export function WordCounter() {
       )}
       {s.topWords.length > 0 && (
         <div className="mt-4">
-          <h3 className="text-sm font-semibold">Most repeated words</h3>
+          <h2 className="text-sm font-semibold">Most repeated words</h2>
           <ul className="mt-2 flex flex-wrap gap-2 text-sm">
             {s.topWords.map((w) => (
               <li

@@ -24,18 +24,26 @@ export default function FileHash() {
   const isMatch = actual && expected && actual.toLowerCase() === expected.toLowerCase();
   return (
     <div className="space-y-4">
-      <input
-        type="file"
-        onChange={handleFile}
-        className="w-full p-2 border border-gray-300 rounded-lg"
-      />
-      <input
-        type="text"
-        placeholder="Paste expected SHA-256 hash here..."
-        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none font-mono text-sm"
-        value={expected}
-        onChange={(e) => setExpected(e.target.value)}
-      />
+      <label htmlFor="file-hash-file" className="field-label">
+        File to hash
+        <input
+          id="file-hash-file"
+          type="file"
+          onChange={handleFile}
+          className="mt-2 w-full rounded-lg border p-2"
+        />
+      </label>
+      <label htmlFor="file-hash-expected" className="field-label">
+        Expected SHA-256 hash (optional)
+        <input
+          id="file-hash-expected"
+          type="text"
+          placeholder="Paste expected SHA-256 hash here..."
+          className="mt-2 w-full rounded-lg border px-4 py-2 font-mono text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+          value={expected}
+          onChange={(e) => setExpected(e.target.value)}
+        />
+      </label>
       {loading && (
         <div className="flex items-center gap-2 text-gray-600">
           <Loader2 className="w-4 h-4 animate-spin" /> Computing SHA-256...
@@ -45,7 +53,7 @@ export default function FileHash() {
         <div
           className={`p-4 rounded-lg border ${isMatch ? "bg-green-50 border-green-200" : "bg-yellow-50 border-yellow-200"}`}
         >
-          <h4
+          <h2
             className={`font-bold mb-2 flex items-center gap-2 ${isMatch ? "text-green-800" : "text-yellow-800"}`}
           >
             {isMatch ? (
@@ -57,7 +65,7 @@ export default function FileHash() {
                 <AlertCircle className="w-5 h-5" /> Hash Mismatch or Not Provided
               </>
             )}
-          </h4>
+          </h2>
           <p className="text-xs text-gray-600 mb-1">Actual SHA-256:</p>
           <code className="block bg-white p-2 rounded border border-gray-200 text-xs font-mono break-all">
             {actual}

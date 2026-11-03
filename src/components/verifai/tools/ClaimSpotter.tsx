@@ -168,7 +168,7 @@ export function ClaimSpotter() {
           </div>
           {claims.length > 0 && (
             <div>
-              <h3 className="font-display text-lg font-bold">Claims worth checking</h3>
+              <h2 className="font-display text-lg font-bold">Claims worth checking</h2>
               <ol className="mt-2 space-y-2 text-sm">
                 {claims.map((c, i) => (
                   <li key={i} className="rounded-xl border border-border bg-background p-3">
@@ -182,7 +182,10 @@ export function ClaimSpotter() {
               </ol>
               <div className="mt-3 flex flex-wrap items-center gap-3">
                 <CopyButton text={copyText} label="Copy these claims" />
-                <Link to="/fact-checker" className="text-sm font-semibold text-brand underline">
+                <Link
+                  to="/fact-checker"
+                  className="inline-flex min-h-11 items-center text-sm font-semibold text-brand underline"
+                >
                   Check them against sources
                 </Link>
               </div>

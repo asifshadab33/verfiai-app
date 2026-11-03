@@ -6,13 +6,16 @@ export default function NumbersCheck() {
   const analyze = () => setWarnings(checkNumbers(text));
   return (
     <div className="space-y-4">
-      <textarea
-        className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-        rows={6}
-        placeholder="Paste news text or statistics..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
+      <label className="field-label">
+        News text or statistics
+        <textarea
+          className="mt-2 w-full rounded-lg border p-4 focus:ring-2 focus:ring-blue-500 outline-none"
+          rows={6}
+          placeholder="Paste news text or statistics..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+      </label>
       <button
         onClick={analyze}
         className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
@@ -21,7 +24,7 @@ export default function NumbersCheck() {
       </button>
       {warnings.length > 0 && (
         <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg">
-          <h4 className="font-bold text-yellow-800 mb-2">⚠️ Statistical Warnings:</h4>
+          <h2 className="mb-2 font-bold text-yellow-900">Statistical warnings</h2>
           <ul className="space-y-2">
             {warnings.map((w, i) => (
               <li key={i} className="bg-white p-3 rounded border border-yellow-100 text-sm">

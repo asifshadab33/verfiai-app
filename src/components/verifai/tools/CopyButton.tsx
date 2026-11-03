@@ -11,26 +11,30 @@ export function CopyButton({
   label?: string;
   className?: string;
 }) {
-  const [done, setDone] = useState(false);
+  const [status, setStatus] = useState<"copied" | "failed" | null>(null);
   async function copy() {
+    let copied = false;
     try {
       await navigator.clipboard.writeText(text);
+      copied = true;
     } catch {
-      const ta = document.createElement("textarea");
-      ta.value = text;
-      ta.style.position = "fixed";
-      ta.style.opacity = "0";
-      document.body.appendChild(ta);
-      ta.select();
+      let ta: HTMLTextAreaElement | null = null;
       try {
-        document.execCommand("copy");
+        ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        copied = document.execCommand("copy");
       } catch {
-        /* clipboard unavailable */
+        copied = false;
+      } finally {
+        ta?.remove();
       }
-      ta.remove();
     }
-    setDone(true);
-    setTimeout(() => setDone(false), 1500);
+    setStatus(copied ? "copied" : "failed");
+    setTimeout(() => setStatus(null), 2000);
   }
   return (
     <Button
@@ -41,8 +45,10 @@ export function CopyButton({
       onClick={copy}
       disabled={!text}
     >
-      {done ? <Check className="size-4" /> : <Copy className="size-4" />}
-      <span aria-live="polite">{done ? "Copied" : label}</span>
+      {status === "copied" ? <Check className="size-4" /> : <Copy className="size-4" />}
+      <span aria-live="polite">
+        {status === "copied" ? "Copied" : status === "failed" ? "Copy failed" : label}
+      </span>
     </Button>
   );
 }

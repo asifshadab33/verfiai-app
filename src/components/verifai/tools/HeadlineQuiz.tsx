@@ -77,7 +77,8 @@ const HEADLINES: Headline[] = [
   {
     text: "School district publishes proposed calendar for public comment",
     manipulated: false,
-    explanation: "This describes an action and its status without implying an outcome or adding urgency.",
+    explanation:
+      "This describes an action and its status without implying an outcome or adding urgency.",
   },
   {
     text: "One unusual result means the new policy is a total failure",
@@ -118,7 +119,9 @@ export function HeadlineQuiz() {
       <ol className="space-y-4">
         {HEADLINES.map((headline, index) => (
           <li key={headline.text} className="rounded-lg border border-border p-4">
-            <p className="font-semibold">{index + 1}. {headline.text}</p>
+            <p className="font-semibold">
+              {index + 1}. {headline.text}
+            </p>
             <fieldset className="mt-3 flex flex-wrap gap-4" disabled={scored}>
               <legend className="sr-only">Is this headline manipulated?</legend>
               {[
@@ -170,7 +173,11 @@ export function HeadlineQuiz() {
           <Button className="mt-3" onClick={copyResult}>
             Copy result
           </Button>
-          {copyStatus && <p className="mt-2 text-sm" role="status">{copyStatus}</p>}
+          {copyStatus && (
+            <p className="mt-2 text-sm" role="status">
+              {copyStatus}
+            </p>
+          )}
           <p className="mt-2 text-xs text-muted-foreground">
             I scored {score}/{HEADLINES.length} on Verfiai&rsquo;s Spot the Fake Headline quiz.
           </p>

@@ -29,15 +29,19 @@ export default function WaybackChecker() {
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-2">
-        <input
-          type="text"
-          placeholder="https://example.com/article"
-          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleCheck()}
-        />
+      <div className="flex flex-col gap-2 sm:flex-row">
+        <label htmlFor="wayback-url-input" className="field-label flex-1">
+          Page URL
+          <input
+            id="wayback-url-input"
+            type="text"
+            placeholder="https://example.com/article"
+            className="mt-2 w-full rounded-lg border px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleCheck()}
+          />
+        </label>
         <button
           onClick={handleCheck}
           disabled={loading || !url.trim()}
@@ -53,7 +57,7 @@ export default function WaybackChecker() {
       )}
       {result && (
         <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
-          <h4 className="font-bold text-green-800 mb-2">✅ Snapshot Found</h4>
+          <h2 className="mb-2 font-bold text-green-900">Snapshot found</h2>
           <p className="text-sm text-green-700 mb-3">
             Archived on: <strong>{new Date(result.timestamp).toLocaleDateString()}</strong>
           </p>

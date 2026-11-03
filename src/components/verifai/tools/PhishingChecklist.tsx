@@ -18,7 +18,24 @@ export default function PhishingChecklist() {
   };
   const score = checked.filter(Boolean).length;
   const risk = score >= 5 ? "High" : score >= 2 ? "Medium" : "Low";
-  const color = score >= 5 ? "red" : score >= 2 ? "yellow" : "green";
+  const tone =
+    score >= 5
+      ? {
+          surface: "bg-red-50 border-red-200",
+          heading: "text-red-900",
+          body: "text-red-800",
+        }
+      : score >= 2
+        ? {
+            surface: "bg-yellow-50 border-yellow-200",
+            heading: "text-yellow-900",
+            body: "text-yellow-900",
+          }
+        : {
+            surface: "bg-green-50 border-green-200",
+            heading: "text-green-900",
+            body: "text-green-900",
+          };
   return (
     <div className="space-y-4">
       <div className="space-y-2">
@@ -37,18 +54,18 @@ export default function PhishingChecklist() {
           </label>
         ))}
       </div>
-      <div className={`p-4 rounded-lg border bg-${color}-50 border-${color}-200`}>
-        <h4 className={`font-bold text-${color}-800`}>
+      <section className={`rounded-lg border p-4 ${tone.surface}`}>
+        <h2 className={`font-bold ${tone.heading}`}>
           Risk Level: {risk} ({score}/{flags.length} flags)
-        </h4>
-        <p className={`text-sm text-${color}-700 mt-1`}>
+        </h2>
+        <p className={`mt-1 text-sm ${tone.body}`}>
           {score >= 5
             ? "Do not click links or reply. Verify directly with the organization."
             : score >= 2
               ? "Proceed with caution. Verify the sender independently."
               : "Few red flags detected, but always stay vigilant."}
         </p>
-      </div>
+      </section>
     </div>
   );
 }

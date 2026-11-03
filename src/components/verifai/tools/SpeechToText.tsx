@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from "react";
-import { Mic, MicOff, Copy, Check } from "lucide-react";
+import { Mic, MicOff } from "lucide-react";
+import { CopyButton } from "./CopyButton";
 
 // Type definition for Web Speech API
 interface SpeechRecognitionEvent {
@@ -28,7 +29,6 @@ export default function SpeechToText() {
   const [text, setText] = useState("");
   const [isListening, setIsListening] = useState(false);
   const [recognition, setRecognition] = useState<SpeechRecognition | null>(null);
-  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -60,18 +60,12 @@ export default function SpeechToText() {
     }
   };
 
-  const copy = () => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
         <button
           onClick={toggle}
-          className={`px-6 py-2 rounded-lg font-medium text-white flex items-center gap-2 ${isListening ? "bg-red-600 hover:bg-red-700" : "bg-blue-600 hover:bg-blue-700"}`}
+          className={`min-h-11 rounded-lg px-6 py-2 font-medium text-white flex items-center gap-2 ${isListening ? "bg-red-700 hover:bg-red-800" : "bg-blue-700 hover:bg-blue-800"}`}
         >
           {isListening ? (
             <>
@@ -83,20 +77,18 @@ export default function SpeechToText() {
             </>
           )}
         </button>
-        {text && (
-          <button aria-label={copied ? "Transcript copied" : "Copy transcript"} onClick={copy} className="text-gray-500 hover:text-blue-600">
-            {copied ? <Check className="w-5 h-5 text-green-600" /> : <Copy className="w-5 h-5" />}
-          </button>
-        )}
+        {text && <CopyButton text={text} label="Copy transcript" />}
       </div>
-      <textarea
-        aria-label="Speech transcript"
-        className="w-full p-3 border border-gray-300 rounded-lg"
-        rows={8}
-        placeholder="Your spoken text will appear here..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
+      <label className="field-label">
+        Speech transcript
+        <textarea
+          className="mt-2 w-full rounded-lg border p-3"
+          rows={8}
+          placeholder="Your spoken text will appear here..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+      </label>
       {!recognition && (
         <p className="text-sm text-yellow-700 bg-yellow-50 p-3 rounded border border-yellow-200">
           ⚠️ Your browser does not support the Web Speech API. Try Chrome or Edge.

@@ -34,7 +34,7 @@ export default function Pomodoro() {
   return (
     <div className="flex flex-col items-center space-y-6 py-8">
       <div
-        className={`text-6xl font-mono font-bold ${mode === "work" ? "text-blue-600" : "text-green-600"}`}
+        className={`text-6xl font-mono font-bold ${mode === "work" ? "text-blue-700" : "text-green-800"}`}
       >
         {mins}:{secs}
       </div>
@@ -42,15 +42,21 @@ export default function Pomodoro() {
       <div className="flex gap-4">
         <button
           onClick={toggle}
-          className="bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition-colors"
+          aria-label={isRunning ? "Pause timer" : "Start timer"}
+          className="min-h-11 min-w-11 rounded-full bg-blue-700 p-3 text-white transition-colors hover:bg-blue-800"
         >
-          {isRunning ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
+          {isRunning ? (
+            <Pause className="w-6 h-6" aria-hidden="true" />
+          ) : (
+            <Play className="w-6 h-6" aria-hidden="true" />
+          )}
         </button>
         <button
           onClick={reset}
-          className="bg-gray-200 hover:bg-gray-300 text-gray-700 p-3 rounded-full transition-colors"
+          aria-label="Reset timer"
+          className="min-h-11 min-w-11 rounded-full bg-gray-200 p-3 text-gray-800 transition-colors hover:bg-gray-300"
         >
-          <RotateCcw className="w-6 h-6" />
+          <RotateCcw className="w-6 h-6" aria-hidden="true" />
         </button>
       </div>
     </div>

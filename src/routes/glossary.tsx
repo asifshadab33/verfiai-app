@@ -136,8 +136,7 @@ function Glossary() {
     terms: category.terms
       .filter(
         ({ term, definition }) =>
-          !normalizedQuery ||
-          `${term} ${definition}`.toLocaleLowerCase().includes(normalizedQuery),
+          !normalizedQuery || `${term} ${definition}`.toLocaleLowerCase().includes(normalizedQuery),
       )
       .sort((a, b) => a.term.localeCompare(b.term)),
   })).filter((category) => category.terms.length > 0);
@@ -156,7 +155,7 @@ function Glossary() {
         value={query}
         onChange={(event) => setQuery(event.target.value)}
         placeholder="Search the glossary"
-        className="mt-2 w-full max-w-xl rounded-md border border-input bg-background px-3 py-2"
+        className="mt-2 min-h-11 w-full max-w-xl rounded-md border border-muted-foreground bg-background px-3 py-2"
       />
       {categories.length ? (
         <div className="mt-8 space-y-10">
@@ -172,7 +171,10 @@ function Glossary() {
                       {tool && to && (
                         <>
                           {" "}
-                          <Link to={to} className="text-brand underline">
+                          <Link
+                            to={to}
+                            className="inline-flex min-h-11 items-center text-brand underline"
+                          >
                             Try {tool}
                           </Link>
                           .

@@ -6,12 +6,15 @@ export default function UrlInspector() {
   const analyze = () => setResult(inspectUrl(url));
   return (
     <div className="space-y-4">
-      <input
-        className="w-full p-3 border border-gray-300 rounded-lg"
-        placeholder="Paste URL to inspect..."
-        value={url}
-        onChange={(e) => setUrl(e.target.value)}
-      />
+      <label className="field-label">
+        URL to inspect
+        <input
+          className="mt-2 w-full rounded-lg border p-3"
+          placeholder="Paste URL to inspect..."
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+        />
+      </label>
       <button
         onClick={analyze}
         className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium"
@@ -30,11 +33,11 @@ export default function UrlInspector() {
           </div>
           {result.trackingParams.length > 0 ? (
             <div>
-              <strong className="text-red-700">Tracking Parameters Found:</strong>{" "}
+              <strong className="text-red-800">Tracking Parameters Found:</strong>{" "}
               {result.trackingParams.join(", ")}
             </div>
           ) : (
-            <div className="text-green-700 font-medium">
+            <div className="text-green-800 font-medium">
               ✅ No common tracking parameters detected.
             </div>
           )}

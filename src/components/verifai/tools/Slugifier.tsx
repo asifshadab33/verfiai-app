@@ -1,49 +1,28 @@
 import React, { useState } from "react";
-import { Copy, Check } from "lucide-react";
-import { slugify, encodeUrl, decodeUrl } from "@/lib/tools/slugifier";
+import { slugify, encodeUrl } from "@/lib/tools/slugifier";
+import { CopyButton } from "./CopyButton";
 export default function Slugifier() {
   const [text, setText] = useState("");
-  const [copied, setCopied] = useState("");
-  const copy = (val: string, id: string) => {
-    navigator.clipboard.writeText(val);
-    setCopied(id);
-    setTimeout(() => setCopied(""), 2000);
-  };
   return (
     <div className="space-y-4">
-      <input
-        className="w-full p-3 border border-gray-300 rounded-lg"
-        placeholder="Enter text or URL..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
+      <label className="field-label">
+        Text or URL
+        <input
+          className="mt-2 w-full rounded-lg border p-3"
+          placeholder="Enter text or URL..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+      </label>
       {text && (
         <div className="space-y-3">
           <div className="bg-gray-50 p-3 rounded-lg border border-gray-200 flex justify-between items-center">
             <code className="text-sm font-mono break-all">{slugify(text)}</code>
-            <button
-              onClick={() => copy(slugify(text), "1")}
-              className="text-gray-500 hover:text-blue-600"
-            >
-              {copied === "1" ? (
-                <Check className="w-4 h-4 text-green-600" />
-              ) : (
-                <Copy className="w-4 h-4" />
-              )}
-            </button>
+            <CopyButton text={slugify(text)} label="Copy slug" />
           </div>
           <div className="bg-gray-50 p-3 rounded-lg border border-gray-200 flex justify-between items-center">
             <code className="text-sm font-mono break-all">{encodeUrl(text)}</code>
-            <button
-              onClick={() => copy(encodeUrl(text), "2")}
-              className="text-gray-500 hover:text-blue-600"
-            >
-              {copied === "2" ? (
-                <Check className="w-4 h-4 text-green-600" />
-              ) : (
-                <Copy className="w-4 h-4" />
-              )}
-            </button>
+            <CopyButton text={encodeUrl(text)} label="Copy encoded URL" />
           </div>
         </div>
       )}

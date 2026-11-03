@@ -10,18 +10,24 @@ export default function SampleSize() {
     <div className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-1">Population Size</label>
+          <label htmlFor="sample-population" className="field-label">
+            Population size
+          </label>
           <input
+            id="sample-population"
             type="number"
-            className="w-full p-3 border border-gray-300 rounded-lg"
+            className="mt-2 w-full rounded-lg border p-3"
             value={pop}
             onChange={(e) => setPop(Number(e.target.value))}
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Confidence Level (%)</label>
+          <label htmlFor="sample-confidence" className="field-label">
+            Confidence level (%)
+          </label>
           <select
-            className="w-full p-3 border border-gray-300 rounded-lg"
+            id="sample-confidence"
+            className="mt-2 w-full rounded-lg border p-3"
             value={conf}
             onChange={(e) => setConf(Number(e.target.value))}
           >
@@ -31,10 +37,13 @@ export default function SampleSize() {
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Margin of Error (%)</label>
+          <label htmlFor="sample-margin" className="field-label">
+            Margin of error (%)
+          </label>
           <input
+            id="sample-margin"
             type="number"
-            className="w-full p-3 border border-gray-300 rounded-lg"
+            className="mt-2 w-full rounded-lg border p-3"
             value={margin}
             onChange={(e) => setMargin(Number(e.target.value))}
           />
@@ -48,7 +57,7 @@ export default function SampleSize() {
       </button>
       {result !== null && (
         <div className="bg-blue-50 border border-blue-200 p-6 rounded-lg text-center">
-          <p className="text-sm text-blue-800 mb-1">Required Sample Size:</p>
+          <h2 className="mb-1 text-sm font-bold text-blue-900">Required sample size</h2>
           <p className="text-4xl font-bold text-blue-900">{result}</p>
         </div>
       )}
