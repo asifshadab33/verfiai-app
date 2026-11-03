@@ -207,6 +207,7 @@ function Home() {
               variant="ghost"
               aria-label={tx("menu")}
               aria-expanded={menuOpen}
+              aria-controls="mobile-navigation-menu"
               onClick={() => setMenuOpen(!menuOpen)}
             >
               {menuOpen ? <X /> : <Menu />}
@@ -214,7 +215,10 @@ function Home() {
           </div>
         </div>
         {menuOpen && (
-          <nav className="flex flex-col gap-1 border-t border-border bg-background px-5 py-3 text-sm lg:hidden">
+          <nav
+            id="mobile-navigation-menu"
+            className="flex flex-col gap-1 border-t border-border bg-background px-5 py-3 text-sm lg:hidden"
+          >
             <Button variant="ghost" className="justify-start" onClick={() => selectTab("report")}>
               {tx("navReport")}
             </Button>
