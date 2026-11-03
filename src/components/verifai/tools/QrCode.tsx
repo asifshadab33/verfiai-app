@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useId, useState } from "react";
 import { Download } from "lucide-react";
 export default function QrCode() {
+  const sizeId = useId();
   const [text, setText] = useState("");
   const [size, setSize] = useState(200);
   const url = text
@@ -9,6 +10,7 @@ export default function QrCode() {
   return (
     <div className="space-y-4">
       <textarea
+        aria-label="QR code text or URL"
         className="w-full p-3 border border-gray-300 rounded-lg"
         rows={3}
         placeholder="Enter URL or text to generate QR code..."
@@ -16,8 +18,9 @@ export default function QrCode() {
         onChange={(e) => setText(e.target.value)}
       />
       <div className="flex items-center gap-4">
-        <label className="text-sm font-medium">Size:</label>
+        <label htmlFor={sizeId} className="text-sm font-medium">Size:</label>
         <select
+          id={sizeId}
           className="p-2 border border-gray-300 rounded-lg"
           value={size}
           onChange={(e) => setSize(Number(e.target.value))}

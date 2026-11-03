@@ -34,6 +34,7 @@ export default function CsvJsonConverter() {
   return (
     <div className="space-y-4">
       <textarea
+        aria-label="CSV data to convert"
         className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none font-mono text-sm"
         rows={6}
         placeholder="Paste CSV data here (first row must be headers)..."
@@ -52,6 +53,7 @@ export default function CsvJsonConverter() {
             {json}
           </pre>
           <button
+            aria-label={copied ? "JSON copied" : "Copy JSON"}
             onClick={copy}
             className="absolute top-2 right-2 bg-gray-700 hover:bg-gray-600 text-white p-2 rounded transition-colors"
           >

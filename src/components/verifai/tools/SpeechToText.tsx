@@ -84,12 +84,13 @@ export default function SpeechToText() {
           )}
         </button>
         {text && (
-          <button onClick={copy} className="text-gray-500 hover:text-blue-600">
+          <button aria-label={copied ? "Transcript copied" : "Copy transcript"} onClick={copy} className="text-gray-500 hover:text-blue-600">
             {copied ? <Check className="w-5 h-5 text-green-600" /> : <Copy className="w-5 h-5" />}
           </button>
         )}
       </div>
       <textarea
+        aria-label="Speech transcript"
         className="w-full p-3 border border-gray-300 rounded-lg"
         rows={8}
         placeholder="Your spoken text will appear here..."
