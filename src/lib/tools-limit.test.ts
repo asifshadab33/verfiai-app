@@ -14,5 +14,7 @@ describe("free tools limiter", () => {
     t = 1001;
     expect(l.check("ip:1").ok).toBe(true);
   });
-  it("rejects a single request larger than the quota", () => { expect(createLimiter({ windowMs: 1000, max: 3 }).check("a", 4).ok).toBe(false); });
+  it("rejects a single request larger than the quota", () => {
+    expect(createLimiter({ windowMs: 1000, max: 3 }).check("a", 4).ok).toBe(false);
+  });
 });

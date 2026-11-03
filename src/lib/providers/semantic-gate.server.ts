@@ -10,10 +10,18 @@ export function retryAfterMs(value: string | null, now = Date.now()): number {
 }
 
 /** Atomic across workers; fail closed if coordination is unavailable. Never queue a user request. */
-export async function semanticGate(action: "reserve" | "limited" | "success", retryMs = 0): Promise<boolean> {
+export async function semanticGate(
+  action: "reserve" | "limited" | "success",
+  retryMs = 0,
+): Promise<boolean> {
   try {
     const db = await admin();
-    const { data, error } = await db.rpc("semantic_scholar_gate", { _action: action, _retry_ms: retryMs });
+    const { data, error } = await db.rpc("semantic_scholar_gate", {
+      _action: action,
+      _retry_ms: retryMs,
+    });
     return !error && data === true;
-  } catch { return false; }
+  } catch {
+    return false;
+  }
 }

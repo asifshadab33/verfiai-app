@@ -8,13 +8,23 @@ export const librarySearchInput = z.object({
 });
 export const libraryIssueInput = z.object({
   id: z.string().uuid(),
-  type: z.enum(["EVIDENCE_OUTDATED", "SOURCE_BROKEN", "COPYRIGHT_CONCERN", "INACCURATE_CONTENT", "OTHER"]),
+  type: z.enum([
+    "EVIDENCE_OUTDATED",
+    "SOURCE_BROKEN",
+    "COPYRIGHT_CONCERN",
+    "INACCURATE_CONTENT",
+    "OTHER",
+  ]),
   message: z.string().trim().min(10).max(2000),
 });
 export function safePublisherUrl(value: string | null | undefined): string | undefined {
   if (!value) return undefined;
   try {
     const url = new URL(value);
-    return ["https:", "http:"].includes(url.protocol) && !url.username && !url.password ? url.href : undefined;
-  } catch { return undefined; }
+    return ["https:", "http:"].includes(url.protocol) && !url.username && !url.password
+      ? url.href
+      : undefined;
+  } catch {
+    return undefined;
+  }
 }

@@ -11,9 +11,11 @@ export function pageSeoLinks(pathname: string, selected?: unknown) {
   const url = (code: string) => `${ORIGIN}${path}${code === "en" ? "" : `?lang=${code}`}`;
   return [
     { rel: "canonical", href: url(lang) },
-    ...(localized ? [
-      ...languages.map(({ code }) => ({ rel: "alternate", hrefLang: code, href: url(code) })),
-      { rel: "alternate", hrefLang: "x-default", href: url("en") },
-    ] : []),
+    ...(localized
+      ? [
+          ...languages.map(({ code }) => ({ rel: "alternate", hrefLang: code, href: url(code) })),
+          { rel: "alternate", hrefLang: "x-default", href: url("en") },
+        ]
+      : []),
   ];
 }

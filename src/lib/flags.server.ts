@@ -5,7 +5,13 @@ import { admin } from "./db.server";
 import { FLAG_DEFAULTS, FLAG_KEYS, type FlagKey } from "./flags";
 export { FLAG_DEFAULTS, FLAG_KEYS, type FlagKey };
 
-type Row = { key: string; enabled: boolean; admin_only: boolean; user_allowlist: string[]; org_allowlist: string[] };
+type Row = {
+  key: string;
+  enabled: boolean;
+  admin_only: boolean;
+  user_allowlist: string[];
+  org_allowlist: string[];
+};
 
 function envValue(key: FlagKey): boolean | undefined {
   const v = process.env[key]?.trim().toLowerCase();
@@ -14,11 +20,16 @@ function envValue(key: FlagKey): boolean | undefined {
   return undefined;
 }
 
-export async function evaluateFlags(userId: string | null, orgId?: string | null): Promise<Record<FlagKey, boolean>> {
+export async function evaluateFlags(
+  userId: string | null,
+  orgId?: string | null,
+): Promise<Record<FlagKey, boolean>> {
   const db = await admin();
   const [{ data: rows }, isAdmin] = await Promise.all([
     db.from("feature_flags").select("key, enabled, admin_only, user_allowlist, org_allowlist"),
-    userId ? db.rpc("has_role", { _user_id: userId, _role: "admin" }).then((r) => !!r.data) : Promise.resolve(false),
+    userId
+      ? db.rpc("has_role", { _user_id: userId, _role: "admin" }).then((r) => !!r.data)
+      : Promise.resolve(false),
   ]);
   const byKey = new Map(((rows ?? []) as Row[]).map((r) => [r.key, r]));
   const out = {} as Record<FlagKey, boolean>;

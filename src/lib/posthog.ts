@@ -14,8 +14,12 @@ export function analyticsPath(path: string) {
 }
 export function analyticsUrl(value: unknown): unknown {
   if (typeof value !== "string") return value;
-  try { const url = new URL(value); return url.origin + analyticsPath(url.pathname); }
-  catch { return ""; }
+  try {
+    const url = new URL(value);
+    return url.origin + analyticsPath(url.pathname);
+  } catch {
+    return "";
+  }
 }
 
 /** Dynamically imported by the root layout only after hydration. */
@@ -28,14 +32,29 @@ export function trackPage(path: string) {
   }
   if (!initialized) {
     posthog.init(token, {
-      api_host: import.meta.env["VITE_LOVABLE_CONNECTOR_POSTHOG_REGION"] === "us" ? "https://us.i.posthog.com" : "https://eu.i.posthog.com",
-      capture_pageview: "history_change", capture_pageleave: true, autocapture: true,
-      mask_all_text: true, mask_all_element_attributes: true,
-      disable_session_recording: true, person_profiles: "never", persistence: "localStorage",
-      save_referrer: false, save_campaign_params: false,
-      before_send: event => {
+      api_host:
+        import.meta.env["VITE_LOVABLE_CONNECTOR_POSTHOG_REGION"] === "us"
+          ? "https://us.i.posthog.com"
+          : "https://eu.i.posthog.com",
+      capture_pageview: "history_change",
+      capture_pageleave: true,
+      autocapture: true,
+      mask_all_text: true,
+      mask_all_element_attributes: true,
+      disable_session_recording: true,
+      person_profiles: "never",
+      persistence: "localStorage",
+      save_referrer: false,
+      save_campaign_params: false,
+      before_send: (event) => {
         if (!event || !analyticsAccepted()) return null;
-        for (const key of ["$current_url", "$referrer", "$initial_current_url", "$initial_referrer", "$prev_pageview_url"]) {
+        for (const key of [
+          "$current_url",
+          "$referrer",
+          "$initial_current_url",
+          "$initial_referrer",
+          "$prev_pageview_url",
+        ]) {
           if (key in event.properties) event.properties[key] = analyticsUrl(event.properties[key]);
         }
         for (const key of ["$pathname", "$prev_pageview_pathname"]) {

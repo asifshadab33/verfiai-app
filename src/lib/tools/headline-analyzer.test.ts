@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { analyzeHeadline } from "./headline-analyzer";
 
-const status = (r: ReturnType<typeof analyzeHeadline>, id: string) => r.checks.find(c => c.id === id)?.status;
+const status = (r: ReturnType<typeof analyzeHeadline>, id: string) =>
+  r.checks.find((c) => c.id === id)?.status;
 
 describe("headline analyzer", () => {
   it("flags clickbait, vague attribution and shouty punctuation", () => {
@@ -28,7 +29,14 @@ describe("headline analyzer", () => {
   });
   it("flags mostly capital letters and over-long headlines", () => {
     expect(status(analyzeHeadline("BREAKING NEWS ABOUT EVERYTHING YOU LOVE"), "caps")).toBe("warn");
-    expect(status(analyzeHeadline("A very long headline that keeps going well past the point where a search engine would show it in full"), "length")).toBe("warn");
+    expect(
+      status(
+        analyzeHeadline(
+          "A very long headline that keeps going well past the point where a search engine would show it in full",
+        ),
+        "length",
+      ),
+    ).toBe("warn");
   });
   it("returns an empty report for blank input", () => {
     const r = analyzeHeadline("   ");

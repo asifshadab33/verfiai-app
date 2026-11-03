@@ -31,15 +31,16 @@ export function trackGooglePage(path: string) {
   };
   if (!initialized) {
     window.dataLayer = window.dataLayer || [];
-    window.gtag = function (..._args: unknown[]) {
-      // gtag.js consumes Arguments objects, not the rest parameter array.
-      window.dataLayer?.push(arguments);
+    window.gtag = (...args: unknown[]) => {
+      window.dataLayer?.push(args);
     };
     window.gtag("set", "developer_id.dZjgwMW", true);
     window.gtag("js", new Date());
     window.gtag("config", id, {
-      ...parameters, send_page_view: false,
-      allow_google_signals: false, allow_ad_personalization_signals: false,
+      ...parameters,
+      send_page_view: false,
+      allow_google_signals: false,
+      allow_ad_personalization_signals: false,
     });
     const script = document.createElement("script");
     script.async = true;

@@ -21,16 +21,26 @@ export function useSiteLocale() {
           window.location.replace(next.href);
           return;
         }
-      } catch { /* storage may be disabled */ }
+      } catch {
+        /* storage may be disabled */
+      }
     }
-    try { localStorage.setItem(STORAGE_KEY, lang); } catch { /* optional */ }
+    try {
+      localStorage.setItem(STORAGE_KEY, lang);
+    } catch {
+      /* optional */
+    }
     const pageLang = documentLanguage(location.pathname, lang);
     document.documentElement.lang = pageLang;
     document.documentElement.dir = isRtl(pageLang) ? "rtl" : "ltr";
   }, [lang, urlLang, location.pathname]);
 
   function changeLang(nextLang: Lang) {
-    try { localStorage.setItem(STORAGE_KEY, nextLang); } catch { /* optional */ }
+    try {
+      localStorage.setItem(STORAGE_KEY, nextLang);
+    } catch {
+      /* optional */
+    }
     const next = new URL(window.location.href);
     if (nextLang === "en") next.searchParams.delete("lang");
     else next.searchParams.set("lang", nextLang);

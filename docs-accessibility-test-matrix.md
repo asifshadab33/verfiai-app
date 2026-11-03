@@ -7,21 +7,21 @@ Reviewed 2026-10-27. This is a scoped accessibility review, not a WCAG certifica
 Chromium desktop 1280×1800; English (default), German (secondary LTR), Arabic (RTL).
 Each cell below passed HTTP rendering and axe-core 4.10.3 WCAG 2 A/AA, WCAG 2.1 AA and best-practice checks with zero violations after fixes.
 
-| Page | English | German | Arabic | State |
-|---|---|---|---|---|
-| `/` | Pass | Pass | Pass | Report-first homepage |
-| `/app` | Pass | Pass | Pass | Claim form |
-| `/fact-checker` | Pass | Pass | Pass | Empty input |
-| `/sources` | Pass | Pass | Pass | Source directory |
-| `/knowledge` | Pass | Pass | Pass | Preview-only |
-| `/resources` | Pass | Pass | Pass | Empty catalog |
-| `/account/library-usage` | Pass | Pass | Pass | Signed out |
-| `/auth` | Pass | Pass | Pass | Email/Google sign-in presentation |
-| `/sample-report` | Pass | Pass | Pass | Illustrative report |
-| `/contact` | Pass | Pass | Pass | Contact content |
-| `/security` | Pass | Pass | Pass | Concept page, not a scanner |
-| `/methodology` | Pass | Pass | Pass | Methodology content |
-| `/privacy` | Pass | Pass | Pass | Privacy/analytics disclosure |
+| Page                     | English | German | Arabic | State                             |
+| ------------------------ | ------- | ------ | ------ | --------------------------------- |
+| `/`                      | Pass    | Pass   | Pass   | Report-first homepage             |
+| `/app`                   | Pass    | Pass   | Pass   | Claim form                        |
+| `/fact-checker`          | Pass    | Pass   | Pass   | Empty input                       |
+| `/sources`               | Pass    | Pass   | Pass   | Source directory                  |
+| `/knowledge`             | Pass    | Pass   | Pass   | Preview-only                      |
+| `/resources`             | Pass    | Pass   | Pass   | Empty catalog                     |
+| `/account/library-usage` | Pass    | Pass   | Pass   | Signed out                        |
+| `/auth`                  | Pass    | Pass   | Pass   | Email/Google sign-in presentation |
+| `/sample-report`         | Pass    | Pass   | Pass   | Illustrative report               |
+| `/contact`               | Pass    | Pass   | Pass   | Contact content                   |
+| `/security`              | Pass    | Pass   | Pass   | Concept page, not a scanner       |
+| `/methodology`           | Pass    | Pass   | Pass   | Methodology content               |
+| `/privacy`               | Pass    | Pass   | Pass   | Privacy/analytics disclosure      |
 
 The same first seven pages except account usage, plus `/auth`, were checked at 390×844 and desktop in all three locales: no document overflow in the final run. Arabic direction and screenshots confirm mirrored ordering. No runtime errors in the final unmocked run.
 

@@ -104,9 +104,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
-       { rel: "preconnect", href: "https://fonts.googleapis.com" },
-       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -123,7 +126,11 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang={lang} dir={translations[lang].dir}>
       <head>
         {/* Restore the saved locale before first paint so there is no English-then-localized flash. Keep in sync with STORAGE_KEY in lib/locale.tsx. */}
-        <script dangerouslySetInnerHTML={{ __html: `try{var q=new URLSearchParams(location.search).get("lang");var l=localStorage.getItem("verifai-lang");if(!q&&l&&/^(es|fr|de|pt|it|nl|ru|tr|ar|hi|bn|ur|fa|zh|ja|ko|id|sw)$/.test(l)){var u=new URL(location.href);u.searchParams.set("lang",l);location.replace(u.href);}}catch(e){}` }} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var q=new URLSearchParams(location.search).get("lang");var l=localStorage.getItem("verifai-lang");if(!q&&l&&/^(es|fr|de|pt|it|nl|ru|tr|ar|hi|bn|ur|fa|zh|ja|ko|id|sw)$/.test(l)){var u=new URL(location.href);u.searchParams.set("lang",l);location.replace(u.href);}}catch(e){}`,
+          }}
+        />
         <HeadContent />
       </head>
       <body>
@@ -144,15 +151,22 @@ function RootComponent() {
     // Routes that render id="main-content" themselves (home, auth, ContentPage) are
     // left untouched so server and client markup match and hydration stays clean.
     const main = document.querySelector("main");
-    if (main && !main.id) { main.id = "main-content"; main.tabIndex = -1; }
-
+    if (main && !main.id) {
+      main.id = "main-content";
+      main.tabIndex = -1;
+    }
   }, [location.pathname]);
 
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <FreeAccessBanner />
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-3 focus:text-primary-foreground">Skip to main content</a>
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-3 focus:text-primary-foreground"
+      >
+        Skip to main content
+      </a>
       <Outlet />
       <SiteFooter lang={footerLang} />
       <AnalyticsConsent />

@@ -11,11 +11,35 @@ describe("media signed URLs", () => {
   });
 });
 describe("extended reports", () => {
-  it("default to the standard brief", () => expect(reportInput.parse({ question: "What is the evidence on X?", language: "English", mode: "Balanced" }).format).toBe("standard"));
+  it("default to the standard brief", () =>
+    expect(
+      reportInput.parse({
+        question: "What is the evidence on X?",
+        language: "English",
+        mode: "Balanced",
+      }).format,
+    ).toBe("standard"));
   it("are capped at 4,000 characters", () => {
     expect(EXTENDED_MAX_CHARS).toBe(4000);
     const long = "word ".repeat(3000);
-    const r = { title: "t", summary: "s", background: long, analysis: long, sources: [], conflictingEvidence: long, methodology: "m", limitations: "l", conclusion: "c", proceduralGuidance: long, blindSpots: long, findings: Array.from({ length: 6 }, () => ({ title: "f", detail: long, status: "sourced" as const })) };
+    const r = {
+      title: "t",
+      summary: "s",
+      background: long,
+      analysis: long,
+      sources: [],
+      conflictingEvidence: long,
+      methodology: "m",
+      limitations: "l",
+      conclusion: "c",
+      proceduralGuidance: long,
+      blindSpots: long,
+      findings: Array.from({ length: 6 }, () => ({
+        title: "f",
+        detail: long,
+        status: "sourced" as const,
+      })),
+    };
     expect(charCount(clampExtended(r))).toBeLessThanOrEqual(EXTENDED_MAX_CHARS);
   });
 });

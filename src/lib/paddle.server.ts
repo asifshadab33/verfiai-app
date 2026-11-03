@@ -22,15 +22,19 @@ export function getPaddleClient(env: PaddleEnv) {
 }
 
 export async function gatewayFetch(env: PaddleEnv, path: string) {
-  return fetch(`${BASE}${path}`, { headers: {
-    "X-Connection-Api-Key": connectionKey(env), "Lovable-API-Key": secret("LOVABLE_API_KEY"),
-  } });
+  return fetch(`${BASE}${path}`, {
+    headers: {
+      "X-Connection-Api-Key": connectionKey(env),
+      "Lovable-API-Key": secret("LOVABLE_API_KEY"),
+    },
+  });
 }
 
 export async function verifyWebhook(request: Request, env: PaddleEnv) {
   const signature = request.headers.get("paddle-signature");
   const body = await request.text();
   if (!signature || !body) throw new Error("Missing webhook signature or body");
-  const secretName = env === "sandbox" ? "PAYMENTS_SANDBOX_WEBHOOK_SECRET" : "PAYMENTS_LIVE_WEBHOOK_SECRET";
+  const secretName =
+    env === "sandbox" ? "PAYMENTS_SANDBOX_WEBHOOK_SECRET" : "PAYMENTS_LIVE_WEBHOOK_SECRET";
   return await getPaddleClient(env).webhooks.unmarshal(body, secret(secretName), signature);
 }

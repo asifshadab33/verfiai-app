@@ -64,8 +64,15 @@ function ResourceDetail() {
   }, [slug, fetchResource]);
   async function sendIssue() {
     if (!data || sending) return;
-    const input = libraryIssueInput.safeParse({ id: data.item.id, type: issueType, message: issueText });
-    if (!input.success) { setMessage("Enter issue details between 10 and 2,000 characters."); return; }
+    const input = libraryIssueInput.safeParse({
+      id: data.item.id,
+      type: issueType,
+      message: issueText,
+    });
+    if (!input.success) {
+      setMessage("Enter issue details between 10 and 2,000 characters.");
+      return;
+    }
     setSending(true);
     try {
       await report({ data: input.data });
@@ -74,7 +81,9 @@ function ResourceDetail() {
       setIssueText("");
     } catch (e) {
       setMessage(e instanceof Error ? e.message : "Could not send this report.");
-    } finally { setSending(false); }
+    } finally {
+      setSending(false);
+    }
   }
   if (busy)
     return (

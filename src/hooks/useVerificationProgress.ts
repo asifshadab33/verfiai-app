@@ -14,22 +14,25 @@ export function useVerificationProgress() {
   useEffect(() => stop, []);
 
   async function start(): Promise<ProgressInput> {
-    stop(); setEvent(null);
+    stop();
+    setEvent(null);
     const input = { runId: crypto.randomUUID(), secret: crypto.randomUUID() };
     current.current = input;
-    const subscription = supabase.channel(`progress:${input.runId}`)
+    const subscription = supabase
+      .channel(`progress:${input.runId}`)
       .on("broadcast", { event: "progress" }, async ({ payload }) => {
         const next = await verifyProgress(payload, input);
         if (current.current !== input || !next) return;
-        setEvent(previous => !previous || next.sequence > previous.sequence ? next : previous);
+        setEvent((previous) => (!previous || next.sequence > previous.sequence ? next : previous));
       });
     channel.current = subscription;
     // Subscribe before dispatch, but never block verification on a broken connection.
-    await new Promise<void>(resolve => {
+    await new Promise<void>((resolve) => {
       const grace = window.setTimeout(resolve, 2500);
-      subscription.subscribe(status => {
+      subscription.subscribe((status) => {
         if (status === "SUBSCRIBED" || status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
-          window.clearTimeout(grace); resolve();
+          window.clearTimeout(grace);
+          resolve();
         }
       });
     });

@@ -13,8 +13,12 @@ export const getRouter = () => {
     scrollRestoration: true,
     defaultPreloadStaleTime: 0,
     // Hydration skips beforeLoad: load the same URL locale before any browser render or head evaluation.
-    dehydrate: (): { locale: string } => ({ locale: new URLSearchParams(router.state.location.searchStr).get("lang") ?? "en" }),
-    hydrate: async (data: { locale: string }) => { await ensureLocale(isLang(data.locale) ? data.locale : "en"); },
+    dehydrate: (): { locale: string } => ({
+      locale: new URLSearchParams(router.state.location.searchStr).get("lang") ?? "en",
+    }),
+    hydrate: async (data: { locale: string }) => {
+      await ensureLocale(isLang(data.locale) ? data.locale : "en");
+    },
   });
 
   return router;

@@ -34,7 +34,9 @@ function Knowledge() {
         and latest verification date. Publisher-search results show only metadata until reviewed;
         they are not hosted here.
       </p>
-      <FeatureGate flag="OPEN_KNOWLEDGE_INDEX_ENABLED" title="The Open Knowledge Index"><ResourceBrowse kind="index" /></FeatureGate>
+      <FeatureGate flag="OPEN_KNOWLEDGE_INDEX_ENABLED" title="The Open Knowledge Index">
+        <ResourceBrowse kind="index" />
+      </FeatureGate>
       <PageSection title="Source and rights">
         <p>
           Links lead to the original publishers. Availability does not grant permission to reproduce

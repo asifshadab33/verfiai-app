@@ -4,8 +4,16 @@ import { counterQuery } from "./search.server";
 describe("search pipeline", () => {
   it("drops syndicated wire headlines on different hosts", () => {
     const r = uniqueSources([
-      { url: "https://a.com/x", title: "Central bank raises interest rates to record high - AP", content: "a" },
-      { url: "https://b.com/y", title: "Central bank raises interest rates to record high", content: "b" },
+      {
+        url: "https://a.com/x",
+        title: "Central bank raises interest rates to record high - AP",
+        content: "a",
+      },
+      {
+        url: "https://b.com/y",
+        title: "Central bank raises interest rates to record high",
+        content: "b",
+      },
     ]);
     expect(r).toHaveLength(1);
   });

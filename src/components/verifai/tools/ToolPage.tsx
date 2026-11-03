@@ -21,7 +21,8 @@ export function ToolPage({
   children: ReactNode;
 }) {
   const resolvedIntro = intro ?? description ?? "";
-  const resolvedPrivacy = privacy ?? "Your entries stay in your browser and are not stored by this tool.";
+  const resolvedPrivacy =
+    privacy ?? "Your entries stay in your browser and are not stored by this tool.";
 
   return (
     <ContentPage title={title} intro={resolvedIntro}>
@@ -34,7 +35,15 @@ export function ToolPage({
       ))}
       <PageSection title="More free tools">
         <p>
-          Verfiai&rsquo;s free tools help you check facts, sources and writing. <Link to="/tools" className="text-brand underline">Browse all free tools</Link> or <Link to="/fact-checker" className="text-brand underline">check a claim against sources</Link>.
+          Verfiai&rsquo;s free tools help you check facts, sources and writing.{" "}
+          <Link to="/tools" className="text-brand underline">
+            Browse all free tools
+          </Link>{" "}
+          or{" "}
+          <Link to="/fact-checker" className="text-brand underline">
+            check a claim against sources
+          </Link>
+          .
         </p>
       </PageSection>
     </ContentPage>

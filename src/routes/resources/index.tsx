@@ -34,7 +34,9 @@ function Resources() {
         Verfiai. Reviewed previews are available here; library downloads and Analyst subscriptions
         are not available yet. The existing Pro plan is unchanged.
       </p>
-      <FeatureGate flag="EVIDENCE_LIBRARY_ENABLED" title="The Evidence Library"><ResourceBrowse kind="library" /></FeatureGate>
+      <FeatureGate flag="EVIDENCE_LIBRARY_ENABLED" title="The Evidence Library">
+        <ResourceBrowse kind="library" />
+      </FeatureGate>
       <PageSection title="Source and rights notice">
         <p>
           Verfiai reports are original evidence syntheses. Linked external sources remain the

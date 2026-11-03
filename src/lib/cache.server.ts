@@ -9,14 +9,27 @@ export const sha = (s: string) => createHash("sha256").update(s).digest("hex");
 
 // Normalizes queries/claims so rephrased-identical inputs share one cache entry:
 // lowercase, strip punctuation, collapse whitespace, trim.
-export const normalizeQuery = (q: string) => q.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/g, " ").trim();
+export const normalizeQuery = (q: string) =>
+  q
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s]/gu, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 
 /** Consistent cache key: `kind:` + sha of the normalized parts. */
 export function cacheKey(kind: string, parts: (string | number | undefined)[]): string {
-  return `${kind}:${sha(parts.filter(p => p !== undefined && p !== "").map(p => normalizeQuery(String(p))).join("|"))}`;
+  return `${kind}:${sha(
+    parts
+      .filter((p) => p !== undefined && p !== "")
+      .map((p) => normalizeQuery(String(p)))
+      .join("|"),
+  )}`;
 }
 
-const hours = (v: string | undefined, d: number) => { const n = Number(v); return Number.isFinite(n) && n > 0 ? n : d; };
+const hours = (v: string | undefined, d: number) => {
+  const n = Number(v);
+  return Number.isFinite(n) && n > 0 ? n : d;
+};
 
 /** TTLs in ms; configurable server-side via env (hours). */
 export const CACHE_TTL = {
@@ -31,14 +44,27 @@ export const CACHE_TTL = {
 export async function cacheGet<T>(key: string, ttl: number): Promise<T | null> {
   try {
     const db = await admin();
-    const { data } = await db.from("research_cache").select("payload, created_at").eq("key", key).maybeSingle();
+    const { data } = await db
+      .from("research_cache")
+      .select("payload, created_at")
+      .eq("key", key)
+      .maybeSingle();
     if (!data || Date.now() - new Date(data.created_at).getTime() > ttl) return null;
     return data.payload as T;
-  } catch { return null; }
+  } catch {
+    return null;
+  }
 }
 
 export async function cacheSet(key: string, kind: string, payload: unknown) {
-  try { const db = await admin(); await db.from("research_cache").upsert({ key, kind, payload: payload as never, created_at: new Date().toISOString() }); } catch { /* cache is best-effort */ }
+  try {
+    const db = await admin();
+    await db
+      .from("research_cache")
+      .upsert({ key, kind, payload: payload as never, created_at: new Date().toISOString() });
+  } catch {
+    /* cache is best-effort */
+  }
 }
 
 /**
@@ -46,7 +72,13 @@ export async function cacheSet(key: string, kind: string, payload: unknown) {
  * Empty array results are not cached by default, so a failed upstream fetch
  * can be retried on the next request.
  */
-export async function cached<T>(o: { key: string; kind: string; ttlMs: number; compute: () => Promise<T>; cacheEmpty?: boolean }): Promise<T> {
+export async function cached<T>(o: {
+  key: string;
+  kind: string;
+  ttlMs: number;
+  compute: () => Promise<T>;
+  cacheEmpty?: boolean;
+}): Promise<T> {
   const hit = await cacheGet<T>(o.key, o.ttlMs);
   if (hit !== null && hit !== undefined) return hit;
   const value = await o.compute();

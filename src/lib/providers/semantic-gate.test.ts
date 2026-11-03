@@ -1,8 +1,12 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-const state = vi.hoisted(() => ({ result: { data: true as boolean | null, error: null as unknown } }));
+const state = vi.hoisted(() => ({
+  result: { data: true as boolean | null, error: null as unknown },
+}));
 vi.mock("../db.server", () => ({ admin: async () => ({ rpc: async () => state.result }) }));
 import { retryAfterMs, semanticGate } from "./semantic-gate.server";
-afterEach(() => { state.result = { data: true, error: null }; });
+afterEach(() => {
+  state.result = { data: true, error: null };
+});
 describe("Semantic Scholar coordination", () => {
   it("respects seconds, dates and Retry-After longer than one hour", () => {
     const now = Date.parse("2026-10-26T00:00:00Z");

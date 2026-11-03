@@ -8,7 +8,9 @@ describe("text statistics", () => {
     expect(s.sentences).toBe(3);
     expect(s.paragraphs).toBe(2);
   });
-  it("does not count punctuation as words", () => { expect(wordsOf("Wait... what?! Yes — really.")).toEqual(["Wait", "what", "Yes", "really"]); });
+  it("does not count punctuation as words", () => {
+    expect(wordsOf("Wait... what?! Yes — really.")).toEqual(["Wait", "what", "Yes", "really"]);
+  });
   it("counts characters by code point and ignores whitespace for the no-space count", () => {
     const s = textStats("a b\n😀");
     expect(s.characters).toBe(5);
@@ -27,16 +29,20 @@ describe("text statistics", () => {
     expect(cjk.fleschReadingEase).toBeNull();
   });
   it("scores English prose and skips other languages", () => {
-    const en = textStats("The quick brown fox jumps over the lazy dog. It was a bright cold day in April, and the clocks were striking thirteen. We walked to the market and bought some bread and cheese for the long journey home.");
+    const en = textStats(
+      "The quick brown fox jumps over the lazy dog. It was a bright cold day in April, and the clocks were striking thirteen. We walked to the market and bought some bread and cheese for the long journey home.",
+    );
     expect(en.fleschReadingEase).not.toBeNull();
     expect(en.fleschReadingEase!).toBeGreaterThan(0);
     expect(en.fleschReadingEase!).toBeLessThan(101);
     expect(textStats("هذا نص عربي طويل نسبيا ".repeat(20)).fleschReadingEase).toBeNull();
   });
   it("lists repeated meaningful words", () => {
-    const s = textStats("Research needs evidence. Evidence beats opinion, and research shows evidence matters more than opinion.");
+    const s = textStats(
+      "Research needs evidence. Evidence beats opinion, and research shows evidence matters more than opinion.",
+    );
     expect(s.topWords[0]).toEqual({ word: "evidence", count: 3 });
-    expect(s.topWords.map(w => w.word)).toContain("research");
-    expect(s.topWords.map(w => w.word)).not.toContain("than");
+    expect(s.topWords.map((w) => w.word)).toContain("research");
+    expect(s.topWords.map((w) => w.word)).not.toContain("than");
   });
 });

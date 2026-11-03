@@ -32,12 +32,14 @@ describe("waitlist and report-label translations", () => {
         const translated = recentText(code, english);
         expect(translated, `${code}: ${english}`).toBeTruthy();
         // "Word" legitimately stays "Word" in many locales; every other string must be translated.
-        if (code !== "en" && english !== "Word") expect(translated, `${code} left untranslated: ${english}`).not.toBe(english);
+        if (code !== "en" && english !== "Word")
+          expect(translated, `${code} left untranslated: ${english}`).not.toBe(english);
       }
     }
   });
   it("keeps {topic} and {privacyLink} placeholders intact in every consent translation", async () => {
-    const consent = "I agree to receive emails about {topic}. I can withdraw consent at any time by emailing hello@verfiai.app. See our {privacyLink}.";
+    const consent =
+      "I agree to receive emails about {topic}. I can withdraw consent at any time by emailing hello@verfiai.app. See our {privacyLink}.";
     for (const { code } of languages) {
       await ensureLocale(code);
       const translated = recentText(code, consent, { topic: "X", privacyLink: "{privacyLink}" });

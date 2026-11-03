@@ -1,4 +1,13 @@
-import { createFileRoute } from '@tanstack/react-router';
-import ToolPage from '@/components/verifai/tools/ToolPage';
-import ArxivFinder from '@/components/verifai/tools/ArxivFinder';
-export const Route = createFileRoute('/tools/arxiv')({ component: () => (<ToolPage title="arXiv Paper Finder" description="Search academic preprints in physics, CS, and math. (Skipped if CORS-blocked)."><ArxivFinder /></ToolPage>), });
+import { createFileRoute } from "@tanstack/react-router";
+import ToolPage from "@/components/verifai/tools/ToolPage";
+import ArxivFinder from "@/components/verifai/tools/ArxivFinder";
+export const Route = createFileRoute("/tools/arxiv")({
+  component: () => (
+    <ToolPage
+      title="arXiv Paper Finder"
+      description="Search academic preprints in physics, CS, and math. (Skipped if CORS-blocked)."
+    >
+      <ArxivFinder />
+    </ToolPage>
+  ),
+});

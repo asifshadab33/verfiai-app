@@ -20,27 +20,19 @@
       "analysis": [
         {
           "text": "The claim asserts that most of the brain is unused. Vreeman and Carroll’s review describes evidence from brain damage, brain imaging, localisation of function, microstructural analysis and metabolism showing that people use much more than ten percent. These are different ways of investigating brain function, not repeated votes by AI engines.",
-          "citations": [
-            1
-          ]
+          "citations": [1]
         },
         {
           "text": "The brain-damage evidence matters because damage to almost any region can have specific lasting effects on mental, bodily and behavioural abilities. The imaging and metabolic evidence described in the review does not reveal a permanently dormant ninety percent. Together, these observations contradict the premise that most brain tissue has no functioning role.",
-          "citations": [
-            1
-          ]
+          "citations": [1]
         },
         {
           "text": "This verdict does not imply that all neurons fire simultaneously, that each region is equally busy, or that people cannot learn new skills. Activity depends on the task and the time of observation. The popular self-improvement interpretation of “untapped potential” is different from a literal claim that ninety percent of the brain is unused.",
-          "citations": [
-            1
-          ]
+          "citations": [1]
         },
         {
           "text": "The review notes that the belief persisted for over a century and discusses an earlier literature review of its origins. It also warns that the Einstein attribution has no recorded statement behind it. We have not independently traced the first publication, so the historical origin remains unknown rather than being assigned to a famous person.",
-          "citations": [
-            1
-          ]
+          "citations": [1]
         }
       ],
       "limitations": "This is a dated editorial reading of one peer-reviewed narrative review, not a new systematic neuroscience review or an individual brain assessment. The historical references cited by that article have not all been independently examined. The finding addresses literal brain use, not a numerical measure of human potential.",
@@ -79,27 +71,19 @@
       "analysis": [
         {
           "text": "NASA’s image article shows why an orbital photograph does not establish the naked-eye claim. The image was taken by Expedition 10 Commander Leroy Chiao on the International Space Station, and the explanatory text explicitly identifies the high-powered lenses used. A photograph taken with magnification is not equivalent to unaided human vision.",
-          "citations": [
-            1
-          ]
+          "citations": [1]
         },
         {
           "text": "The source distinguishes two cases: the Wall is not visible from the Moon, while seeing it from Earth orbit is described as difficult or impossible without the high-powered lenses. The word “space” in the original assertion does not specify distance, altitude or observing conditions. That ambiguity matters: the Moon and low Earth orbit are not interchangeable viewpoints.",
-          "citations": [
-            1
-          ]
+          "citations": [1]
         },
         {
           "text": "The contradicted label rejects the broad, unqualified naked-eye assertion. It is not a claim that no observer could ever identify any section under any exceptional orbital conditions. NASA’s own cautious wording is retained instead of converting “difficult or impossible” into an unsupported universal prohibition.",
-          "citations": [
-            1
-          ]
+          "citations": [1]
         },
         {
           "text": "The NASA page is a documented institutional discussion of the myth, with an identifiable image and publication date. It does not identify the person who first spread the claim. We therefore link the correction and explicitly leave the first claimant unknown; the astronaut associated with the photograph is not presented as the originator of the myth.",
-          "citations": [
-            1
-          ]
+          "citations": [1]
         }
       ],
       "limitations": "The evidence is NASA’s explanation of one published image, not a controlled survey of every orbital observation. It does not settle all exceptional lighting, altitude or eyesight cases, nor establish the first historical publication. Distinguish naked-eye viewing, magnified photography and Moon-distance viewing.",
@@ -159,27 +143,19 @@
       "analysis": [
         {
           "text": "NASA’s StarChild explanation identifies the 23.5-degree tilt of Earth’s spin axis as the main cause of seasonal weather patterns. The causal claim being reviewed is that changing distance from the Sun produces the seasons. The source directly contrasts that explanation with axial tilt rather than merely stating that Earth’s orbit is elliptical.",
-          "citations": [
-            1
-          ]
+          "citations": [1]
         },
         {
           "text": "During northern winter, the north pole is tilted away from the Sun and days are shorter. NASA explains that being a little closer to the Sun in January does not make much difference to that seasonal pattern. This is a useful check on the distance explanation: proximity alone would not explain why northern winter occurs near that point in the orbit.",
-          "citations": [
-            1
-          ]
+          "citations": [1]
         },
         {
           "text": "At the same time, the Southern Hemisphere has the opposite seasonal pattern because the south pole is tilted toward the Sun during northern winter. Keeping the hemispheric distinction is essential. “January is winter” is not a globally valid statement, and a source about Northern Hemisphere winter cannot be used as if it describes both hemispheres.",
-          "citations": [
-            1
-          ]
+          "citations": [1]
         },
         {
           "text": "The cited page is a January 2003 educational question with a year-specific perihelion example. We do not turn its exact calendar date into a permanent annual rule. The conclusion is about the principal cause of the seasonal cycle, not a claim that orbital distance has absolutely no effect on the energy Earth receives.",
-          "citations": [
-            1
-          ]
+          "citations": [1]
         }
       ],
       "limitations": "This is an editorial review of NASA’s educational explanation, not a detailed climate model. The page’s calendar example is historical and its wording is “mostly caused”; the review does not assert that Earth–Sun distance has zero physical effect. The first historical author of the misconception remains unestablished.",
@@ -227,17 +203,31 @@
         "url": "https://starchild.gsfc.nasa.gov/docs/StarChild/solar_system_level2/dark_side.html"
       },
       "analysis": [
-        { "text": "The reviewed claim is about a permanently dark hemisphere, not merely the hemisphere hidden from an Earth-based observer. NASA distinguishes these meanings explicitly: the unseen hemisphere is more accurately called the far side. Being out of our view does not mean being out of sunlight.", "citations": [1] },
-        { "text": "NASA's explanation states that the side we do not see from Earth receives just as much sunlight as the side we see. That directly contradicts the unqualified permanent-darkness assertion. The relevant distinction is illumination by the Sun versus visibility from Earth; those are different observing geometries.", "citations": [1] },
-        { "text": "The source explains that the dark side at a given time is the side pointed away from the Sun. This is a temporary illumination condition rather than a fixed hemisphere. The verdict therefore rejects the literal permanent-dark-side claim while retaining the ordinary use of far side for the hemisphere facing away from Earth.", "citations": [1] }
+        {
+          "text": "The reviewed claim is about a permanently dark hemisphere, not merely the hemisphere hidden from an Earth-based observer. NASA distinguishes these meanings explicitly: the unseen hemisphere is more accurately called the far side. Being out of our view does not mean being out of sunlight.",
+          "citations": [1]
+        },
+        {
+          "text": "NASA's explanation states that the side we do not see from Earth receives just as much sunlight as the side we see. That directly contradicts the unqualified permanent-darkness assertion. The relevant distinction is illumination by the Sun versus visibility from Earth; those are different observing geometries.",
+          "citations": [1]
+        },
+        {
+          "text": "The source explains that the dark side at a given time is the side pointed away from the Sun. This is a temporary illumination condition rather than a fixed hemisphere. The verdict therefore rejects the literal permanent-dark-side claim while retaining the ordinary use of far side for the hemisphere facing away from Earth.",
+          "citations": [1]
+        }
       ],
       "limitations": "This is an editorial reading of NASA's educational explanation, verified through the existing cached page-extraction provider on October 30, 2026, not a new lunar illumination study. It concerns hemispheres, not every local crater or permanently shadowed polar region. No first historical claimant or publication date for the NASA page was established.",
-      "sources": [{
-        "title": "The Dark Side of the Moon", "publisher": "NASA Goddard Space Flight Center / StarChild", "authors": "The StarChild Team",
-        "url": "https://starchild.gsfc.nasa.gov/docs/StarChild/solar_system_level2/dark_side.html", "accessedAt": "2026-10-30",
-        "quote": "The side of the Moon we do not see from Earth gets just as much sunlight on it as the side we do see.",
-        "relevance": "The excerpt was found verbatim in the live cached PageExtractionProvider output; NASA directly distinguishes the far side from permanent darkness."
-      }]
+      "sources": [
+        {
+          "title": "The Dark Side of the Moon",
+          "publisher": "NASA Goddard Space Flight Center / StarChild",
+          "authors": "The StarChild Team",
+          "url": "https://starchild.gsfc.nasa.gov/docs/StarChild/solar_system_level2/dark_side.html",
+          "accessedAt": "2026-10-30",
+          "quote": "The side of the Moon we do not see from Earth gets just as much sunlight on it as the side we do see.",
+          "relevance": "The excerpt was found verbatim in the live cached PageExtractionProvider output; NASA directly distinguishes the far side from permanent darkness."
+        }
+      ]
     }
   },
   {
@@ -471,25 +461,43 @@
     "verdict": "contradicted",
     "evidence_summary": "CDC states that flu vaccines cannot cause flu illness: injected vaccines use inactivated viruses or a single viral protein. Side effects and infections acquired around vaccination are different from vaccine-caused flu.",
     "review": {
-      "reviewedAt": "2026-10-30", "reviewer": "Verfiai",
+      "reviewedAt": "2026-10-30",
+      "reviewer": "Verfiai",
       "attribution": {
         "origin": "The first speaker or publication responsible for this misconception is not established. CDC is a documented institutional reviewer of the assertion, not its original claimant.",
         "documentedAppearance": "CDC's Misconceptions About Seasonal Flu and Flu Vaccines, dated September 6, 2024, addresses the assertion under 'Getting a flu vaccine will not give you flu'.",
         "url": "https://www.cdc.gov/flu/prevention/misconceptions.html"
       },
       "analysis": [
-        { "text": "CDC directly states that flu vaccines cannot cause flu illness. Its explanation identifies the material in injected flu vaccines as either inactivated viruses or a single protein from an influenza virus. The reviewed assertion is that the shot causes influenza infection, not that vaccination can have no adverse effects.", "citations": [1] },
-        { "text": "CDC separately describes soreness, redness, tenderness or swelling after a shot and possible low-grade fever, headache and muscle aches. These reactions are not evidence that the injected vaccine gave someone influenza. Keeping side effects separate from flu illness avoids replacing the misconception with an equally inaccurate claim that reactions never happen.", "citations": [1] },
-        { "text": "The same source explains why someone may become ill after vaccination: exposure shortly before vaccination or during the roughly two-week period needed for protection, another respiratory virus, imperfect vaccine effectiveness or a mismatch with circulating influenza viruses. A later infection does not by itself establish that the shot caused it.", "citations": [1] },
-        { "text": "The source acknowledges rare serious allergic reactions and variation in effectiveness. The contradicted verdict is deliberately narrow: it addresses vaccine-caused influenza, not guaranteed protection against every respiratory illness or a universal assessment of an individual's eligibility for vaccination.", "citations": [1] }
+        {
+          "text": "CDC directly states that flu vaccines cannot cause flu illness. Its explanation identifies the material in injected flu vaccines as either inactivated viruses or a single protein from an influenza virus. The reviewed assertion is that the shot causes influenza infection, not that vaccination can have no adverse effects.",
+          "citations": [1]
+        },
+        {
+          "text": "CDC separately describes soreness, redness, tenderness or swelling after a shot and possible low-grade fever, headache and muscle aches. These reactions are not evidence that the injected vaccine gave someone influenza. Keeping side effects separate from flu illness avoids replacing the misconception with an equally inaccurate claim that reactions never happen.",
+          "citations": [1]
+        },
+        {
+          "text": "The same source explains why someone may become ill after vaccination: exposure shortly before vaccination or during the roughly two-week period needed for protection, another respiratory virus, imperfect vaccine effectiveness or a mismatch with circulating influenza viruses. A later infection does not by itself establish that the shot caused it.",
+          "citations": [1]
+        },
+        {
+          "text": "The source acknowledges rare serious allergic reactions and variation in effectiveness. The contradicted verdict is deliberately narrow: it addresses vaccine-caused influenza, not guaranteed protection against every respiratory illness or a universal assessment of an individual's eligibility for vaccination.",
+          "citations": [1]
+        }
       ],
       "limitations": "This review uses one dated CDC public-health explanation, with short excerpts verified through the existing cached page-extraction provider on October 30, 2026. It is not an independent systematic review, a diagnosis or individual medical advice. The historical origin of the misconception remains unknown; symptoms and suitability should be discussed with a qualified clinician.",
-      "sources": [{
-        "title": "Misconceptions About Seasonal Flu and Flu Vaccines", "publisher": "Centers for Disease Control and Prevention (CDC)",
-        "url": "https://www.cdc.gov/flu/prevention/misconceptions.html", "publishedAt": "2024-09-06", "accessedAt": "2026-10-30",
-        "quote": "Flu vaccines cannot cause flu illness.",
-        "relevance": "Verified verbatim in the cached PageExtractionProvider output. The surrounding CDC explanation distinguishes injected vaccine ingredients, side effects, imperfect protection and respiratory infections acquired around vaccination."
-      }]
+      "sources": [
+        {
+          "title": "Misconceptions About Seasonal Flu and Flu Vaccines",
+          "publisher": "Centers for Disease Control and Prevention (CDC)",
+          "url": "https://www.cdc.gov/flu/prevention/misconceptions.html",
+          "publishedAt": "2024-09-06",
+          "accessedAt": "2026-10-30",
+          "quote": "Flu vaccines cannot cause flu illness.",
+          "relevance": "Verified verbatim in the cached PageExtractionProvider output. The surrounding CDC explanation distinguishes injected vaccine ingredients, side effects, imperfect protection and respiratory infections acquired around vaccination."
+        }
+      ]
     }
   },
   {

@@ -68,6 +68,7 @@ import { Route as ToolsNumbersCheckRouteImport } from './routes/tools/numbers-ch
 import { Route as ToolsOrcidRouteImport } from './routes/tools/orcid'
 import { Route as ToolsPassiveHedgeRouteImport } from './routes/tools/passive-hedge'
 import { Route as ToolsPasswordGeneratorRouteImport } from './routes/tools/password-generator'
+import { Route as ToolsPdfToolsRouteImport } from './routes/tools/pdf-tools'
 import { Route as ToolsPhishingChecklistRouteImport } from './routes/tools/phishing-checklist'
 import { Route as ToolsPhotoCheckRouteImport } from './routes/tools/photo-check'
 import { Route as ToolsPomodoroRouteImport } from './routes/tools/pomodoro'
@@ -392,6 +393,11 @@ const ToolsPasswordGeneratorRoute = ToolsPasswordGeneratorRouteImport.update({
   path: '/tools/password-generator',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsPdfToolsRoute = ToolsPdfToolsRouteImport.update({
+  id: '/tools/pdf-tools',
+  path: '/tools/pdf-tools',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ToolsPhishingChecklistRoute = ToolsPhishingChecklistRouteImport.update({
   id: '/tools/phishing-checklist',
   path: '/tools/phishing-checklist',
@@ -593,6 +599,7 @@ export interface FileRoutesByFullPath {
   '/tools/orcid': typeof ToolsOrcidRoute
   '/tools/passive-hedge': typeof ToolsPassiveHedgeRoute
   '/tools/password-generator': typeof ToolsPasswordGeneratorRoute
+  '/tools/pdf-tools': typeof ToolsPdfToolsRoute
   '/tools/phishing-checklist': typeof ToolsPhishingChecklistRoute
   '/tools/photo-check': typeof ToolsPhotoCheckRoute
   '/tools/pomodoro': typeof ToolsPomodoroRoute
@@ -682,6 +689,7 @@ export interface FileRoutesByTo {
   '/tools/orcid': typeof ToolsOrcidRoute
   '/tools/passive-hedge': typeof ToolsPassiveHedgeRoute
   '/tools/password-generator': typeof ToolsPasswordGeneratorRoute
+  '/tools/pdf-tools': typeof ToolsPdfToolsRoute
   '/tools/phishing-checklist': typeof ToolsPhishingChecklistRoute
   '/tools/photo-check': typeof ToolsPhotoCheckRoute
   '/tools/pomodoro': typeof ToolsPomodoroRoute
@@ -772,6 +780,7 @@ export interface FileRoutesById {
   '/tools/orcid': typeof ToolsOrcidRoute
   '/tools/passive-hedge': typeof ToolsPassiveHedgeRoute
   '/tools/password-generator': typeof ToolsPasswordGeneratorRoute
+  '/tools/pdf-tools': typeof ToolsPdfToolsRoute
   '/tools/phishing-checklist': typeof ToolsPhishingChecklistRoute
   '/tools/photo-check': typeof ToolsPhotoCheckRoute
   '/tools/pomodoro': typeof ToolsPomodoroRoute
@@ -863,6 +872,7 @@ export interface FileRouteTypes {
     | '/tools/orcid'
     | '/tools/passive-hedge'
     | '/tools/password-generator'
+    | '/tools/pdf-tools'
     | '/tools/phishing-checklist'
     | '/tools/photo-check'
     | '/tools/pomodoro'
@@ -952,6 +962,7 @@ export interface FileRouteTypes {
     | '/tools/orcid'
     | '/tools/passive-hedge'
     | '/tools/password-generator'
+    | '/tools/pdf-tools'
     | '/tools/phishing-checklist'
     | '/tools/photo-check'
     | '/tools/pomodoro'
@@ -1041,6 +1052,7 @@ export interface FileRouteTypes {
     | '/tools/orcid'
     | '/tools/passive-hedge'
     | '/tools/password-generator'
+    | '/tools/pdf-tools'
     | '/tools/phishing-checklist'
     | '/tools/photo-check'
     | '/tools/pomodoro'
@@ -1131,6 +1143,7 @@ export interface RootRouteChildren {
   ToolsOrcidRoute: typeof ToolsOrcidRoute
   ToolsPassiveHedgeRoute: typeof ToolsPassiveHedgeRoute
   ToolsPasswordGeneratorRoute: typeof ToolsPasswordGeneratorRoute
+  ToolsPdfToolsRoute: typeof ToolsPdfToolsRoute
   ToolsPhishingChecklistRoute: typeof ToolsPhishingChecklistRoute
   ToolsPhotoCheckRoute: typeof ToolsPhotoCheckRoute
   ToolsPomodoroRoute: typeof ToolsPomodoroRoute
@@ -1578,6 +1591,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsPasswordGeneratorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/pdf-tools': {
+      id: '/tools/pdf-tools'
+      path: '/tools/pdf-tools'
+      fullPath: '/tools/pdf-tools'
+      preLoaderRoute: typeof ToolsPdfToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tools/phishing-checklist': {
       id: '/tools/phishing-checklist'
       path: '/tools/phishing-checklist'
@@ -1835,6 +1855,7 @@ const rootRouteChildren: RootRouteChildren = {
   ToolsOrcidRoute: ToolsOrcidRoute,
   ToolsPassiveHedgeRoute: ToolsPassiveHedgeRoute,
   ToolsPasswordGeneratorRoute: ToolsPasswordGeneratorRoute,
+  ToolsPdfToolsRoute: ToolsPdfToolsRoute,
   ToolsPhishingChecklistRoute: ToolsPhishingChecklistRoute,
   ToolsPhotoCheckRoute: ToolsPhotoCheckRoute,
   ToolsPomodoroRoute: ToolsPomodoroRoute,

@@ -9,4 +9,5 @@ export const BUSINESS_ANALYST_RULES = `You are a business intelligence analyst. 
 STRICT RULE: Never invent, estimate or extrapolate financial or market metrics (revenue, market size, share, growth, valuation, headcount, funding). Report a figure only if a numbered excerpt states it, with its citation; otherwise write "Not found in sources".`;
 
 export const isBusinessTask = (task?: string) => task === "business";
-export const businessPrompt = (system: string, task?: string) => isBusinessTask(task) ? `${system}\n\n${BUSINESS_ANALYST_RULES}` : system;
+export const businessPrompt = (system: string, task?: string) =>
+  isBusinessTask(task) ? `${system}\n\n${BUSINESS_ANALYST_RULES}` : system;

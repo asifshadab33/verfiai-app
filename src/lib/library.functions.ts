@@ -32,7 +32,10 @@ const fields =
 async function gate(kind: "index" | "library") {
   const { identify } = await import("./usage.server");
   const { requireFlag } = await import("./flags.server");
-  await requireFlag(kind === "index" ? "OPEN_KNOWLEDGE_INDEX_ENABLED" : "EVIDENCE_LIBRARY_ENABLED", (await identify()).userId);
+  await requireFlag(
+    kind === "index" ? "OPEN_KNOWLEDGE_INDEX_ENABLED" : "EVIDENCE_LIBRARY_ENABLED",
+    (await identify()).userId,
+  );
 }
 export const searchResources = createServerFn({ method: "GET" })
   .validator((value) => librarySearchInput.parse(value))
@@ -174,6 +177,11 @@ export const submitResourceIssue = createServerFn({ method: "POST" })
       issue_type: data.type,
       message: data.message,
     });
-    if (error) throw new Error(error.code === "P0001" ? "Issue report limit reached. Please try again later." : "Could not submit your report.");
+    if (error)
+      throw new Error(
+        error.code === "P0001"
+          ? "Issue report limit reached. Please try again later."
+          : "Could not submit your report.",
+      );
     return { received: true };
   });

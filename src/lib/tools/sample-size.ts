@@ -1,4 +1,8 @@
-export function calculateSampleSize(population: number, confidence: number, margin: number): number {
+export function calculateSampleSize(
+  population: number,
+  confidence: number,
+  margin: number,
+): number {
   const z = confidence === 99 ? 2.576 : confidence === 95 ? 1.96 : 1.645;
   const p = 0.5;
   const e = margin / 100;
