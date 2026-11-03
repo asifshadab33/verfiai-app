@@ -3,8 +3,13 @@ export function secureShuffle<T>(array: T[]): T[] {
   for (let i = result.length - 1; i > 0; i--) {
     const randomValues = new Uint32Array(1);
     crypto.getRandomValues(randomValues);
-    const j = randomValues[0] % (i + 1);
-    [result[i], result[j]] = [result[j], result[i]];
+    const randomValue = randomValues[0];
+    if (randomValue === undefined) continue;
+    const j = randomValue % (i + 1);
+    const current = result.slice(i, i + 1);
+    const selected = result.slice(j, j + 1);
+    result.splice(i, 1, ...selected);
+    result.splice(j, 1, ...current);
   }
   return result;
 }

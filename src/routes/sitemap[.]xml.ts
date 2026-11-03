@@ -75,6 +75,7 @@ export const sitemapPaths = () => [
   "/tools/serp-preview",
   "/tools/quote-card",
   "/tools/source-checklist",
+  "/tools/evidence-matrix",
   "/tools/link-expander",
   "/tools/arxiv",
   "/tools/orcid",

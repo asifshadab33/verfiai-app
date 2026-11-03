@@ -13,7 +13,7 @@ export default function CsvJsonConverter() {
       setJson("");
       return;
     }
-    const headers = lines[0].split(",").map((h) => h.trim().replace(/^"|"$/g, ""));
+    const headers = (lines[0] ?? "").split(",").map((h) => h.trim().replace(/^"|"$/g, ""));
     const result = lines.slice(1).map((line) => {
       const values = line.split(",").map((v) => v.trim().replace(/^"|"$/g, ""));
       const obj: any = {};

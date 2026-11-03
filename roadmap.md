@@ -1,5 +1,12 @@
 # Verfiai roadmap
 
+## Nov 3 free-tools directory completion
+
+- [x] Add /tools/evidence-matrix to the existing sitemap; preserve editorial eligibility and omit lastmod.
+- [x] Expand /tools to all 52 tool routes with categories, icons, descriptions and browser/registry notes.
+- [x] Add /tools to the shared site footer.
+- Scope: code only; no tests, manual build, publishing, AI calls, or paid/key-required API calls.
+
 ## Oct 31 approved scale-up reliability and efficiency
 
 - [x] Existing provider rotation verified; unchanged.

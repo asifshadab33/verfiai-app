@@ -24,8 +24,8 @@ export default function ArxivFinder() {
       const parser = new DOMParser();
       const doc = parser.parseFromString(text, "text/xml");
       const entries = Array.from(doc.getElementsByTagName("entry")).map((e) => ({
-        title: e.getElementsByTagName("title")[0]?.textContent?.trim(),
-        link: e.getElementsByTagName("id")[0]?.textContent,
+        title: e.getElementsByTagName("title")[0]?.textContent?.trim() ?? null,
+        link: e.getElementsByTagName("id")[0]?.textContent ?? null,
         summary: e.getElementsByTagName("summary")[0]?.textContent?.substring(0, 150) + "...",
       }));
       setResults(entries);
@@ -64,7 +64,7 @@ export default function ArxivFinder() {
           {results.map((r, i) => (
             <div key={i} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
               <a
-                href={r.link}
+                href={r.link ?? undefined}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-bold text-blue-600 hover:underline flex items-center gap-2"
