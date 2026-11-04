@@ -388,5 +388,18 @@
   "freeToolTitleHowToCheck": "كيفية التحقق",
   "freeToolDescriptionHowToCheck": "إجابات عملية عن الأسئلة الشائعة حول التحقق من الصور والمصادر والاقتباسات والادعاءات عبر الإنترنت.",
   "freeToolTitleTemplates": "قوالب بحثية وأدلة تحقق مجانية",
-  "freeToolDescriptionTemplates": "نزّل قوائم تحقق وسجلات للادعاءات والأدلة والاقتباسات والامتثال."
+  "freeToolDescriptionTemplates": "نزّل قوائم تحقق وسجلات للادعاءات والأدلة والاقتباسات والامتثال.",
+  "executiveToolsTitle": "دليل أدوات التنفيذيين",
+  "executiveToolsIntro": "مجموعة منتقاة من الخدمات الخارجية التي تساعد القادة على بحث الأسواق والتواصل وتنسيق الفرق وإعداد تقارير واضحة.",
+  "executiveToolsNoticeTitle": "تنبيه بشأن المواقع الخارجية:",
+  "executiveToolsNotice": "الأدوات أدناه موجودة على مواقع خارجية. سيؤدي النقر على أي رابط إلى مغادرة Verfiai. نحن لا نتحكم في تلك المواقع — راجع سياسة الخصوصية والشروط قبل التسجيل.",
+  "executiveToolsExternal": "موقع خارجي ↗",
+  "executiveToolsEmail": "البريد الإلكتروني والتواصل على نطاق واسع",
+  "executiveToolsIntelligence": "معلومات الشركات والأسواق",
+  "executiveToolsMedia": "رصد وسائل الإعلام والأخبار",
+  "executiveToolsDocuments": "المستندات والعروض التقديمية وملفات PDF",
+  "executiveToolsData": "البيانات والرسوم البيانية والتقارير",
+  "executiveToolsMeetings": "الاجتماعات والجدولة والملاحظات",
+  "executiveToolsFiles": "نقل الملفات الكبيرة وتخزينها",
+  "executiveToolsWriting": "تحسين الكتابة والتواصل"
 }
