@@ -388,5 +388,18 @@
   "freeToolTitleHowToCheck": "Informationen überprüfen",
   "freeToolDescriptionHowToCheck": "Praktische Antworten auf häufige Fragen zur Prüfung von Fotos, Quellen, Zitaten und Online-Behauptungen.",
   "freeToolTitleTemplates": "Kostenlose Recherchevorlagen & Prüfungsleitfäden",
-  "freeToolDescriptionTemplates": "Laden Sie Checklisten und Protokolle zu Behauptungen, Belegen, Zitaten und Compliance herunter."
+  "freeToolDescriptionTemplates": "Laden Sie Checklisten und Protokolle zu Behauptungen, Belegen, Zitaten und Compliance herunter.",
+  "executiveToolsTitle": "Verzeichnis für Führungskräfte",
+  "executiveToolsIntro": "Eine kuratierte Auswahl externer Dienste, mit denen Führungskräfte Märkte recherchieren, kommunizieren, Teams koordinieren und klare Berichte erstellen können.",
+  "executiveToolsNoticeTitle": "Hinweis zu externen Websites:",
+  "executiveToolsNotice": "Die folgenden Tools befinden sich auf externen Websites. Wenn Sie einen Link anklicken, verlassen Sie Verfiai. Wir kontrollieren diese Websites nicht — lesen Sie vor der Registrierung deren Datenschutzrichtlinien und Nutzungsbedingungen.",
+  "executiveToolsExternal": "Externe Website ↗",
+  "executiveToolsEmail": "E-Mail und Outreach in großem Umfang",
+  "executiveToolsIntelligence": "Unternehmens- und Marktinformationen",
+  "executiveToolsMedia": "Medienbeobachtung und Nachrichten",
+  "executiveToolsDocuments": "Dokumente, Präsentationen und PDF-Arbeit",
+  "executiveToolsData": "Daten, Diagramme und Berichte",
+  "executiveToolsMeetings": "Meetings, Terminplanung und Notizen",
+  "executiveToolsFiles": "Übertragung und Speicherung großer Dateien",
+  "executiveToolsWriting": "Schreiben und Kommunikation verbessern"
 }
