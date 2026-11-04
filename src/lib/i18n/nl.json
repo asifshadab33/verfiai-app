@@ -388,5 +388,18 @@
   "freeToolTitleHowToCheck": "Informatie controleren",
   "freeToolDescriptionHowToCheck": "Praktische antwoorden op veelgestelde vragen over foto's, bronnen, citaten en online beweringen.",
   "freeToolTitleTemplates": "Gratis onderzoekssjablonen en verificatiegidsen",
-  "freeToolDescriptionTemplates": "Download checklists en logboeken voor beweringen, bewijs, citaten en naleving."
+  "freeToolDescriptionTemplates": "Download checklists en logboeken voor beweringen, bewijs, citaten en naleving.",
+  "executiveToolsTitle": "Gids met tools voor bestuurders",
+  "executiveToolsIntro": "Een samengestelde selectie externe diensten waarmee leidinggevenden markten onderzoeken, communiceren, teams coördineren en heldere rapporten maken.",
+  "executiveToolsNoticeTitle": "Melding over externe websites:",
+  "executiveToolsNotice": "De onderstaande tools staan op externe websites. Als u op een link klikt, verlaat u Verfiai. Wij beheren die websites niet — lees hun privacybeleid en voorwaarden voordat u zich aanmeldt.",
+  "executiveToolsExternal": "Externe website ↗",
+  "executiveToolsEmail": "E-mail en outreach op grote schaal",
+  "executiveToolsIntelligence": "Bedrijfs- en marktinformatie",
+  "executiveToolsMedia": "Mediabewaking en nieuws",
+  "executiveToolsDocuments": "Documenten, presentaties en PDF-bewerking",
+  "executiveToolsData": "Data, grafieken en rapportage",
+  "executiveToolsMeetings": "Vergaderingen, planning en notities",
+  "executiveToolsFiles": "Grote bestanden verzenden en opslaan",
+  "executiveToolsWriting": "Schrijven en communicatie verbeteren"
 }
