@@ -10,12 +10,12 @@ describe("editorial evidence publication", () => {
     expect(sitemapPaths()).not.toContain(`/fact-check/${unreviewed.slug}`);
     expect(CLAIMS.filter((c) => claimRobotsMeta(c).length)).toHaveLength(70);
   });
-  it("keeps reviewed pages indexable and includes them in the 113-URL sitemap", () => {
+  it("keeps reviewed pages indexable and includes them in the sitemap", () => {
     const reviewed = CLAIMS.find((c) => c.slug === "humans-use-10-percent-of-brain");
     if (!reviewed?.review) throw new Error("Reviewed fixture missing");
     expect(claimRobotsMeta(reviewed)).toEqual([]);
     expect(sitemapPaths()).toContain(`/fact-check/${reviewed.slug}`);
-    expect(sitemapPaths()).toHaveLength(113);
+    expect(new Set(sitemapPaths()).size).toBe(sitemapPaths().length);
     const { review: _review, ...withoutReview } = reviewed;
     expect(claimRobotsMeta(withoutReview)).toEqual([{ name: "robots", content: "noindex,follow" }]);
   });

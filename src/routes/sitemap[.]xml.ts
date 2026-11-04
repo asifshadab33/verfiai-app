@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { listReviewedClaimSlugs } from "@/data/claims";
 import { NEW_TOOLS } from "@/lib/tools/new-tool-catalog";
+import { FREE_TOOL_PAGES, TOOL_GUIDE_PAGES } from "@/lib/tools/free-tool-pages";
 
 const BASE = "https://verfiai.app";
 const PAGES = [
@@ -87,6 +88,10 @@ export const sitemapPaths = () => [
   "/tools/orcid",
   "/tools/pdf-tools",
   ...NEW_TOOLS.map((tool) => `/tools/${tool.slug}`),
+  ...FREE_TOOL_PAGES.filter(
+    (tool) => !NEW_TOOLS.some((existing) => existing.slug === tool.slug),
+  ).map((tool) => `/tools/${tool.slug}`),
+  ...TOOL_GUIDE_PAGES.map((page) => `/${page.slug}`),
 ];
 
 export const Route = createFileRoute("/sitemap.xml")({

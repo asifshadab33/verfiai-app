@@ -588,9 +588,9 @@
   {
     "url": "/tools/unit-converter",
     "title": "Unit Converter",
-    "description": "Convert length, weight, temperature, data size, and speed in your browser.",
+    "description": "Convert length, weight, temperature, speed, area, volume, and data size offline.",
     "category": "Data & Numbers",
-    "keywords": ["measurement", "conversion", "units"]
+    "keywords": ["measurement", "conversion", "units", "area", "volume"]
   },
   {
     "url": "/tools/color-contrast",
@@ -679,7 +679,7 @@
   {
     "url": "/tools/currency-converter",
     "title": "Currency Converter",
-    "description": "Convert currencies using free European Central Bank reference rates.",
+    "description": "Convert currencies with free public Frankfurter rates, including historical dates.",
     "category": "Data & Numbers",
     "keywords": ["exchange rate", "Frankfurter", "ECB", "money"]
   },
@@ -1065,5 +1065,138 @@
     "description": "CDC states that flu vaccines cannot cause flu illness: injected vaccines use inactivated viruses or a single viral protein. Side effects and infections acquired around vaccination are different from vaccine-caused flu.",
     "category": "Fact checks",
     "keywords": ["health", "can the flu shot give you the flu", "contradicted", "fact check"]
+  },
+  {
+    "url": "/tools/doaj-journal-checker",
+    "title": "DOAJ Journal Checker",
+    "description": "Check whether a journal or article is indexed in the Directory of Open Access Journals.",
+    "category": "Research & Citations",
+    "keywords": ["doaj-journal-checker","DOAJ","open access","journal","article","DOAJ Journal Checker","Check whether a journal or article is indexed in the Directory of Open Access Journals."]
+  },
+  {
+    "url": "/tools/semantic-scholar",
+    "title": "Semantic Scholar Search",
+    "description": "Look up scholarly papers and authors with citations, year, venue, and open-access links.",
+    "category": "Research & Citations",
+    "keywords": ["semantic-scholar","papers","authors","citations","Semantic Scholar","Semantic Scholar Search","Look up scholarly papers and authors with citations, year, venue, and open-access links."]
+  },
+  {
+    "url": "/tools/opencitations",
+    "title": "OpenCitations DOI Explorer",
+    "description": "Explore inbound citations and references for a DOI using OpenCitations.",
+    "category": "Research & Citations",
+    "keywords": ["opencitations","DOI","citations","references","OpenCitations","OpenCitations DOI Explorer","Explore inbound citations and references for a DOI using OpenCitations."]
+  },
+  {
+    "url": "/tools/zenodo-finder",
+    "title": "Dataset & DOI Finder",
+    "description": "Search Zenodo datasets and resolve DOI metadata through DataCite.",
+    "category": "Research & Citations",
+    "keywords": ["zenodo-finder","Zenodo","DataCite","datasets","DOI","Dataset & DOI Finder","Search Zenodo datasets and resolve DOI metadata through DataCite."]
+  },
+  {
+    "url": "/tools/dns-inspector",
+    "title": "DNS Inspector",
+    "description": "Inspect public A, AAAA, MX, TXT, NS, CNAME, and SOA DNS records.",
+    "category": "Verification & OSINT",
+    "keywords": ["dns-inspector","DNS","domain","records","IP","DNS Inspector","Inspect public A, AAAA, MX, TXT, NS, CNAME, and SOA DNS records."]
+  },
+  {
+    "url": "/tools/certificate-explorer",
+    "title": "Certificate Explorer",
+    "description": "Review public TLS certificate history, issuers, dates, and discovered subdomains.",
+    "category": "Verification & OSINT",
+    "keywords": ["certificate-explorer","TLS","certificate","crt.sh","subdomains","Certificate Explorer","Review public TLS certificate history, issuers, dates, and discovered subdomains."]
+  },
+  {
+    "url": "/tools/phone-verifier",
+    "title": "Phone Number Verifier",
+    "description": "Parse and validate phone numbers locally, with country, type, and E.164 format.",
+    "category": "Verification & OSINT",
+    "keywords": ["phone-verifier","phone","number","E.164","validate","Phone Number Verifier","Parse and validate phone numbers locally, with country, type, and E.164 format."]
+  },
+  {
+    "url": "/tools/percentage-calculator",
+    "title": "Percentage Calculator",
+    "description": "Calculate a percentage of a value, percentage share, or percentage change.",
+    "category": "Data & Numbers",
+    "keywords": ["percentage-calculator","percentage","percent","change","calculator","Percentage Calculator","Calculate a percentage of a value, percentage share, or percentage change."]
+  },
+  {
+    "url": "/tools/calculator",
+    "title": "Calculator",
+    "description": "A basic arithmetic calculator with keyboard support.",
+    "category": "Data & Numbers",
+    "keywords": ["calculator","calculator","arithmetic","math","Calculator","A basic arithmetic calculator with keyboard support."]
+  },
+  {
+    "url": "/tools/age-date-calculator",
+    "title": "Age & Date Calculator",
+    "description": "Calculate age, days between dates, or add and subtract calendar days.",
+    "category": "Data & Numbers",
+    "keywords": ["age-date-calculator","age","date","days","calendar","Age & Date Calculator","Calculate age, days between dates, or add and subtract calendar days."]
+  },
+  {
+    "url": "/tools/ip-checker",
+    "title": "IP Address Checker",
+    "description": "Check your public IP or look up an IP address, location, organization, and ASN.",
+    "category": "Verification & OSINT",
+    "keywords": ["ip-checker","IP","address","ASN","timezone","IP Address Checker","Check your public IP or look up an IP address, location, organization, and ASN."]
+  },
+  {
+    "url": "/tools/flashcards",
+    "title": "Flashcard Maker",
+    "description": "Create private flashcard decks and review, shuffle, and track known cards locally.",
+    "category": "Productivity",
+    "keywords": ["flashcards","flashcards","study","decks","offline","Flashcard Maker","Create private flashcard decks and review, shuffle, and track known cards locally."]
+  },
+  {
+    "url": "/tools/stopwatch-timer",
+    "title": "Stopwatch & Timer",
+    "description": "Use a stopwatch with laps or a visual countdown timer.",
+    "category": "Productivity",
+    "keywords": ["stopwatch-timer","stopwatch","timer","laps","countdown","Stopwatch & Timer","Use a stopwatch with laps or a visual countdown timer."]
+  },
+  {
+    "url": "/tools/scratch-notes",
+    "title": "Scratch Notes",
+    "description": "Write private notes with autosave and export them as a text file.",
+    "category": "Productivity",
+    "keywords": ["scratch-notes","notes","notepad","autosave","local","Scratch Notes","Write private notes with autosave and export them as a text file."]
+  },
+  {
+    "url": "/tools/dictionary",
+    "title": "English Dictionary",
+    "description": "Find English definitions, parts of speech, synonyms, antonyms, and pronunciation.",
+    "category": "Research & Citations",
+    "keywords": ["dictionary","dictionary","definitions","synonyms","pronunciation","English Dictionary","Find English definitions, parts of speech, synonyms, antonyms, and pronunciation."]
+  },
+  {
+    "url": "/tools/translator",
+    "title": "Free Translator",
+    "description": "Translate text with your device's built-in translator or the free MyMemory API.",
+    "category": "Productivity",
+    "keywords": ["translator","translation","languages","offline","MyMemory","Free Translator","Translate text with your device's built-in translator or the free MyMemory API."]
+  },
+  {
+    "url": "/tools/transcript-translator",
+    "title": "Transcript Translator",
+    "description": "Translate a transcript locally when available or with a free keyless API, side by side.",
+    "category": "Productivity",
+    "keywords": ["transcript-translator","transcript","translation","subtitles","languages","Transcript Translator","Translate a transcript locally when available or with a free keyless API, side by side."]
+  },
+  {
+    "url": "/video-research",
+    "title": "Video Research",
+    "description": "A practical guide to researching a video transcript, checking quotes, and finding its original source.",
+    "category": "Verification & OSINT",
+    "keywords": ["video-research","video","transcript","verify","research","Video Research","A practical guide to researching a video transcript, checking quotes, and finding its original source."]
+  },
+  {
+    "url": "/how-to-check",
+    "title": "How to Check: Verification Questions & Answers",
+    "description": "Practical answers to common questions about checking photos, sources, quotes, and online claims.",
+    "category": "Verification & OSINT",
+    "keywords": ["how-to-check","how to verify","fact check","photo","source","quote","How to Check: Verification Questions & Answers","Practical answers to common questions about checking photos, sources, quotes, and online claims."]
   }
 ]

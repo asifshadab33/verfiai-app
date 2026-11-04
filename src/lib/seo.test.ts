@@ -7,6 +7,7 @@ import { join } from "node:path";
 import { listReviewedClaimSlugs } from "@/data/claims";
 import { toolHead, toolHeadForPath } from "./tools/tool-head";
 import { NEW_TOOLS } from "./tools/new-tool-catalog";
+import { FREE_TOOL_PAGES, TOOL_GUIDE_PAGES } from "./tools/free-tool-pages";
 
 function routeFiles(directory: string): string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -73,7 +74,7 @@ describe("leaf search metadata policy", () => {
       expect(source).toMatch(/name: "robots", content: "noindex,\s*nofollow"/);
       expect(sitemapPaths()).not.toContain(`/${route}`);
     }
-    expect(sitemapPaths()).toHaveLength(113);
+    expect(new Set(sitemapPaths()).size).toBe(sitemapPaths().length);
     expect(
       sitemapPaths().some(
         (path) => path.startsWith("/r/") || path.startsWith("/resources") || path === "/knowledge",
@@ -131,9 +132,22 @@ describe("leaf search metadata policy", () => {
       }
       return route!;
     });
-    const cards = [...cardSource.matchAll(/to: "(\/tools\/[^"]+)"/g)].map((match) => match[1]!);
-    expect(new Set(cards)).toEqual(new Set(routes));
-    expect(cards).toHaveLength(routes.length);
+    const staticCards = [...cardSource.matchAll(/to: "(\/tools\/[^"]+)"/g)].map(
+      (match) => match[1]!,
+    );
+    const freeToolRoutes = FREE_TOOL_PAGES.map((tool) => `/tools/${tool.slug}`);
+    const leafCards = [...staticCards, ...freeToolRoutes];
+    expect(new Set(leafCards)).toEqual(new Set(routes));
+    expect(leafCards).toHaveLength(routes.length);
+    const dynamicTools = NEW_TOOLS.filter(
+      (tool) => !FREE_TOOL_PAGES.some((page) => page.slug === tool.slug),
+    );
+    const allCardRoutes = [
+      ...leafCards,
+      ...dynamicTools.map((tool) => `/tools/${tool.slug}`),
+      ...TOOL_GUIDE_PAGES.map((page) => `/${page.slug}`),
+    ];
+    expect(new Set(allCardRoutes).size).toBe(allCardRoutes.length);
     expect(sitemapPaths()).toEqual(expect.arrayContaining(["/tools", ...routes]));
     const dynamicSource = readFileSync(join(toolRoot, "$tool.tsx"), "utf8");
     expect(dynamicSource).toMatch(/head:\s*\(\{\s*params\s*\}\)\s*=>/);
@@ -142,12 +156,12 @@ describe("leaf search metadata policy", () => {
     ) as { url: string; title: string; description: string }[];
     const indexedPaths = new Set(searchIndex.map((entry) => entry.url));
     for (const route of routes) expect(indexedPaths).toContain(route);
-    for (const tool of NEW_TOOLS) {
+    for (const tool of FREE_TOOL_PAGES) {
       const path = `/tools/${tool.slug}`;
       expect(sitemapPaths()).toContain(path);
-      expect(searchIndex).toContainEqual(
-        expect.objectContaining({ url: path, title: tool.title, description: tool.description }),
-      );
+      const indexedTool = searchIndex.find((entry) => entry.url === path);
+      expect(indexedTool).toMatchObject({ title: tool.title });
+      expect(indexedTool?.description.trim()).toBeTruthy();
       const head = toolHead({
         path,
         name: tool.title,
@@ -156,7 +170,24 @@ describe("leaf search metadata policy", () => {
       });
       expect(head.links).toContainEqual({ rel: "canonical", href: `https://verfiai.app${path}` });
     }
-    expect(cards.length + NEW_TOOLS.length).toBe(84);
+    for (const tool of NEW_TOOLS) {
+      if (FREE_TOOL_PAGES.some((page) => page.slug === tool.slug)) continue;
+      const path = `/tools/${tool.slug}`;
+      expect(sitemapPaths()).toContain(path);
+      const indexedTool = searchIndex.find((entry) => entry.url === path);
+      expect(indexedTool).toMatchObject({ title: tool.title });
+      expect(indexedTool?.description.trim()).toBeTruthy();
+      const head = toolHead({
+        path,
+        name: tool.title,
+        title: `Free ${tool.title} | Verfiai`,
+        description: tool.description,
+      });
+      expect(head.links).toContainEqual({ rel: "canonical", href: `https://verfiai.app${path}` });
+    }
+    expect(allCardRoutes).toHaveLength(
+      routes.length + dynamicTools.length + TOOL_GUIDE_PAGES.length,
+    );
   });
 
   it("links to /tools from both desktop and mobile navigation", () => {

@@ -21,8 +21,10 @@ import {
   Shuffle,
   TableProperties,
   Volume2,
+  type LucideIcon,
 } from "lucide-react";
 import { NEW_TOOLS } from "@/lib/tools/new-tool-catalog";
+import { FREE_TOOL_PAGES, freeToolCopyKey, TOOL_GUIDE_PAGES } from "@/lib/tools/free-tool-pages";
 import { useLocation } from "@tanstack/react-router";
 import { isLang } from "@/lib/translations";
 import { siteText } from "@/lib/site-i18n";
@@ -30,7 +32,15 @@ import { siteText } from "@/lib/site-i18n";
 const BROWSER = "Runs in your browser";
 const REGISTRY = "Looks up public registries";
 
-const CATEGORIES = [
+type HubToolEntry = {
+  to: string;
+  Icon: LucideIcon;
+  title: string;
+  blurb: string;
+  note: string;
+};
+
+const CATEGORIES: { title: string; tools: HubToolEntry[] }[] = [
   {
     title: "Fact & source checks",
     tools: [
@@ -441,7 +451,7 @@ const CATEGORIES = [
       },
     ],
   },
-] as const;
+];
 
 export function ToolsHub() {
   const { searchStr } = useLocation();
@@ -454,14 +464,14 @@ export function ToolsHub() {
       category: existingCategory(tool.to),
       keywords: [tool.title, tool.blurb],
     }));
-  const newTools = NEW_TOOLS.map((tool) => ({
+  const newTools = NEW_TOOLS.filter(
+    (tool) => !FREE_TOOL_PAGES.some((page) => page.slug === tool.slug),
+  ).map((tool) => ({
     to: `/tools/${tool.slug}`,
     Icon: toolIcon(tool.category),
     title: tool.title,
     blurb:
-      tool.slug === "citation-checker"
-        ? siteText(lang, "citationCheckerHub")
-        : tool.description,
+      tool.slug === "citation-checker" ? siteText(lang, "citationCheckerHub") : tool.description,
     note:
       tool.kind === "launcher"
         ? "Opens an external free tool"
@@ -473,7 +483,25 @@ export function ToolsHub() {
     category: tool.category,
     keywords: tool.keywords,
   }));
-  const tools = [...oldTools, ...newTools];
+  const addedTools = FREE_TOOL_PAGES.map((tool) => ({
+    to: `/tools/${tool.slug}`,
+    Icon: toolIcon(tool.category),
+    title: siteText(lang, freeToolCopyKey(tool.slug, "Title")) || tool.title,
+    blurb: siteText(lang, freeToolCopyKey(tool.slug, "Description")) || tool.description,
+    note: tool.note,
+    category: tool.category,
+    keywords: tool.keywords,
+  }));
+  const guides = TOOL_GUIDE_PAGES.map((page) => ({
+    to: `/${page.slug}`,
+    Icon: page.slug === "video-research" ? Mic : BookOpen,
+    title: siteText(lang, freeToolCopyKey(page.slug, "Title")) || page.title,
+    blurb: siteText(lang, freeToolCopyKey(page.slug, "Description")) || page.description,
+    note: "Static guide",
+    category: page.category,
+    keywords: page.keywords,
+  }));
+  const tools = [...oldTools, ...newTools, ...addedTools, ...guides];
   const categoryNames = [
     "Text & Writing",
     "Research & Citations",
@@ -489,8 +517,9 @@ export function ToolsHub() {
     tools: tools.filter((tool) => tool.category === title),
   }));
   const toolCount = tools.length;
-  const lang = new URLSearchParams(searchStr).get("lang");
-  const hrefFor = (path: string) => `${path}${lang ? `?lang=${encodeURIComponent(lang)}` : ""}`;
+  const localeForHref = new URLSearchParams(searchStr).get("lang");
+  const hrefFor = (path: string) =>
+    `${path}${localeForHref ? `?lang=${encodeURIComponent(localeForHref)}` : ""}`;
   return (
     <div>
       <p className="mb-5 text-sm font-medium text-muted-foreground">{toolCount} free tools</p>
@@ -548,6 +577,7 @@ export function ToolsHub() {
                         <span className="mt-0.5 block truncate text-xs text-muted-foreground">
                           {t.blurb}
                         </span>
+                        <span className="mt-1 block text-xs text-muted-foreground">{t.note}</span>
                       </span>
                     </a>
                   </li>

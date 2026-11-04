@@ -11,7 +11,7 @@ type ConsentKey =
   | "consentPrivacy"
   | "cookieSettings"
   | "consentClose";
-export const siteText = (lang: Lang, key: keyof typeof en | ConsentKey): string => {
+export const siteText = (lang: Lang, key: string | ConsentKey): string => {
   const english: Record<string, string> = en;
   const localized: Partial<Record<string, string>> | undefined = dictionary(lang)?.site;
   return localized?.[key] ?? english[key] ?? "";
