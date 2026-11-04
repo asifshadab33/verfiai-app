@@ -391,5 +391,18 @@
   "freeToolTitleHowToCheck": "How to Check",
   "freeToolDescriptionHowToCheck": "Practical answers to common questions about checking photos, sources, quotes, and online claims.",
   "freeToolTitleTemplates": "Free Research Templates & Verification Guides",
-  "freeToolDescriptionTemplates": "Download checklists and logs for claims, evidence, citations, and compliance."
+  "freeToolDescriptionTemplates": "Download checklists and logs for claims, evidence, citations, and compliance.",
+  "executiveToolsTitle": "Executive tools directory",
+  "executiveToolsIntro": "A curated starting point for external services that help leaders research markets, communicate, coordinate teams and prepare clear reports.",
+  "executiveToolsNoticeTitle": "External-site notice:",
+  "executiveToolsNotice": "The tools below are on external websites. Clicking a link takes you away from Verfiai. We don't control those sites — review their privacy policy and terms before signing up.",
+  "executiveToolsExternal": "External site ↗",
+  "executiveToolsEmail": "Email & outreach at scale",
+  "executiveToolsIntelligence": "Company & market intelligence",
+  "executiveToolsMedia": "Media monitoring & news",
+  "executiveToolsDocuments": "Documents, presentations & PDF work",
+  "executiveToolsData": "Data, charts & reporting",
+  "executiveToolsMeetings": "Meetings, scheduling & notes",
+  "executiveToolsFiles": "Large-file transfer & storage",
+  "executiveToolsWriting": "Writing & communication polish"
 }
