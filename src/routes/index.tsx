@@ -89,7 +89,6 @@ export const Route = createFileRoute("/")({
 });
 
 type TextKey = Parameters<typeof siteText>[1];
-export { ReportForm } from "@/components/verifai/ReportForm";
 function Home() {
   const { lang, changeLang } = useSiteLocale();
   const [tab, setTab] = useState<StudioTab>("report");
