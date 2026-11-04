@@ -388,5 +388,18 @@
   "freeToolTitleHowToCheck": "Bilgiler Nasıl Kontrol Edilir",
   "freeToolDescriptionHowToCheck": "Fotoğrafları, kaynakları, alıntıları ve çevrimiçi iddiaları denetlemeye ilişkin yaygın sorulara yanıtlar.",
   "freeToolTitleTemplates": "Ücretsiz Araştırma Şablonları ve Doğrulama Rehberleri",
-  "freeToolDescriptionTemplates": "İddialar, kanıtlar, atıflar ve uyumluluk için kontrol listeleri ve kayıtlar indirin."
+  "freeToolDescriptionTemplates": "İddialar, kanıtlar, atıflar ve uyumluluk için kontrol listeleri ve kayıtlar indirin.",
+  "executiveToolsTitle": "Yöneticiler için araç dizini",
+  "executiveToolsIntro": "Liderlerin pazarları araştırmasına, iletişim kurmasına, ekipleri koordine etmesine ve anlaşılır raporlar hazırlamasına yardımcı olan seçilmiş harici hizmetler.",
+  "executiveToolsNoticeTitle": "Harici siteler hakkında bildirim:",
+  "executiveToolsNotice": "Aşağıdaki araçlar harici web sitelerinde bulunur. Bir bağlantıya tıklamak sizi Verfiai dışına götürür. Bu siteleri kontrol etmiyoruz — kaydolmadan önce gizlilik politikalarını ve koşullarını inceleyin.",
+  "executiveToolsExternal": "Harici site ↗",
+  "executiveToolsEmail": "Ölçekli e-posta ve erişim çalışmaları",
+  "executiveToolsIntelligence": "Şirket ve pazar bilgileri",
+  "executiveToolsMedia": "Medya takibi ve haberler",
+  "executiveToolsDocuments": "Belgeler, sunumlar ve PDF işlemleri",
+  "executiveToolsData": "Veri, grafik ve raporlama",
+  "executiveToolsMeetings": "Toplantılar, planlama ve notlar",
+  "executiveToolsFiles": "Büyük dosya aktarımı ve depolama",
+  "executiveToolsWriting": "Yazı ve iletişim kalitesini artırma"
 }
