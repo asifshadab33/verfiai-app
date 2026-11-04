@@ -43,6 +43,14 @@ export function SiteFooter({ lang }: { lang?: Lang }) {
               </li>
               <li>
                 <Link
+                  to="/executive-tools"
+                  className="transition-colors hover:text-footer-foreground hover:underline"
+                >
+                  Executive tools directory
+                </Link>
+              </li>
+              <li>
+                <Link
                   to="/fact-checker"
                   className="transition-colors hover:text-footer-foreground hover:underline"
                 >
