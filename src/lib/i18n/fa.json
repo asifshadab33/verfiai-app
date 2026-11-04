@@ -386,5 +386,7 @@
   "freeToolTitleVideoResearch": "راهنمای پژوهش ویدئو",
   "freeToolDescriptionVideoResearch": "راهنمایی کاربردی برای بررسی متن ویدئو، راستی‌آزمایی نقل‌قول‌ها و یافتن منبع اصلی.",
   "freeToolTitleHowToCheck": "روش بررسی اطلاعات",
-  "freeToolDescriptionHowToCheck": "پاسخ‌های کاربردی درباره بررسی عکس‌ها، منابع، نقل‌قول‌ها و ادعاهای آنلاین."
+  "freeToolDescriptionHowToCheck": "پاسخ‌های کاربردی درباره بررسی عکس‌ها، منابع، نقل‌قول‌ها و ادعاهای آنلاین.",
+  "freeToolTitleTemplates": "الگوهای پژوهشی و راهنماهای راستی‌آزمایی رایگان",
+  "freeToolDescriptionTemplates": "چک‌لیست‌ها و گزارش‌هایی برای ادعاها، شواهد، استنادها و انطباق دانلود کنید."
 }

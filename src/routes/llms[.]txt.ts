@@ -16,6 +16,7 @@ Verfiai is a research and fact-checking workspace. It helps people examine claim
 - About Verfiai: https://verfiai.app/about
 - How to check information: https://verfiai.app/how-to-check
 - Video research guide: https://verfiai.app/video-research
+- Free research templates: https://verfiai.app/templates
 - Misinformation glossary: https://verfiai.app/glossary
 - RSS feed of reviewed fact checks: https://verfiai.app/rss.xml
 `;

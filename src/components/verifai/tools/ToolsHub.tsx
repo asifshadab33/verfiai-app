@@ -7,6 +7,7 @@ import {
   Eraser,
   FileText,
   FileSearch,
+  FolderDown,
   GitCompare,
   Globe,
   Hash,
@@ -494,7 +495,7 @@ export function ToolsHub() {
   }));
   const guides = TOOL_GUIDE_PAGES.map((page) => ({
     to: `/${page.slug}`,
-    Icon: page.slug === "video-research" ? Mic : BookOpen,
+    Icon: page.slug === "templates" ? FolderDown : page.slug === "video-research" ? Mic : BookOpen,
     title: siteText(lang, freeToolCopyKey(page.slug, "Title")) || page.title,
     blurb: siteText(lang, freeToolCopyKey(page.slug, "Description")) || page.description,
     note: "Static guide",

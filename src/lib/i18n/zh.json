@@ -386,5 +386,7 @@
   "freeToolTitleVideoResearch": "视频研究指南",
   "freeToolDescriptionVideoResearch": "实用指南：研究视频转录文本、核实引述并查找原始来源。",
   "freeToolTitleHowToCheck": "如何核查",
-  "freeToolDescriptionHowToCheck": "解答有关核查照片、来源、引述和网络说法的常见问题。"
+  "freeToolDescriptionHowToCheck": "解答有关核查照片、来源、引述和网络说法的常见问题。",
+  "freeToolTitleTemplates": "免费研究模板与核查指南",
+  "freeToolDescriptionTemplates": "下载用于主张、证据、引文和合规的清单与记录表。"
 }

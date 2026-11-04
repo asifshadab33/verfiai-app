@@ -1198,5 +1198,12 @@
     "description": "Practical answers to common questions about checking photos, sources, quotes, and online claims.",
     "category": "Verification & OSINT",
     "keywords": ["how-to-check","how to verify","fact check","photo","source","quote","How to Check: Verification Questions & Answers","Practical answers to common questions about checking photos, sources, quotes, and online claims."]
+  },
+  {
+    "url": "/templates",
+    "title": "Free Research Templates & Verification Guides",
+    "description": "Download checklists and logs for claims, evidence, citations, and compliance.",
+    "category": "Verification & OSINT",
+    "keywords": ["templates","checklists","research","verification","compliance","Free Research Templates & Verification Guides","Download checklists and logs for claims, evidence, citations, and compliance."]
   }
 ]

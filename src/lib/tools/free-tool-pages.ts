@@ -186,6 +186,13 @@ export const TOOL_GUIDE_PAGES = [
     category: "Verification & OSINT",
     keywords: ["how to verify", "fact check", "photo", "source", "quote"],
   },
+  {
+    slug: "templates",
+    title: "Free Research Templates & Verification Guides",
+    description: "Download checklists and logs for claims, evidence, citations, and compliance.",
+    category: "Verification & OSINT",
+    keywords: ["templates", "checklists", "research", "verification", "compliance"],
+  },
 ];
 
 export const freeToolPage = (slug: string) => FREE_TOOL_PAGES.find((tool) => tool.slug === slug);

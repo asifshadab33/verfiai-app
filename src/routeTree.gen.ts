@@ -39,6 +39,7 @@ import { Route as SampleReportRouteImport } from './routes/sample-report'
 import { Route as SecurityRouteImport } from './routes/security'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SourcesRouteImport } from './routes/sources'
+import { Route as TemplatesRouteImport } from './routes/templates'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as VideoResearchRouteImport } from './routes/video-research'
 import { Route as AccountLibraryUsageRouteImport } from './routes/account/library-usage'
@@ -274,6 +275,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const SourcesRoute = SourcesRouteImport.update({
   id: '/sources',
   path: '/sources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TemplatesRoute = TemplatesRouteImport.update({
+  id: '/templates',
+  path: '/templates',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TermsRoute = TermsRouteImport.update({
@@ -744,6 +750,7 @@ export interface FileRoutesByFullPath {
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sources': typeof SourcesRoute
+  '/templates': typeof TemplatesRoute
   '/terms': typeof TermsRoute
   '/video-research': typeof VideoResearchRoute
   '/account/library-usage': typeof AccountLibraryUsageRoute
@@ -862,6 +869,7 @@ export interface FileRoutesByTo {
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sources': typeof SourcesRoute
+  '/templates': typeof TemplatesRoute
   '/terms': typeof TermsRoute
   '/video-research': typeof VideoResearchRoute
   '/account/library-usage': typeof AccountLibraryUsageRoute
@@ -981,6 +989,7 @@ export interface FileRoutesById {
   '/security': typeof SecurityRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sources': typeof SourcesRoute
+  '/templates': typeof TemplatesRoute
   '/terms': typeof TermsRoute
   '/video-research': typeof VideoResearchRoute
   '/account/library-usage': typeof AccountLibraryUsageRoute
@@ -1101,6 +1110,7 @@ export interface FileRouteTypes {
     | '/security'
     | '/sitemap.xml'
     | '/sources'
+    | '/templates'
     | '/terms'
     | '/video-research'
     | '/account/library-usage'
@@ -1219,6 +1229,7 @@ export interface FileRouteTypes {
     | '/security'
     | '/sitemap.xml'
     | '/sources'
+    | '/templates'
     | '/terms'
     | '/video-research'
     | '/account/library-usage'
@@ -1337,6 +1348,7 @@ export interface FileRouteTypes {
     | '/security'
     | '/sitemap.xml'
     | '/sources'
+    | '/templates'
     | '/terms'
     | '/video-research'
     | '/account/library-usage'
@@ -1456,6 +1468,7 @@ export interface RootRouteChildren {
   SecurityRoute: typeof SecurityRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SourcesRoute: typeof SourcesRoute
+  TemplatesRoute: typeof TemplatesRoute
   TermsRoute: typeof TermsRoute
   VideoResearchRoute: typeof VideoResearchRoute
   AccountLibraryUsageRoute: typeof AccountLibraryUsageRoute
@@ -1754,6 +1767,13 @@ declare module '@tanstack/react-router' {
       path: '/sources'
       fullPath: '/sources'
       preLoaderRoute: typeof SourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/templates': {
+      id: '/templates'
+      path: '/templates'
+      fullPath: '/templates'
+      preLoaderRoute: typeof TemplatesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/terms': {
@@ -2392,6 +2412,7 @@ const rootRouteChildren: RootRouteChildren = {
   SecurityRoute: SecurityRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SourcesRoute: SourcesRoute,
+  TemplatesRoute: TemplatesRoute,
   TermsRoute: TermsRoute,
   VideoResearchRoute: VideoResearchRoute,
   AccountLibraryUsageRoute: AccountLibraryUsageRoute,

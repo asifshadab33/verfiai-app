@@ -1075,38 +1075,6 @@ function NewToolContent({ slug, locale = "en" }: Props) {
               placeholder="50"
             />
           )}
-          {slug === "currency-converter" && (
-            <div className="grid gap-3 sm:grid-cols-2">
-              <select
-                className={fieldClass}
-                value={secondary.split("|")[0] || "USD|EUR"}
-                onChange={(event) =>
-                  setSecondary(
-                    `${event.target.value.split("|")[0]}|${secondary.split("|")[1] || "EUR"}`,
-                  )
-                }
-                aria-label="Source currency"
-              >
-                {["USD", "EUR", "GBP", "CAD", "AUD", "JPY", "CHF"].map((currency) => (
-                  <option key={currency} value={`${currency}|EUR`}>
-                    {currency}
-                  </option>
-                ))}
-              </select>
-              <select
-                className={fieldClass}
-                value={secondary.split("|")[1] || "EUR"}
-                onChange={(event) =>
-                  setSecondary(`${secondary.split("|")[0] || "USD"}|${event.target.value}`)
-                }
-                aria-label="Target currency"
-              >
-                {["USD", "EUR", "GBP", "CAD", "AUD", "JPY", "CHF"].map((currency) => (
-                  <option key={currency}>{currency}</option>
-                ))}
-              </select>
-            </div>
-          )}
           {slug === "world-bank-data" && (
             <TextField
               label="Indicator code"
@@ -1258,11 +1226,9 @@ function TextField({
 }
 
 function inputLabel(slug: string) {
-  if (slug === "unit-converter") return "Value to convert";
   if (slug === "color-contrast") return "Foreground color";
   if (slug === "date-calculator") return "First date";
   if (slug === "margin-of-error") return "Sample size";
-  if (slug === "currency-converter") return "Amount";
   if (slug === "open-access-finder") return "DOI";
   if (slug === "world-bank-data") return "Country code (or all)";
   const labels: Record<string, string> = {
@@ -1284,7 +1250,6 @@ function inputPlaceholder(slug: string) {
   if (slug === "cron-explainer") return "*/15 9-17 * * 1-5";
   if (slug === "date-calculator") return "";
   if (slug === "margin-of-error") return "1000";
-  if (slug === "currency-converter") return "100";
   if (slug === "world-bank-data") return "US";
   return "Enter or paste here…";
 }
