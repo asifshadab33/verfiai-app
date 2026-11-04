@@ -388,5 +388,18 @@
   "freeToolTitleHowToCheck": "তথ্য যাচাইয়ের উপায়",
   "freeToolDescriptionHowToCheck": "ছবি, উৎস, উদ্ধৃতি ও অনলাইন দাবির যাচাই নিয়ে সাধারণ প্রশ্নের ব্যবহারিক উত্তর।",
   "freeToolTitleTemplates": "বিনামূল্যের গবেষণা টেমপ্লেট ও যাচাই নির্দেশিকা",
-  "freeToolDescriptionTemplates": "দাবি, প্রমাণ, উদ্ধৃতি ও নীতিপালনের জন্য চেকলিস্ট ও লগ ডাউনলোড করুন।"
+  "freeToolDescriptionTemplates": "দাবি, প্রমাণ, উদ্ধৃতি ও নীতিপালনের জন্য চেকলিস্ট ও লগ ডাউনলোড করুন।",
+  "executiveToolsTitle": "নির্বাহী টুল ডিরেক্টরি",
+  "executiveToolsIntro": "বাজার গবেষণা, যোগাযোগ, দল সমন্বয় এবং স্পষ্ট প্রতিবেদন তৈরিতে নেতাদের সহায়ক নির্বাচিত বাহ্যিক পরিষেবার সংগ্রহ।",
+  "executiveToolsNoticeTitle": "বাহ্যিক সাইট সম্পর্কে বিজ্ঞপ্তি:",
+  "executiveToolsNotice": "নিচের টুলগুলো বাহ্যিক ওয়েবসাইটে রয়েছে। কোনো লিংকে ক্লিক করলে আপনি Verfiai ছেড়ে অন্য সাইটে যাবেন। ওই সাইটগুলো আমাদের নিয়ন্ত্রণে নয় — সাইন আপের আগে তাদের গোপনীয়তা নীতি ও শর্তাবলি পড়ুন।",
+  "executiveToolsExternal": "বাহ্যিক সাইট ↗",
+  "executiveToolsEmail": "বৃহৎ পরিসরে ইমেইল ও যোগাযোগ",
+  "executiveToolsIntelligence": "কোম্পানি ও বাজারের তথ্য",
+  "executiveToolsMedia": "মিডিয়া পর্যবেক্ষণ ও সংবাদ",
+  "executiveToolsDocuments": "নথি, উপস্থাপনা ও PDF কাজ",
+  "executiveToolsData": "ডেটা, চার্ট ও প্রতিবেদন",
+  "executiveToolsMeetings": "মিটিং, সময়সূচি ও নোট",
+  "executiveToolsFiles": "বড় ফাইল স্থানান্তর ও সংরক্ষণ",
+  "executiveToolsWriting": "লেখা ও যোগাযোগের মানোন্নয়ন"
 }
