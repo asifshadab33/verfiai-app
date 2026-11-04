@@ -388,5 +388,18 @@
   "freeToolTitleHowToCheck": "معلومات کی جانچ کیسے کریں",
   "freeToolDescriptionHowToCheck": "تصاویر، ذرائع، اقتباسات اور آن لائن دعووں کی جانچ سے متعلق عام سوالات کے عملی جواب۔",
   "freeToolTitleTemplates": "مفت تحقیقی سانچے اور تصدیقی رہنما",
-  "freeToolDescriptionTemplates": "دعووں، شواہد، حوالوں اور ضابطہ کاری کے لیے چیک لسٹ اور لاگ ڈاؤن لوڈ کریں۔"
+  "freeToolDescriptionTemplates": "دعووں، شواہد، حوالوں اور ضابطہ کاری کے لیے چیک لسٹ اور لاگ ڈاؤن لوڈ کریں۔",
+  "executiveToolsTitle": "انتظامی ٹولز کی ڈائریکٹری",
+  "executiveToolsIntro": "بیرونی خدمات کا منتخب مجموعہ جو رہنماؤں کو مارکیٹ کی تحقیق، رابطے، ٹیموں کی ہم آہنگی اور واضح رپورٹس کی تیاری میں مدد دیتا ہے۔",
+  "executiveToolsNoticeTitle": "بیرونی ویب سائٹس کے بارے میں اطلاع:",
+  "executiveToolsNotice": "نیچے دیے گئے ٹولز بیرونی ویب سائٹس پر موجود ہیں۔ کسی لنک پر کلک کرنے سے آپ Verfiai سے باہر چلے جائیں گے۔ ان سائٹس پر ہمارا اختیار نہیں — سائن اپ کرنے سے پہلے ان کی رازداری کی پالیسی اور شرائط پڑھیں۔",
+  "executiveToolsExternal": "بیرونی سائٹ ↗",
+  "executiveToolsEmail": "بڑے پیمانے پر ای میل اور رابطہ کاری",
+  "executiveToolsIntelligence": "کمپنی اور مارکیٹ کی معلومات",
+  "executiveToolsMedia": "میڈیا نگرانی اور خبریں",
+  "executiveToolsDocuments": "دستاویزات، پریزنٹیشنز اور PDF کام",
+  "executiveToolsData": "ڈیٹا، چارٹس اور رپورٹنگ",
+  "executiveToolsMeetings": "اجلاس، شیڈولنگ اور نوٹس",
+  "executiveToolsFiles": "بڑی فائلوں کی منتقلی اور ذخیرہ",
+  "executiveToolsWriting": "تحریر اور ابلاغ کو بہتر بنانا"
 }
