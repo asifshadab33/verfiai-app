@@ -388,5 +388,18 @@
   "freeToolTitleHowToCheck": "जानकारी की जाँच कैसे करें",
   "freeToolDescriptionHowToCheck": "तस्वीरों, स्रोतों, उद्धरणों और ऑनलाइन दावों की जाँच से जुड़े आम सवालों के व्यावहारिक जवाब।",
   "freeToolTitleTemplates": "निःशुल्क शोध टेम्पलेट और सत्यापन मार्गदर्शिकाएँ",
-  "freeToolDescriptionTemplates": "दावों, साक्ष्यों, उद्धरणों और अनुपालन के लिए चेकलिस्ट और लॉग डाउनलोड करें।"
+  "freeToolDescriptionTemplates": "दावों, साक्ष्यों, उद्धरणों और अनुपालन के लिए चेकलिस्ट और लॉग डाउनलोड करें।",
+  "executiveToolsTitle": "कार्यकारी टूल निर्देशिका",
+  "executiveToolsIntro": "बाज़ारों पर शोध करने, संवाद करने, टीमों का समन्वय करने और स्पष्ट रिपोर्ट तैयार करने में नेताओं की मदद करने वाली चुनिंदा बाहरी सेवाएँ।",
+  "executiveToolsNoticeTitle": "बाहरी वेबसाइटों के बारे में सूचना:",
+  "executiveToolsNotice": "नीचे दिए गए टूल बाहरी वेबसाइटों पर उपलब्ध हैं। किसी लिंक पर क्लिक करने से आप Verfiai से बाहर चले जाएंगे। उन साइटों पर हमारा नियंत्रण नहीं है — साइन अप करने से पहले उनकी गोपनीयता नीति और शर्तें पढ़ें।",
+  "executiveToolsExternal": "बाहरी साइट ↗",
+  "executiveToolsEmail": "बड़े पैमाने पर ईमेल और संपर्क",
+  "executiveToolsIntelligence": "कंपनी और बाज़ार की जानकारी",
+  "executiveToolsMedia": "मीडिया निगरानी और समाचार",
+  "executiveToolsDocuments": "दस्तावेज़, प्रस्तुतियाँ और PDF कार्य",
+  "executiveToolsData": "डेटा, चार्ट और रिपोर्टिंग",
+  "executiveToolsMeetings": "बैठकें, समय-निर्धारण और नोट्स",
+  "executiveToolsFiles": "बड़ी फ़ाइलों का स्थानांतरण और संग्रहण",
+  "executiveToolsWriting": "लेखन और संचार में सुधार"
 }
