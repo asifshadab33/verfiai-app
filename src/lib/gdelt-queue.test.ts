@@ -26,7 +26,7 @@ describe("GDELT queue", () => {
     expect(calls).toBe(4);
     expect([backoffMs(0), backoffMs(1), backoffMs(2)]).toEqual([1000, 2000, 4000]);
   });
-  it("spaces requests at least 2 seconds apart", async () => {
+  it("spaces requests at least 5 seconds apart", async () => {
     const starts: number[] = [];
     let t = 0;
     const deps = {

@@ -1,6 +1,6 @@
-// GDELT request queue: one request at a time, at least 2 seconds apart (per worker),
+// GDELT request queue: one request at a time, at least 5 seconds apart (per worker),
 // with exponential backoff and up to 3 retries on 429/503. Any failure resolves to null.
-export const GDELT_SPACING_MS = 2000;
+export const GDELT_SPACING_MS = 5000;
 export const GDELT_MAX_RETRIES = 3;
 export const GDELT_BACKOFF_BASE_MS = 1000;
 export const RETRY_STATUSES = new Set([429, 503]);

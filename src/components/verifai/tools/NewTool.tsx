@@ -735,20 +735,33 @@ function NewToolContent({ slug, locale = "en" }: Props) {
         }
         case "scholar-search": {
           const key = `verfiai-openalex:${input.trim().toLowerCase()}`;
-          const cached = sessionStorage.getItem(key);
-          const data = cached
-            ? (JSON.parse(cached) as {
-                results?: {
-                  title?: string;
-                  publication_year?: number;
-                  doi?: string;
-                  authorships?: { author?: { display_name?: string } }[];
-                }[];
-              })
-            : await requestJson(
-                `https://api.openalex.org/works?search=${encodeURIComponent(input)}&per-page=10&select=title,publication_year,doi,authorships`,
-              );
-          if (!cached) sessionStorage.setItem(key, JSON.stringify(data));
+          type ScholarSearchData = {
+            results?: {
+              title?: string;
+              publication_year?: number;
+              doi?: string;
+              authorships?: { author?: { display_name?: string } }[];
+            }[];
+          };
+          let cachedData: ScholarSearchData | null = null;
+          try {
+            const cached = sessionStorage.getItem(key);
+            if (cached) cachedData = JSON.parse(cached) as ScholarSearchData;
+          } catch {
+            cachedData = null;
+          }
+          const data =
+            cachedData ??
+            ((await requestJson(
+              `https://api.openalex.org/works?search=${encodeURIComponent(input)}&per-page=10&select=title,publication_year,doi,authorships`,
+            )) as ScholarSearchData);
+          if (!cachedData) {
+            try {
+              sessionStorage.setItem(key, JSON.stringify(data));
+            } catch {
+              // Storage is optional; the fetched results remain usable.
+            }
+          }
           const items = (data.results ?? []).map(
             (work) =>
               `${work.title ?? "Untitled"} (${work.publication_year ?? "date unknown"}) — ${
