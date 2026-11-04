@@ -342,39 +342,6 @@ function NewToolContent({ slug, locale = "en" }: Props) {
           );
           break;
         }
-        case "unit-converter": {
-          const value = Number(input);
-          if (!Number.isFinite(value)) throw new Error("Enter a number to convert.");
-          const [category, from, to] = (secondary || "length|m|km").split("|");
-          const factor: Record<string, number> = {
-            "length|m": 1,
-            "length|km": 1000,
-            "length|cm": 0.01,
-            "length|ft": 0.3048,
-            "length|mi": 1609.344,
-            "weight|kg": 1,
-            "weight|g": 0.001,
-            "weight|lb": 0.45359237,
-            "weight|oz": 0.028349523,
-            "data|B": 1,
-            "data|KB": 1000,
-            "data|MB": 1e6,
-            "data|GB": 1e9,
-            "data|KiB": 1024,
-            "data|MiB": 1048576,
-            "speed|m/s": 1,
-            "speed|km/h": 1 / 3.6,
-            "speed|mph": 0.44704,
-          };
-          const converted =
-            category === "temperature"
-              ? to === "°F"
-                ? (value * 9) / 5 + 32
-                : ((value - 32) * 5) / 9
-              : (value * factor[`${category}|${from}`]) / factor[`${category}|${to}`];
-          setTextResult(`${value} ${from} = ${Number(converted.toPrecision(10))} ${to}`);
-          break;
-        }
         case "color-contrast": {
           const ratio = contrastRatio(input, secondary);
           setTextResult(
@@ -653,18 +620,6 @@ function NewToolContent({ slug, locale = "en" }: Props) {
             return `${entity?.labels?.en?.value ?? item.label} (${item.id}) — ${entity?.descriptions?.en?.value ?? item.description ?? "No description"}${statements.length ? `\n  ${statements.join("\n  ")}` : ""}`;
           });
           setTextResult(facts.join("\n\n"));
-          break;
-        }
-        case "currency-converter": {
-          const [from, to] = (secondary || "USD|EUR").split("|");
-          const amount = Number(input);
-          if (!Number.isFinite(amount)) throw new Error("Enter a numeric amount.");
-          const data = (await requestJson(
-            `https://api.frankfurter.app/latest?amount=${encodeURIComponent(String(amount))}&from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`,
-          )) as { date?: string; rates?: Record<string, number> };
-          setTextResult(
-            `${amount} ${from} = ${data.rates?.[to]} ${to}\nECB reference date: ${data.date}\nRates are informational and may not match a live transaction.`,
-          );
           break;
         }
         case "open-access-finder": {
