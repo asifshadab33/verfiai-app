@@ -1,5 +1,13 @@
 # Verfiai roadmap
 
+## Nov 4 tools verification
+
+- [x] Correct invalid Punycode test fixture using xn--bcher-kva.de; preserve behavior and strengthen exact domain/IDN assertions. Full suite: 256 passed, four privileged tests skipped; automatic preview build OK.
+- [x] Live and local hubs: 54 tool cards plus glossary (55 references); all card destinations and RSS/llms return 200, all present in the 83-URL sitemap. Desktop dropdown, footer and mobile menu link to /tools; 390px menu/navigation has no overflow or runtime errors.
+- [x] Accessibility Review: text-cleaner, text-compare and evidence-matrix pass axe WCAG A/AA spot checks. Markdown input remains escaped (malicious HTML did not execute); root inline script is fixed code with an allowlisted locale. Added missing Markdown editor leaf metadata after axe found an empty document title.
+- [ ] Larger metadata sweep: 42 other tool routes lack explicit leaf head metadata; PDF tools excluded from tonight's edits. Small-control tap-target sweep remains deferred.
+- [ ] Deep security scan started after basic checks found no issues; final deep results await notification. Release verification follows only after the scan and final validation; no automatic wake-ups scheduled.
+
 ## Nov 3 free-tools directory completion
 
 - [x] Light Accessibility Review: add input/voice names, copy-button names and an associated QR size label in five tool components. Existing QR image alt and shared headings retained. Larger contrast/tap-target sweep deferred; no tests or manual build.
