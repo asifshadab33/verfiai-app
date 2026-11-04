@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { checkOne, extractRefs, parseBib, type CitationResult } from "./citation.server";
 import { claimUsage, usageFor } from "./usage.server";
 import {
@@ -16,6 +17,7 @@ export const FREE_REF_LIMIT = 20;
 export const getScanUsage = createServerFn({ method: "GET" }).handler(() => usageFor("scan"));
 
 export const verifyCitations = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .validator((d) => z.object({ text: z.string().trim().min(20).max(200000) }).parse(d))
   .handler(async ({ data }) => {
     const { identify } = await import("./usage.server");

@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ToolPage from "@/components/verifai/tools/ToolPage";
 import RandomPicker from "@/components/verifai/tools/RandomPicker";
+import { toolHeadForPath } from "@/lib/tools/tool-head";
 export const Route = createFileRoute("/tools/random-picker")({
+  head: () => toolHeadForPath("/tools/random-picker"),
   component: () => (
     <ToolPage
       title="Random Picker & Shuffler"

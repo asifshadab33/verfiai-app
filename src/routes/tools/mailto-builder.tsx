@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ToolPage from "@/components/verifai/tools/ToolPage";
 import MailtoBuilder from "@/components/verifai/tools/MailtoBuilder";
+import { toolHeadForPath } from "@/lib/tools/tool-head";
 export const Route = createFileRoute("/tools/mailto-builder")({
+  head: () => toolHeadForPath("/tools/mailto-builder"),
   component: () => (
     <ToolPage
       title="Mailto Link Builder"

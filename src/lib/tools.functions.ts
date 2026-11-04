@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { lookupDoiRecord, type DoiRecord } from "./citation.server";
 import { cached, cacheKey, CACHE_TTL } from "./cache.server";
 import { acceptHeader, arrangeCitations, doiResolverUrl, styleById } from "./tools/cite-format";
@@ -81,6 +82,7 @@ async function openAccessFor(doi: string): Promise<OpenAccessLink | null> {
 }
 
 export const lookupDois = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .validator((d) => z.object({ dois: doiList }).parse(d))
   .handler(async ({ data }): Promise<{ items: DoiLookupItem[] }> => {
     const dois = uniqueDois(data.dois);
@@ -136,6 +138,7 @@ async function formatOne(doi: string, csl: string): Promise<FormattedItem> {
 }
 
 export const formatDois = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .validator((d) =>
     z
       .object({

@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ToolPage from "@/components/verifai/tools/ToolPage";
 import InvisibleChars from "@/components/verifai/tools/InvisibleChars";
+import { toolHeadForPath } from "@/lib/tools/tool-head";
 export const Route = createFileRoute("/tools/invisible-chars")({
+  head: () => toolHeadForPath("/tools/invisible-chars"),
   component: () => (
     <ToolPage
       title="Invisible Character Detector"

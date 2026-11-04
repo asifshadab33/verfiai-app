@@ -3,8 +3,10 @@ import { useServerFn } from "@tanstack/react-start";
 import { FileSearch, LoaderCircle, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/hooks/useAuth";
 import { lookupDois, type DoiLookupItem } from "@/lib/tools.functions";
 import { extractDois } from "@/lib/tools/doi";
+import { ToolSignInPrompt } from "./ToolSignInPrompt";
 
 const SAMPLE =
   "10.1016/S0140-6736(97)11096-0\n10.1038/nature14539\n10.1000/this-doi-does-not-exist-123";
@@ -27,13 +29,14 @@ const badgeFor = (i: DoiLookupItem) =>
 
 export function DoiChecker() {
   const lookup = useServerFn(lookupDois);
+  const { user, loading } = useAuth();
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [items, setItems] = useState<DoiLookupItem[] | null>(null);
   const found = useMemo(() => extractDois(text, 10), [text]);
   async function run() {
-    if (!found.dois.length || busy) return;
+    if (!user || loading || !found.dois.length || busy) return;
     setBusy(true);
     setError("");
     setItems(null);
@@ -45,6 +48,9 @@ export function DoiChecker() {
       setBusy(false);
     }
   }
+  if (loading) return <p role="status">Checking your sign-in…</p>;
+  if (!user) return <ToolSignInPrompt tool="the DOI and retraction checker" />;
+
   return (
     <section
       aria-label="DOI and retraction checker"

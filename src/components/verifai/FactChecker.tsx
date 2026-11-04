@@ -30,6 +30,7 @@ import { evidenceStrength, sourceQuality } from "@/lib/evidence";
 import { VerdictFeedback } from "./VerdictFeedback";
 import { GenerationProgress } from "./GenerationProgress";
 import { useVerificationProgress } from "@/hooks/useVerificationProgress";
+import { ToolSignInPrompt } from "./tools/ToolSignInPrompt";
 
 const verdictKeys = {
   SUPPORTED: "verdictSupported",
@@ -72,10 +73,14 @@ export function FactChecker({ lang }: { lang: Lang }) {
   const flags = useServerFn(getFeatureFlags);
   const [advanced, setAdvanced] = useState(false);
   useEffect(() => {
+    if (!user || loading) {
+      setAdvanced(false);
+      return;
+    }
     flags()
       .then((f) => setAdvanced(f.ADVANCED_SOURCE_SCORING_ENABLED))
       .catch(() => setAdvanced(false));
-  }, [user?.id, flags]);
+  }, [user?.id, loading, flags]);
   const [mode, setMode] = useState<"text" | "url">("text");
   const [text, setText] = useState("");
   const [url, setUrl] = useState("");
@@ -87,10 +92,11 @@ export function FactChecker({ lang }: { lang: Lang }) {
     null,
   );
   useEffect(() => {
-    if (!loading)
+    if (user && !loading)
       fetchUsage()
         .then(setUsage)
         .catch(() => {});
+    else setUsage(null);
   }, [user, loading]); // eslint-disable-line react-hooks/exhaustive-deps
   const left = usage ? Math.max(0, usage.limit - usage.used) : 1;
   const ocr = useImageOcr(lang, (t) =>
@@ -99,7 +105,7 @@ export function FactChecker({ lang }: { lang: Lang }) {
   const ready = mode === "text" ? text.trim().length >= 30 : /^https:\/\//i.test(url.trim());
 
   async function submit() {
-    if (!ready || busy) return;
+    if (!user || loading || !ready || busy) return;
     setError("");
     setClaims(null);
     setBusy(true);
@@ -127,6 +133,17 @@ export function FactChecker({ lang }: { lang: Lang }) {
         (v) => [v, claims.filter((c) => c.verdict === v).length] as const,
       )
     : [];
+  if (loading) return <p role="status">Checking your sign-in…</p>;
+  if (!user)
+    return (
+      <ToolSignInPrompt
+        tool={tx("factTitle")}
+        title={tx("factTitle")}
+        description={tx("signInContinue")}
+        signInLabel={siteText(lang, "navSignIn")}
+      />
+    );
+
   return (
     <div>
       <h2 className="font-display text-2xl font-bold">{tx("factTitle")}</h2>

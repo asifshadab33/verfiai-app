@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ToolPage from "@/components/verifai/tools/ToolPage";
 import FallacySpotter from "@/components/verifai/tools/FallacySpotter";
+import { toolHeadForPath } from "@/lib/tools/tool-head";
 export const Route = createFileRoute("/tools/fallacy-spotter")({
+  head: () => toolHeadForPath("/tools/fallacy-spotter"),
   component: () => (
     <ToolPage
       title="Logical Fallacy Spotter"

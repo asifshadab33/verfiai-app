@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ToolPage from "@/components/verifai/tools/ToolPage";
 import CharacterCounter from "@/components/verifai/tools/CharacterCounter";
+import { toolHeadForPath } from "@/lib/tools/tool-head";
 export const Route = createFileRoute("/tools/character-counter")({
+  head: () => toolHeadForPath("/tools/character-counter"),
   component: () => (
     <ToolPage
       title="Character Counter"

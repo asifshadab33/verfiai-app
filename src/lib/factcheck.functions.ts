@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { rerank, getLanguageName } from "./research.server";
 import { dualAngleSearch, type Source } from "./search.server";
 import { runRoute, type CallMeta } from "./model.server";
@@ -201,6 +202,7 @@ async function prepareClaim(
 export const getFactUsage = createServerFn({ method: "GET" }).handler(() => usageFor("fact"));
 
 export const factCheck = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
   .validator((d) =>
     z
       .object({

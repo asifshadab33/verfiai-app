@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ToolPage from "@/components/verifai/tools/ToolPage";
 import WeaselWords from "@/components/verifai/tools/WeaselWords";
+import { toolHeadForPath } from "@/lib/tools/tool-head";
 export const Route = createFileRoute("/tools/weasel-words")({
+  head: () => toolHeadForPath("/tools/weasel-words"),
   component: () => (
     <ToolPage
       title="Weasel Word Detector"

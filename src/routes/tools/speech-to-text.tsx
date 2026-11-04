@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ToolPage from "@/components/verifai/tools/ToolPage";
 import SpeechToText from "@/components/verifai/tools/SpeechToText";
+import { toolHeadForPath } from "@/lib/tools/tool-head";
 export const Route = createFileRoute("/tools/speech-to-text")({
+  head: () => toolHeadForPath("/tools/speech-to-text"),
   component: () => (
     <ToolPage
       title="Speech-to-Text Dictation"

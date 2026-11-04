@@ -3,15 +3,18 @@ import { useServerFn } from "@tanstack/react-start";
 import { Download, LoaderCircle, Quote, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/hooks/useAuth";
 import { formatDois } from "@/lib/tools.functions";
 import { CITATION_STYLES, type CitationStyleId } from "@/lib/tools/cite-format";
 import { extractDois } from "@/lib/tools/doi";
 import { CopyButton } from "./CopyButton";
+import { ToolSignInPrompt } from "./ToolSignInPrompt";
 
 const SAMPLE = "10.1038/nature14539\n10.1126/science.169.3946.635";
 
 export function CitationGenerator() {
   const format = useServerFn(formatDois);
+  const { user, loading } = useAuth();
   const [text, setText] = useState("");
   const [style, setStyle] = useState<CitationStyleId>("apa");
   const [busy, setBusy] = useState(false);
@@ -23,7 +26,7 @@ export function CitationGenerator() {
   } | null>(null);
   const found = useMemo(() => extractDois(text, 10), [text]);
   async function run() {
-    if (!found.dois.length || busy) return;
+    if (!user || loading || !found.dois.length || busy) return;
     setBusy(true);
     setError("");
     setOut(null);
@@ -50,6 +53,9 @@ export function CitationGenerator() {
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   }
+  if (loading) return <p role="status">Checking your sign-in…</p>;
+  if (!user) return <ToolSignInPrompt tool="the citation generator" />;
+
   const all = out ? out.lines.join("\n\n") : "";
   return (
     <section

@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ToolPage from "@/components/verifai/tools/ToolPage";
 import SentenceRhythm from "@/components/verifai/tools/SentenceRhythm";
+import { toolHeadForPath } from "@/lib/tools/tool-head";
 export const Route = createFileRoute("/tools/sentence-rhythm")({
+  head: () => toolHeadForPath("/tools/sentence-rhythm"),
   component: () => (
     <ToolPage
       title="Sentence Rhythm Analyzer"

@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ToolPage from "@/components/verifai/tools/ToolPage";
 import FoiLetter from "@/components/verifai/tools/FoiLetter";
+import { toolHeadForPath } from "@/lib/tools/tool-head";
 export const Route = createFileRoute("/tools/foi-letter")({
+  head: () => toolHeadForPath("/tools/foi-letter"),
   component: () => (
     <ToolPage
       title="FOI Request Generator"

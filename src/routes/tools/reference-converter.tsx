@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import ToolPage from "@/components/verifai/tools/ToolPage";
 import ReferenceConverter from "@/components/verifai/tools/ReferenceConverter";
+import { toolHeadForPath } from "@/lib/tools/tool-head";
 export const Route = createFileRoute("/tools/reference-converter")({
+  head: () => toolHeadForPath("/tools/reference-converter"),
   component: () => (
     <ToolPage
       title="Reference Format Converter"

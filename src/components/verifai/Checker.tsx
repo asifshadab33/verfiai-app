@@ -1,7 +1,13 @@
-import { recentText, citationNote } from "@/lib/recent-i18n";
-import { UploadNotice } from "./UploadNotice";
 import { useServerFn } from "@tanstack/react-start";
-import { useEffect, useRef, useState, type DragEvent, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  createContext,
+  useContext,
+  type DragEvent,
+  type ReactNode,
+} from "react";
 import {
   Check,
   FileSearch,
@@ -22,7 +28,11 @@ import {
 } from "@/lib/verify.functions";
 import { useAuth } from "@/hooks/useAuth";
 import { checkerText, type CheckerKey } from "@/lib/checker-i18n";
-import { createContext, useContext } from "react";
+import { isLang } from "@/lib/translations";
+import { siteText } from "@/lib/site-i18n";
+import { recentText, citationNote } from "@/lib/recent-i18n";
+import { UploadNotice } from "./UploadNotice";
+import { ToolSignInPrompt } from "./tools/ToolSignInPrompt";
 
 const LangCtx = createContext("en");
 const useT = () => {
@@ -239,6 +249,8 @@ export function Checker({ lang = "en" }: { lang?: string }) {
 
 function CheckerInner() {
   const t = useT();
+  const selectedLang = useContext(LangCtx);
+  const authLang = isLang(selectedLang) ? selectedLang : "en";
   const verify = useServerFn(verifyCitations);
   const [text, setText] = useState("");
   const [fileName, setFileName] = useState<string | null>(null);
@@ -256,10 +268,11 @@ function CheckerInner() {
   const fetchUsage = useServerFn(getScanUsage);
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
-    if (!loading)
+    if (user && !loading)
       fetchUsage()
         .then(setUsage)
         .catch(() => {});
+    else setUsage(null);
   }, [user, loading]); // eslint-disable-line react-hooks/exhaustive-deps
   const left = usage ? Math.max(0, usage.limit - usage.used) : 1;
   const busy = stage >= 0;
@@ -295,7 +308,7 @@ function CheckerInner() {
   }
 
   async function run() {
-    if (text.trim().length < 20 || busy) return;
+    if (!user || loading || text.trim().length < 20 || busy) return;
     setError(null);
     setResults(null);
     setStage(0);
@@ -313,6 +326,17 @@ function CheckerInner() {
       setStage(-1);
     }
   }
+
+  if (loading) return <p role="status">Checking your sign-in…</p>;
+  if (!user)
+    return (
+      <ToolSignInPrompt
+        tool={t("title")}
+        title={t("title")}
+        description={siteText(authLang, "signInContinue")}
+        signInLabel={siteText(authLang, "navSignIn")}
+      />
+    );
 
   return (
     <section id="check" className="mx-auto max-w-6xl scroll-mt-20">
