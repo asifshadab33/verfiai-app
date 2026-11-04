@@ -388,5 +388,18 @@
   "freeToolTitleHowToCheck": "Comment vérifier",
   "freeToolDescriptionHowToCheck": "Réponses pratiques aux questions sur la vérification des photos, sources, citations et affirmations en ligne.",
   "freeToolTitleTemplates": "Modèles gratuits de recherche et guides de vérification",
-  "freeToolDescriptionTemplates": "Téléchargez des listes et journaux pour les affirmations, preuves, citations et la conformité."
+  "freeToolDescriptionTemplates": "Téléchargez des listes et journaux pour les affirmations, preuves, citations et la conformité.",
+  "executiveToolsTitle": "Annuaire d’outils pour dirigeants",
+  "executiveToolsIntro": "Une sélection de services externes pour aider les dirigeants à étudier les marchés, communiquer, coordonner leurs équipes et préparer des rapports clairs.",
+  "executiveToolsNoticeTitle": "Avis concernant les sites externes :",
+  "executiveToolsNotice": "Les outils ci-dessous se trouvent sur des sites externes. En cliquant sur un lien, vous quittez Verfiai. Nous ne contrôlons pas ces sites : consultez leur politique de confidentialité et leurs conditions avant de vous inscrire.",
+  "executiveToolsExternal": "Site externe ↗",
+  "executiveToolsEmail": "E-mail et prospection à grande échelle",
+  "executiveToolsIntelligence": "Informations sur les entreprises et les marchés",
+  "executiveToolsMedia": "Veille médiatique et actualités",
+  "executiveToolsDocuments": "Documents, présentations et PDF",
+  "executiveToolsData": "Données, graphiques et rapports",
+  "executiveToolsMeetings": "Réunions, planification et notes",
+  "executiveToolsFiles": "Transfert et stockage de fichiers volumineux",
+  "executiveToolsWriting": "Amélioration de la rédaction et de la communication"
 }
