@@ -907,25 +907,6 @@ function NewToolContent({ slug, locale = "en" }: Props) {
               lists, wildcards, and steps are supported.
             </p>
           )}
-          {slug === "unit-converter" && (
-            <select
-              className={fieldClass}
-              value={secondary || "length|m|km"}
-              onChange={(event) => setSecondary(event.target.value)}
-              aria-label="Unit conversion"
-            >
-              <option value="length|m|km">Length: metres → kilometres</option>
-              <option value="length|km|mi">Length: kilometres → miles</option>
-              <option value="length|ft|m">Length: feet → metres</option>
-              <option value="weight|kg|lb">Weight: kilograms → pounds</option>
-              <option value="weight|lb|kg">Weight: pounds → kilograms</option>
-              <option value="weight|g|oz">Weight: grams → ounces</option>
-              <option value="temperature|°C|°F">Temperature: Celsius → Fahrenheit</option>
-              <option value="temperature|°F|°C">Temperature: Fahrenheit → Celsius</option>
-              <option value="data|MB|MiB">Data: megabytes → mebibytes</option>
-              <option value="speed|km/h|mph">Speed: km/h → mph</option>
-            </select>
-          )}
           {slug === "color-contrast" && (
             <div className="grid gap-3 sm:grid-cols-2">
               <TextField
