@@ -329,5 +329,16 @@
   "consentPrivacy": "سياسة الخصوصية",
   "cookieSettings": "إعدادات ملفات الارتباط",
   "consentClose": "إغلاق",
-  "navAllTools": "كل الأدوات"
+  "navAllTools": "كل الأدوات",
+  "searchOpen": "ابحث في الموقع",
+  "searchTitle": "ابحث في Verfiai",
+  "searchPlaceholder": "ابحث عن الصفحات والأدوات المجانية…",
+  "searchHelp": "ابحث في الصفحات العامة والأدوات المجانية. استخدم الأسهم للتنقل بين النتائج.",
+  "searchClose": "إغلاق البحث",
+  "searchResults": "نتائج",
+  "searchPopular": "روابط شائعة",
+  "searchEmpty": "لم يتم العثور على صفحات أو أدوات مطابقة.",
+  "searchKeyboard": "↑/↓ للتنقل · Enter للفتح · Esc للإغلاق",
+  "searchLoadError": "البحث غير متاح. حاول مرة أخرى.",
+  "searchLoading": "جارٍ تحميل النتائج…"
 }

@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import {
   Camera,
   BookOpen,
@@ -23,6 +22,8 @@ import {
   TableProperties,
   Volume2,
 } from "lucide-react";
+import { NEW_TOOLS } from "@/lib/tools/new-tool-catalog";
+import { useLocation } from "@tanstack/react-router";
 
 const BROWSER = "Runs in your browser";
 const REGISTRY = "Looks up public registries";
@@ -441,30 +442,210 @@ const CATEGORIES = [
 ] as const;
 
 export function ToolsHub() {
-  const toolCount = CATEGORIES.reduce((total, category) => total + category.tools.length, 0);
+  const { searchStr } = useLocation();
+  const oldTools = CATEGORIES.flatMap((category) => category.tools)
+    .filter((tool) => tool.to.startsWith("/tools/"))
+    .map((tool) => ({
+      ...tool,
+      category: existingCategory(tool.to),
+      keywords: [tool.title, tool.blurb],
+    }));
+  const newTools = NEW_TOOLS.map((tool) => ({
+    to: `/tools/${tool.slug}`,
+    Icon: toolIcon(tool.category),
+    title: tool.title,
+    blurb: tool.description,
+    note:
+      tool.kind === "launcher"
+        ? "Opens an external free tool"
+        : tool.kind === "api"
+          ? "Uses a public keyless API"
+          : BROWSER,
+    category: tool.category,
+    keywords: tool.keywords,
+  }));
+  const tools = [...oldTools, ...newTools];
+  const categoryNames = [
+    "Text & Writing",
+    "Research & Citations",
+    "Verification & OSINT",
+    "Data & Numbers",
+    "Email & Communication",
+    "Developer & Utilities",
+    "Productivity",
+    "Professional Sources",
+  ] as const;
+  const categories = categoryNames.map((title) => ({
+    title,
+    tools: tools.filter((tool) => tool.category === title),
+  }));
+  const toolCount = tools.length;
+  const lang = new URLSearchParams(searchStr).get("lang");
+  const hrefFor = (path: string) => `${path}${lang ? `?lang=${encodeURIComponent(lang)}` : ""}`;
   return (
-    <div className="space-y-10">
-      <p className="text-sm text-muted-foreground">{toolCount} free tools and references</p>
-      {CATEGORIES.map((category) => (
-        <section key={category.title} aria-label={category.title}>
-          <h2 className="mb-4 font-display text-xl font-bold">{category.title}</h2>
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {category.tools.map((t) => (
-              <li key={t.to} className="min-w-0">
-                <Link
-                  to={t.to}
-                  className="flex h-full flex-col rounded-lg border border-border bg-card p-5 shadow-sm transition-colors hover:border-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+    <div>
+      <p className="mb-5 text-sm font-medium text-muted-foreground">{toolCount} free tools</p>
+      <nav aria-label="Tool categories" className="mb-7 lg:hidden">
+        <ul className="flex gap-2 overflow-x-auto pb-2">
+          {categories.map((category) => (
+            <li key={category.title}>
+              <a
+                className="inline-flex min-h-11 shrink-0 items-center rounded-full border border-border px-3 text-sm hover:border-primary focus-visible:outline-2 focus-visible:outline-ring"
+                href={`#${categoryId(category.title)}`}
+              >
+                {category.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <div className="grid gap-8 lg:grid-cols-[12rem_minmax(0,1fr)]">
+        <nav aria-label="Tool categories" className="hidden lg:block">
+          <ul className="sticky top-24 space-y-1">
+            {categories.map((category) => (
+              <li key={category.title}>
+                <a
+                  className="flex min-h-11 items-center rounded-md px-3 text-sm hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring"
+                  href={`#${categoryId(category.title)}`}
                 >
-                  <t.Icon aria-hidden="true" className="size-7 shrink-0 text-brand" />
-                  <h3 className="mt-3 font-display text-lg font-bold">{t.title}</h3>
-                  <p className="mt-1 flex-1 text-sm text-muted-foreground">{t.blurb}</p>
-                  <p className="mt-3 text-xs font-medium text-muted-foreground">{t.note}</p>
-                </Link>
+                  {category.title}
+                </a>
               </li>
             ))}
           </ul>
-        </section>
-      ))}
+        </nav>
+        <div className="min-w-0 space-y-10">
+          {categories.map((category) => (
+            <section
+              key={category.title}
+              id={categoryId(category.title)}
+              aria-label={category.title}
+              className="scroll-mt-24"
+            >
+              <h2 className="mb-4 font-display text-xl font-bold">{category.title}</h2>
+              <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                {category.tools.map((t) => (
+                  <li key={t.to} className="min-w-0">
+                    <a
+                      href={hrefFor(t.to)}
+                      aria-label={`${t.title}: ${t.blurb}`}
+                      className="flex min-h-[4.5rem] items-center gap-3 rounded-lg border border-border bg-card px-3 py-3 transition-colors hover:border-primary hover:bg-muted/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                    >
+                      <t.Icon aria-hidden="true" className="size-5 shrink-0 text-brand" />
+                      <span className="min-w-0">
+                        <span className="block truncate font-display text-sm font-bold">
+                          {t.title}
+                        </span>
+                        <span className="mt-0.5 block truncate text-xs text-muted-foreground">
+                          {t.blurb}
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      </div>
     </div>
   );
+}
+
+function categoryId(title: string) {
+  return `tool-category-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+}
+
+function toolIcon(category: string) {
+  if (category === "Text & Writing") return FileText;
+  if (category === "Research & Citations") return Quote;
+  if (category === "Verification & OSINT") return ShieldCheck;
+  if (category === "Data & Numbers") return Calculator;
+  if (category === "Email & Communication") return Mail;
+  if (category === "Developer & Utilities") return Braces;
+  if (category === "Productivity") return Clock;
+  return BookOpen;
+}
+
+function existingCategory(path: string) {
+  if (
+    [
+      "/tools/word-counter",
+      "/tools/character-counter",
+      "/tools/text-cleaner",
+      "/tools/text-compare",
+      "/tools/similarity",
+      "/tools/readability",
+      "/tools/passive-hedge",
+      "/tools/weasel-words",
+      "/tools/cliche-filler",
+      "/tools/sentence-rhythm",
+      "/tools/keyword-density",
+      "/tools/title-case",
+      "/tools/slugifier",
+      "/tools/invisible-chars",
+      "/tools/markdown-editor",
+      "/tools/headline-analyzer",
+      "/tools/serp-preview",
+    ].includes(path)
+  )
+    return "Text & Writing";
+  if (
+    [
+      "/tools/email-headers",
+      "/tools/disposable-email",
+      "/tools/mailto-builder",
+      "/tools/subject-line-preview",
+      "/tools/speech-to-text",
+      "/tools/text-to-speech",
+    ].includes(path)
+  )
+    return "Email & Communication";
+  if (
+    [
+      "/tools/sample-size",
+      "/tools/numbers-check",
+      "/tools/csv-json",
+      "/tools/timestamp-converter",
+    ].includes(path)
+  )
+    return "Data & Numbers";
+  if (
+    [
+      "/tools/doi-checker",
+      "/tools/citation-generator",
+      "/tools/isbn-citer",
+      "/tools/arxiv",
+      "/tools/pubmed",
+      "/tools/reference-converter",
+    ].includes(path)
+  )
+    return "Research & Citations";
+  if (["/tools/orcid", "/tools/domain-age", "/tools/wayback"].includes(path))
+    return "Professional Sources";
+  if (
+    [
+      "/tools/claim-spotter",
+      "/tools/evidence-matrix",
+      "/tools/fallacy-spotter",
+      "/tools/source-checklist",
+      "/tools/evaluation-checklist",
+      "/tools/headline-quiz",
+      "/tools/phishing-checklist",
+      "/tools/photo-check",
+      "/tools/link-expander",
+    ].includes(path)
+  )
+    return "Verification & OSINT";
+  if (
+    [
+      "/tools/qr-code",
+      "/tools/file-hash",
+      "/tools/password-generator",
+      "/tools/url-inspector",
+      "/tools/quote-card",
+    ].includes(path)
+  )
+    return "Developer & Utilities";
+  return "Productivity";
 }

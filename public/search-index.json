@@ -1,0 +1,1069 @@
+[
+  {
+    "url": "/tools/claim-spotter",
+    "title": "Claim Spotter",
+    "description": "Find checkable claims and vague or absolute wording in text.",
+    "category": "Verification & OSINT",
+    "keywords": [
+      "claim spotter",
+      "Claim Spotter",
+      "Find checkable claims and vague or absolute wording in text."
+    ]
+  },
+  {
+    "url": "/tools/evidence-matrix",
+    "title": "Claim Evidence Matrix",
+    "description": "Organize excerpts and compare how sources relate to a claim.",
+    "category": "Verification & OSINT",
+    "keywords": [
+      "evidence matrix",
+      "Claim Evidence Matrix",
+      "Organize excerpts and compare how sources relate to a claim."
+    ]
+  },
+  {
+    "url": "/tools/fallacy-spotter",
+    "title": "Logical Fallacy Spotter",
+    "description": "Flag wording that may signal a reasoning fallacy.",
+    "category": "Verification & OSINT",
+    "keywords": [
+      "fallacy spotter",
+      "Logical Fallacy Spotter",
+      "Flag wording that may signal a reasoning fallacy."
+    ]
+  },
+  {
+    "url": "/tools/source-checklist",
+    "title": "Source Evaluation Checklist",
+    "description": "Review a source's authorship, evidence and transparency.",
+    "category": "Verification & OSINT",
+    "keywords": [
+      "source checklist",
+      "Source Evaluation Checklist",
+      "Review a source's authorship, evidence and transparency."
+    ]
+  },
+  {
+    "url": "/tools/evaluation-checklist",
+    "title": "Printable Evaluation Checklist",
+    "description": "Print a source evaluation worksheet for offline review.",
+    "category": "Verification & OSINT",
+    "keywords": [
+      "evaluation checklist",
+      "Printable Evaluation Checklist",
+      "Print a source evaluation worksheet for offline review."
+    ]
+  },
+  {
+    "url": "/tools/headline-quiz",
+    "title": "Spot the Fake Headline",
+    "description": "Test your eye for misleading framing in a scored quiz.",
+    "category": "Verification & OSINT",
+    "keywords": [
+      "headline quiz",
+      "Spot the Fake Headline",
+      "Test your eye for misleading framing in a scored quiz."
+    ]
+  },
+  {
+    "url": "/tools/numbers-check",
+    "title": "Numbers-in-News Checker",
+    "description": "Inspect numerical claims for issues worth checking.",
+    "category": "Data & Numbers",
+    "keywords": [
+      "numbers check",
+      "Numbers-in-News Checker",
+      "Inspect numerical claims for issues worth checking."
+    ]
+  },
+  {
+    "url": "/tools/phishing-checklist",
+    "title": "Phishing Red-Flag Checklist",
+    "description": "Work through a manual review of suspicious messages.",
+    "category": "Verification & OSINT",
+    "keywords": [
+      "phishing checklist",
+      "Phishing Red-Flag Checklist",
+      "Work through a manual review of suspicious messages."
+    ]
+  },
+  {
+    "url": "/tools/word-counter",
+    "title": "Word & Character Counter",
+    "description": "Count words and characters and estimate reading time.",
+    "category": "Text & Writing",
+    "keywords": [
+      "word counter",
+      "Word & Character Counter",
+      "Count words and characters and estimate reading time."
+    ]
+  },
+  {
+    "url": "/tools/character-counter",
+    "title": "Character Counter",
+    "description": "Measure text length and character counts.",
+    "category": "Text & Writing",
+    "keywords": [
+      "character counter",
+      "Character Counter",
+      "Measure text length and character counts."
+    ]
+  },
+  {
+    "url": "/tools/text-cleaner",
+    "title": "Text Cleaner & Case Converter: Fix Copied Text",
+    "description": "Clean copied text and change its capitalization.",
+    "category": "Text & Writing",
+    "keywords": [
+      "text cleaner",
+      "Text Cleaner & Case Converter: Fix Copied Text",
+      "Clean copied text and change its capitalization."
+    ]
+  },
+  {
+    "url": "/tools/text-compare",
+    "title": "Free Text Compare: See Differences Between Two Texts",
+    "description": "See which words changed between two versions.",
+    "category": "Text & Writing",
+    "keywords": [
+      "text compare",
+      "Free Text Compare: See Differences Between Two Texts",
+      "See which words changed between two versions."
+    ]
+  },
+  {
+    "url": "/tools/similarity",
+    "title": "Two-Text Similarity Checker",
+    "description": "Compare overlap between two text passages.",
+    "category": "Text & Writing",
+    "keywords": [
+      "similarity",
+      "Two-Text Similarity Checker",
+      "Compare overlap between two text passages."
+    ]
+  },
+  {
+    "url": "/tools/readability",
+    "title": "Readability Scorer",
+    "description": "Estimate how easy a passage is to read.",
+    "category": "Text & Writing",
+    "keywords": ["readability", "Readability Scorer", "Estimate how easy a passage is to read."]
+  },
+  {
+    "url": "/tools/passive-hedge",
+    "title": "Passive Voice & Hedge Detector",
+    "description": "Highlight possible passive phrasing and hedging.",
+    "category": "Text & Writing",
+    "keywords": [
+      "passive hedge",
+      "Passive Voice & Hedge Detector",
+      "Highlight possible passive phrasing and hedging."
+    ]
+  },
+  {
+    "url": "/tools/weasel-words",
+    "title": "Weasel Word Detector",
+    "description": "Find vague wording that may need clearer support.",
+    "category": "Text & Writing",
+    "keywords": [
+      "weasel words",
+      "Weasel Word Detector",
+      "Find vague wording that may need clearer support."
+    ]
+  },
+  {
+    "url": "/tools/cliche-filler",
+    "title": "Cliché & Filler Detector",
+    "description": "Flag common clichés and filler phrases.",
+    "category": "Text & Writing",
+    "keywords": [
+      "cliche filler",
+      "Cliché & Filler Detector",
+      "Flag common clichés and filler phrases."
+    ]
+  },
+  {
+    "url": "/tools/sentence-rhythm",
+    "title": "Sentence Rhythm Analyzer",
+    "description": "Compare sentence lengths and their variation.",
+    "category": "Text & Writing",
+    "keywords": [
+      "sentence rhythm",
+      "Sentence Rhythm Analyzer",
+      "Compare sentence lengths and their variation."
+    ]
+  },
+  {
+    "url": "/tools/keyword-density",
+    "title": "Keyword Density Checker",
+    "description": "Measure how often terms appear in your text.",
+    "category": "Text & Writing",
+    "keywords": [
+      "keyword density",
+      "Keyword Density Checker",
+      "Measure how often terms appear in your text."
+    ]
+  },
+  {
+    "url": "/tools/title-case",
+    "title": "Title Case Converter",
+    "description": "Change title capitalization using supported styles.",
+    "category": "Text & Writing",
+    "keywords": [
+      "title case",
+      "Title Case Converter",
+      "Change title capitalization using supported styles."
+    ]
+  },
+  {
+    "url": "/tools/slugifier",
+    "title": "Slug & URL Encoder",
+    "description": "Turn a title into a URL-friendly slug.",
+    "category": "Text & Writing",
+    "keywords": ["slugifier", "Slug & URL Encoder", "Turn a title into a URL-friendly slug."]
+  },
+  {
+    "url": "/tools/invisible-chars",
+    "title": "Invisible Character Detector",
+    "description": "Find hidden characters in pasted text.",
+    "category": "Text & Writing",
+    "keywords": [
+      "invisible chars",
+      "Invisible Character Detector",
+      "Find hidden characters in pasted text."
+    ]
+  },
+  {
+    "url": "/tools/markdown-editor",
+    "title": "Markdown Editor & Preview",
+    "description": "Write and preview Markdown text.",
+    "category": "Text & Writing",
+    "keywords": ["markdown editor", "Markdown Editor & Preview", "Write and preview Markdown text."]
+  },
+  {
+    "url": "/tools/headline-analyzer",
+    "title": "Free Headline Analyzer: Length, Clickbait and Absolute Claims",
+    "description": "Check length, clickbait phrasing and absolute claims.",
+    "category": "Text & Writing",
+    "keywords": [
+      "headline analyzer",
+      "Free Headline Analyzer: Length, Clickbait and Absolute Claims",
+      "Check length, clickbait phrasing and absolute claims."
+    ]
+  },
+  {
+    "url": "/tools/serp-preview",
+    "title": "SERP & Open Graph Preview",
+    "description": "Preview a page title and description as a search snippet.",
+    "category": "Text & Writing",
+    "keywords": [
+      "serp preview",
+      "SERP & Open Graph Preview",
+      "Preview a page title and description as a search snippet."
+    ]
+  },
+  {
+    "url": "/tools/subject-line-preview",
+    "title": "Subject Line Preview",
+    "description": "Preview email subject lines and their length.",
+    "category": "Email & Communication",
+    "keywords": [
+      "subject line preview",
+      "Subject Line Preview",
+      "Preview email subject lines and their length."
+    ]
+  },
+  {
+    "url": "/tools/doi-checker",
+    "title": "Free DOI & Retraction Checker",
+    "description": "Check DOI records for listed retractions or corrections.",
+    "category": "Research & Citations",
+    "keywords": [
+      "doi checker",
+      "Free DOI & Retraction Checker",
+      "Check DOI records for listed retractions or corrections."
+    ]
+  },
+  {
+    "url": "/tools/citation-generator",
+    "title": "Free DOI Citation Generator: APA, MLA, Chicago, Harvard",
+    "description": "Turn DOIs into references in six citation styles.",
+    "category": "Research & Citations",
+    "keywords": [
+      "citation generator",
+      "Free DOI Citation Generator: APA, MLA, Chicago, Harvard",
+      "Turn DOIs into references in six citation styles."
+    ]
+  },
+  {
+    "url": "/tools/isbn-citer",
+    "title": "ISBN Book Citer",
+    "description": "Find book metadata using an ISBN.",
+    "category": "Research & Citations",
+    "keywords": ["isbn citer", "ISBN Book Citer", "Find book metadata using an ISBN."]
+  },
+  {
+    "url": "/tools/arxiv",
+    "title": "arXiv Paper Finder",
+    "description": "Search arXiv for research preprints.",
+    "category": "Research & Citations",
+    "keywords": ["arxiv", "arXiv Paper Finder", "Search arXiv for research preprints."]
+  },
+  {
+    "url": "/tools/pubmed",
+    "title": "PubMed Lookup",
+    "description": "Retrieve publication details from PubMed.",
+    "category": "Research & Citations",
+    "keywords": ["pubmed", "PubMed Lookup", "Retrieve publication details from PubMed."]
+  },
+  {
+    "url": "/tools/orcid",
+    "title": "ORCID Author Lookup",
+    "description": "Find public researcher records by ORCID identifier.",
+    "category": "Professional Sources",
+    "keywords": [
+      "orcid",
+      "ORCID Author Lookup",
+      "Find public researcher records by ORCID identifier."
+    ]
+  },
+  {
+    "url": "/tools/link-expander",
+    "title": "Link Expander",
+    "description": "Follow redirects to inspect a link's destination.",
+    "category": "Verification & OSINT",
+    "keywords": [
+      "link expander",
+      "Link Expander",
+      "Follow redirects to inspect a link's destination."
+    ]
+  },
+  {
+    "url": "/tools/wayback",
+    "title": "Wayback Machine Checker",
+    "description": "Look for an archived capture of a web page.",
+    "category": "Professional Sources",
+    "keywords": [
+      "wayback",
+      "Wayback Machine Checker",
+      "Look for an archived capture of a web page."
+    ]
+  },
+  {
+    "url": "/tools/domain-age",
+    "title": "Domain Age Checker",
+    "description": "Look up public domain registration information.",
+    "category": "Professional Sources",
+    "keywords": [
+      "domain age",
+      "Domain Age Checker",
+      "Look up public domain registration information."
+    ]
+  },
+  {
+    "url": "/tools/sample-size",
+    "title": "Sample Size Calculator",
+    "description": "Estimate a survey sample size from your assumptions.",
+    "category": "Data & Numbers",
+    "keywords": [
+      "sample size",
+      "Sample Size Calculator",
+      "Estimate a survey sample size from your assumptions."
+    ]
+  },
+  {
+    "url": "/tools/reference-converter",
+    "title": "Reference Format Converter",
+    "description": "Convert reference data between supported formats.",
+    "category": "Research & Citations",
+    "keywords": [
+      "reference converter",
+      "Reference Format Converter",
+      "Convert reference data between supported formats."
+    ]
+  },
+  {
+    "url": "/tools/url-inspector",
+    "title": "URL Inspector",
+    "description": "Inspect a URL's structure and parameters.",
+    "category": "Developer & Utilities",
+    "keywords": ["url inspector", "URL Inspector", "Inspect a URL's structure and parameters."]
+  },
+  {
+    "url": "/tools/email-headers",
+    "title": "Email Header Analyzer",
+    "description": "Inspect pasted email headers for useful clues.",
+    "category": "Email & Communication",
+    "keywords": [
+      "email headers",
+      "Email Header Analyzer",
+      "Inspect pasted email headers for useful clues."
+    ]
+  },
+  {
+    "url": "/tools/disposable-email",
+    "title": "Disposable Email Checker",
+    "description": "Check an email domain against a disposable-domain list.",
+    "category": "Email & Communication",
+    "keywords": [
+      "disposable email",
+      "Disposable Email Checker",
+      "Check an email domain against a disposable-domain list."
+    ]
+  },
+  {
+    "url": "/tools/mailto-builder",
+    "title": "Mailto Link Builder",
+    "description": "Build an email link with subject and message fields.",
+    "category": "Email & Communication",
+    "keywords": [
+      "mailto builder",
+      "Mailto Link Builder",
+      "Build an email link with subject and message fields."
+    ]
+  },
+  {
+    "url": "/tools/foi-letter",
+    "title": "FOI Request Generator",
+    "description": "Draft a request for access to public information.",
+    "category": "Productivity",
+    "keywords": [
+      "foi letter",
+      "FOI Request Generator",
+      "Draft a request for access to public information."
+    ]
+  },
+  {
+    "url": "/tools/photo-check",
+    "title": "Photo Check: View Photo Metadata and Reverse Image Search",
+    "description": "Read photo metadata and open reverse image searches.",
+    "category": "Verification & OSINT",
+    "keywords": [
+      "photo check",
+      "Photo Check: View Photo Metadata and Reverse Image Search",
+      "Read photo metadata and open reverse image searches."
+    ]
+  },
+  {
+    "url": "/tools/file-hash",
+    "title": "File Hash Verifier",
+    "description": "Calculate a file digest without uploading the file.",
+    "category": "Developer & Utilities",
+    "keywords": [
+      "file hash",
+      "File Hash Verifier",
+      "Calculate a file digest without uploading the file."
+    ]
+  },
+  {
+    "url": "/tools/csv-json",
+    "title": "CSV to JSON Converter",
+    "description": "Convert structured data between CSV and JSON.",
+    "category": "Data & Numbers",
+    "keywords": [
+      "csv json",
+      "CSV to JSON Converter",
+      "Convert structured data between CSV and JSON."
+    ]
+  },
+  {
+    "url": "/tools/qr-code",
+    "title": "QR Code Generator",
+    "description": "Create a QR code from text or a URL.",
+    "category": "Developer & Utilities",
+    "keywords": ["qr code", "QR Code Generator", "Create a QR code from text or a URL."]
+  },
+  {
+    "url": "/tools/password-generator",
+    "title": "Password Generator",
+    "description": "Generate random passwords in your browser.",
+    "category": "Developer & Utilities",
+    "keywords": [
+      "password generator",
+      "Password Generator",
+      "Generate random passwords in your browser."
+    ]
+  },
+  {
+    "url": "/tools/random-picker",
+    "title": "Random Picker & Shuffler",
+    "description": "Choose randomly from a list of options.",
+    "category": "Productivity",
+    "keywords": [
+      "random picker",
+      "Random Picker & Shuffler",
+      "Choose randomly from a list of options."
+    ]
+  },
+  {
+    "url": "/tools/pomodoro",
+    "title": "Pomodoro Timer",
+    "description": "Time focus sessions and breaks.",
+    "category": "Productivity",
+    "keywords": ["pomodoro", "Pomodoro Timer", "Time focus sessions and breaks."]
+  },
+  {
+    "url": "/tools/timestamp-converter",
+    "title": "Timestamp Converter",
+    "description": "Convert timestamps and readable dates.",
+    "category": "Data & Numbers",
+    "keywords": [
+      "timestamp converter",
+      "Timestamp Converter",
+      "Convert timestamps and readable dates."
+    ]
+  },
+  {
+    "url": "/tools/quote-card",
+    "title": "Quote Card Generator",
+    "description": "Format a quote and attribution as a shareable card.",
+    "category": "Developer & Utilities",
+    "keywords": [
+      "quote card",
+      "Quote Card Generator",
+      "Format a quote and attribution as a shareable card."
+    ]
+  },
+  {
+    "url": "/tools/speech-to-text",
+    "title": "Speech-to-Text Dictation",
+    "description": "Transcribe speech with your browser's recognition service.",
+    "category": "Email & Communication",
+    "keywords": [
+      "speech to text",
+      "Speech-to-Text Dictation",
+      "Transcribe speech with your browser's recognition service."
+    ]
+  },
+  {
+    "url": "/tools/text-to-speech",
+    "title": "Text-to-Speech Reader",
+    "description": "Read text aloud with available browser voices.",
+    "category": "Email & Communication",
+    "keywords": [
+      "text to speech",
+      "Text-to-Speech Reader",
+      "Read text aloud with available browser voices."
+    ]
+  },
+  {
+    "url": "/tools/pdf-tools",
+    "title": "PDF Merge, Split & Rotate",
+    "description": "Work with PDF files using browser-based utilities.",
+    "category": "Productivity",
+    "keywords": [
+      "pdf tools",
+      "PDF Merge, Split & Rotate",
+      "Work with PDF files using browser-based utilities."
+    ]
+  },
+  {
+    "url": "/tools/no-ai-summarizer",
+    "title": "No-AI Text Summarizer",
+    "description": "Select key sentences using word frequency. No AI; see every selected sentence.",
+    "category": "Text & Writing",
+    "keywords": ["extractive", "summary", "sentences", "private"]
+  },
+  {
+    "url": "/tools/word-frequency",
+    "title": "Word Frequency & N-gram Counter",
+    "description": "Find frequent words and phrases with an optional stopword filter.",
+    "category": "Text & Writing",
+    "keywords": ["text analysis", "top words", "phrases"]
+  },
+  {
+    "url": "/tools/regex-tester",
+    "title": "Regex Tester",
+    "description": "Test a regular expression live and explore common pattern examples.",
+    "category": "Developer & Utilities",
+    "keywords": ["regular expression", "developer", "match"]
+  },
+  {
+    "url": "/tools/cron-explainer",
+    "title": "Cron Expression Explainer",
+    "description": "Explain common five-field cron schedules and preview upcoming run times.",
+    "category": "Developer & Utilities",
+    "keywords": ["schedule", "cronjob", "time"]
+  },
+  {
+    "url": "/tools/unit-converter",
+    "title": "Unit Converter",
+    "description": "Convert length, weight, temperature, data size, and speed in your browser.",
+    "category": "Data & Numbers",
+    "keywords": ["measurement", "conversion", "units"]
+  },
+  {
+    "url": "/tools/color-contrast",
+    "title": "Color Contrast Checker",
+    "description": "Check WCAG contrast ratios and AA/AAA text accessibility thresholds.",
+    "category": "Developer & Utilities",
+    "keywords": ["WCAG", "accessibility", "colors", "ratio"]
+  },
+  {
+    "url": "/tools/image-compressor",
+    "title": "Image Compressor & Resizer",
+    "description": "Compress or resize JPG, PNG, and WebP images locally in your browser.",
+    "category": "Productivity",
+    "keywords": ["image", "photo", "canvas", "resize"]
+  },
+  {
+    "url": "/tools/qr-scanner",
+    "title": "QR Code Scanner",
+    "description": "Read a QR code from an image or camera in your browser.",
+    "category": "Developer & Utilities",
+    "keywords": ["decode", "camera", "barcode"]
+  },
+  {
+    "url": "/tools/image-ocr",
+    "title": "Image Text Extractor (OCR)",
+    "description": "Extract text from an image on-device with a lazily loaded OCR engine.",
+    "category": "Productivity",
+    "keywords": ["OCR", "image", "Tesseract", "text recognition"]
+  },
+  {
+    "url": "/tools/acronym-extractor",
+    "title": "Acronym Extractor",
+    "description": "Find likely acronyms in text and show their surrounding context.",
+    "category": "Text & Writing",
+    "keywords": ["abbreviations", "text", "context"]
+  },
+  {
+    "url": "/tools/date-calculator",
+    "title": "Date & Deadline Calculator",
+    "description": "Calculate days between dates, weekdays, and future deadlines.",
+    "category": "Data & Numbers",
+    "keywords": ["working days", "calendar", "deadline"]
+  },
+  {
+    "url": "/tools/encode-hash",
+    "title": "Encode, Decode & SHA-256",
+    "description": "Encode Base64 or URL text and calculate a SHA-256 text digest locally.",
+    "category": "Developer & Utilities",
+    "keywords": ["hash", "base64", "URL", "cryptography"]
+  },
+  {
+    "url": "/tools/srt-shifter",
+    "title": "SRT Subtitle Timing Shifter",
+    "description": "Shift subtitle timestamps by a fixed offset and correct SRT timing format.",
+    "category": "Productivity",
+    "keywords": ["subtitles", "captions", "timecode"]
+  },
+  {
+    "url": "/tools/margin-of-error",
+    "title": "Polling Margin of Error Calculator",
+    "description": "Estimate a poll's margin of error from its sample size and proportion.",
+    "category": "Data & Numbers",
+    "keywords": ["poll", "survey", "confidence interval", "statistics"]
+  },
+  {
+    "url": "/tools/citation-checker",
+    "title": "Citation Reference Checker",
+    "description": "Check references for metadata, retraction notices, and citation risks.",
+    "category": "Research & Citations",
+    "keywords": ["references", "retractions", "Crossref", "citations"]
+  },
+  {
+    "url": "/tools/wikipedia-citations",
+    "title": "Wikipedia Article Citation Formatter",
+    "description": "Look up a Wikipedia article and format a basic citation from its metadata.",
+    "category": "Research & Citations",
+    "keywords": ["citation", "bibliography", "Wikipedia"]
+  },
+  {
+    "url": "/tools/wikidata-lookup",
+    "title": "Wikidata Entity Lookup",
+    "description": "Search Wikidata for entity labels, descriptions, and item identifiers.",
+    "category": "Professional Sources",
+    "keywords": ["knowledge graph", "QID", "reference"]
+  },
+  {
+    "url": "/tools/currency-converter",
+    "title": "Currency Converter",
+    "description": "Convert currencies using free European Central Bank reference rates.",
+    "category": "Data & Numbers",
+    "keywords": ["exchange rate", "Frankfurter", "ECB", "money"]
+  },
+  {
+    "url": "/tools/open-access-finder",
+    "title": "Open Access Paper Finder",
+    "description": "Check OpenAlex and Unpaywall for a legal open-access copy of a DOI.",
+    "category": "Research & Citations",
+    "keywords": ["DOI", "paper", "Unpaywall", "OpenAlex"]
+  },
+  {
+    "url": "/tools/scholar-search",
+    "title": "Scholarly Works Search",
+    "description": "Search OpenAlex for scholarly works; results are cached per query this session.",
+    "category": "Research & Citations",
+    "keywords": ["papers", "academic", "OpenAlex", "research"]
+  },
+  {
+    "url": "/tools/europepmc-reader",
+    "title": "Europe PMC Open Access Reader",
+    "description": "Find biomedical articles and open available full text from Europe PMC.",
+    "category": "Professional Sources",
+    "keywords": ["biomedical", "PubMed", "PMCID", "open access"]
+  },
+  {
+    "url": "/tools/preprint-finder",
+    "title": "bioRxiv & medRxiv Preprint Finder",
+    "description": "Search recent bioRxiv and medRxiv metadata from their public APIs.",
+    "category": "Research & Citations",
+    "keywords": ["preprint", "biology", "medicine"]
+  },
+  {
+    "url": "/tools/gdelt-news",
+    "title": "GDELT News Coverage Search",
+    "description": "Search GDELT's public news index with a single paced request per search.",
+    "category": "Verification & OSINT",
+    "keywords": ["news", "coverage", "global events"]
+  },
+  {
+    "url": "/tools/sec-filings",
+    "title": "SEC Filings Full-Text Search",
+    "description": "Search SEC EDGAR filing text for public company disclosures.",
+    "category": "Professional Sources",
+    "keywords": ["EDGAR", "company", "filings", "investor"]
+  },
+  {
+    "url": "/tools/world-bank-data",
+    "title": "World Bank Data Lookup",
+    "description": "Look up official country statistics using World Bank indicator codes.",
+    "category": "Professional Sources",
+    "keywords": ["statistics", "indicators", "countries", "development"]
+  },
+  {
+    "url": "/tools/factcheck-explorer",
+    "title": "Google Fact Check Explorer",
+    "description": "Opens an external free tool: a prefilled Google Fact Check Explorer search.",
+    "category": "Verification & OSINT",
+    "keywords": ["claim", "check", "Google", "external tool"]
+  },
+  {
+    "url": "/tools/video-verify",
+    "title": "InVID-WeVerify Video Verification",
+    "description": "Opens an external free tool: the InVID-WeVerify verification toolkit guide.",
+    "category": "Verification & OSINT",
+    "keywords": ["video", "keyframes", "verification", "external tool"]
+  },
+  {
+    "url": "/tools/image-forensics",
+    "title": "Image Forensics Tools",
+    "description": "Opens external free tools: FotoForensics and Forensically image checks.",
+    "category": "Verification & OSINT",
+    "keywords": ["ELA", "image", "forensics", "external tools"]
+  },
+  {
+    "url": "/tools/connected-papers",
+    "title": "Connected Papers",
+    "description": "Opens an external free tool: a paper title search on Connected Papers.",
+    "category": "Research & Citations",
+    "keywords": ["paper graph", "academic", "external tool"]
+  },
+  {
+    "url": "/tools/google-scholar",
+    "title": "Google Scholar Search",
+    "description": "Opens an external free tool: a title or author search in Google Scholar.",
+    "category": "Research & Citations",
+    "keywords": ["academic", "research", "external tool"]
+  },
+  {
+    "url": "/",
+    "title": "Verfiai — Research and fact-checking",
+    "description": "Check claims, explore evidence, and create source-linked research reports.",
+    "category": "Home",
+    "keywords": ["home", "fact checking", "research"]
+  },
+  {
+    "url": "/features",
+    "title": "Verfiai Features",
+    "description": "Explore Verfiai research and verification features.",
+    "category": "About",
+    "keywords": ["product"]
+  },
+  {
+    "url": "/how-it-works",
+    "title": "How Verfiai Works",
+    "description": "Understand the research and verification workflow.",
+    "category": "About",
+    "keywords": ["process"]
+  },
+  {
+    "url": "/sample-report",
+    "title": "Sample Research Report",
+    "description": "View an illustrative source-linked report.",
+    "category": "Research",
+    "keywords": ["example"]
+  },
+  {
+    "url": "/pricing",
+    "title": "Pricing",
+    "description": "Compare Verfiai plans and free access details.",
+    "category": "About",
+    "keywords": ["plans"]
+  },
+  {
+    "url": "/faq",
+    "title": "Frequently Asked Questions",
+    "description": "Answers about Verfiai tools, research, privacy, and limits.",
+    "category": "About",
+    "keywords": ["help"]
+  },
+  {
+    "url": "/methodology",
+    "title": "Methodology",
+    "description": "Learn how Verfiai evaluates claims, evidence, and sources.",
+    "category": "About",
+    "keywords": ["method"]
+  },
+  {
+    "url": "/about",
+    "title": "About Verfiai",
+    "description": "Learn about Verfiai and its research tools.",
+    "category": "About",
+    "keywords": ["company"]
+  },
+  {
+    "url": "/accuracy",
+    "title": "Accuracy and Limitations",
+    "description": "Read about reliability, accuracy, and the limits of automated research.",
+    "category": "About",
+    "keywords": ["transparency"]
+  },
+  {
+    "url": "/privacy",
+    "title": "Privacy Policy",
+    "description": "Read how Verfiai handles privacy and data.",
+    "category": "About",
+    "keywords": ["privacy"]
+  },
+  {
+    "url": "/cookies",
+    "title": "Cookie Policy",
+    "description": "Learn about analytics consent and cookie choices.",
+    "category": "About",
+    "keywords": ["cookies", "consent"]
+  },
+  {
+    "url": "/terms",
+    "title": "Terms of Service",
+    "description": "Read the terms that govern Verfiai use.",
+    "category": "About",
+    "keywords": ["terms"]
+  },
+  {
+    "url": "/refunds",
+    "title": "Refund Policy",
+    "description": "Review Verfiai billing and refund information.",
+    "category": "About",
+    "keywords": ["billing"]
+  },
+  {
+    "url": "/app",
+    "title": "Research Workspace",
+    "description": "Open the Verfiai research workspace.",
+    "category": "Research",
+    "keywords": ["claim check", "citation scan", "reports"]
+  },
+  {
+    "url": "/research",
+    "title": "Research Workspace",
+    "description": "Explore research reports, scholarly sources, and evidence.",
+    "category": "Research",
+    "keywords": ["reports", "scholarly research"]
+  },
+  {
+    "url": "/fact-checker",
+    "title": "Free Fact Checker",
+    "description": "Check claims against web sources and review the evidence.",
+    "category": "Research",
+    "keywords": ["claim verification"]
+  },
+  {
+    "url": "/fact-checks",
+    "title": "Fact Checks",
+    "description": "Browse published fact checks with linked evidence and clear limitations.",
+    "category": "Fact checks",
+    "keywords": ["claims", "verification"]
+  },
+  {
+    "url": "/glossary",
+    "title": "Misinformation Glossary",
+    "description": "Plain-language definitions of evidence, misinformation, and reasoning terms.",
+    "category": "Reference",
+    "keywords": ["glossary terms"]
+  },
+  {
+    "url": "/sources",
+    "title": "Sources",
+    "description": "Browse public source references and research resources.",
+    "category": "Professional Sources",
+    "keywords": ["source directory"]
+  },
+  {
+    "url": "/security",
+    "title": "Security",
+    "description": "Read about security practices and responsible disclosure.",
+    "category": "About",
+    "keywords": ["security"]
+  },
+  {
+    "url": "/contact",
+    "title": "Contact Verfiai",
+    "description": "Contact the Verfiai team.",
+    "category": "About",
+    "keywords": ["support"]
+  },
+  {
+    "url": "/rss.xml",
+    "title": "Verfiai RSS Feed",
+    "description": "Read the public Verfiai feed.",
+    "category": "Reference",
+    "keywords": ["RSS", "updates"]
+  },
+  {
+    "url": "/llms.txt",
+    "title": "Verfiai LLM Index",
+    "description": "Read the public text index describing Verfiai pages and tools.",
+    "category": "Reference",
+    "keywords": ["llms.txt", "index"]
+  },
+  {
+    "url": "/tools",
+    "title": "Free Tools Catalog",
+    "description": "Browse all free browser tools, public-source lookups, and external tool explainers.",
+    "category": "Tools",
+    "keywords": ["catalog", "all tools"]
+  },
+  {
+    "url": "/glossary",
+    "title": "Astroturfing",
+    "description": "A campaign that makes coordinated promotion look like spontaneous support from ordinary people. Check who is behind a message and whether its sources are independent.",
+    "category": "Glossary",
+    "keywords": ["glossary", "Astroturfing"]
+  },
+  {
+    "url": "/glossary",
+    "title": "Bare assertion",
+    "description": "A claim presented without evidence or reasoning to support it. Use the Claim Spotter to find checkable statements that may need sourcing.",
+    "category": "Glossary",
+    "keywords": ["glossary", "Bare assertion"]
+  },
+  {
+    "url": "/glossary",
+    "title": "Cherry-picking",
+    "description": "Selecting only the evidence that supports a preferred conclusion while leaving out relevant contrary evidence. Compare the full set of data and sources, not just the examples shown.",
+    "category": "Glossary",
+    "keywords": ["glossary", "Cherry-picking"]
+  },
+  {
+    "url": "/glossary",
+    "title": "Fabricated attribution",
+    "description": "A statement is falsely assigned to a person or organization, or a source is invented. Verify quotations against the original publication or recording.",
+    "category": "Glossary",
+    "keywords": ["glossary", "Fabricated attribution"]
+  },
+  {
+    "url": "/glossary",
+    "title": "False dilemma",
+    "description": "Presenting two choices as the only possibilities when other options or combinations exist. Ask what alternatives have been left out.",
+    "category": "Glossary",
+    "keywords": ["glossary", "False dilemma"]
+  },
+  {
+    "url": "/glossary",
+    "title": "False balance",
+    "description": "Giving two positions equal weight even when the amount or quality of evidence for them is very different. Look at the evidence and expert consensus, not just the number of voices.",
+    "category": "Glossary",
+    "keywords": ["glossary", "False balance"]
+  },
+  {
+    "url": "/glossary",
+    "title": "Gish gallop",
+    "description": "Overwhelming a discussion with many claims in quick succession, making each difficult to check. Break the argument into individual claims and assess them one at a time.",
+    "category": "Glossary",
+    "keywords": ["glossary", "Gish gallop"]
+  },
+  {
+    "url": "/glossary",
+    "title": "Motivated reasoning",
+    "description": "The tendency to evaluate evidence in ways that favor a conclusion we already want to believe. Try stating what evidence would change your mind before reviewing the sources.",
+    "category": "Glossary",
+    "keywords": ["glossary", "Motivated reasoning"]
+  },
+  {
+    "url": "/glossary",
+    "title": "Survivorship bias",
+    "description": "Drawing conclusions from the people or cases that remain visible while overlooking those that failed, disappeared or were never counted. Ask what is missing from the sample.",
+    "category": "Glossary",
+    "keywords": ["glossary", "Survivorship bias"]
+  },
+  {
+    "url": "/glossary",
+    "title": "Clickbait",
+    "description": "A headline designed to provoke curiosity or emotion, often by exaggerating or withholding key context. Compare the headline with what the article actually establishes.",
+    "category": "Glossary",
+    "keywords": ["glossary", "Clickbait"]
+  },
+  {
+    "url": "/glossary",
+    "title": "Hedging",
+    "description": "Language that qualifies how certain a statement is, such as “may” or “appears to.” It can accurately signal uncertainty, but vague hedges can also make a claim hard to assess.",
+    "category": "Glossary",
+    "keywords": ["glossary", "Hedging"]
+  },
+  {
+    "url": "/glossary",
+    "title": "Misleading statistics",
+    "description": "Numbers presented without important context such as a baseline, sample size, time period or denominator. The Numbers-in-News Checker can flag some numerical patterns to examine.",
+    "category": "Glossary",
+    "keywords": ["glossary", "Misleading statistics"]
+  },
+  {
+    "url": "/glossary",
+    "title": "Weasel words",
+    "description": "Vague terms such as “experts say” or “many believe” that imply support without identifying who or how many. Ask for a named source and specific evidence.",
+    "category": "Glossary",
+    "keywords": ["glossary", "Weasel words"]
+  },
+  {
+    "url": "/fact-check/humans-use-10-percent-of-brain",
+    "title": "Fact Check: Humans only use 10% of their brains.",
+    "description": "Brain-damage, imaging and metabolic evidence reviewed in BMJ contradict the literal 10% claim; this does not mean every brain region is equally active at every moment.",
+    "category": "Fact checks",
+    "keywords": ["science", "do we only use 10 percent of our brain", "contradicted", "fact check"]
+  },
+  {
+    "url": "/fact-check/great-wall-visible-from-space",
+    "title": "Fact Check: The Great Wall of China is visible from space with the naked eye.",
+    "description": "NASA says the Wall is not visible from the Moon and is difficult or impossible to see from Earth orbit without the high-powered lenses used for its photograph. The broad naked-eye claim needs this distance and viewing-condition qualification.",
+    "category": "Fact checks",
+    "keywords": [
+      "science",
+      "is the great wall of china visible from space",
+      "contradicted",
+      "fact check"
+    ]
+  },
+  {
+    "url": "/fact-check/seasons-earth-distance",
+    "title": "Fact Check: Earth's seasons are caused by its distance from the Sun.",
+    "description": "NASA explains that seasonal weather patterns are mainly caused by Earth’s 23.5-degree axial tilt, not the elliptical orbit. Earth is near the Sun in January while the Northern Hemisphere is in winter.",
+    "category": "Fact checks",
+    "keywords": ["science", "why do we have seasons", "contradicted", "fact check"]
+  },
+  {
+    "url": "/fact-check/moon-dark-side",
+    "title": "Fact Check: The Moon has a permanently dark side.",
+    "description": "NASA StarChild explains that the far side receives as much sunlight as the near side. A hemisphere hidden from Earth is not permanently unlit.",
+    "category": "Fact checks",
+    "keywords": ["science", "dark side of the moon", "contradicted", "fact check"]
+  },
+  {
+    "url": "/fact-check/flu-shot-gives-flu",
+    "title": "Fact Check: The flu shot can give you the flu.",
+    "description": "CDC states that flu vaccines cannot cause flu illness: injected vaccines use inactivated viruses or a single viral protein. Side effects and infections acquired around vaccination are different from vaccine-caused flu.",
+    "category": "Fact checks",
+    "keywords": ["health", "can the flu shot give you the flu", "contradicted", "fact check"]
+  }
+]

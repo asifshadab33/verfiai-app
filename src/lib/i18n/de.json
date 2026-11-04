@@ -329,5 +329,16 @@
   "consentPrivacy": "Datenschutz",
   "cookieSettings": "Cookie-Einstellungen",
   "consentClose": "Schließen",
-  "navAllTools": "Alle Tools"
+  "navAllTools": "Alle Tools",
+  "searchOpen": "Website durchsuchen",
+  "searchTitle": "Verfiai durchsuchen",
+  "searchPlaceholder": "Seiten und kostenlose Tools suchen…",
+  "searchHelp": "Öffentliche Seiten und kostenlose Tools durchsuchen. Mit den Pfeiltasten durch Ergebnisse navigieren.",
+  "searchClose": "Suche schließen",
+  "searchResults": "Ergebnisse",
+  "searchPopular": "Beliebte Links",
+  "searchEmpty": "Keine passenden Seiten oder Tools gefunden.",
+  "searchKeyboard": "↑/↓ zum Navigieren · Eingabe zum Öffnen · Esc zum Schließen",
+  "searchLoadError": "Die Suche ist nicht verfügbar. Bitte erneut versuchen.",
+  "searchLoading": "Suchergebnisse werden geladen…"
 }

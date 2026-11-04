@@ -329,5 +329,16 @@
   "consentPrivacy": "Политика конфиденциальности",
   "cookieSettings": "Настройки cookie",
   "consentClose": "Закрыть",
-  "navAllTools": "Все инструменты"
+  "navAllTools": "Все инструменты",
+  "searchOpen": "Поиск по сайту",
+  "searchTitle": "Поиск Verfiai",
+  "searchPlaceholder": "Поиск страниц и бесплатных инструментов…",
+  "searchHelp": "Поиск по общедоступным страницам и бесплатным инструментам. Используйте стрелки для навигации.",
+  "searchClose": "Закрыть поиск",
+  "searchResults": "результатов",
+  "searchPopular": "Популярные ссылки",
+  "searchEmpty": "Подходящие страницы и инструменты не найдены.",
+  "searchKeyboard": "↑/↓ — навигация · Enter — открыть · Esc — закрыть",
+  "searchLoadError": "Поиск недоступен. Попробуйте ещё раз.",
+  "searchLoading": "Загрузка результатов…"
 }

@@ -3,6 +3,7 @@ import type { Lang } from "@/lib/translations";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Pill, type ClaimState } from "./HomeClaimPill";
+import { Link } from "@tanstack/react-router";
 
 const SAMPLE_CLAIMS: {
   claim: string;
@@ -133,7 +134,7 @@ export function ReportProofSection({ lang = "en" }: { lang?: Lang }) {
   );
 }
 
-export function CitationFeature({ onScan, lang = "en" }: { onScan: () => void; lang?: Lang }) {
+export function CitationFeature({ lang = "en" }: { lang?: Lang }) {
   const t = (text: string) => recentText(lang, text);
   return (
     <section aria-labelledby="cite-title" className="border-y border-border bg-secondary/40">
@@ -146,9 +147,11 @@ export function CitationFeature({ onScan, lang = "en" }: { onScan: () => void; l
             "Paste a reference list or upload a document. Verfiai checks metadata, missing details, retraction notices, and citation risks using Crossref records.",
           )}
         </p>
-        <Button className="mt-6" onClick={onScan}>
-          {t("Scan a reference list")}
-          <ArrowRight />
+        <Button className="mt-6" asChild>
+          <Link to="/tools">
+            {t("Browse all free tools")}
+            <ArrowRight />
+          </Link>
         </Button>
       </div>
     </section>

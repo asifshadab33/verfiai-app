@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { translations, type LangCode } from "@/lib/i18n/interface";
 import { documentLanguage } from "@/lib/page-language";
 import { siteText } from "@/lib/site-i18n";
+import { SearchPalette } from "@/components/verifai/SearchPalette";
+import { isLang } from "@/lib/translations";
 export function ContentPage({
   title,
   intro,
@@ -16,8 +18,11 @@ export function ContentPage({
   children: React.ReactNode;
   lang?: LangCode;
 }) {
-  const pageLang = documentLanguage(useLocation().pathname, lang);
-  const tx = (key: Parameters<typeof siteText>[1]) => siteText(lang ?? "en", key);
+  const location = useLocation();
+  const localeValue = new URLSearchParams(location.searchStr).get("lang");
+  const pageLocale = lang ?? (isLang(localeValue) ? localeValue : "en");
+  const pageLang = documentLanguage(location.pathname, pageLocale);
+  const tx = (key: Parameters<typeof siteText>[1]) => siteText(pageLocale, key);
   return (
     <div
       lang={pageLang}
@@ -31,6 +36,7 @@ export function ContentPage({
             Verfiai
           </Link>
           <nav className="flex flex-wrap items-center justify-end gap-4 text-sm">
+            <SearchPalette lang={pageLocale} />
             <Link to="/about" className="hidden hover:text-brand md:block">
               {tx("navAbout")}
             </Link>

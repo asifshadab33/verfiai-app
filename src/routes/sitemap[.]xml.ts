@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { listReviewedClaimSlugs } from "@/data/claims";
+import { NEW_TOOLS } from "@/lib/tools/new-tool-catalog";
 
 const BASE = "https://verfiai.app";
 const PAGES = [
@@ -85,6 +86,7 @@ export const sitemapPaths = () => [
   "/tools/arxiv",
   "/tools/orcid",
   "/tools/pdf-tools",
+  ...NEW_TOOLS.map((tool) => `/tools/${tool.slug}`),
 ];
 
 export const Route = createFileRoute("/sitemap.xml")({

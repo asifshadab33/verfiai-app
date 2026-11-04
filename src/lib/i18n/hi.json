@@ -329,5 +329,16 @@
   "consentPrivacy": "गोपनीयता नीति",
   "cookieSettings": "कुकी सेटिंग्स",
   "consentClose": "बंद करें",
-  "navAllTools": "सभी टूल"
+  "navAllTools": "सभी टूल",
+  "searchOpen": "साइट खोजें",
+  "searchTitle": "Verfiai खोजें",
+  "searchPlaceholder": "पेज और मुफ़्त टूल खोजें…",
+  "searchHelp": "सार्वजनिक पेज और मुफ़्त टूल खोजें। परिणामों में जाने के लिए तीर कुंजियों का उपयोग करें।",
+  "searchClose": "खोज बंद करें",
+  "searchResults": "परिणाम",
+  "searchPopular": "लोकप्रिय लिंक",
+  "searchEmpty": "कोई मिलता-जुलता पेज या टूल नहीं मिला।",
+  "searchKeyboard": "↑/↓ नेविगेट करें · खोलने के लिए Enter · बंद करने के लिए Esc",
+  "searchLoadError": "खोज उपलब्ध नहीं है। फिर से कोशिश करें।",
+  "searchLoading": "परिणाम लोड हो रहे हैं…"
 }

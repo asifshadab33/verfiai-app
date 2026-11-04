@@ -329,5 +329,16 @@
   "consentPrivacy": "سیاست حریم خصوصی",
   "cookieSettings": "تنظیمات کوکی",
   "consentClose": "بستن",
-  "navAllTools": "همه ابزارها"
+  "navAllTools": "همه ابزارها",
+  "searchOpen": "جستجو در سایت",
+  "searchTitle": "جستجو در Verfiai",
+  "searchPlaceholder": "جستجوی صفحه‌ها و ابزارهای رایگان…",
+  "searchHelp": "صفحه‌های عمومی و ابزارهای رایگان را جستجو کنید. با کلیدهای جهت‌نما بین نتایج حرکت کنید.",
+  "searchClose": "بستن جستجو",
+  "searchResults": "نتیجه",
+  "searchPopular": "پیوندهای پرطرفدار",
+  "searchEmpty": "صفحه یا ابزار منطبقی پیدا نشد.",
+  "searchKeyboard": "↑/↓ برای حرکت · Enter برای باز کردن · Esc برای بستن",
+  "searchLoadError": "جستجو در دسترس نیست. دوباره تلاش کنید.",
+  "searchLoading": "در حال بارگیری نتایج…"
 }

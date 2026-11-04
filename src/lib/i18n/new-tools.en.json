@@ -1,0 +1,122 @@
+{
+  "no-ai-summarizer": {
+    "title": "No-AI Text Summarizer",
+    "description": "Select key sentences using word frequency. No AI; see every selected sentence."
+  },
+  "word-frequency": {
+    "title": "Word Frequency & N-gram Counter",
+    "description": "Find frequent words and phrases with an optional stopword filter."
+  },
+  "regex-tester": {
+    "title": "Regex Tester",
+    "description": "Test a regular expression live and explore common pattern examples."
+  },
+  "cron-explainer": {
+    "title": "Cron Expression Explainer",
+    "description": "Explain common five-field cron schedules and preview upcoming run times."
+  },
+  "unit-converter": {
+    "title": "Unit Converter",
+    "description": "Convert length, weight, temperature, data size, and speed in your browser."
+  },
+  "color-contrast": {
+    "title": "Color Contrast Checker",
+    "description": "Check WCAG contrast ratios and AA/AAA text accessibility thresholds."
+  },
+  "image-compressor": {
+    "title": "Image Compressor & Resizer",
+    "description": "Compress or resize JPG, PNG, and WebP images locally in your browser."
+  },
+  "qr-scanner": {
+    "title": "QR Code Scanner",
+    "description": "Read a QR code from an image or camera in your browser."
+  },
+  "image-ocr": {
+    "title": "Image Text Extractor (OCR)",
+    "description": "Extract text from an image on-device with a lazily loaded OCR engine."
+  },
+  "acronym-extractor": {
+    "title": "Acronym Extractor",
+    "description": "Find likely acronyms in text and show their surrounding context."
+  },
+  "date-calculator": {
+    "title": "Date & Deadline Calculator",
+    "description": "Calculate days between dates, weekdays, and future deadlines."
+  },
+  "encode-hash": {
+    "title": "Encode, Decode & SHA-256",
+    "description": "Encode Base64 or URL text and calculate a SHA-256 text digest locally."
+  },
+  "srt-shifter": {
+    "title": "SRT Subtitle Timing Shifter",
+    "description": "Shift subtitle timestamps by a fixed offset and correct SRT timing format."
+  },
+  "margin-of-error": {
+    "title": "Polling Margin of Error Calculator",
+    "description": "Estimate a poll's margin of error from its sample size and proportion."
+  },
+  "wikipedia-citations": {
+    "title": "Wikipedia Article Citation Formatter",
+    "description": "Look up a Wikipedia article and format a basic citation from its metadata."
+  },
+  "citation-checker": {
+    "title": "Citation Reference Checker",
+    "description": "Check references for metadata, retraction notices, and citation risks."
+  },
+  "wikidata-lookup": {
+    "title": "Wikidata Entity Lookup",
+    "description": "Search Wikidata for entity labels, descriptions, and item identifiers."
+  },
+  "currency-converter": {
+    "title": "Currency Converter",
+    "description": "Convert currencies using free European Central Bank reference rates."
+  },
+  "open-access-finder": {
+    "title": "Open Access Paper Finder",
+    "description": "Check OpenAlex and Unpaywall for a legal open-access copy of a DOI."
+  },
+  "scholar-search": {
+    "title": "Scholarly Works Search",
+    "description": "Search OpenAlex for scholarly works; results are cached per query this session."
+  },
+  "europepmc-reader": {
+    "title": "Europe PMC Open Access Reader",
+    "description": "Find biomedical articles and open available full text from Europe PMC."
+  },
+  "preprint-finder": {
+    "title": "bioRxiv & medRxiv Preprint Finder",
+    "description": "Search recent bioRxiv and medRxiv metadata from their public APIs."
+  },
+  "gdelt-news": {
+    "title": "GDELT News Coverage Search",
+    "description": "Search GDELT's public news index with a single paced request per search."
+  },
+  "sec-filings": {
+    "title": "SEC Filings Full-Text Search",
+    "description": "Search SEC EDGAR filing text for public company disclosures."
+  },
+  "world-bank-data": {
+    "title": "World Bank Data Lookup",
+    "description": "Look up official country statistics using World Bank indicator codes."
+  },
+  "factcheck-explorer": {
+    "title": "Google Fact Check Explorer",
+    "description": "Opens an external free tool: a prefilled Google Fact Check Explorer search."
+  },
+  "video-verify": {
+    "title": "InVID-WeVerify Video Verification",
+    "description": "Opens an external free tool: the InVID-WeVerify verification toolkit guide."
+  },
+  "image-forensics": {
+    "title": "Image Forensics Tools",
+    "description": "Opens external free tools: FotoForensics and Forensically image checks."
+  },
+  "connected-papers": {
+    "title": "Connected Papers",
+    "description": "Opens an external free tool: a paper title search on Connected Papers."
+  },
+  "google-scholar": {
+    "title": "Google Scholar Search",
+    "description": "Opens an external free tool: a title or author search in Google Scholar."
+  }
+}

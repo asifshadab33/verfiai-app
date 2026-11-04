@@ -5,7 +5,8 @@ import { sitemapPaths } from "../routes/sitemap[.]xml";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { listReviewedClaimSlugs } from "@/data/claims";
-import { toolHeadForPath } from "./tools/tool-head";
+import { toolHead, toolHeadForPath } from "./tools/tool-head";
+import { NEW_TOOLS } from "./tools/new-tool-catalog";
 
 function routeFiles(directory: string): string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -72,7 +73,7 @@ describe("leaf search metadata policy", () => {
       expect(source).toMatch(/name: "robots", content: "noindex,\s*nofollow"/);
       expect(sitemapPaths()).not.toContain(`/${route}`);
     }
-    expect(sitemapPaths()).toHaveLength(83);
+    expect(sitemapPaths()).toHaveLength(113);
     expect(
       sitemapPaths().some(
         (path) => path.startsWith("/r/") || path.startsWith("/resources") || path === "/knowledge",
@@ -98,7 +99,7 @@ describe("leaf search metadata policy", () => {
   it("keeps every tool card, route, sitemap entry and leaf metadata in sync", () => {
     const toolRoot = new URL("../routes/tools", import.meta.url).pathname;
     const files = readdirSync(toolRoot).filter(
-      (file) => file.endsWith(".tsx") && file !== "index.tsx",
+      (file) => file.endsWith(".tsx") && file !== "index.tsx" && file !== "$tool.tsx",
     );
     const cardSource = readFileSync(
       new URL("../components/verifai/tools/ToolsHub.tsx", import.meta.url),
@@ -134,6 +135,28 @@ describe("leaf search metadata policy", () => {
     expect(new Set(cards)).toEqual(new Set(routes));
     expect(cards).toHaveLength(routes.length);
     expect(sitemapPaths()).toEqual(expect.arrayContaining(["/tools", ...routes]));
+    const dynamicSource = readFileSync(join(toolRoot, "$tool.tsx"), "utf8");
+    expect(dynamicSource).toMatch(/head:\s*\(\{\s*params\s*\}\)\s*=>/);
+    const searchIndex = JSON.parse(
+      readFileSync(new URL("../../public/search-index.json", import.meta.url), "utf8"),
+    ) as { url: string; title: string; description: string }[];
+    const indexedPaths = new Set(searchIndex.map((entry) => entry.url));
+    for (const route of routes) expect(indexedPaths).toContain(route);
+    for (const tool of NEW_TOOLS) {
+      const path = `/tools/${tool.slug}`;
+      expect(sitemapPaths()).toContain(path);
+      expect(searchIndex).toContainEqual(
+        expect.objectContaining({ url: path, title: tool.title, description: tool.description }),
+      );
+      const head = toolHead({
+        path,
+        name: tool.title,
+        title: `Free ${tool.title} | Verfiai`,
+        description: tool.description,
+      });
+      expect(head.links).toContainEqual({ rel: "canonical", href: `https://verfiai.app${path}` });
+    }
+    expect(cards.length + NEW_TOOLS.length).toBe(84);
   });
 
   it("links to /tools from both desktop and mobile navigation", () => {

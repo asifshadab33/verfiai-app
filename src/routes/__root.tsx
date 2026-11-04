@@ -93,6 +93,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "theme-color", content: "#3f3f99" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "default" },
+      { name: "apple-mobile-web-app-title", content: "Verfiai" },
       { name: "google-site-verification", content: "laL9g1UCAP24-hZ0mMHpacn4qhSPs_1cVaXht6sAYUU" },
       { property: "og:site_name", content: "Verfiai" },
       { property: "og:type", content: "website" },
@@ -103,7 +107,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
+      { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "apple-touch-icon", href: "/icons/apple-touch-icon.png", sizes: "180x180" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -146,6 +152,13 @@ function RootComponent() {
   const location = useLocation();
   const locale = new URLSearchParams(location.searchStr).get("lang");
   const footerLang = isLang(locale) ? locale : "en";
+  useEffect(() => {
+    if (import.meta.env.PROD && "serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/service-worker.js").catch((error: unknown) => {
+        console.error("Verfiai service worker registration failed:", error);
+      });
+    }
+  }, []);
   useEffect(() => {
     // Fallback skip-link target for routes whose <main> lacks a declarative id.
     // Routes that render id="main-content" themselves (home, auth, ContentPage) are

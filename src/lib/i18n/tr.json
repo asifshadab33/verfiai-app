@@ -329,5 +329,16 @@
   "consentPrivacy": "Gizlilik politikası",
   "cookieSettings": "Çerez ayarları",
   "consentClose": "Kapat",
-  "navAllTools": "Tüm araçlar"
+  "navAllTools": "Tüm araçlar",
+  "searchOpen": "Sitede ara",
+  "searchTitle": "Verfiai'de ara",
+  "searchPlaceholder": "Sayfaları ve ücretsiz araçları ara…",
+  "searchHelp": "Herkese açık sayfalarda ve ücretsiz araçlarda arayın. Sonuçlarda gezinmek için ok tuşlarını kullanın.",
+  "searchClose": "Aramayı kapat",
+  "searchResults": "sonuç",
+  "searchPopular": "Popüler bağlantılar",
+  "searchEmpty": "Eşleşen sayfa veya araç bulunamadı.",
+  "searchKeyboard": "↑/↓ gezin · Enter aç · Esc kapat",
+  "searchLoadError": "Arama kullanılamıyor. Lütfen yeniden deneyin.",
+  "searchLoading": "Arama sonuçları yükleniyor…"
 }

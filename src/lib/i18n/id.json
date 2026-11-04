@@ -329,5 +329,16 @@
   "consentPrivacy": "Kebijakan privasi",
   "cookieSettings": "Pengaturan cookie",
   "consentClose": "Tutup",
-  "navAllTools": "Semua alat"
+  "navAllTools": "Semua alat",
+  "searchOpen": "Cari di situs",
+  "searchTitle": "Cari Verfiai",
+  "searchPlaceholder": "Cari halaman dan alat gratis…",
+  "searchHelp": "Cari halaman publik dan alat gratis. Gunakan tombol panah untuk menavigasi hasil.",
+  "searchClose": "Tutup pencarian",
+  "searchResults": "hasil",
+  "searchPopular": "Tautan populer",
+  "searchEmpty": "Tidak ada halaman atau alat yang cocok.",
+  "searchKeyboard": "↑/↓ untuk menavigasi · Enter untuk membuka · Esc untuk menutup",
+  "searchLoadError": "Pencarian tidak tersedia. Coba lagi.",
+  "searchLoading": "Memuat hasil pencarian…"
 }

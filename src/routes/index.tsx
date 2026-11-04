@@ -30,6 +30,7 @@ import { useSiteLocale } from "@/lib/locale";
 import { COMMUNITY_LABELS } from "@/lib/community";
 import { translations } from "@/lib/i18n/interface";
 import { pageSeoLinks } from "@/lib/seo";
+import { SearchPalette } from "@/components/verifai/SearchPalette";
 
 const SITE = "https://verfiai.app";
 
@@ -193,6 +194,7 @@ function Home() {
             <a href="#faq" className="hover:text-brand">
               {tx("navFaq")}
             </a>
+            <SearchPalette lang={lang} />
             <LanguagePicker lang={lang} onChange={changeLang} />
             <AccountLink lang={lang} />
             <Button size="sm" onClick={() => selectTab("fact")}>
@@ -220,6 +222,10 @@ function Home() {
             id="mobile-navigation-menu"
             className="flex flex-col gap-1 border-t border-border bg-background px-5 py-3 text-sm lg:hidden"
           >
+            <div className="flex min-h-11 items-center justify-between">
+              <span className="font-medium">{siteText(lang, "searchTitle")}</span>
+              <SearchPalette lang={lang} />
+            </div>
             <Button
               variant="ghost"
               className="min-h-11 justify-start"
@@ -303,13 +309,10 @@ function Home() {
                 >
                   {uiText(lang, "heroReport")}
                 </Button>
-                <Button
-                  size="lg"
-                  variant="ghost"
-                  className="h-12"
-                  onClick={() => selectTab("citation")}
-                >
-                  {uiText(lang, "heroCite")}
+                <Button size="lg" variant="ghost" className="h-12" asChild>
+                  <Link to="/tools/$tool" params={{ tool: "citation-checker" }}>
+                    {uiText(lang, "heroCite")}
+                  </Link>
                 </Button>
               </div>
               <p className="mt-4 max-w-xl text-sm text-muted-foreground">
@@ -348,7 +351,7 @@ function Home() {
           </div>
         </section>
         <ReportProofSection lang={lang} />
-        <CitationFeature lang={lang} onScan={() => selectTab("citation")} />
+        <CitationFeature lang={lang} />
         <HowItWorksSection lang={lang} />
         <UseCases lang={lang} />
         <ResourceLibrary />

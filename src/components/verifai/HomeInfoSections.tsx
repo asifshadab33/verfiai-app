@@ -228,13 +228,21 @@ export function WorkspaceCards({
             <Icon className="size-6 text-brand" />
             <h3 className="mt-4 font-display text-lg font-bold">{t}</h3>
             <p className="mt-2 flex-1 text-sm leading-6 text-muted-foreground">{b}</p>
-            <Button
-              variant="link"
-              className="mt-4 h-11 justify-start px-0"
-              onClick={() => onSelect(tab)}
-            >
-              {cta} <ArrowRight />
-            </Button>
+            {tab === "citation" ? (
+              <Button variant="link" className="mt-4 h-11 justify-start px-0" asChild>
+                <Link to="/tools/$tool" params={{ tool: "citation-checker" }}>
+                  {cta} <ArrowRight />
+                </Link>
+              </Button>
+            ) : (
+              <Button
+                variant="link"
+                className="mt-4 h-11 justify-start px-0"
+                onClick={() => onSelect(tab)}
+              >
+                {cta} <ArrowRight />
+              </Button>
+            )}
           </div>
         ))}
       </div>

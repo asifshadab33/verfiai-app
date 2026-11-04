@@ -329,5 +329,16 @@
   "consentPrivacy": "رازداری کی پالیسی",
   "cookieSettings": "کوکی کی ترتیبات",
   "consentClose": "بند کریں",
-  "navAllTools": "تمام ٹولز"
+  "navAllTools": "تمام ٹولز",
+  "searchOpen": "سائٹ میں تلاش کریں",
+  "searchTitle": "Verfiai میں تلاش کریں",
+  "searchPlaceholder": "صفحات اور مفت ٹولز تلاش کریں…",
+  "searchHelp": "عوامی صفحات اور مفت ٹولز تلاش کریں۔ نتائج میں جانے کے لیے تیر والے بٹن استعمال کریں۔",
+  "searchClose": "تلاش بند کریں",
+  "searchResults": "نتائج",
+  "searchPopular": "مقبول لنکس",
+  "searchEmpty": "کوئی مماثل صفحہ یا ٹول نہیں ملا۔",
+  "searchKeyboard": "↑/↓ نیویگیٹ · کھولنے کے لیے Enter · بند کرنے کے لیے Esc",
+  "searchLoadError": "تلاش دستیاب نہیں۔ دوبارہ کوشش کریں۔",
+  "searchLoading": "نتائج لوڈ ہو رہے ہیں…"
 }

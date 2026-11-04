@@ -329,5 +329,16 @@
   "consentPrivacy": "隐私政策",
   "cookieSettings": "Cookie 设置",
   "consentClose": "关闭",
-  "navAllTools": "所有工具"
+  "navAllTools": "所有工具",
+  "searchOpen": "站内搜索",
+  "searchTitle": "搜索 Verfiai",
+  "searchPlaceholder": "搜索页面和免费工具…",
+  "searchHelp": "搜索公开页面和免费工具。使用方向键浏览结果。",
+  "searchClose": "关闭搜索",
+  "searchResults": "条结果",
+  "searchPopular": "热门链接",
+  "searchEmpty": "未找到匹配的页面或工具。",
+  "searchKeyboard": "↑/↓ 导航 · Enter 打开 · Esc 关闭",
+  "searchLoadError": "搜索暂不可用，请重试。",
+  "searchLoading": "正在加载搜索结果…"
 }

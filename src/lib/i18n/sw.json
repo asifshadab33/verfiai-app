@@ -329,5 +329,16 @@
   "consentPrivacy": "Sera ya faragha",
   "cookieSettings": "Mipangilio ya vidakuzi",
   "consentClose": "Funga",
-  "navAllTools": "Zana zote"
+  "navAllTools": "Zana zote",
+  "searchOpen": "Tafuta tovuti",
+  "searchTitle": "Tafuta Verfiai",
+  "searchPlaceholder": "Tafuta kurasa na zana za bure…",
+  "searchHelp": "Tafuta kurasa za umma na zana za bure. Tumia vitufe vya mishale kupitia matokeo.",
+  "searchClose": "Funga utafutaji",
+  "searchResults": "matokeo",
+  "searchPopular": "Viungo maarufu",
+  "searchEmpty": "Hakuna ukurasa au zana inayolingana iliyopatikana.",
+  "searchKeyboard": "↑/↓ nenda · Enter fungua · Esc funga",
+  "searchLoadError": "Utafutaji haupatikani. Jaribu tena.",
+  "searchLoading": "Inapakia matokeo…"
 }

@@ -329,5 +329,16 @@
   "consentPrivacy": "Informativa privacy",
   "cookieSettings": "Impostazioni cookie",
   "consentClose": "Chiudi",
-  "navAllTools": "Tutti gli strumenti"
+  "navAllTools": "Tutti gli strumenti",
+  "searchOpen": "Cerca nel sito",
+  "searchTitle": "Cerca in Verfiai",
+  "searchPlaceholder": "Cerca pagine e strumenti gratuiti…",
+  "searchHelp": "Cerca pagine pubbliche e strumenti gratuiti. Usa le frecce per esplorare i risultati.",
+  "searchClose": "Chiudi ricerca",
+  "searchResults": "risultati",
+  "searchPopular": "Link popolari",
+  "searchEmpty": "Nessuna pagina o strumento corrispondente.",
+  "searchKeyboard": "↑/↓ per navigare · Invio per aprire · Esc per chiudere",
+  "searchLoadError": "La ricerca non è disponibile. Riprova.",
+  "searchLoading": "Caricamento dei risultati…"
 }

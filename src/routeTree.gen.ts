@@ -26,6 +26,7 @@ import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as KnowledgeRouteImport } from './routes/knowledge'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as MethodologyRouteImport } from './routes/methodology'
+import { Route as OfflineRouteImport } from './routes/offline'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RefundsRouteImport } from './routes/refunds'
@@ -46,6 +47,7 @@ import { Route as RTokenRouteImport } from './routes/r.$token'
 import { Route as ResourcesIndexRouteImport } from './routes/resources/index'
 import { Route as ResourcesSlugRouteImport } from './routes/resources/$slug'
 import { Route as ToolsIndexRouteImport } from './routes/tools/index'
+import { Route as ToolsToolRouteImport } from './routes/tools/$tool'
 import { Route as ToolsArxivRouteImport } from './routes/tools/arxiv'
 import { Route as ToolsCharacterCounterRouteImport } from './routes/tools/character-counter'
 import { Route as ToolsCitationGeneratorRouteImport } from './routes/tools/citation-generator'
@@ -188,6 +190,11 @@ const MethodologyRoute = MethodologyRouteImport.update({
   path: '/methodology',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OfflineRoute = OfflineRouteImport.update({
+  id: '/offline',
+  path: '/offline',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
@@ -286,6 +293,11 @@ const ResourcesSlugRoute = ResourcesSlugRouteImport.update({
 const ToolsIndexRoute = ToolsIndexRouteImport.update({
   id: '/tools/',
   path: '/tools/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsToolRoute = ToolsToolRouteImport.update({
+  id: '/tools/$tool',
+  path: '/tools/$tool',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ToolsArxivRoute = ToolsArxivRouteImport.update({
@@ -590,6 +602,7 @@ export interface FileRoutesByFullPath {
   '/knowledge': typeof KnowledgeRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/methodology': typeof MethodologyRoute
+  '/offline': typeof OfflineRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/refunds': typeof RefundsRoute
@@ -662,6 +675,7 @@ export interface FileRoutesByFullPath {
   '/tools/wayback': typeof ToolsWaybackRoute
   '/tools/weasel-words': typeof ToolsWeaselWordsRoute
   '/tools/word-counter': typeof ToolsWordCounterRoute
+  '/tools/$tool': typeof ToolsToolRoute
   '/resources/': typeof ResourcesIndexRoute
   '/tools/': typeof ToolsIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -685,6 +699,7 @@ export interface FileRoutesByTo {
   '/knowledge': typeof KnowledgeRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/methodology': typeof MethodologyRoute
+  '/offline': typeof OfflineRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/refunds': typeof RefundsRoute
@@ -757,6 +772,7 @@ export interface FileRoutesByTo {
   '/tools/wayback': typeof ToolsWaybackRoute
   '/tools/weasel-words': typeof ToolsWeaselWordsRoute
   '/tools/word-counter': typeof ToolsWordCounterRoute
+  '/tools/$tool': typeof ToolsToolRoute
   '/resources': typeof ResourcesIndexRoute
   '/tools': typeof ToolsIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -781,6 +797,7 @@ export interface FileRoutesById {
   '/knowledge': typeof KnowledgeRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/methodology': typeof MethodologyRoute
+  '/offline': typeof OfflineRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/refunds': typeof RefundsRoute
@@ -853,6 +870,7 @@ export interface FileRoutesById {
   '/tools/wayback': typeof ToolsWaybackRoute
   '/tools/weasel-words': typeof ToolsWeaselWordsRoute
   '/tools/word-counter': typeof ToolsWordCounterRoute
+  '/tools/$tool': typeof ToolsToolRoute
   '/resources/': typeof ResourcesIndexRoute
   '/tools/': typeof ToolsIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
@@ -878,6 +896,7 @@ export interface FileRouteTypes {
     | '/knowledge'
     | '/llms.txt'
     | '/methodology'
+    | '/offline'
     | '/pricing'
     | '/privacy'
     | '/refunds'
@@ -973,6 +992,7 @@ export interface FileRouteTypes {
     | '/knowledge'
     | '/llms.txt'
     | '/methodology'
+    | '/offline'
     | '/pricing'
     | '/privacy'
     | '/refunds'
@@ -1068,6 +1088,7 @@ export interface FileRouteTypes {
     | '/knowledge'
     | '/llms.txt'
     | '/methodology'
+    | '/offline'
     | '/pricing'
     | '/privacy'
     | '/refunds'
@@ -1164,6 +1185,7 @@ export interface RootRouteChildren {
   KnowledgeRoute: typeof KnowledgeRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
   MethodologyRoute: typeof MethodologyRoute
+  OfflineRoute: typeof OfflineRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   RefundsRoute: typeof RefundsRoute
@@ -1236,6 +1258,7 @@ export interface RootRouteChildren {
   ToolsWaybackRoute: typeof ToolsWaybackRoute
   ToolsWeaselWordsRoute: typeof ToolsWeaselWordsRoute
   ToolsWordCounterRoute: typeof ToolsWordCounterRoute
+  ToolsToolRoute: typeof ToolsToolRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   ToolsIndexRoute: typeof ToolsIndexRoute
   ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
@@ -1361,6 +1384,13 @@ declare module '@tanstack/react-router' {
       path: '/methodology'
       fullPath: '/methodology'
       preLoaderRoute: typeof MethodologyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/offline': {
+      id: '/offline'
+      path: '/offline'
+      fullPath: '/offline'
+      preLoaderRoute: typeof OfflineRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pricing': {
@@ -1501,6 +1531,13 @@ declare module '@tanstack/react-router' {
       path: '/tools'
       fullPath: '/tools/'
       preLoaderRoute: typeof ToolsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/$tool': {
+      id: '/tools/$tool'
+      path: '/tools/$tool'
+      fullPath: '/tools/$tool'
+      preLoaderRoute: typeof ToolsToolRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tools/arxiv': {
@@ -1916,6 +1953,7 @@ const rootRouteChildren: RootRouteChildren = {
   KnowledgeRoute: KnowledgeRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
   MethodologyRoute: MethodologyRoute,
+  OfflineRoute: OfflineRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   RefundsRoute: RefundsRoute,
@@ -1988,6 +2026,7 @@ const rootRouteChildren: RootRouteChildren = {
   ToolsWaybackRoute: ToolsWaybackRoute,
   ToolsWeaselWordsRoute: ToolsWeaselWordsRoute,
   ToolsWordCounterRoute: ToolsWordCounterRoute,
+  ToolsToolRoute: ToolsToolRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
   ToolsIndexRoute: ToolsIndexRoute,
   ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,

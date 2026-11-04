@@ -329,5 +329,16 @@
   "consentPrivacy": "গোপনীয়তা নীতি",
   "cookieSettings": "কুকি সেটিংস",
   "consentClose": "বন্ধ করুন",
-  "navAllTools": "সব টুল"
+  "navAllTools": "সব টুল",
+  "searchOpen": "সাইটে খুঁজুন",
+  "searchTitle": "Verfiai-তে খুঁজুন",
+  "searchPlaceholder": "পৃষ্ঠা ও বিনামূল্যের টুল খুঁজুন…",
+  "searchHelp": "সর্বজনীন পৃষ্ঠা ও বিনামূল্যের টুল খুঁজুন। ফলাফলে যেতে তীরচিহ্ন ব্যবহার করুন।",
+  "searchClose": "অনুসন্ধান বন্ধ করুন",
+  "searchResults": "টি ফলাফল",
+  "searchPopular": "জনপ্রিয় লিংক",
+  "searchEmpty": "মিল আছে এমন পৃষ্ঠা বা টুল পাওয়া যায়নি।",
+  "searchKeyboard": "↑/↓ চলুন · খুলতে Enter · বন্ধ করতে Esc",
+  "searchLoadError": "অনুসন্ধান উপলভ্য নয়। আবার চেষ্টা করুন।",
+  "searchLoading": "ফলাফল লোড হচ্ছে…"
 }

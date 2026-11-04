@@ -329,5 +329,16 @@
   "consentPrivacy": "Privacybeleid",
   "cookieSettings": "Cookie-instellingen",
   "consentClose": "Sluiten",
-  "navAllTools": "Alle tools"
+  "navAllTools": "Alle tools",
+  "searchOpen": "Website doorzoeken",
+  "searchTitle": "Verfiai doorzoeken",
+  "searchPlaceholder": "Zoek pagina's en gratis tools…",
+  "searchHelp": "Zoek openbare pagina's en gratis tools. Gebruik de pijltjestoetsen om resultaten te doorlopen.",
+  "searchClose": "Zoeken sluiten",
+  "searchResults": "resultaten",
+  "searchPopular": "Populaire links",
+  "searchEmpty": "Geen overeenkomende pagina's of tools gevonden.",
+  "searchKeyboard": "↑/↓ om te navigeren · Enter om te openen · Esc om te sluiten",
+  "searchLoadError": "Zoeken is niet beschikbaar. Probeer het opnieuw.",
+  "searchLoading": "Zoekresultaten laden…"
 }

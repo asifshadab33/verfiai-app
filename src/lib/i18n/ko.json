@@ -329,5 +329,16 @@
   "consentPrivacy": "개인정보 처리방침",
   "cookieSettings": "쿠키 설정",
   "consentClose": "닫기",
-  "navAllTools": "모든 도구"
+  "navAllTools": "모든 도구",
+  "searchOpen": "사이트 검색",
+  "searchTitle": "Verfiai 검색",
+  "searchPlaceholder": "페이지 및 무료 도구 검색…",
+  "searchHelp": "공개 페이지와 무료 도구를 검색합니다. 화살표 키로 결과를 이동하세요.",
+  "searchClose": "검색 닫기",
+  "searchResults": "개 결과",
+  "searchPopular": "인기 링크",
+  "searchEmpty": "일치하는 페이지나 도구가 없습니다.",
+  "searchKeyboard": "↑/↓ 이동 · Enter 열기 · Esc 닫기",
+  "searchLoadError": "검색을 사용할 수 없습니다. 다시 시도하세요.",
+  "searchLoading": "검색 결과를 불러오는 중…"
 }

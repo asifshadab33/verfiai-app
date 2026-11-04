@@ -329,5 +329,16 @@
   "consentPrivacy": "プライバシーポリシー",
   "cookieSettings": "Cookie 設定",
   "consentClose": "閉じる",
-  "navAllTools": "すべてのツール"
+  "navAllTools": "すべてのツール",
+  "searchOpen": "サイト内を検索",
+  "searchTitle": "Verfiaiを検索",
+  "searchPlaceholder": "ページや無料ツールを検索…",
+  "searchHelp": "公開ページと無料ツールを検索します。矢印キーで結果を移動できます。",
+  "searchClose": "検索を閉じる",
+  "searchResults": "件の結果",
+  "searchPopular": "人気のリンク",
+  "searchEmpty": "一致するページやツールが見つかりません。",
+  "searchKeyboard": "↑/↓で移動 · Enterで開く · Escで閉じる",
+  "searchLoadError": "検索を利用できません。もう一度お試しください。",
+  "searchLoading": "検索結果を読み込み中…"
 }
