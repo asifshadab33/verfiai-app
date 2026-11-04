@@ -760,6 +760,7 @@ export interface FileRoutesByFullPath {
   '/terms': typeof TermsRoute
   '/video-research': typeof VideoResearchRoute
   '/executive-tools': typeof ExecutiveToolsRoute
+  '/executive-tools': typeof ExecutiveToolsRoute
   '/account/library-usage': typeof AccountLibraryUsageRoute
   '/account/usage': typeof AccountUsageRoute
   '/checkout/success': typeof CheckoutSuccessRoute
@@ -1120,6 +1121,7 @@ export interface FileRouteTypes {
     | '/templates'
     | '/terms'
     | '/video-research'
+    | '/executive-tools'
     | '/account/library-usage'
     | '/account/usage'
     | '/checkout/success'
@@ -1478,6 +1480,7 @@ export interface RootRouteChildren {
   TemplatesRoute: typeof TemplatesRoute
   TermsRoute: typeof TermsRoute
   VideoResearchRoute: typeof VideoResearchRoute
+  ExecutiveToolsRoute: typeof ExecutiveToolsRoute
   AccountLibraryUsageRoute: typeof AccountLibraryUsageRoute
   AccountUsageRoute: typeof AccountUsageRoute
   CheckoutSuccessRoute: typeof CheckoutSuccessRoute
