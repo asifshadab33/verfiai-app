@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ContentPage } from "@/components/verifai/ContentPage";
 import { z } from "zod";
 import { StudioWorkspace, type StudioTab } from "@/components/verifai/StudioWorkspace";
-import { ReportForm } from "./index";
+import { ReportForm } from "@/components/verifai/ReportForm";
 import { languages } from "@/lib/translations";
 import { siteText } from "@/lib/site-i18n";
 import { useSiteLocale } from "@/lib/locale";
