@@ -340,5 +340,9 @@
   "searchEmpty": "No se encontraron páginas ni herramientas.",
   "searchKeyboard": "Usa ↑/↓ para navegar · Intro para abrir · Esc para cerrar",
   "searchLoadError": "La búsqueda no está disponible. Inténtalo de nuevo.",
-  "searchLoading": "Cargando resultados…"
+  "searchLoading": "Cargando resultados…",
+  "freeToolServerFetch": "Se requiere iniciar sesión gratis en Verfiai para obtener resultados de la fuente pública.",
+  "citationCheckerHub": "Gratis con una cuenta de Verfiai: comprueba metadatos de referencias, avisos de retractación y riesgos de citación.",
+  "openAccessCacheNote": "Las búsquedas repetidas de DOI se guardan en memoria mientras esta página permanezca abierta.",
+  "checkingSignIn": "Comprobando tu inicio de sesión…"
 }

@@ -340,5 +340,9 @@
   "searchEmpty": "未找到匹配的页面或工具。",
   "searchKeyboard": "↑/↓ 导航 · Enter 打开 · Esc 关闭",
   "searchLoadError": "搜索暂不可用，请重试。",
-  "searchLoading": "正在加载搜索结果…"
+  "searchLoading": "正在加载搜索结果…",
+  "freeToolServerFetch": "从公开来源获取结果需要免费登录 Verfiai。",
+  "citationCheckerHub": "登录 Verfiai 后免费：检查参考文献的元数据、撤稿通知和引用风险。",
+  "openAccessCacheNote": "此页面打开期间，重复的 DOI 搜索结果会保存在内存中。",
+  "checkingSignIn": "正在检查登录状态…"
 }

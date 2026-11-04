@@ -340,5 +340,9 @@
   "searchEmpty": "Tidak ada halaman atau alat yang cocok.",
   "searchKeyboard": "↑/↓ untuk menavigasi · Enter untuk membuka · Esc untuk menutup",
   "searchLoadError": "Pencarian tidak tersedia. Coba lagi.",
-  "searchLoading": "Memuat hasil pencarian…"
+  "searchLoading": "Memuat hasil pencarian…",
+  "freeToolServerFetch": "Anda harus masuk ke Verfiai secara gratis untuk mengambil hasil dari sumber publik.",
+  "citationCheckerHub": "Gratis dengan akun Verfiai: periksa metadata referensi, pemberitahuan pencabutan, dan risiko sitasi.",
+  "openAccessCacheNote": "Pencarian DOI berulang disimpan di memori selama halaman ini terbuka.",
+  "checkingSignIn": "Memeriksa status masuk Anda…"
 }

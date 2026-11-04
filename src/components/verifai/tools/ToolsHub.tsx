@@ -24,6 +24,8 @@ import {
 } from "lucide-react";
 import { NEW_TOOLS } from "@/lib/tools/new-tool-catalog";
 import { useLocation } from "@tanstack/react-router";
+import { isLang } from "@/lib/translations";
+import { siteText } from "@/lib/site-i18n";
 
 const BROWSER = "Runs in your browser";
 const REGISTRY = "Looks up public registries";
@@ -443,8 +445,10 @@ const CATEGORIES = [
 
 export function ToolsHub() {
   const { searchStr } = useLocation();
+  const requestedLang = new URLSearchParams(searchStr).get("lang");
+  const lang = isLang(requestedLang) ? requestedLang : "en";
   const oldTools = CATEGORIES.flatMap((category) => category.tools)
-    .filter((tool) => tool.to.startsWith("/tools/"))
+    .filter((tool) => tool.to.startsWith("/tools/") || tool.to === "/glossary")
     .map((tool) => ({
       ...tool,
       category: existingCategory(tool.to),
@@ -454,13 +458,18 @@ export function ToolsHub() {
     to: `/tools/${tool.slug}`,
     Icon: toolIcon(tool.category),
     title: tool.title,
-    blurb: tool.description,
+    blurb:
+      tool.slug === "citation-checker"
+        ? siteText(lang, "citationCheckerHub")
+        : tool.description,
     note:
       tool.kind === "launcher"
         ? "Opens an external free tool"
         : tool.kind === "api"
           ? "Uses a public keyless API"
-          : BROWSER,
+          : tool.kind === "server"
+            ? siteText(lang, "freeToolServerFetch")
+            : BROWSER,
     category: tool.category,
     keywords: tool.keywords,
   }));
@@ -568,6 +577,7 @@ function toolIcon(category: string) {
 }
 
 function existingCategory(path: string) {
+  if (path === "/glossary") return "Verification & OSINT";
   if (
     [
       "/tools/word-counter",

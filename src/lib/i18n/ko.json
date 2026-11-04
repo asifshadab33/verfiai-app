@@ -340,5 +340,9 @@
   "searchEmpty": "일치하는 페이지나 도구가 없습니다.",
   "searchKeyboard": "↑/↓ 이동 · Enter 열기 · Esc 닫기",
   "searchLoadError": "검색을 사용할 수 없습니다. 다시 시도하세요.",
-  "searchLoading": "검색 결과를 불러오는 중…"
+  "searchLoading": "검색 결과를 불러오는 중…",
+  "freeToolServerFetch": "공개 출처에서 결과를 가져오려면 Verfiai 무료 로그인이 필요합니다.",
+  "citationCheckerHub": "Verfiai 로그인 후 무료로 이용: 참고문헌 메타데이터, 철회 공지 및 인용 위험을 확인하세요.",
+  "openAccessCacheNote": "이 페이지가 열려 있는 동안 반복 DOI 검색 결과가 메모리에 저장됩니다.",
+  "checkingSignIn": "로그인 상태를 확인하는 중…"
 }

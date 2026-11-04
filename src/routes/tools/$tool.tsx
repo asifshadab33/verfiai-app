@@ -5,6 +5,7 @@ import { NEW_TOOLS } from "@/lib/tools/new-tool-catalog";
 import { toolHead } from "@/lib/tools/tool-head";
 import { Checker } from "@/components/verifai/Checker";
 import { isLang } from "@/lib/translations";
+import { siteText } from "@/lib/site-i18n";
 
 export const Route = createFileRoute("/tools/$tool")({
   head: ({ params }) => {
@@ -37,7 +38,7 @@ function Page() {
     return (
       <ToolPage
         title={item.title}
-        intro={item.description}
+        intro={siteText(lang, "citationCheckerHub")}
         privacy="Citation text is processed by Verfiai's sign-in-gated citation checker. Do not submit confidential references."
       >
         <Checker lang={lang} />
@@ -54,6 +55,8 @@ function Page() {
           ? "This page only links to the external provider. Verfiai does not proxy or store your content."
           : item.kind === "api"
             ? "Queries go directly from your browser to the named public service. Verfiai does not proxy or store them."
+            : item.kind === "server"
+              ? siteText(lang, "freeToolServerFetch")
             : "This tool runs in your browser. Your input is not uploaded to Verfiai."
       }
       notes={
@@ -67,7 +70,7 @@ function Page() {
           : []
       }
     >
-      <NewTool slug={slug} />
+      <NewTool slug={slug} locale={lang} />
     </ToolPage>
   );
 }

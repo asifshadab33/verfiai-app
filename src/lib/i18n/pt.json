@@ -340,5 +340,9 @@
   "searchEmpty": "Nenhuma página ou ferramenta correspondente encontrada.",
   "searchKeyboard": "Use ↑/↓ para navegar · Enter para abrir · Esc para fechar",
   "searchLoadError": "A pesquisa está indisponível. Tente novamente.",
-  "searchLoading": "Carregando resultados…"
+  "searchLoading": "Carregando resultados…",
+  "freeToolServerFetch": "É necessário iniciar sessão gratuitamente na Verfiai para obter resultados da fonte pública.",
+  "citationCheckerHub": "Grátis com uma sessão Verfiai: verifique metadados de referências, avisos de retratação e riscos de citação.",
+  "openAccessCacheNote": "Buscas repetidas por DOI ficam na memória enquanto esta página estiver aberta.",
+  "checkingSignIn": "Verificando sua sessão…"
 }

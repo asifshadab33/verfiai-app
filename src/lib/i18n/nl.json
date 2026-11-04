@@ -340,5 +340,9 @@
   "searchEmpty": "Geen overeenkomende pagina's of tools gevonden.",
   "searchKeyboard": "↑/↓ om te navigeren · Enter om te openen · Esc om te sluiten",
   "searchLoadError": "Zoeken is niet beschikbaar. Probeer het opnieuw.",
-  "searchLoading": "Zoekresultaten laden…"
+  "searchLoading": "Zoekresultaten laden…",
+  "freeToolServerFetch": "Je moet gratis bij Verfiai inloggen om resultaten van de openbare bron op te halen.",
+  "citationCheckerHub": "Gratis met een Verfiai-account: controleer referenties op metadata, intrekkingsmeldingen en citatierisico's.",
+  "openAccessCacheNote": "Herhaalde DOI-zoekopdrachten blijven in het geheugen zolang deze pagina open is.",
+  "checkingSignIn": "Je aanmelding wordt gecontroleerd…"
 }

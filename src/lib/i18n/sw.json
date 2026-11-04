@@ -340,5 +340,9 @@
   "searchEmpty": "Hakuna ukurasa au zana inayolingana iliyopatikana.",
   "searchKeyboard": "↑/↓ nenda · Enter fungua · Esc funga",
   "searchLoadError": "Utafutaji haupatikani. Jaribu tena.",
-  "searchLoading": "Inapakia matokeo…"
+  "searchLoading": "Inapakia matokeo…",
+  "freeToolServerFetch": "Unahitaji kuingia Verfiai bila malipo ili kupata matokeo kutoka kwenye chanzo cha umma.",
+  "citationCheckerHub": "Bila malipo ukiwa umeingia Verfiai: kagua metadata ya marejeo, taarifa za kuondolewa na hatari za nukuu.",
+  "openAccessCacheNote": "Utafutaji wa DOI unaorudiwa huhifadhiwa kwenye kumbukumbu ukurasa huu ukiwa wazi.",
+  "checkingSignIn": "Inakagua hali yako ya kuingia…"
 }

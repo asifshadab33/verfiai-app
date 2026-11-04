@@ -1,6 +1,16 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  searchGdeltNews,
+  searchSecFilings,
+  type FreeSourceResult,
+} from "@/lib/free-source.functions";
+import { siteText } from "@/lib/site-i18n";
+import type { Lang } from "@/lib/translations";
 import { NEW_TOOLS } from "@/lib/tools/new-tool-catalog";
 import { recognizeImage } from "@/lib/ocr";
+import { ToolSignInPrompt } from "./ToolSignInPrompt";
 
 const buttonClass =
   "inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50";
@@ -12,7 +22,7 @@ const STOPWORDS = new Set(
     " ",
   ),
 );
-type Props = { slug: string };
+type Props = { slug: string; locale?: Lang };
 function sentences(text: string) {
   return text.match(/[^.!?]+[.!?]+|[^.!?]+$/g)?.map((sentence) => sentence.trim()) ?? [];
 }
@@ -86,12 +96,43 @@ async function requestJson(url: string) {
   return (await response.json()) as unknown;
 }
 
+async function requestOptionalJson(url: string) {
+  const response = await fetch(url, { headers: { Accept: "application/json" } });
+  if (response.status === 404) return {};
+  if (!response.ok) throw new Error(`The public source returned HTTP ${response.status}.`);
+  return (await response.json()) as unknown;
+}
+
 function pretty(value: unknown): string {
   return JSON.stringify(value, null, 2) ?? "null";
 }
 
-export function NewTool({ slug }: Props) {
+export function NewTool({ slug, locale = "en" }: Props) {
   const definition = NEW_TOOLS.find((tool) => tool.slug === slug);
+  if (definition?.kind === "server")
+    return <ServerToolGate slug={slug} locale={locale} />;
+  return <NewToolContent slug={slug} locale={locale} />;
+}
+
+function ServerToolGate({ slug, locale }: Props) {
+  const { user, loading } = useAuth();
+  if (loading) return <p role="status">{siteText(locale ?? "en", "checkingSignIn")}</p>;
+  if (!user)
+    return (
+      <ToolSignInPrompt
+        tool="this free tool"
+        title={siteText(locale ?? "en", "signInContinue")}
+        description={siteText(locale ?? "en", "freeToolServerFetch")}
+        signInLabel={siteText(locale ?? "en", "navSignIn")}
+      />
+    );
+  return <NewToolContent slug={slug} locale={locale} />;
+}
+
+function NewToolContent({ slug, locale = "en" }: Props) {
+  const definition = NEW_TOOLS.find((tool) => tool.slug === slug);
+  const gdeltSearch = useServerFn(searchGdeltNews);
+  const secSearch = useServerFn(searchSecFilings);
   const [input, setInput] = useState("");
   const [secondary, setSecondary] = useState("");
   const [tertiary, setTertiary] = useState("");
@@ -627,21 +668,40 @@ export function NewTool({ slug }: Props) {
           break;
         }
         case "open-access-finder": {
-          const doi = input.trim().replace(/^https?:\/\/doi\.org\//i, "");
+          const doi = input
+            .trim()
+            .replace(/^https?:\/\/(?:dx\.)?doi\.org\//i, "")
+            .replace(/^doi:\s*/i, "");
+          if (!doi) throw new Error("Enter a DOI.");
           const encodedDoi = encodeURIComponent(doi);
-          const [openAlex, unpaywall] = await Promise.all([
-            requestJson(`https://api.openalex.org/works/https://doi.org/${encodedDoi}`) as Promise<{
-              best_oa_location?: { landing_page_url?: string; pdf_url?: string };
-              open_access?: { is_oa?: boolean };
-            }>,
-            requestJson(
-              `https://api.unpaywall.org/v2/${encodedDoi}?email=hello@verfiai.app`,
-            ) as Promise<{
-              is_oa?: boolean;
-              best_oa_location?: { landing_page_url?: string; url_for_pdf?: string };
-              message?: string;
-            }>,
-          ]);
+          const key = doi.toLowerCase();
+          let cached = openAccessCache.get(key);
+          if (!cached) {
+            cached = Promise.all([
+              requestOptionalJson(
+                `https://api.openalex.org/works/https://doi.org/${encodedDoi}?mailto=hello@verfiai.app`,
+              ) as Promise<{
+                best_oa_location?: { landing_page_url?: string; pdf_url?: string };
+                open_access?: { is_oa?: boolean };
+              }>,
+              requestOptionalJson(
+                `https://api.unpaywall.org/v2/${encodedDoi}?email=hello@verfiai.app`,
+              ) as Promise<{
+                is_oa?: boolean;
+                best_oa_location?: { landing_page_url?: string; url_for_pdf?: string };
+                message?: string;
+              }>,
+            ]).then(([openAlex, unpaywall]) => ({ openAlex, unpaywall }));
+            openAccessCache.set(key, cached);
+            void cached.catch(() => {
+              if (openAccessCache.get(key) === cached) openAccessCache.delete(key);
+            });
+            if (openAccessCache.size > 100) {
+              const oldestKey = openAccessCache.keys().next().value;
+              if (oldestKey) openAccessCache.delete(oldestKey);
+            }
+          }
+          const { openAlex, unpaywall } = await cached;
           const openUrl =
             unpaywall.best_oa_location?.url_for_pdf ??
             unpaywall.best_oa_location?.landing_page_url ??
@@ -782,37 +842,11 @@ export function NewTool({ slug }: Props) {
           break;
         }
         case "gdelt-news": {
-          const data = (await requestJson(
-            `https://api.gdeltproject.org/api/v2/doc/doc?query=${encodeURIComponent(input)}&mode=ArtList&format=json&maxrecords=10&sort=datedesc`,
-          )) as {
-            articles?: { title?: string; url?: string; seendate?: string; domain?: string }[];
-          };
-          setResult(
-            <ul className="space-y-3">
-              {(data.articles ?? []).map((article) => (
-                <li key={article.url}>
-                  <a
-                    className="font-semibold underline"
-                    href={article.url}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {article.title}
-                  </a>
-                  <p className="text-xs">
-                    {article.domain} · {article.seendate}
-                  </p>
-                </li>
-              ))}
-            </ul>,
-          );
+          setResult(<SourceResults results={await gdeltSearch({ data: { query: input } })} />);
           break;
         }
         case "sec-filings": {
-          const data = (await requestJson(
-            `https://efts.sec.gov/LATEST/search-index?q=${encodeURIComponent(input)}&dateRange=all`,
-          )) as { hits?: { hits?: { _source?: Record<string, unknown> }[] } };
-          setTextResult(pretty(data.hits?.hits?.map((hit) => hit._source) ?? data));
+          setResult(<SourceResults results={await secSearch({ data: { query: input } })} />);
           break;
         }
         case "world-bank-data": {
@@ -1116,7 +1150,7 @@ export function NewTool({ slug }: Props) {
           {slug === "open-access-finder" && (
             <p className="text-xs text-muted-foreground">
               Checks public OpenAlex and Unpaywall records. Unpaywall receives the site's public
-              contact address, not your email. The request runs in your browser.
+              contact address, not your email. {siteText(locale, "openAccessCacheNote")}
             </p>
           )}
           {slug === "scholar-search" && (
@@ -1129,6 +1163,11 @@ export function NewTool({ slug }: Props) {
               This sends your query directly from your browser to the named public service. Verfiai
               does not proxy or store it; availability and rate limits are controlled by that
               service.
+            </p>
+          )}
+          {definition.kind === "server" && (
+            <p className="text-xs text-muted-foreground">
+              {siteText(locale, "freeToolServerFetch")}
             </p>
           )}
           <button
@@ -1158,6 +1197,39 @@ export function NewTool({ slug }: Props) {
         </div>
       )}
     </div>
+  );
+}
+
+const openAccessCache = new Map<string, Promise<{
+  openAlex: {
+    best_oa_location?: { landing_page_url?: string; pdf_url?: string };
+    open_access?: { is_oa?: boolean };
+  };
+  unpaywall: {
+    is_oa?: boolean;
+    best_oa_location?: { landing_page_url?: string; url_for_pdf?: string };
+    message?: string;
+  };
+}>>();
+
+function SourceResults({ results }: { results: FreeSourceResult[] }) {
+  return results.length ? (
+    <ul className="space-y-3">
+      {results.map((item) => (
+        <li key={item.url}>
+          <a className="font-semibold underline" href={item.url} target="_blank" rel="noreferrer">
+            {item.title}
+          </a>
+          {(item.detail || item.date) && (
+            <p className="text-xs">
+              {[item.detail, item.date].filter(Boolean).join(" · ")}
+            </p>
+          )}
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p>No results.</p>
   );
 }
 

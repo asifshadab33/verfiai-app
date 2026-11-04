@@ -10,7 +10,7 @@ export type NewToolCategory =
   | "Productivity"
   | "Professional Sources";
 
-export type NewToolKind = "browser" | "api" | "launcher" | "existing";
+export type NewToolKind = "browser" | "api" | "launcher" | "existing" | "server";
 
 export type NewToolDefinition = {
   slug: string;
@@ -139,7 +139,7 @@ export const NEW_TOOLS: NewToolDefinition[] = [
     title: englishToolCopy["citation-checker"].title,
     description: englishToolCopy["citation-checker"].description,
     category: "Research & Citations",
-    kind: "existing",
+    kind: "server",
     keywords: ["references", "retractions", "Crossref", "citations"],
   },
   {
@@ -203,7 +203,7 @@ export const NEW_TOOLS: NewToolDefinition[] = [
     title: englishToolCopy["gdelt-news"].title,
     description: englishToolCopy["gdelt-news"].description,
     category: "Verification & OSINT",
-    kind: "api",
+    kind: "server",
     keywords: ["news", "coverage", "global events"],
   },
   {
@@ -211,7 +211,7 @@ export const NEW_TOOLS: NewToolDefinition[] = [
     title: englishToolCopy["sec-filings"].title,
     description: englishToolCopy["sec-filings"].description,
     category: "Professional Sources",
-    kind: "api",
+    kind: "server",
     keywords: ["EDGAR", "company", "filings", "investor"],
   },
   {

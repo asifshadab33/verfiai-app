@@ -12,6 +12,8 @@ const protectedFunctions = [
   { file: "./verify.functions.ts", name: "verifyCitations" },
   { file: "./tools.functions.ts", name: "lookupDois" },
   { file: "./tools.functions.ts", name: "formatDois" },
+  { file: "./free-source.functions.ts", name: "searchGdeltNews" },
+  { file: "./free-source.functions.ts", name: "searchSecFilings" },
 ];
 
 describe("authentication for URL and citation lookups", () => {

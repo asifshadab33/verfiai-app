@@ -340,5 +340,9 @@
   "searchEmpty": "Keine passenden Seiten oder Tools gefunden.",
   "searchKeyboard": "↑/↓ zum Navigieren · Eingabe zum Öffnen · Esc zum Schließen",
   "searchLoadError": "Die Suche ist nicht verfügbar. Bitte erneut versuchen.",
-  "searchLoading": "Suchergebnisse werden geladen…"
+  "searchLoading": "Suchergebnisse werden geladen…",
+  "freeToolServerFetch": "Für den Abruf von Ergebnissen aus der öffentlichen Quelle ist eine kostenlose Anmeldung bei Verfiai erforderlich.",
+  "citationCheckerHub": "Kostenlos mit Verfiai-Anmeldung: Referenzen auf Metadaten, Rücknahmehinweise und Zitierprobleme prüfen.",
+  "openAccessCacheNote": "Wiederholte DOI-Suchen bleiben im Speicher, solange diese Seite geöffnet ist.",
+  "checkingSignIn": "Anmeldung wird überprüft…"
 }

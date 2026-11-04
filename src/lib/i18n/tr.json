@@ -340,5 +340,9 @@
   "searchEmpty": "Eşleşen sayfa veya araç bulunamadı.",
   "searchKeyboard": "↑/↓ gezin · Enter aç · Esc kapat",
   "searchLoadError": "Arama kullanılamıyor. Lütfen yeniden deneyin.",
-  "searchLoading": "Arama sonuçları yükleniyor…"
+  "searchLoading": "Arama sonuçları yükleniyor…",
+  "freeToolServerFetch": "Herkese açık kaynaktan sonuç almak için Verfiai'ye ücretsiz giriş gerekir.",
+  "citationCheckerHub": "Verfiai hesabıyla ücretsiz: kaynakçaları üst veriler, geri çekme bildirimleri ve atıf riskleri açısından kontrol edin.",
+  "openAccessCacheNote": "Tekrarlanan DOI aramaları bu sayfa açıkken bellekte tutulur.",
+  "checkingSignIn": "Girişiniz kontrol ediliyor…"
 }
