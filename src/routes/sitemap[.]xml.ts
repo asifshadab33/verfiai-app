@@ -28,6 +28,7 @@ const PAGES = [
   "/sources",
   "/security",
   "/contact",
+  "/executive-tools",
 ];
 export const sitemapPaths = () => [
   ...PAGES,

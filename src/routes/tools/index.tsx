@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
 import { ToolsHub } from "@/components/verifai/tools/ToolsHub";
 import { toolHead } from "@/lib/tools/tool-head";
@@ -22,6 +22,9 @@ function Page() {
       intro="Small, free tools for checking facts, sources and writing. Most run entirely in your browser."
     >
       <ToolsHub />
+      <PageSection title="Executive tools directory">
+        <p>Explore a curated directory of external services for company research, media monitoring, documents, reporting, meetings and professional communication. <Link className="text-brand underline" to="/executive-tools">Browse executive tools ↗</Link></p>
+      </PageSection>
       <PageSection title="What these tools do not do">
         <p>
           None of these tools tells you whether text was written by AI, and none of them proves that

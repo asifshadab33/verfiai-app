@@ -388,5 +388,18 @@
   "freeToolTitleHowToCheck": "如何核查",
   "freeToolDescriptionHowToCheck": "解答有关核查照片、来源、引述和网络说法的常见问题。",
   "freeToolTitleTemplates": "免费研究模板与核查指南",
-  "freeToolDescriptionTemplates": "下载用于主张、证据、引文和合规的清单与记录表。"
+  "freeToolDescriptionTemplates": "下载用于主张、证据、引文和合规的清单与记录表。",
+  "executiveToolsTitle": "高管工具目录",
+  "executiveToolsIntro": "精选外部服务，帮助管理者研究市场、开展沟通、协调团队并准备清晰的报告。",
+  "executiveToolsNoticeTitle": "外部网站提示：",
+  "executiveToolsNotice": "以下工具位于外部网站。点击链接会离开 Verfiai。我们不控制这些网站——注册前请查看其隐私政策和服务条款。",
+  "executiveToolsExternal": "外部网站 ↗",
+  "executiveToolsEmail": "大规模电子邮件与客户触达",
+  "executiveToolsIntelligence": "公司与市场情报",
+  "executiveToolsMedia": "媒体监测与新闻",
+  "executiveToolsDocuments": "文档、演示文稿与 PDF 处理",
+  "executiveToolsData": "数据、图表与报告",
+  "executiveToolsMeetings": "会议、日程安排与笔记",
+  "executiveToolsFiles": "大文件传输与存储",
+  "executiveToolsWriting": "写作与沟通润色"
 }

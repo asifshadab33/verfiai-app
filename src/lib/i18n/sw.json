@@ -388,5 +388,18 @@
   "freeToolTitleHowToCheck": "Jinsi ya Kukagua Taarifa",
   "freeToolDescriptionHowToCheck": "Majibu ya vitendo kuhusu kukagua picha, vyanzo, nukuu na madai ya mtandaoni.",
   "freeToolTitleTemplates": "Violezo vya Utafiti na Miongozo ya Uhakiki Bila Malipo",
-  "freeToolDescriptionTemplates": "Pakua orodha na kumbukumbu za madai, ushahidi, nukuu na uzingatiaji."
+  "freeToolDescriptionTemplates": "Pakua orodha na kumbukumbu za madai, ushahidi, nukuu na uzingatiaji.",
+  "executiveToolsTitle": "Saraka ya zana za viongozi",
+  "executiveToolsIntro": "Uteuzi wa huduma za nje zinazowasaidia viongozi kutafiti masoko, kuwasiliana, kuratibu timu na kuandaa ripoti zilizo wazi.",
+  "executiveToolsNoticeTitle": "Taarifa kuhusu tovuti za nje:",
+  "executiveToolsNotice": "Zana zilizo hapa chini ziko kwenye tovuti za nje. Kubofya kiungo kutakuondoa kwenye Verfiai. Hatuziendeshi tovuti hizo — soma sera yao ya faragha na masharti kabla ya kujisajili.",
+  "executiveToolsExternal": "Tovuti ya nje ↗",
+  "executiveToolsEmail": "Barua pepe na mawasiliano kwa kiwango kikubwa",
+  "executiveToolsIntelligence": "Taarifa za kampuni na soko",
+  "executiveToolsMedia": "Ufuatiliaji wa vyombo vya habari na habari",
+  "executiveToolsDocuments": "Nyaraka, mawasilisho na kazi za PDF",
+  "executiveToolsData": "Data, chati na ripoti",
+  "executiveToolsMeetings": "Mikutano, ratiba na madokezo",
+  "executiveToolsFiles": "Uhamishaji na uhifadhi wa faili kubwa",
+  "executiveToolsWriting": "Kuboresha uandishi na mawasiliano"
 }

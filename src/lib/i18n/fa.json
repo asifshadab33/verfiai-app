@@ -388,5 +388,18 @@
   "freeToolTitleHowToCheck": "روش بررسی اطلاعات",
   "freeToolDescriptionHowToCheck": "پاسخ‌های کاربردی درباره بررسی عکس‌ها، منابع، نقل‌قول‌ها و ادعاهای آنلاین.",
   "freeToolTitleTemplates": "الگوهای پژوهشی و راهنماهای راستی‌آزمایی رایگان",
-  "freeToolDescriptionTemplates": "چک‌لیست‌ها و گزارش‌هایی برای ادعاها، شواهد، استنادها و انطباق دانلود کنید."
+  "freeToolDescriptionTemplates": "چک‌لیست‌ها و گزارش‌هایی برای ادعاها، شواهد، استنادها و انطباق دانلود کنید.",
+  "executiveToolsTitle": "فهرست ابزارهای مدیران",
+  "executiveToolsIntro": "مجموعه‌ای گزینش‌شده از خدمات بیرونی برای کمک به مدیران در بررسی بازارها، ارتباطات، هماهنگی تیم‌ها و تهیه گزارش‌های روشن.",
+  "executiveToolsNoticeTitle": "اطلاعیه درباره وب‌سایت‌های بیرونی:",
+  "executiveToolsNotice": "ابزارهای زیر در وب‌سایت‌های بیرونی قرار دارند. با کلیک روی پیوند، از Verfiai خارج می‌شوید. ما کنترلی بر آن وب‌سایت‌ها نداریم — پیش از ثبت‌نام، سیاست حفظ حریم خصوصی و شرایط استفاده آن‌ها را بررسی کنید.",
+  "executiveToolsExternal": "وب‌سایت بیرونی ↗",
+  "executiveToolsEmail": "ایمیل و ارتباطات در مقیاس گسترده",
+  "executiveToolsIntelligence": "اطلاعات شرکت و بازار",
+  "executiveToolsMedia": "پایش رسانه‌ها و اخبار",
+  "executiveToolsDocuments": "اسناد، ارائه‌ها و کار با PDF",
+  "executiveToolsData": "داده‌ها، نمودارها و گزارش‌دهی",
+  "executiveToolsMeetings": "جلسه‌ها، زمان‌بندی و یادداشت‌ها",
+  "executiveToolsFiles": "انتقال و ذخیره‌سازی فایل‌های بزرگ",
+  "executiveToolsWriting": "بهبود نگارش و ارتباطات"
 }

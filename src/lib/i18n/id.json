@@ -388,5 +388,18 @@
   "freeToolTitleHowToCheck": "Cara Memeriksa Informasi",
   "freeToolDescriptionHowToCheck": "Jawaban praktis tentang memeriksa foto, sumber, kutipan, dan klaim daring.",
   "freeToolTitleTemplates": "Templat Riset dan Panduan Verifikasi Gratis",
-  "freeToolDescriptionTemplates": "Unduh daftar periksa dan log untuk klaim, bukti, sitasi, dan kepatuhan."
+  "freeToolDescriptionTemplates": "Unduh daftar periksa dan log untuk klaim, bukti, sitasi, dan kepatuhan.",
+  "executiveToolsTitle": "Direktori alat eksekutif",
+  "executiveToolsIntro": "Pilihan layanan eksternal untuk membantu pemimpin meneliti pasar, berkomunikasi, mengoordinasikan tim, dan menyiapkan laporan yang jelas.",
+  "executiveToolsNoticeTitle": "Pemberitahuan situs eksternal:",
+  "executiveToolsNotice": "Alat di bawah ini berada di situs web eksternal. Mengeklik tautan akan membawa Anda keluar dari Verfiai. Kami tidak mengendalikan situs tersebut — tinjau kebijakan privasi dan ketentuannya sebelum mendaftar.",
+  "executiveToolsExternal": "Situs eksternal ↗",
+  "executiveToolsEmail": "Email dan penjangkauan skala besar",
+  "executiveToolsIntelligence": "Informasi perusahaan dan pasar",
+  "executiveToolsMedia": "Pemantauan media dan berita",
+  "executiveToolsDocuments": "Dokumen, presentasi, dan pekerjaan PDF",
+  "executiveToolsData": "Data, grafik, dan pelaporan",
+  "executiveToolsMeetings": "Rapat, penjadwalan, dan catatan",
+  "executiveToolsFiles": "Transfer dan penyimpanan file besar",
+  "executiveToolsWriting": "Penyempurnaan tulisan dan komunikasi"
 }

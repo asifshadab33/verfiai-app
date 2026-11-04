@@ -388,5 +388,18 @@
   "freeToolTitleHowToCheck": "Come verificare",
   "freeToolDescriptionHowToCheck": "Risposte pratiche su come verificare foto, fonti, citazioni e affermazioni online.",
   "freeToolTitleTemplates": "Modelli gratuiti di ricerca e guide di verifica",
-  "freeToolDescriptionTemplates": "Scarica checklist e registri per affermazioni, prove, citazioni e conformità."
+  "freeToolDescriptionTemplates": "Scarica checklist e registri per affermazioni, prove, citazioni e conformità.",
+  "executiveToolsTitle": "Directory di strumenti per dirigenti",
+  "executiveToolsIntro": "Una selezione di servizi esterni per aiutare i responsabili a studiare i mercati, comunicare, coordinare i team e preparare report chiari.",
+  "executiveToolsNoticeTitle": "Avviso sui siti esterni:",
+  "executiveToolsNotice": "Gli strumenti qui sotto si trovano su siti web esterni. Facendo clic su un link uscirai da Verfiai. Non controlliamo quei siti: consulta l’informativa sulla privacy e i termini prima di registrarti.",
+  "executiveToolsExternal": "Sito esterno ↗",
+  "executiveToolsEmail": "Email e contatti su larga scala",
+  "executiveToolsIntelligence": "Informazioni su aziende e mercati",
+  "executiveToolsMedia": "Monitoraggio dei media e notizie",
+  "executiveToolsDocuments": "Documenti, presentazioni e PDF",
+  "executiveToolsData": "Dati, grafici e report",
+  "executiveToolsMeetings": "Riunioni, pianificazione e appunti",
+  "executiveToolsFiles": "Trasferimento e archiviazione di file di grandi dimensioni",
+  "executiveToolsWriting": "Miglioramento della scrittura e della comunicazione"
 }

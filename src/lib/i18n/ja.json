@@ -388,5 +388,18 @@
   "freeToolTitleHowToCheck": "情報の確認方法",
   "freeToolDescriptionHowToCheck": "写真、出典、引用、オンライン上の主張を確認する際によくある質問に回答します。",
   "freeToolTitleTemplates": "無料の調査テンプレートと検証ガイド",
-  "freeToolDescriptionTemplates": "主張、証拠、引用、コンプライアンス向けのチェックリストと記録用紙をダウンロード。"
+  "freeToolDescriptionTemplates": "主張、証拠、引用、コンプライアンス向けのチェックリストと記録用紙をダウンロード。",
+  "executiveToolsTitle": "エグゼクティブ向けツール一覧",
+  "executiveToolsIntro": "市場調査、コミュニケーション、チーム調整、明確なレポート作成に役立つ外部サービスを厳選して紹介します。",
+  "executiveToolsNoticeTitle": "外部サイトに関する注意：",
+  "executiveToolsNotice": "以下のツールは外部ウェブサイト上にあります。リンクをクリックするとVerfiaiから移動します。これらのサイトは当社の管理外です。登録前にプライバシーポリシーと利用規約をご確認ください。",
+  "executiveToolsExternal": "外部サイト ↗",
+  "executiveToolsEmail": "大量メール配信とアウトリーチ",
+  "executiveToolsIntelligence": "企業・市場インテリジェンス",
+  "executiveToolsMedia": "メディア監視・ニュース",
+  "executiveToolsDocuments": "文書・プレゼンテーション・PDF",
+  "executiveToolsData": "データ・グラフ・レポート",
+  "executiveToolsMeetings": "会議・スケジュール・議事メモ",
+  "executiveToolsFiles": "大容量ファイルの転送・保存",
+  "executiveToolsWriting": "文章とコミュニケーションの改善"
 }

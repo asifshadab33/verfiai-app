@@ -42,6 +42,7 @@ import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as TemplatesRouteImport } from './routes/templates'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as VideoResearchRouteImport } from './routes/video-research'
+import { Route as ExecutiveToolsRouteImport } from './routes/executive-tools'
 import { Route as AccountLibraryUsageRouteImport } from './routes/account/library-usage'
 import { Route as AccountUsageRouteImport } from './routes/account/usage'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout/success'
@@ -290,6 +291,11 @@ const TermsRoute = TermsRouteImport.update({
 const VideoResearchRoute = VideoResearchRouteImport.update({
   id: '/video-research',
   path: '/video-research',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExecutiveToolsRoute = ExecutiveToolsRouteImport.update({
+  id: '/executive-tools',
+  path: '/executive-tools',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccountLibraryUsageRoute = AccountLibraryUsageRouteImport.update({
@@ -753,6 +759,8 @@ export interface FileRoutesByFullPath {
   '/templates': typeof TemplatesRoute
   '/terms': typeof TermsRoute
   '/video-research': typeof VideoResearchRoute
+  '/executive-tools': typeof ExecutiveToolsRoute
+  '/executive-tools': typeof ExecutiveToolsRoute
   '/account/library-usage': typeof AccountLibraryUsageRoute
   '/account/usage': typeof AccountUsageRoute
   '/checkout/success': typeof CheckoutSuccessRoute
@@ -1113,6 +1121,7 @@ export interface FileRouteTypes {
     | '/templates'
     | '/terms'
     | '/video-research'
+    | '/executive-tools'
     | '/account/library-usage'
     | '/account/usage'
     | '/checkout/success'
@@ -1471,6 +1480,7 @@ export interface RootRouteChildren {
   TemplatesRoute: typeof TemplatesRoute
   TermsRoute: typeof TermsRoute
   VideoResearchRoute: typeof VideoResearchRoute
+  ExecutiveToolsRoute: typeof ExecutiveToolsRoute
   AccountLibraryUsageRoute: typeof AccountLibraryUsageRoute
   AccountUsageRoute: typeof AccountUsageRoute
   CheckoutSuccessRoute: typeof CheckoutSuccessRoute
@@ -2415,6 +2425,7 @@ const rootRouteChildren: RootRouteChildren = {
   TemplatesRoute: TemplatesRoute,
   TermsRoute: TermsRoute,
   VideoResearchRoute: VideoResearchRoute,
+  ExecutiveToolsRoute: ExecutiveToolsRoute,
   AccountLibraryUsageRoute: AccountLibraryUsageRoute,
   AccountUsageRoute: AccountUsageRoute,
   CheckoutSuccessRoute: CheckoutSuccessRoute,

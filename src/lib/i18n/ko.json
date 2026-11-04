@@ -388,5 +388,18 @@
   "freeToolTitleHowToCheck": "정보 확인 방법",
   "freeToolDescriptionHowToCheck": "사진, 출처, 인용 및 온라인 주장을 확인하는 일반적인 질문에 실용적으로 답합니다.",
   "freeToolTitleTemplates": "무료 연구 템플릿 및 검증 가이드",
-  "freeToolDescriptionTemplates": "주장, 증거, 인용 및 규정 준수를 위한 체크리스트와 기록지를 다운로드하세요."
+  "freeToolDescriptionTemplates": "주장, 증거, 인용 및 규정 준수를 위한 체크리스트와 기록지를 다운로드하세요.",
+  "executiveToolsTitle": "경영진 도구 디렉터리",
+  "executiveToolsIntro": "시장 조사, 커뮤니케이션, 팀 조율 및 명확한 보고서 작성을 돕는 외부 서비스를 엄선했습니다.",
+  "executiveToolsNoticeTitle": "외부 사이트 안내:",
+  "executiveToolsNotice": "아래 도구는 외부 웹사이트에 있습니다. 링크를 클릭하면 Verfiai를 벗어나게 됩니다. 해당 사이트는 당사가 관리하지 않습니다. 가입하기 전에 개인정보 처리방침과 이용약관을 확인하세요.",
+  "executiveToolsExternal": "외부 사이트 ↗",
+  "executiveToolsEmail": "대량 이메일 및 아웃리치",
+  "executiveToolsIntelligence": "기업 및 시장 정보",
+  "executiveToolsMedia": "미디어 모니터링 및 뉴스",
+  "executiveToolsDocuments": "문서, 프레젠테이션 및 PDF 작업",
+  "executiveToolsData": "데이터, 차트 및 보고",
+  "executiveToolsMeetings": "회의, 일정 관리 및 메모",
+  "executiveToolsFiles": "대용량 파일 전송 및 저장",
+  "executiveToolsWriting": "글쓰기 및 커뮤니케이션 다듬기"
 }
