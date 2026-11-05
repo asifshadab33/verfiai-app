@@ -67,6 +67,11 @@ jobs:
         run: npx eslint src/lib/page.server.ts src/lib/page.server.test.ts src/lib/tools/cite-format.ts src/lib/tools/cite-format.test.ts
 
       - name: Unit tests
+        env:
+          # Optional dedicated QA-only database secrets; never use production credentials here.
+          LIBRARY_QA_PRIVILEGED_DATABASE_URL: ${{ secrets.LIBRARY_QA_PRIVILEGED_DATABASE_URL }}
+          SUPABASE_URL: ${{ secrets.VERIFAI_QA_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.VERIFAI_QA_SUPABASE_SERVICE_ROLE_KEY }}
         run: npm test
 
       - name: Production build
