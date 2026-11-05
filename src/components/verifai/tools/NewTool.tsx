@@ -11,6 +11,7 @@ import type { Lang } from "@/lib/translations";
 import { NEW_TOOLS } from "@/lib/tools/new-tool-catalog";
 import { recognizeImage } from "@/lib/ocr";
 import { ToolSignInPrompt } from "./ToolSignInPrompt";
+import { runRegexInWorker } from "@/lib/regex-tester";
 
 const buttonClass =
   "inline-flex min-h-11 items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50";
@@ -254,31 +255,24 @@ function NewToolContent({ slug, locale = "en" }: Props) {
           break;
         }
         case "regex-tester": {
-          const expression = new RegExp(input, secondary || "g");
-          const matches = [
-            ...tertiary.matchAll(
-              new RegExp(
-                expression.source,
-                expression.flags.includes("g") ? expression.flags : `${expression.flags}g`,
-              ),
-            ),
-          ];
+          const matches = await runRegexInWorker(input, tertiary, secondary || "g");
+          const expressionFlags = secondary || "g";
           setResult(
             <div>
               <p>
                 {matches.length} match{matches.length === 1 ? "" : "es"} found. Flags:{" "}
-                {expression.flags || "none"}.
+                {expressionFlags || "none"}.
               </p>
               <ul className="mt-2 list-disc ps-5">
                 {matches.slice(0, 100).map((match, index) => (
                   <li key={`${match.index}-${index}`}>
-                    <code>{match[0]}</code> at character {match.index}
+                    <code>{match.value}</code> at character {match.index}
                   </li>
                 ))}
               </ul>
               <p className="mt-3 text-sm">
-                Common patterns: <code>\\bword\\b</code> whole word · <code>\\d+</code> digits ·{" "}
-                <code>^[A-Z]</code> starts with uppercase · <code>\\S+@\\S+</code> rough email
+                Common patterns: <code>\\\\bword\\\\b</code> whole word · <code>\\\\d+</code> digits ·{" "}
+                <code>^[A-Z]</code> starts with uppercase · <code>\\\\S+@\\\\S+</code> rough email
                 check.
               </p>
             </div>,
