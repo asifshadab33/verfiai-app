@@ -96,7 +96,7 @@ const publicIpv4Lookup: LookupFunction = (hostname, options, callback) => {
       callback(new Error("No public IPv4 address available"), "", 4);
       return;
     }
-    if (options.all) {
+    if (typeof options === "object" && options.all) {
       callback(null, addresses.map((entry) => ({ address: entry.address, family: 4 })));
     } else {
       callback(null, selected.address, 4);
