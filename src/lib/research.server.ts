@@ -327,13 +327,9 @@ async function buildFreshReport(
   const found = [...webResults, ...communityContext];
   await progress?.("scoring");
   const want = data.format === "extended" ? 10 : 6;
-  // Over-fetch, then drop dead links (live HTTP check) so the report never cites a broken URL.
-  const { filterLiveSources } = await import("./link-check.server");
-  const { kept: sources, dead: deadLinks } = await filterLiveSources(
-    rerank(query, uniqueSources(found), want + 6),
-    want,
-  );
-  if (deadLinks.length) console.info("report: excluded dead source links", deadLinks.length);
+  // Search providers supply source URLs and excerpts. Do not probe arbitrary publisher URLs
+  // from the Worker: source liveness checks are not worth opening an SSRF-capable fetch path.
+  const sources = rerank(query, uniqueSources(found), want);
   const web = sources.length > 0;
   const fetchedAt = new Date().toISOString();
 
