@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - fix/preview-remediation-2026-11
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
