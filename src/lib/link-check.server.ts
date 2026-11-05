@@ -154,13 +154,12 @@ async function probe(input: string): Promise<number | null> {
         response = await requestOnce(current, method);
         if (
           method === "HEAD" &&
-          (
-            response.status === 405 ||
+          (response.status === 405 ||
             response.status === 403 ||
             response.status === 404 ||
-            response.status >= 500
-          )
+            response.status >= 500)
         )
+          continue;
           continue;
         break;
       } catch {
