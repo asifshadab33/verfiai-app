@@ -31,7 +31,7 @@ jobs:
           cache: npm
 
       - name: Apply non-breaking audit fixes
-        run: npm install --package-lock-only --ignore-scripts --no-audit
+        run: npm audit fix --package-lock-only || true
 
       - name: Install exact lockfile
         run: npm install --no-audit
@@ -64,6 +64,7 @@ jobs:
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add package-lock.json
             git commit -m "security: apply compatible npm audit fixes"
+            git pull --rebase origin chore/production-readiness-2026-11
             git push origin HEAD:chore/production-readiness-2026-11
           else
             echo "No compatible lockfile updates were available."
