@@ -106,5 +106,6 @@ jobs:
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add package-lock.json
             git commit -m "build: sync lockfile with Vite 8.1.5"
+            git pull --rebase origin "${{ github.head_ref }}"
             git push origin HEAD:refs/heads/${{ github.head_ref }}
           fi
