@@ -79,6 +79,25 @@ jobs:
       - name: Production build
         run: npm run build
 
+      - name: Development server preview smoke test
+        run: |
+          set -e
+          npm run dev -- --host 127.0.0.1 --port 5173 --strictPort > /tmp/verfiai-vite.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:5173/ > /tmp/verfiai-home.html; then
+              break
+            fi
+            sleep 2
+          done
+          test -s /tmp/verfiai-home.html
+          grep -qi '<html' /tmp/verfiai-home.html
+          if grep -q 'Missing Supabase environment variable' /tmp/verfiai-home.html; then
+            cat /tmp/verfiai-vite.log
+            exit 1
+          fi
+
       - name: Commit synchronized lockfile
         if: github.event_name == 'pull_request'
         run: |
