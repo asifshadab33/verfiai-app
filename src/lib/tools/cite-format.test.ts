@@ -22,7 +22,9 @@ describe("citation formatting helpers", () => {
   });
   it("builds the content-negotiation request", () => {
     expect(acceptHeader("apa")).toBe("text/x-bibliography; style=apa; locale=en-US");
-    expect(crossrefTransformUrl("10.1002/(sici)1097-4571(199806)49:8<693::aid-asi5>3.0.co;2-o")).toBe(
+    expect(
+      crossrefTransformUrl("10.1002/(sici)1097-4571(199806)49:8<693::aid-asi5>3.0.co;2-o"),
+    ).toBe(
       "https://api.crossref.org/works/10.1002/(sici)1097-4571(199806)49%3A8%3C693%3A%3Aaid-asi5%3E3.0.co%3B2-o/transform",
     );
   });
