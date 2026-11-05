@@ -97,7 +97,10 @@ const publicIpv4Lookup: LookupFunction = (hostname, options, callback) => {
       return;
     }
     if (typeof options === "object" && options.all) {
-      callback(null, addresses.map((entry) => ({ address: entry.address, family: 4 })));
+      callback(
+        null,
+        addresses.map((entry) => ({ address: entry.address, family: 4 })),
+      );
     } else {
       callback(null, selected.address, 4);
     }
@@ -147,7 +150,12 @@ async function probe(input: string): Promise<number | null> {
         response = await requestOnce(current, method);
         if (
           method === "HEAD" &&
-          (response.status === 405 || response.status === 403 || response.status === 404 || response.status >= 500)
+          (
+            response.status === 405 ||
+            response.status === 403 ||
+            response.status === 404 ||
+            response.status >= 500
+          )
         )
           continue;
         break;
