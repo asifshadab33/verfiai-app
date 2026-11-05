@@ -1,5 +1,12 @@
-import { describe, expect, it } from "vitest";
-import { normalizePublicArticleUrl } from "./page.server";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { vi } from "vitest";
+vi.mock("./cache.server", () => ({
+  cached: ({ compute }: { compute: () => Promise<string> }) => compute(),
+  cacheKey: () => "test-page",
+  CACHE_TTL: { page: () => 1000 },
+}));
+
+import { fetchArticle, normalizePublicArticleUrl } from "./page.server";
 
 describe("public article URL validation", () => {
   it("accepts ordinary public HTTPS URLs and strips fragments", () => {
@@ -38,5 +45,18 @@ describe("public article URL validation", () => {
   it("normalizes legacy numeric IPv4 spellings before rejecting them", () => {
     expect(normalizePublicArticleUrl("https://2130706433/")).toBeNull();
     expect(normalizePublicArticleUrl("https://0177.0.0.1/")).toBeNull();
+  });
+});
+
+describe("URL extraction configuration fallback", () => {
+  afterEach(() => {
+    vi.unstubAllEnvs();
+  });
+
+  it("returns a friendly manual-paste message when Tavily is not configured", async () => {
+    vi.stubEnv("TAVILY_API_KEY", "");
+    await expect(fetchArticle("https://example.com/article")).rejects.toThrow(
+      "Live URL extraction requires a configured API key. You can paste the article text instead.",
+    );
   });
 });
