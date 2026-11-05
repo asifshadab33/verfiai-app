@@ -1,9 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  classifyStatus,
-  isPublicAddress,
-  parseSafeHttpsUrl,
-} from "./link-check.server";
+import { classifyStatus, isPublicAddress, parseSafeHttpsUrl } from "./link-check.server";
 
 describe("source link checks", () => {
   it("treats 404, 410, 5xx and unreachable links as dead", () => {
@@ -16,8 +12,7 @@ describe("source link checks", () => {
     ]);
   });
 
-  it("keeps 200 and redirects", () =>
-    expect([200, 301].map(classifyStatus)).toEqual(["ok", "ok"]));
+  it("keeps 200 and redirects", () => expect([200, 301].map(classifyStatus)).toEqual(["ok", "ok"]));
 
   it("keeps bot-blocked pages because the server is up", () =>
     expect([403, 429].map(classifyStatus)).toEqual(["blocked", "blocked"]));
