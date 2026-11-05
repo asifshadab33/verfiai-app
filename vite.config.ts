@@ -19,9 +19,8 @@ const rootDir = path.dirname(fileURLToPath(import.meta.url));
 const serverEnv = loadEnv(process.env["NODE_ENV"] ?? "development", rootDir, "");
 Object.assign(process.env, serverEnv);
 
-// Known-good client-public defaults survive fresh checkouts without a tracked .env.
-// Real platform/build environment values always take precedence. The shared
-// config below performs the existing VITE_* injection; no duplicate plugin.
+// Client defaults are public by design and are also checked into the root .env.
+// Refuse to expose anything that is not explicitly VITE_-prefixed.
 for (const [key, value] of Object.entries(clientBuildEnv)) {
   if (!key.startsWith("VITE_")) throw new Error("Only public VITE build defaults are allowed");
   if (!process.env[key]) process.env[key] = value;
@@ -34,6 +33,14 @@ export default defineConfig({
     server: { entry: "server" },
   },
   vite: {
+    // Explicitly replace these public variables in both dev and production client bundles.
+    // This avoids relying on the editor's process.env-to-import.meta.env behavior.
+    define: Object.fromEntries(
+      Object.entries(clientBuildEnv).map(([key, value]) => [
+        `import.meta.env.${key}`,
+        JSON.stringify(process.env[key] || value),
+      ]),
+    ),
     resolve: {
       alias: {
         // A nested entities v7 copy breaks SSR (it removed the legacy decode/encode subpaths);

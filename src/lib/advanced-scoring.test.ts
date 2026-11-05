@@ -19,9 +19,6 @@ vi.mock("./search.server", () => ({
     },
   ],
 }));
-vi.mock("./link-check.server", () => ({
-  filterLiveSources: async (s: unknown[]) => ({ kept: s, dead: [] }),
-}));
 vi.mock("./cache.server", () => ({
   sha: (s: string) => s,
   CACHE_TTL: { report: () => 1000 },
