@@ -5,7 +5,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { ArrowRight, ChevronDown, FileCheck2, Menu, ShieldCheck, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ResourceLibrary } from "@/components/verifai/ResourceLibrary";
 import {
   CitationFeature,
   FAQS,
@@ -353,7 +352,6 @@ function Home() {
         <CitationFeature lang={lang} />
         <HowItWorksSection lang={lang} />
         <UseCases lang={lang} />
-        <ResourceLibrary />
         <TrustSection lang={lang} />
         <PricingSection lang={lang} onStart={() => selectTab("report")} />
         <FaqSection lang={lang} />
