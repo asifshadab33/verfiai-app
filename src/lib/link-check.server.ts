@@ -160,7 +160,6 @@ async function probe(input: string): Promise<number | null> {
             response.status >= 500)
         )
           continue;
-          continue;
         break;
       } catch {
         if (method === "GET") return null;
