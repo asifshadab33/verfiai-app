@@ -47,8 +47,8 @@ export function normalizePublicArticleUrl(input: string): string | null {
         parts.length !== 4 ||
         parts.some((part) => !Number.isInteger(part) || part < 0 || part > 255)
       ) {
-      return null;
-    }
+        return null;
+      }
       const [a, b, c] = parts as [number, number, number, number];
       if (
         a === 0 ||
@@ -65,8 +65,8 @@ export function normalizePublicArticleUrl(input: string): string | null {
         (a === 198 && b === 51 && c === 100) ||
         (a === 203 && b === 0 && c === 113)
       ) {
-      return null;
-    }
+        return null;
+      }
     }
 
     url.hash = "";
