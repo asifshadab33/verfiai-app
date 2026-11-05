@@ -48,13 +48,15 @@ export const searchGdeltNews = createServerFn({ method: "POST" })
       articles?: { title?: string; url?: string; seendate?: string; domain?: string }[];
     };
     return (payload.articles ?? [])
-      .filter((article) => article.title && article.url?.startsWith("https://"))
-      .map((article) => ({
-        title: article.title!,
-        url: article.url!,
-        date: article.seendate,
-        detail: article.domain,
-      }));
+      .flatMap((article) => {
+        if (!article.title || !article.url?.startsWith("https://")) return [];
+        return [{
+          title: article.title,
+          url: article.url,
+          ...(article.seendate === undefined ? {} : { date: article.seendate }),
+          ...(article.domain === undefined ? {} : { detail: article.domain }),
+        }];
+      });
   });
 
 export const searchSecFilings = createServerFn({ method: "POST" })
@@ -106,8 +108,8 @@ export const searchSecFilings = createServerFn({ method: "POST" })
         {
           title: `${name}${form ? ` (${form})` : ""} filing`,
           url: `https://www.sec.gov/Archives/edgar/data/${Number(cik)}/${accessionNumber}/${file}`,
-          date: hit._source?.file_date,
-          detail: hit._source?.file_description,
+          ...(hit._source?.file_date === undefined ? {} : { date: hit._source.file_date }),
+          ...(hit._source?.file_description === undefined ? {} : { detail: hit._source.file_description }),
         },
       ];
     });
