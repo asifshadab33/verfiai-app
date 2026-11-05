@@ -22,6 +22,9 @@ function Page() {
       intro="Small, free tools for checking facts, sources and writing. Most run entirely in your browser."
     >
       <ToolsHub />
+      <PageSection title="Research templates and verification guides">
+        <p>Download practical checklists and logs for claims, evidence, citations, and compliance. <Link className="text-brand underline" to="/templates">Browse free research templates and guides ↗</Link></p>
+      </PageSection>
       <PageSection title="Executive tools directory">
         <p>Explore a curated directory of external services for company research, media monitoring, documents, reporting, meetings and professional communication. <Link className="text-brand underline" to="/executive-tools">Browse executive tools ↗</Link></p>
       </PageSection>
