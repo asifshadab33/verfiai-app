@@ -1,8 +1,8 @@
 /// <reference lib="webworker" />
-type Request = { pattern: string; input: string; flags: string };
+type RegexWorkerRequest = { pattern: string; input: string; flags: string };
 const context = self as DedicatedWorkerGlobalScope;
 
-context.onmessage = (event: MessageEvent<Request>) => {
+context.onmessage = (event: MessageEvent<RegexWorkerRequest>) => {
   const { pattern, input, flags } = event.data;
   try {
     const safeFlags = flags.includes("g") ? flags : flags + "g";
