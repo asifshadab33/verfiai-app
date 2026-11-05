@@ -1,5 +1,13 @@
 # Verfiai roadmap
 
+## Nov 5 visitor-crash recovery and release
+
+- [x] Restore seven client-public VITE defaults from the known-good revision through client-build-env.json and existing shared Vite injection; generated .env/server credentials untouched.
+- [ ] Verify production client configuration and fresh-browser rendering; full suite, separate typecheck and automatic production build.
+- [ ] Confirm executive-tools route/sitemap coverage and fresh basic/deep security results.
+- [ ] Publish only after required checks pass, then browser-check homepage/executive-tools and sample public endpoints.
+- Optional executive directory card deferred until mandatory recovery and verification finish.
+
 ## Nov 4 tools verification
 
 - [x] Correct invalid Punycode test fixture using xn--bcher-kva.de; preserve behavior and strengthen exact domain/IDN assertions. Full suite: 256 passed, four privileged tests skipped; automatic preview build OK.

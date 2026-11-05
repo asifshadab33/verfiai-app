@@ -8,6 +8,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadEnv } from "vite";
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import clientBuildEnv from "./client-build-env.json";
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
 
@@ -17,6 +18,14 @@ const rootDir = path.dirname(fileURLToPath(import.meta.url));
 // Never add these to a define block — that would leak secrets to the client.
 const serverEnv = loadEnv(process.env["NODE_ENV"] ?? "development", rootDir, "");
 Object.assign(process.env, serverEnv);
+
+// Known-good client-public defaults survive fresh checkouts without a tracked .env.
+// Real platform/build environment values always take precedence. The shared
+// config below performs the existing VITE_* injection; no duplicate plugin.
+for (const [key, value] of Object.entries(clientBuildEnv)) {
+  if (!key.startsWith("VITE_")) throw new Error("Only public VITE build defaults are allowed");
+  if (!process.env[key]) process.env[key] = value;
+}
 
 export default defineConfig({
   tanstackStart: {

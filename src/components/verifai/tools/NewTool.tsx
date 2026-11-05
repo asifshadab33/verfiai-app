@@ -114,7 +114,7 @@ export function NewTool({ slug, locale = "en" }: Props) {
   return <NewToolContent slug={slug} locale={locale ?? "en"} />;
 }
 
-function ServerToolGate({ slug, locale }: Props) {
+function ServerToolGate({ slug, locale = "en" }: Props) {
   const { user, loading } = useAuth();
   if (loading) return <p role="status">{siteText(locale ?? "en", "checkingSignIn")}</p>;
   if (!user)
