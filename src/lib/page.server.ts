@@ -79,7 +79,7 @@ export function normalizePublicArticleUrl(input: string): string | null {
 async function extractWithTavily(url: string): Promise<string> {
   const key = process.env["TAVILY_API_KEY"];
   if (!key) {
-    throw new Error("URL extraction is temporarily unavailable. Paste the article text instead.");
+    throw new Error("Live URL extraction requires a configured API key. You can paste the article text instead.");
   }
 
   // The only outbound request is to a fixed, trusted API host. The submitted URL is data in
