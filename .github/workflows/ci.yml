@@ -30,7 +30,7 @@ jobs:
         run: npm ci
 
       - name: Lint security changes
-        run: npx eslint src/lib/page.server.ts src/lib/page.server.test.ts
+        run: npx eslint src/lib/page.server.ts src/lib/page.server.test.ts src/lib/tools/cite-format.ts src/lib/tools/cite-format.test.ts
 
       - name: Unit tests
         run: npm test
