@@ -16,9 +16,14 @@ export function normalizePublicArticleUrl(input: string): string | null {
       url.username ||
       url.password ||
       (url.port && url.port !== "443")
-    ) return null;
+    ) {
+      return null;
+    }
 
-    const hostname = url.hostname.toLowerCase().replace(/^\[|\]$/g, "").replace(/\.$/, "");
+    const hostname = url.hostname
+      .toLowerCase()
+      .replace(/^\[|\]$/g, "")
+      .replace(/\.$/, "");
     if (
       !hostname ||
       hostname === "localhost" ||
@@ -29,7 +34,9 @@ export function normalizePublicArticleUrl(input: string): string | null {
       hostname.endsWith(".test") ||
       hostname.endsWith(".invalid") ||
       hostname.endsWith(".example")
-    ) return null;
+    ) {
+      return null;
+    }
 
     // IPv6 literals are conservatively denied. URL canonicalization also converts common
     // shortened, octal, hexadecimal and integer IPv4 forms to dotted decimal before this test.
@@ -39,10 +46,15 @@ export function normalizePublicArticleUrl(input: string): string | null {
       if (
         parts.length !== 4 ||
         parts.some((part) => !Number.isInteger(part) || part < 0 || part > 255)
-      ) return null;
+      ) {
+      return null;
+    }
       const [a, b, c] = parts as [number, number, number, number];
       if (
-        a === 0 || a === 10 || a === 127 || a >= 224 ||
+        a === 0 ||
+        a === 10 ||
+        a === 127 ||
+        a >= 224 ||
         (a === 100 && b >= 64 && b <= 127) ||
         (a === 169 && b === 254) ||
         (a === 172 && b >= 16 && b <= 31) ||
@@ -52,7 +64,9 @@ export function normalizePublicArticleUrl(input: string): string | null {
         (a === 198 && (b === 18 || b === 19)) ||
         (a === 198 && b === 51 && c === 100) ||
         (a === 203 && b === 0 && c === 113)
-      ) return null;
+      ) {
+      return null;
+    }
     }
 
     url.hash = "";
@@ -89,7 +103,9 @@ async function extractWithTavily(url: string): Promise<string> {
 
   const body = await response.text();
   if (body.length > MAX_PROVIDER_RESPONSE_CHARS) {
-    throw new Error("The extracted page is too large. Paste a shorter section of the article instead.");
+    throw new Error(
+      "The extracted page is too large. Paste a shorter section of the article instead.",
+    );
   }
 
   let payload: { results?: { url?: string; raw_content?: string }[] };
@@ -102,7 +118,9 @@ async function extractWithTavily(url: string): Promise<string> {
   }
   const content = payload.results?.find((result) => result.raw_content)?.raw_content?.trim() ?? "";
   if (content.length < 200) {
-    throw new Error("We couldn't find enough readable article text on that page. Paste the text instead.");
+    throw new Error(
+      "We couldn't find enough readable article text on that page. Paste the text instead.",
+    );
   }
   return content.slice(0, MAX_ARTICLE_CHARS);
 }
