@@ -17,6 +17,7 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as ExecutiveToolsRouteImport } from './routes/executive-tools'
 import { Route as FactCheckerRouteImport } from './routes/fact-checker'
 import { Route as FactChecksRouteImport } from './routes/fact-checks'
 import { Route as FaqRouteImport } from './routes/faq'
@@ -42,7 +43,6 @@ import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as TemplatesRouteImport } from './routes/templates'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as VideoResearchRouteImport } from './routes/video-research'
-import { Route as ExecutiveToolsRouteImport } from './routes/executive-tools'
 import { Route as AccountLibraryUsageRouteImport } from './routes/account/library-usage'
 import { Route as AccountUsageRouteImport } from './routes/account/usage'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout/success'
@@ -168,6 +168,11 @@ const CookiesRoute = CookiesRouteImport.update({
   path: '/cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ExecutiveToolsRoute = ExecutiveToolsRouteImport.update({
+  id: '/executive-tools',
+  path: '/executive-tools',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FactCheckerRoute = FactCheckerRouteImport.update({
   id: '/fact-checker',
   path: '/fact-checker',
@@ -291,11 +296,6 @@ const TermsRoute = TermsRouteImport.update({
 const VideoResearchRoute = VideoResearchRouteImport.update({
   id: '/video-research',
   path: '/video-research',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ExecutiveToolsRoute = ExecutiveToolsRouteImport.update({
-  id: '/executive-tools',
-  path: '/executive-tools',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccountLibraryUsageRoute = AccountLibraryUsageRouteImport.update({
@@ -734,6 +734,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
+  '/executive-tools': typeof ExecutiveToolsRoute
   '/fact-checker': typeof FactCheckerRoute
   '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
@@ -759,8 +760,6 @@ export interface FileRoutesByFullPath {
   '/templates': typeof TemplatesRoute
   '/terms': typeof TermsRoute
   '/video-research': typeof VideoResearchRoute
-  '/executive-tools': typeof ExecutiveToolsRoute
-  '/executive-tools': typeof ExecutiveToolsRoute
   '/account/library-usage': typeof AccountLibraryUsageRoute
   '/account/usage': typeof AccountUsageRoute
   '/checkout/success': typeof CheckoutSuccessRoute
@@ -855,6 +854,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
+  '/executive-tools': typeof ExecutiveToolsRoute
   '/fact-checker': typeof FactCheckerRoute
   '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
@@ -975,6 +975,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/cookies': typeof CookiesRoute
+  '/executive-tools': typeof ExecutiveToolsRoute
   '/fact-checker': typeof FactCheckerRoute
   '/fact-checks': typeof FactChecksRoute
   '/faq': typeof FaqRoute
@@ -1096,6 +1097,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/cookies'
+    | '/executive-tools'
     | '/fact-checker'
     | '/fact-checks'
     | '/faq'
@@ -1121,7 +1123,6 @@ export interface FileRouteTypes {
     | '/templates'
     | '/terms'
     | '/video-research'
-    | '/executive-tools'
     | '/account/library-usage'
     | '/account/usage'
     | '/checkout/success'
@@ -1216,6 +1217,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/cookies'
+    | '/executive-tools'
     | '/fact-checker'
     | '/fact-checks'
     | '/faq'
@@ -1335,6 +1337,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/contact'
     | '/cookies'
+    | '/executive-tools'
     | '/fact-checker'
     | '/fact-checks'
     | '/faq'
@@ -1455,6 +1458,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   CookiesRoute: typeof CookiesRoute
+  ExecutiveToolsRoute: typeof ExecutiveToolsRoute
   FactCheckerRoute: typeof FactCheckerRoute
   FactChecksRoute: typeof FactChecksRoute
   FaqRoute: typeof FaqRoute
@@ -1480,7 +1484,6 @@ export interface RootRouteChildren {
   TemplatesRoute: typeof TemplatesRoute
   TermsRoute: typeof TermsRoute
   VideoResearchRoute: typeof VideoResearchRoute
-  ExecutiveToolsRoute: typeof ExecutiveToolsRoute
   AccountLibraryUsageRoute: typeof AccountLibraryUsageRoute
   AccountUsageRoute: typeof AccountUsageRoute
   CheckoutSuccessRoute: typeof CheckoutSuccessRoute
@@ -1623,6 +1626,13 @@ declare module '@tanstack/react-router' {
       path: '/cookies'
       fullPath: '/cookies'
       preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/executive-tools': {
+      id: '/executive-tools'
+      path: '/executive-tools'
+      fullPath: '/executive-tools'
+      preLoaderRoute: typeof ExecutiveToolsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/fact-checker': {
@@ -2400,6 +2410,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   CookiesRoute: CookiesRoute,
+  ExecutiveToolsRoute: ExecutiveToolsRoute,
   FactCheckerRoute: FactCheckerRoute,
   FactChecksRoute: FactChecksRoute,
   FaqRoute: FaqRoute,
@@ -2425,7 +2436,6 @@ const rootRouteChildren: RootRouteChildren = {
   TemplatesRoute: TemplatesRoute,
   TermsRoute: TermsRoute,
   VideoResearchRoute: VideoResearchRoute,
-  ExecutiveToolsRoute: ExecutiveToolsRoute,
   AccountLibraryUsageRoute: AccountLibraryUsageRoute,
   AccountUsageRoute: AccountUsageRoute,
   CheckoutSuccessRoute: CheckoutSuccessRoute,
