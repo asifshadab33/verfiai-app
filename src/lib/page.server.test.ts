@@ -1,5 +1,4 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { vi } from "vitest";
 vi.mock("./cache.server", () => ({
   cached: ({ compute }: { compute: () => Promise<string> }) => compute(),
   cacheKey: () => "test-page",
