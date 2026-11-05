@@ -30,6 +30,7 @@ dist-ssr
 *.sln
 *.sw?
 
-# Environment files (keep local secrets out of version control)
-.env*
+# Public client-only defaults are intentionally tracked; local and production env files stay private.
+.env.*
 !.env.example
+!.env
