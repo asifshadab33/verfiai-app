@@ -3,7 +3,7 @@ import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { lookupDoiRecord, type DoiRecord } from "./citation.server";
 import { cached, cacheKey, CACHE_TTL } from "./cache.server";
-import { acceptHeader, arrangeCitations, doiResolverUrl, styleById } from "./tools/cite-format";
+import { acceptHeader, arrangeCitations, crossrefTransformUrl, styleById } from "./tools/cite-format";
 import { normalizeDoi } from "./tools/doi";
 
 export type { DoiRecord } from "./citation.server";
@@ -111,9 +111,9 @@ async function formatOne(doi: string, csl: string): Promise<FormattedItem> {
       kind: "doi-format",
       ttlMs: CACHE_TTL.citation(),
       compute: async () => {
-        const res = await fetch(doiResolverUrl(doi), {
+        const res = await fetch(crossrefTransformUrl(doi), {
           headers: { Accept: acceptHeader(csl), "User-Agent": UA },
-          redirect: "follow",
+          redirect: "error",
           signal: AbortSignal.timeout(10000),
         });
         if (res.status === 404) throw new Error("not_found");

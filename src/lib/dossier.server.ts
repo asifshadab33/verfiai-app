@@ -156,11 +156,10 @@ export async function generateDeepDossier(
     highTier.length >= DOSSIER_MIN_TARGET
       ? highTier
       : [...highTier, ...deduped.filter((s) => tierOf(s.url) > 2)];
-  const { filterLiveSources } = await import("./link-check.server");
-  const { kept: webKept } = await filterLiveSources(
-    pool.slice(0, DOSSIER_MAX_SOURCES - docs.length + 10),
-    Math.max(0, DOSSIER_MAX_SOURCES - docs.length),
-  );
+  // Search providers already return public result metadata and excerpts. Do not probe arbitrary
+  // result URLs from the Worker: URL liveness checks add SSRF exposure and are not required to
+  // synthesize a source-backed dossier.
+  const webKept = pool.slice(0, Math.max(0, DOSSIER_MAX_SOURCES - docs.length));
   const sources: (Source & Partial<DocSource>)[] = [...docs, ...webKept].slice(
     0,
     DOSSIER_MAX_SOURCES,
@@ -267,13 +266,13 @@ export async function generateDeepDossier(
       engines: [
         p2engine,
         "GDELT, Crossref, Wikipedia, OpenAlex, PubMed and web search",
-        "Live link check",
+        "Search-provider source metadata",
       ],
       searchAudit: [
         `Searched at ${fetchedAt} (UTC).`,
         `Topic: "${topic.slice(0, 200)}"`,
         `Queries: ${queries.length} (topic, scholarly, institutional).`,
-        `Results returned: ${found.length}; after ${opts.strict ? "strict n-gram (>80%) syndication" : "URL"} deduplication: ${deduped.length}; analysed after live link checks: ${sources.length} (max ${DOSSIER_MAX_SOURCES}).`,
+        `Results returned: ${found.length}; after ${opts.strict ? "strict n-gram (>80%) syndication" : "URL"} deduplication: ${deduped.length}; analysed without server-side URL probing: ${sources.length} (max ${DOSSIER_MAX_SOURCES}).`,
         `Documents (OpenAlex open access, Semantic Scholar, Scribd metadata): ${rawDocs.length} found, ${nDocs} kept after dedup (max 20).`,
         `Source mix: Tier 1 ${tiers[0]}, Tier 2 ${tiers[1]}, Tier 3 ${tiers[2]}.`,
       ],

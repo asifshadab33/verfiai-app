@@ -85,9 +85,9 @@ function Privacy() {
           DeepSeek, Alibaba DashScope, GitHub Models and OpenRouter, and, when enabled, the Lovable
           AI Gateway as an optional fallback that routes requests to Google or OpenAI models. Search
           terms may go to these search and data services, depending on the tool and on which
-          services are configured: Tavily (including site-limited Quora and Reddit searches used
+          services are configured: Tavily (including extraction of article URLs submitted for claim checks, and site-limited Quora and Reddit searches used
           only as low-weight community context), Brave Search, You.com, a SearXNG instance, GDELT,
-          DuckDuckGo, Wikipedia, Wikidata, Crossref, OpenAlex, PubMed, Europe PMC, Semantic Scholar,
+          DuckDuckGo, Wikipedia, Wikidata, Crossref, OpenAlex, PubMed, Europe PMC, Semantic Scholar, Unpaywall and Scribd (used for Deep Dossier discovery where available),
           Stack Exchange, the Internet Archive's Wayback Machine, World Bank Open Data, SEC EDGAR
           and the Google Fact Check Tools API. Each provider handles data under its own terms; we do
           not permit our own use of your prompts or outputs for model training.

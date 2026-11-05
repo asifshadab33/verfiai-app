@@ -1,85 +1,138 @@
-// PageExtractionProvider: fetches a public https page and extracts readable
-// article text. Extracted text is cached so repeat link checks are free.
+// PageExtractionProvider: user-submitted URLs are sent only to the fixed Tavily Extract
+// endpoint. VerifAI never opens an arbitrary user URL from its own server runtime, avoiding
+// direct SSRF against the app's network, metadata endpoints, and private services.
 import { cached, cacheKey, CACHE_TTL } from "./cache.server";
 
-function isPublicHost(h: string) {
-  if (
-    /^(localhost|0\.0\.0\.0|\[?::1\]?)$/i.test(h) ||
-    h.endsWith(".local") ||
-    h.endsWith(".internal")
-  )
-    return false;
-  if (/^\d+\.\d+\.\d+\.\d+$/.test(h)) {
-    const [a, b] = h.split(".").map(Number);
+const TAVILY_EXTRACT_ENDPOINT = "https://api.tavily.com/extract";
+const MAX_PROVIDER_RESPONSE_CHARS = 2_000_000;
+const MAX_ARTICLE_CHARS = 15_000;
+
+/** Reject non-HTTPS, credential-bearing, nonstandard-port, local and non-public IP URLs. */
+export function normalizePublicArticleUrl(input: string): string | null {
+  try {
+    const url = new URL(input.trim());
     if (
-      a === 10 ||
-      a === 127 ||
-      a === 0 ||
-      (a === 169 && b === 254) ||
-      (a === 172 && b! >= 16 && b! <= 31) ||
-      (a === 192 && b === 168)
-    )
-      return false;
+      url.protocol !== "https:" ||
+      url.username ||
+      url.password ||
+      (url.port && url.port !== "443")
+    ) {
+      return null;
+    }
+
+    const hostname = url.hostname
+      .toLowerCase()
+      .replace(/^\[|\]$/g, "")
+      .replace(/\.$/, "");
+    if (
+      !hostname ||
+      hostname === "localhost" ||
+      hostname.endsWith(".localhost") ||
+      hostname.endsWith(".local") ||
+      hostname.endsWith(".internal") ||
+      hostname.endsWith(".home.arpa") ||
+      hostname.endsWith(".test") ||
+      hostname.endsWith(".invalid") ||
+      hostname.endsWith(".example")
+    ) {
+      return null;
+    }
+
+    // IPv6 literals are conservatively denied. URL canonicalization also converts common
+    // shortened, octal, hexadecimal and integer IPv4 forms to dotted decimal before this test.
+    if (hostname.includes(":")) return null;
+    if (/^\d+(?:\.\d+){0,3}$/.test(hostname)) {
+      const parts = hostname.split(".").map(Number);
+      if (
+        parts.length !== 4 ||
+        parts.some((part) => !Number.isInteger(part) || part < 0 || part > 255)
+      ) {
+        return null;
+      }
+      const [a, b, c] = parts as [number, number, number, number];
+      if (
+        a === 0 ||
+        a === 10 ||
+        a === 127 ||
+        a >= 224 ||
+        (a === 100 && b >= 64 && b <= 127) ||
+        (a === 169 && b === 254) ||
+        (a === 172 && b >= 16 && b <= 31) ||
+        (a === 192 && b === 0 && (c === 0 || c === 2)) ||
+        (a === 192 && b === 88 && c === 99) ||
+        (a === 192 && b === 168) ||
+        (a === 198 && (b === 18 || b === 19)) ||
+        (a === 198 && b === 51 && c === 100) ||
+        (a === 203 && b === 0 && c === 113)
+      ) {
+        return null;
+      }
+    }
+
+    url.hash = "";
+    return url.toString();
+  } catch {
+    return null;
   }
-  return !h.includes(":");
 }
 
-async function extract(url: string): Promise<string> {
-  let u: URL;
-  try {
-    u = new URL(url);
-  } catch {
-    throw new Error("That link isn't a valid web address.");
+async function extractWithTavily(url: string): Promise<string> {
+  const key = process.env["TAVILY_API_KEY"];
+  if (!key) {
+    throw new Error("URL extraction is temporarily unavailable. Paste the article text instead.");
   }
-  if (u.protocol !== "https:" || !isPublicHost(u.hostname))
-    throw new Error("Only public https:// links can be checked.");
-  let res: Response;
-  try {
-    res = await fetch(u, {
-      headers: {
-        "User-Agent": "Verfiai/1.0 (+https://verfiai.app)",
-        Accept: "text/html,text/plain",
-      },
-      redirect: "follow",
-      signal: AbortSignal.timeout(15000),
-    });
-  } catch {
+
+  // The only outbound request is to a fixed, trusted API host. The submitted URL is data in
+  // the request body; it is never used as the destination of a fetch from VerifAI's runtime.
+  const response = await fetch(TAVILY_EXTRACT_ENDPOINT, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${key}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({ urls: [url], extract_depth: "basic", format: "text" }),
+    redirect: "error",
+    signal: AbortSignal.timeout(15_000),
+  });
+  if (!response.ok) {
     throw new Error(
       "We couldn't open that page. It may block automated readers — paste the text instead.",
     );
   }
-  if (!res.ok)
+
+  const body = await response.text();
+  if (body.length > MAX_PROVIDER_RESPONSE_CHARS) {
     throw new Error(
-      "We couldn't open that page. It may block automated readers — paste the text instead.",
+      "The extracted page is too large. Paste a shorter section of the article instead.",
     );
-  const html = (await res.text()).slice(0, 2_000_000);
-  const text = html
-    .replace(/<(script|style|noscript|nav|footer|header|aside)[\s\S]*?<\/\1>/gi, " ")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/\s+/g, " ")
-    .trim();
-  if (text.length < 200)
-    throw new Error("We couldn't find readable article text on that page. Paste the text instead.");
-  return text.slice(0, 15000);
+  }
+
+  let payload: { results?: { url?: string; raw_content?: string }[] };
+  try {
+    payload = JSON.parse(body) as typeof payload;
+  } catch {
+    throw new Error(
+      "The page extraction service returned an unreadable response. Paste the text instead.",
+    );
+  }
+  const content = payload.results?.find((result) => result.raw_content)?.raw_content?.trim() ?? "";
+  if (content.length < 200) {
+    throw new Error(
+      "We couldn't find enough readable article text on that page. Paste the text instead.",
+    );
+  }
+  return content.slice(0, MAX_ARTICLE_CHARS);
 }
 
-/** Extracted article text for a public https URL (cached, errors still thrown to the caller). */
-export async function fetchArticle(url: string): Promise<string> {
-  let normalized = url.trim();
-  try {
-    const u = new URL(normalized);
-    normalized = `https://${u.hostname.replace(/^www\./, "")}${u.pathname}${u.search}`;
-  } catch {
-    /* validated in extract */
-  }
+/** Extract readable article text through the fixed external extraction provider (cached). */
+export async function fetchArticle(input: string): Promise<string> {
+  const url = normalizePublicArticleUrl(input);
+  if (!url) throw new Error("Only public HTTPS links on the standard web port can be checked.");
   return cached({
-    key: cacheKey("page", [normalized]),
+    key: cacheKey("page", [url]),
     kind: "page",
     ttlMs: CACHE_TTL.page(),
-    compute: () => extract(url),
+    compute: () => extractWithTavily(url),
   });
 }

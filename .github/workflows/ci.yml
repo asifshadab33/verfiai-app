@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Audit dependency details
+        if: always()
+        run: |
+          npm audit --json > /tmp/npm-audit.json || true
+          node --input-type=module -e '
+            import fs from "node:fs";
+            const audit = JSON.parse(fs.readFileSync("/tmp/npm-audit.json", "utf8"));
+            console.log("AUDIT_COUNTS", JSON.stringify(audit.metadata?.vulnerabilities ?? {}));
+            for (const [name, item] of Object.entries(audit.vulnerabilities ?? {})) {
+              console.log("AUDIT_ITEM", JSON.stringify({
+                name,
+                severity: item.severity,
+                direct: item.isDirect,
+                range: item.range,
+                fixAvailable: item.fixAvailable,
+                via: item.via.map(v => typeof v === "string" ? v : {
+                  name: v.name, title: v.title, url: v.url, range: v.range, severity: v.severity
+                }),
+                effects: item.effects,
+                nodes: item.nodes
+              }));
+            }
+          '
+      - name: Report dependency audit summary
+        run: |
+          npm audit --json > /tmp/npm-audit.json || true
+          node --input-type=module -e '
+            import fs from "node:fs";
+            const audit = JSON.parse(fs.readFileSync("/tmp/npm-audit.json", "utf8"));
+            console.log("AUDIT_COUNTS", JSON.stringify(audit.metadata?.vulnerabilities ?? {}));
+          '
+      - name: Lint security changes
+        run: npx eslint src/lib/page.server.ts src/lib/page.server.test.ts src/lib/tools/cite-format.ts src/lib/tools/cite-format.test.ts
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Production build
+        run: npm run build

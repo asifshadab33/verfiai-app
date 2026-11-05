@@ -19,8 +19,8 @@ export const CITATION_STYLES: {
   { id: "vancouver", label: "Vancouver", csl: "vancouver", numbered: true },
 ];
 export const styleById = (id: string) => CITATION_STYLES.find((s) => s.id === id);
-export const doiResolverUrl = (doi: string) =>
-  `https://doi.org/${doi.split("/").map(encodeURIComponent).join("/")}`;
+export const crossrefTransformUrl = (doi: string) =>
+  `https://api.crossref.org/works/${doi.split("/").map(encodeURIComponent).join("/")}/transform`;
 export const acceptHeader = (csl: string) => `text/x-bibliography; style=${csl}; locale=en-US`;
 const stripNumber = (t: string) => t.replace(/^\s*(?:\[\d+\]|\d+[.)])\s*/, "");
 
