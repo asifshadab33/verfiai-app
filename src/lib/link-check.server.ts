@@ -56,7 +56,11 @@ export function parseSafeHttpsUrl(input: string): URL | null {
   try {
     const url = new URL(input);
     if (url.protocol !== "https:" || url.username || url.password) return null;
-    const hostname = url.hostname.toLowerCase().replace(/^\\[|\\]$/g, "").replace(/\\.$/, "");
+    const hostname = url.hostname
+      .toLowerCase()
+      .replace("[", "")
+      .replace("]", "")
+      .replace(/\.$/, "");
     if (
       !hostname ||
       hostname === "localhost" ||
@@ -111,7 +115,7 @@ type ProbeResponse = { status: number; location: string | undefined };
 
 function requestOnce(url: URL, method: "HEAD" | "GET"): Promise<ProbeResponse> {
   return new Promise((resolve, reject) => {
-    const hostname = url.hostname.replace(/^\\[|\\]$/g, "");
+    const hostname = url.hostname.replace("[", "").replace("]", "");
     const request = https.request(
       {
         protocol: "https:",
