@@ -11,8 +11,12 @@ const MAX_ARTICLE_CHARS = 15_000;
 export function normalizePublicArticleUrl(input: string): string | null {
   try {
     const url = new URL(input.trim());
-    if (url.protocol !== "https:" || url.username || url.password || (url.port && url.port !== "443"))
-      return null;
+    if (
+      url.protocol !== "https:" ||
+      url.username ||
+      url.password ||
+      (url.port && url.port !== "443")
+    ) return null;
 
     const hostname = url.hostname.toLowerCase().replace(/^\[|\]$/g, "").replace(/\.$/, "");
     if (
@@ -32,8 +36,10 @@ export function normalizePublicArticleUrl(input: string): string | null {
     if (hostname.includes(":")) return null;
     if (/^\d+(?:\.\d+){0,3}$/.test(hostname)) {
       const parts = hostname.split(".").map(Number);
-      if (parts.length !== 4 || parts.some((part) => !Number.isInteger(part) || part < 0 || part > 255))
-        return null;
+      if (
+        parts.length !== 4 ||
+        parts.some((part) => !Number.isInteger(part) || part < 0 || part > 255)
+      ) return null;
       const [a, b, c] = parts as [number, number, number, number];
       if (
         a === 0 || a === 10 || a === 127 || a >= 224 ||
@@ -76,7 +82,9 @@ async function extractWithTavily(url: string): Promise<string> {
     signal: AbortSignal.timeout(15_000),
   });
   if (!response.ok) {
-    throw new Error("We couldn't open that page. It may block automated readers — paste the text instead.");
+    throw new Error(
+      "We couldn't open that page. It may block automated readers — paste the text instead.",
+    );
   }
 
   const body = await response.text();
@@ -88,7 +96,9 @@ async function extractWithTavily(url: string): Promise<string> {
   try {
     payload = JSON.parse(body) as typeof payload;
   } catch {
-    throw new Error("The page extraction service returned an unreadable response. Paste the text instead.");
+    throw new Error(
+      "The page extraction service returned an unreadable response. Paste the text instead.",
+    );
   }
   const content = payload.results?.find((result) => result.raw_content)?.raw_content?.trim() ?? "";
   if (content.length < 200) {
