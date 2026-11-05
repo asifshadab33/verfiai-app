@@ -3,8 +3,12 @@ import { normalizePublicArticleUrl } from "./page.server";
 
 describe("public article URL validation", () => {
   it("accepts ordinary public HTTPS URLs and strips fragments", () => {
-    expect(normalizePublicArticleUrl("https://example.com/article#section")).toBe("https://example.com/article");
-    expect(normalizePublicArticleUrl("https://example.com:443/article")).toBe("https://example.com/article");
+    expect(normalizePublicArticleUrl("https://example.com/article#section")).toBe(
+      "https://example.com/article",
+    );
+    expect(normalizePublicArticleUrl("https://example.com:443/article")).toBe(
+      "https://example.com/article",
+    );
   });
 
   it.each([
