@@ -55,8 +55,8 @@ function contrastRatio(foreground: string, background: string) {
   const luminance = (hex: string) => {
     const match = hex.match(/^#?([0-9a-f]{6})$/i);
     if (!match) throw new Error("Enter valid six-digit hex colors.");
-    const rgb = [0, 2, 4].map((index) => parseInt(match[1].slice(index, index + 2), 16) / 255);
-    const [r, g, b] = rgb.map((value) =>
+    const rgb = [0, 2, 4].map((index) => parseInt((match[1] ?? "").slice(index, index + 2), 16) / 255);
+    const [r = 0, g = 0, b = 0] = rgb.map((value) =>
       value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4,
     );
     return 0.2126 * r + 0.7152 * g + 0.0722 * b;
@@ -69,7 +69,7 @@ function contrastRatio(foreground: string, background: string) {
 function cronField(field: string, min: number, max: number) {
   const values = new Set<number>();
   for (const part of field.split(",")) {
-    const [range, stepValue] = part.split("/");
+    const [range = "", stepValue] = part.split("/");
     const step = stepValue ? Number(stepValue) : 1;
     if (!Number.isInteger(step) || step < 1)
       throw new Error("Cron step values must be positive integers.");
@@ -111,10 +111,10 @@ export function NewTool({ slug, locale = "en" }: Props) {
   const definition = NEW_TOOLS.find((tool) => tool.slug === slug);
   if (definition?.kind === "server")
     return <ServerToolGate slug={slug} locale={locale} />;
-  return <NewToolContent slug={slug} locale={locale} />;
+  return <NewToolContent slug={slug} locale={locale ?? "en"} />;
 }
 
-function ServerToolGate({ slug, locale }: Props) {
+function ServerToolGate({ slug, locale = "en" }: Props) {
   const { user, loading } = useAuth();
   if (loading) return <p role="status">{siteText(locale ?? "en", "checkingSignIn")}</p>;
   if (!user)
@@ -292,12 +292,12 @@ function NewToolContent({ slug, locale = "en" }: Props) {
               "Enter a standard five-field cron expression: minute hour day month weekday.",
             );
           const sets = [
-            cronField(fields[0], 0, 59),
-            cronField(fields[1], 0, 23),
-            cronField(fields[2], 1, 31),
-            cronField(fields[3], 1, 12),
-            cronField(fields[4], 0, 7),
-          ];
+            cronField(fields[0] ?? "", 0, 59),
+            cronField(fields[1] ?? "", 0, 23),
+            cronField(fields[2] ?? "", 1, 31),
+            cronField(fields[3] ?? "", 1, 12),
+            cronField(fields[4] ?? "", 0, 7),
+          ] as const;
           const dates: Date[] = [];
           const cursor = new Date();
           cursor.setSeconds(0, 0);
@@ -599,7 +599,7 @@ function NewToolContent({ slug, locale = "en" }: Props) {
             const statements = Object.entries(entity?.claims ?? {})
               .slice(0, 8)
               .map(([property, values]) => {
-                const label = propertyLabels.entities?.[property]?.labels?.en?.value ?? property;
+                const label = propertyLabels.entities?.[property]?.labels?.["en"]?.value ?? property;
                 const value = values[0]?.mainsnak?.datavalue?.value;
                 const shown =
                   typeof value === "string" || typeof value === "number"
@@ -617,7 +617,7 @@ function NewToolContent({ slug, locale = "en" }: Props) {
                         : pretty(value);
                 return `${label}: ${shown}`;
               });
-            return `${entity?.labels?.en?.value ?? item.label} (${item.id}) — ${entity?.descriptions?.en?.value ?? item.description ?? "No description"}${statements.length ? `\n  ${statements.join("\n  ")}` : ""}`;
+            return `${entity?.labels?.["en"]?.value ?? item.label} (${item.id}) — ${entity?.descriptions?.["en"]?.value ?? item.description ?? "No description"}${statements.length ? `\n  ${statements.join("\n  ")}` : ""}`;
           });
           setTextResult(facts.join("\n\n"));
           break;
