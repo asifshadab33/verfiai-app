@@ -10,7 +10,7 @@ describe("ISBN lookup hardening", () => {
     const data = { "ISBN:9780140328721": { title: "Matilda" } };
     const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue(Response.json(data));
     expect(await lookupIsbn("978-0-14-032872-1")).toEqual(data);
-    expect(sessionStorage.getItem("openlibrary:9780140328721")).toBe(JSON.stringify(data));
+    expect(JSON.parse(sessionStorage.getItem("openlibrary:9780140328721") ?? "null").d).toEqual(data);
     expect(await lookupIsbn("9780140328721")).toEqual(data);
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
