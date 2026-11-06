@@ -1,3 +1,4 @@
+import { readSessionCache, writeSessionCache } from "@/lib/tools/session-cache";
 import React, { useState } from "react";
 import { Loader2, AlertCircle, ExternalLink } from "lucide-react";
 
@@ -18,17 +19,10 @@ export default function ArxivFinder() {
     setResults([]);
     try {
       const key = `arxiv:${query.toLowerCase().trim()}`;
-      try {
-        const cached = sessionStorage.getItem(key);
-        if (cached !== null) {
-          const entries = JSON.parse(cached) as ArxivResult[];
-          if (Array.isArray(entries)) {
-            setResults(entries);
-            return;
-          }
-        }
-      } catch {
-        // Browser storage is best-effort; a lookup can still run without it.
+      const cached = readSessionCache<ArxivResult[]>(key);
+      if (Array.isArray(cached)) {
+        setResults(cached);
+        return;
       }
       const res = await fetch(
         `https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(query)}&max_results=5`,
@@ -44,11 +38,7 @@ export default function ArxivFinder() {
         link: e.getElementsByTagName("id")[0]?.textContent ?? null,
         summary: e.getElementsByTagName("summary")[0]?.textContent?.substring(0, 150) + "...",
       }));
-      try {
-        sessionStorage.setItem(key, JSON.stringify(entries));
-      } catch {
-        // Do not discard results when browser storage is disabled or full.
-      }
+      writeSessionCache(key, entries);
       setResults(entries);
     } catch (e) {
       setError(
