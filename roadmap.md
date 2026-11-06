@@ -3,7 +3,7 @@
 ## Nov 6 tool load hardening
 
 - [x] Lazy-load PDF manipulation; add best-effort session caches for ISBN, arXiv and DNS and friendly 429/5xx messages for the requested services.
-- [ ] Run regression tests and full suite; no publishing or live API calls.
+- [x] Full suite: 306 passed, four privileged tests skipped, zero failures; includes 15 new regression cases for cached lookups, busy responses and PDF operations. No publishing or live API calls.
 
 ## Nov 5 visitor-crash recovery and release
 
