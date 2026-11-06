@@ -207,7 +207,13 @@ export const factCheck = createServerFn({ method: "POST" })
     z
       .object({
         text: z.string().trim().max(15000).optional(),
-        url: z.string().trim().max(2000).optional(),
+        url: z
+          .string()
+          .trim()
+          .max(2000)
+          .url()
+          .refine((u) => u.startsWith("https://"), "Only public HTTPS links can be checked.")
+          .optional(),
         language: z.string().max(50),
         progress: progressInput.optional(),
       })
