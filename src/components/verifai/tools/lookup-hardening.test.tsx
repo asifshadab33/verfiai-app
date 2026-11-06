@@ -16,7 +16,7 @@ describe("browser lookup hardening", () => {
     fireEvent.change(screen.getByRole("textbox"), { target: { value: " Physics " } });
     fireEvent.click(screen.getByRole("button", { name: "Search" }));
     await screen.findByRole("link", { name: /Example paper/ });
-    expect(JSON.parse(sessionStorage.getItem("arxiv:physics") ?? "null")).toHaveLength(1);
+    expect(JSON.parse(sessionStorage.getItem("arxiv:physics") ?? "null").d).toHaveLength(1);
     fireEvent.change(screen.getByRole("textbox"), { target: { value: "physics" } });
     fireEvent.click(screen.getByRole("button", { name: "Search" }));
     await screen.findByRole("link", { name: /Example paper/ });
@@ -37,7 +37,7 @@ describe("browser lookup hardening", () => {
     render(<FreeTool slug="dns-inspector" />);
     fireEvent.change(screen.getByRole("textbox"), { target: { value: " Example.COM " } });
     fireEvent.click(screen.getByRole("button", { name: "Search" }));
-    await waitFor(() => expect(sessionStorage.getItem("dns:A:example.com")).toBe('{"Status":0}'));
+    await waitFor(() => expect(JSON.parse(sessionStorage.getItem("dns:A:example.com") ?? "null")?.d).toEqual({ Status: 0 }));
     await waitFor(() => expect(screen.getByRole("button", { name: "Search" }).hasAttribute("disabled")).toBe(false));
     fireEvent.change(screen.getByRole("textbox"), { target: { value: "example.com" } });
     fireEvent.click(screen.getByRole("button", { name: "Search" }));
@@ -45,7 +45,7 @@ describe("browser lookup hardening", () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
     fireEvent.change(screen.getByRole("combobox"), { target: { value: "MX" } });
     fireEvent.click(screen.getByRole("button", { name: "Search" }));
-    await waitFor(() => expect(sessionStorage.getItem("dns:MX:example.com")).toBe('{"Status":0}'));
+    await waitFor(() => expect(JSON.parse(sessionStorage.getItem("dns:MX:example.com") ?? "null")?.d).toEqual({ Status: 0 }));
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 

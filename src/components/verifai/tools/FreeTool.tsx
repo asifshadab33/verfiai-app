@@ -1,3 +1,4 @@
+import { readSessionCache, writeSessionCache } from "@/lib/tools/session-cache";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { parsePhoneNumberFromString, type CountryCode } from "libphonenumber-js";
 import { Button } from "@/components/ui/button";
@@ -791,13 +792,13 @@ async function lookup(
   }
   if (slug === "dns-inspector") {
     const key = `dns:${opts.recordType}:${query.toLowerCase().trim()}`;
-    const cached = cacheRead<Result>(key);
+    const cached = readSessionCache<Result>(key);
     if (cached !== undefined) return { value: cached };
     const url = `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(query)}&type=${opts.recordType}`;
     const response = await fetch(url, { headers: { Accept: "application/dns-json" } });
     if (!response.ok) throw new Error(`DNS lookup returned ${response.status}.`);
     const value = await response.json();
-    cacheWrite(key, value);
+    writeSessionCache(key, value);
     return { value };
   }
   if (slug === "certificate-explorer") {
