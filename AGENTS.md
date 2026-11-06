@@ -44,3 +44,4 @@
 - Keep the free-tools hub grouped by category with a per-tool processing/service note, so local utilities are not confused with external lookups.
 - Research reuse is caller/exact-input/cohort scoped and checked before search; adaptive freshness never slides dates or caches degraded answers. Details live in src/lib/AGENTS.md.
 - Keep allowlisted client-public build defaults in client-build-env.json, loaded by Vite only when platform values are absent; never commit generated .env or server credentials, so fresh client builds remain configured safely.
+- Browser ISBN, arXiv and DNS tools use best-effort session caches; PDF manipulation loads pdf-lib inside operations so visits avoid unnecessary requests and PDF code loading.

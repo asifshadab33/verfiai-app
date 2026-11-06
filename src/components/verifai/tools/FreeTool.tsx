@@ -717,6 +717,8 @@ async function lookup(
     const response = await fetch(
       `https://doaj.org/api/search/${endpoint}/${encodeURIComponent(query)}`,
     );
+    if (response.status === 429 || response.status >= 500)
+      throw new Error("DOAJ service is temporarily busy. Please try again shortly.");
     if (!response.ok) throw new Error(`DOAJ returned ${response.status}. Please try again later.`);
     const data = (await response.json()) as {
       results?: Array<{ bibjson?: unknown }>;
@@ -788,10 +790,15 @@ async function lookup(
     return { value };
   }
   if (slug === "dns-inspector") {
+    const key = `dns:${opts.recordType}:${query.toLowerCase().trim()}`;
+    const cached = cacheRead<Result>(key);
+    if (cached !== undefined) return { value: cached };
     const url = `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(query)}&type=${opts.recordType}`;
     const response = await fetch(url, { headers: { Accept: "application/dns-json" } });
     if (!response.ok) throw new Error(`DNS lookup returned ${response.status}.`);
-    return { value: await response.json() };
+    const value = await response.json();
+    cacheWrite(key, value);
+    return { value };
   }
   if (slug === "certificate-explorer") {
     const domain = query.replace(/^https?:\/\//i, "").split("/")[0] ?? "";
@@ -803,6 +810,8 @@ async function lookup(
       `https://crt.sh/?q=${encodeURIComponent(normalizedDomain)}&output=json`,
       { signal: AbortSignal.timeout(20000) },
     );
+    if (response.status === 429 || response.status >= 500)
+      throw new Error("crt.sh service is temporarily busy. Please try again shortly.");
     if (!response.ok) throw new Error(`crt.sh returned ${response.status}.`);
     const records = (await response.json()) as Array<{
       name_value?: string;
@@ -908,6 +917,8 @@ async function lookup(
       const response = await fetch(
         `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(query)}`,
       );
+      if (response.status === 429 || response.status >= 500)
+        throw new Error("Dictionary API is temporarily busy. Please try again shortly.");
       if (response.status === 404) {
         if (slug === "dictionary") {
           const value = { notFound: true, message: "Word not found." };

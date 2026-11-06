@@ -1,5 +1,10 @@
 # Verfiai roadmap
 
+## Nov 6 tool load hardening
+
+- [x] Lazy-load PDF manipulation; add best-effort session caches for ISBN, arXiv and DNS and friendly 429/5xx messages for the requested services.
+- [x] Full suite: 306 passed, four privileged tests skipped, zero failures; includes 15 new regression cases for cached lookups, busy responses and PDF operations. No publishing or live API calls.
+
 ## Nov 5 visitor-crash recovery and release
 
 - [x] Restore seven client-public VITE defaults from the known-good revision through client-build-env.json and existing shared Vite injection; generated .env/server credentials untouched.

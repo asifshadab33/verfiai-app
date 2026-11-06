@@ -17,9 +17,25 @@ export default function ArxivFinder() {
     setError("");
     setResults([]);
     try {
+      const key = `arxiv:${query.toLowerCase().trim()}`;
+      try {
+        const cached = sessionStorage.getItem(key);
+        if (cached !== null) {
+          const entries = JSON.parse(cached) as ArxivResult[];
+          if (Array.isArray(entries)) {
+            setResults(entries);
+            return;
+          }
+        }
+      } catch {
+        // Browser storage is best-effort; a lookup can still run without it.
+      }
       const res = await fetch(
         `https://export.arxiv.org/api/query?search_query=all:${encodeURIComponent(query)}&max_results=5`,
       );
+      if (res.status === 429 || res.status >= 500)
+        throw new Error("The arXiv query service is temporarily busy. Please try again shortly.");
+      if (!res.ok) throw new Error(`arXiv returned ${res.status}. Please try again.`);
       const text = await res.text();
       const parser = new DOMParser();
       const doc = parser.parseFromString(text, "text/xml");
@@ -28,10 +44,17 @@ export default function ArxivFinder() {
         link: e.getElementsByTagName("id")[0]?.textContent ?? null,
         summary: e.getElementsByTagName("summary")[0]?.textContent?.substring(0, 150) + "...",
       }));
+      try {
+        sessionStorage.setItem(key, JSON.stringify(entries));
+      } catch {
+        // Do not discard results when browser storage is disabled or full.
+      }
       setResults(entries);
-    } catch {
+    } catch (e) {
       setError(
-        "Failed to fetch. arXiv API blocks browser requests (CORS). Per project rules, skipped.",
+        e instanceof Error && e.message.startsWith("The arXiv query service")
+          ? e.message
+          : "Failed to fetch. arXiv API blocks browser requests (CORS). Per project rules, skipped.",
       );
     } finally {
       setLoading(false);
