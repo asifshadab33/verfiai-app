@@ -9,7 +9,8 @@ export function dailySeries(timestamps: string[], days: number, now = Date.now()
   }
   for (const t of timestamps) {
     const i = idx.get(t.slice(0, 10));
-    if (i !== undefined) out[i].count++;
+    const row = i === undefined ? undefined : out[i];
+    if (row) row.count++;
   }
   return out;
 }
