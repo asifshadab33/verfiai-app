@@ -176,3 +176,51 @@ export const getUsageAnalytics = createServerFn({ method: "GET" })
       })),
     };
   });
+
+/** Bucket ISO timestamps into a zero-filled daily series (UTC) covering the last `days` days. */
+export function dailySeries(timestamps: string[], days: number, now = Date.now()) {
+  const out: { date: string; count: number }[] = [];
+  const idx = new Map<string, number>();
+  for (let i = days - 1; i >= 0; i--) {
+    const date = new Date(now - i * 864e5).toISOString().slice(0, 10);
+    idx.set(date, out.length);
+    out.push({ date, count: 0 });
+  }
+  for (const t of timestamps) {
+    const i = idx.get(t.slice(0, 10));
+    if (i !== undefined) out[i].count++;
+  }
+  return out;
+}
+
+/** User growth, report activity and feedback totals (counts only; no personal data). */
+export const getUserGrowthAnalytics = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .validator((d) => z.object({ days: z.number().int().min(1).max(90).default(30) }).parse(d ?? {}))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { admin } = await import("./db.server");
+    const db = await admin();
+    const since = new Date(Date.now() - data.days * 864e5).toISOString();
+    const [usersTotal, usersWin, reportsTotal, reportsWin, feedback] = await Promise.all([
+      db.from("profiles").select("id", { head: true, count: "exact" }),
+      db.from("profiles").select("created_at").gte("created_at", since).limit(10000),
+      db.from("reports").select("id", { head: true, count: "exact" }),
+      db.from("reports").select("created_at").gte("created_at", since).limit(10000),
+      db.from("verdict_feedback").select("kind").limit(10000),
+    ]);
+    const signups = (usersWin.data ?? []).map((r) => r.created_at);
+    const reports = (reportsWin.data ?? []).map((r) => r.created_at);
+    const fb = feedback.data ?? [];
+    const positive = fb.filter((f) => f.kind === "correct").length;
+    return {
+      days: data.days,
+      totalUsers: usersTotal.count ?? 0,
+      newUsers: signups.length,
+      dailySignups: dailySeries(signups, data.days),
+      totalReports: reportsTotal.count ?? 0,
+      reportsInWindow: reports.length,
+      dailyReports: dailySeries(reports, data.days),
+      feedback: { total: fb.length, positive, negative: fb.length - positive },
+    };
+  });
