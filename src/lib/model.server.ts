@@ -8,7 +8,7 @@ import { meter } from "./metering.server";
 // metered at $0; paid models keep published-list estimates.
 const FREE = { in: 0, out: 0 };
 const RATES: Record<string, { in: number; out: number }> = {
-  // Free-tier providers (Cerebras, Groq, SambaNova, NVIDIA, GitHub Models).
+  // Free-tier providers (Cerebras, Groq, SambaNova, NVIDIA).
   "cerebras:llama-3.3-70b": FREE,
   "cerebras:deepseek-r1-distill-llama-70b": FREE,
   "groq:openai/gpt-oss-120b": FREE,
@@ -16,7 +16,6 @@ const RATES: Record<string, { in: number; out: number }> = {
   "sambanova:Meta-Llama-3.3-70B-Instruct": FREE,
   "nvidia:meta/llama-3.3-70b-instruct": FREE,
   "nvidia:deepseek-ai/deepseek-r1": FREE,
-  "github:openai/gpt-4o-mini": FREE,
   // OpenRouter :free variants.
   "google/gemma-4-26b-a4b-it:free": FREE,
   "nvidia/nemotron-3-super-120b-a12b:free": FREE,
@@ -30,7 +29,7 @@ const RATES: Record<string, { in: number; out: number }> = {
 };
 const FALLBACK_RATES = { in: 0.35, out: 0.35 };
 /** Providers accessed through their free tier meter at $0 regardless of model id. */
-const FREE_TIER_PROVIDERS = new Set(["cerebras", "groq", "sambanova", "nvidia", "github"]);
+const FREE_TIER_PROVIDERS = new Set(["cerebras", "groq", "sambanova", "nvidia"]);
 
 const LABELS: Record<string, string> = {
   "cerebras:llama-3.3-70b": "Llama 3.3 70B (Cerebras)",
@@ -47,7 +46,6 @@ const LABELS: Record<string, string> = {
   "mistral:mistral-small-latest": "Mistral Small",
   "deepseek:deepseek-chat": "DeepSeek V3",
   "dashscope:qwen-plus": "Qwen Plus (DashScope)",
-  "github:openai/gpt-4o-mini": "GPT-4o mini (GitHub Models)",
   "deepseek/deepseek-chat": "DeepSeek V3 (OpenRouter)",
   "qwen/qwen-2.5-72b-instruct": "Qwen 2.5 72B (OpenRouter)",
   "deepinfra:deepseek-ai/DeepSeek-V3": "DeepSeek V3 (DeepInfra)",
@@ -69,7 +67,6 @@ export const ROUTES = {
     "lovable:openai/gpt-5-nano",
     "gemini:gemini-3.8-flash",
     "deepinfra:Qwen/Qwen2.5-72B-Instruct",
-    "github:openai/gpt-4o-mini",
     "qwen/qwen-2.5-72b-instruct",
   ],
   // Synthesis and consensus evaluation.
@@ -91,7 +88,6 @@ export const ROUTES = {
     "mistralai/mistral-nemo",
     "dashscope:qwen-plus",
     "deepinfra:Qwen/Qwen2.5-72B-Instruct",
-    "github:openai/gpt-4o-mini",
     "deepseek/deepseek-chat",
     "qwen/qwen-2.5-72b-instruct",
   ],
@@ -134,11 +130,6 @@ export const PROVIDERS: Record<string, { url: string; keyEnv: string; json: bool
   gemini: {
     url: "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
     keyEnv: "GEMINI_API_KEY",
-    json: true,
-  },
-  github: {
-    url: "https://models.github.ai/inference/chat/completions",
-    keyEnv: "GITHUB_MODELS_TOKEN",
     json: true,
   },
   mistral: {
