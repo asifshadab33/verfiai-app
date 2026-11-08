@@ -9,6 +9,7 @@ it("validates a phone number after loading the deferred parser", async () => {
   fireEvent.change(screen.getByRole("textbox"), { target: { value: "+1 202 555 0123" } });
   fireEvent.click(screen.getByRole("button", { name: "Validate number" }));
   const result = await screen.findByText(/2025550123/);
-  expect(result.textContent).toContain('"valid": true');
-  expect(result.textContent).toContain('"country": "US"');
+  const output = result.closest("dl");
+  expect(output?.textContent).toContain("Validtrue");
+  expect(output?.textContent).toContain("CountryUS");
 });

@@ -5,7 +5,7 @@ vi.mock("@tanstack/react-start", () => ({
     const builder = {
       middleware: () => builder,
       validator: () => builder,
-      handler: (handler: unknown) => handler,
+      handler: (...handlers: unknown[]) => handlers.at(-1),
     };
     return builder;
   },
