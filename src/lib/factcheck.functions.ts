@@ -32,7 +32,6 @@ import {
 import { progressInput } from "./progress";
 import { createProgressEmitter } from "./progress.server";
 import { providerExhausted } from "./research-policy";
-import { matchEditorialClaim } from "./editorial-match";
 
 export type Verdict = AggVerdict;
 export type ClaimResult = {
@@ -127,6 +126,7 @@ async function prepareClaim(
   meta?: CallMeta,
   advanced = false,
 ): Promise<() => Promise<ClaimResult>> {
+  const { matchEditorialClaim } = await import("./editorial-match");
   const editorial = matchEditorialClaim(claim, language);
   if (editorial) return async () => editorial;
   const ck = `${advanced ? "claim-scoring-v1" : "claim-v3"}:${sha(JSON.stringify([normalizeVerificationInput(claim), language.trim().toLowerCase()]))}`;
@@ -269,6 +269,7 @@ export const factCheck = createServerFn({ method: "POST" })
     }
     try {
       // Only a whole, exact assertion can bypass extraction; never match part of an article.
+      const { matchEditorialClaim } = await import("./editorial-match");
       const editorial = !data.url && data.text
         ? matchEditorialClaim(data.text, data.language)
         : null;

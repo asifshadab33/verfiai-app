@@ -46,3 +46,4 @@
 - Keep allowlisted client-public build defaults in client-build-env.json, loaded by Vite only when platform values are absent; never commit generated .env or server credentials, so fresh client builds remain configured safely.
 - Browser ISBN, arXiv and DNS tools use best-effort session caches; PDF manipulation loads pdf-lib inside operations so visits avoid unnecessary requests and PDF code loading.
 - Claim checks may reuse exact English editorial assertions only when the shared ClaimReview validator accepts their review; keep dated provenance, auth and usage guards, and never infer live scoring from editorial evidence.
+- Shared tool pages load phone parsing only on validation and citation checking only in its own branch, so unrelated tools do not eagerly load those dependencies.

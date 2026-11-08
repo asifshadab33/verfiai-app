@@ -1,11 +1,13 @@
 import { createFileRoute, useLocation } from "@tanstack/react-router";
+import { lazy, Suspense } from "react";
 import { ToolPage } from "@/components/verifai/tools/ToolPage";
 import { NewTool } from "@/components/verifai/tools/NewTool";
 import { NEW_TOOLS } from "@/lib/tools/new-tool-catalog";
 import { toolHead } from "@/lib/tools/tool-head";
-import { Checker } from "@/components/verifai/Checker";
 import { isLang } from "@/lib/translations";
 import { siteText } from "@/lib/site-i18n";
+
+const Checker = lazy(() => import("@/components/verifai/Checker").then((m) => ({ default: m.Checker })));
 
 export const Route = createFileRoute("/tools/$tool")({
   head: ({ params }) => {
@@ -41,7 +43,9 @@ function Page() {
         intro={siteText(lang, "citationCheckerHub")}
         privacy="Citation text is processed by Verfiai's sign-in-gated citation checker. Do not submit confidential references."
       >
-        <Checker lang={lang} />
+        <Suspense fallback={<p role="status">{siteText(lang, "checkingSignIn")}</p>}>
+          <Checker lang={lang} />
+        </Suspense>
       </ToolPage>
     );
   }

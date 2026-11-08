@@ -8,7 +8,7 @@ export function matchEditorialClaim(
   language: string,
   entries: readonly ClaimEntry[] = CLAIMS,
 ): ClaimResult | null {
-  if (language.trim().toLowerCase() !== "en") return null;
+  if (!["en", "english"].includes(language.trim().toLowerCase())) return null;
   const normalized = normalizeVerificationInput(text);
   const entry = entries.find(
     (candidate) => normalizeVerificationInput(candidate.claim) === normalized,
