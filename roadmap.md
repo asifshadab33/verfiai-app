@@ -1,5 +1,11 @@
 # Verfiai roadmap
 
+## Nov 8 Day 1 cost cuts — no publishing
+
+- [x] Add exact English eligible editorial matching before extraction/search/model calls, preserving auth, limits and dated review provenance.
+- [ ] Lazy-load remaining heavy browser tool dependencies after checking existing splitting.
+- [ ] Run full regression suite and verify the automatic production build; check the editorial result and tool flows.
+
 ## Nov 6 tool load hardening
 
 - [x] Lazy-load PDF manipulation; add best-effort session caches for ISBN, arXiv and DNS and friendly 429/5xx messages for the requested services.
