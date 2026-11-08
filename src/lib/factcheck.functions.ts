@@ -126,6 +126,9 @@ async function prepareClaim(
   meta?: CallMeta,
   advanced = false,
 ): Promise<() => Promise<ClaimResult>> {
+  const { matchEditorialClaim } = await import("./editorial-match");
+  const editorial = matchEditorialClaim(claim, language);
+  if (editorial) return async () => editorial;
   const ck = `${advanced ? "claim-scoring-v1" : "claim-v3"}:${sha(JSON.stringify([normalizeVerificationInput(claim), language.trim().toLowerCase()]))}`;
   const cachedResult = await cacheGet<ClaimResult>(ck, VERIFICATION_TTL_MS);
   if (cachedResult) return async () => cachedResult;
@@ -265,6 +268,17 @@ export const factCheck = createServerFn({ method: "POST" })
       throw e;
     }
     try {
+      // Only a whole, exact assertion can bypass extraction; never match part of an article.
+      const { matchEditorialClaim } = await import("./editorial-match");
+      const editorial = !data.url && data.text
+        ? matchEditorialClaim(data.text, data.language)
+        : null;
+      if (editorial) {
+        const response = { claims: [editorial], excerpt: (data.text ?? "").slice(0, 600) };
+        await progress("rendering");
+        await progress("complete");
+        return response;
+      }
       const source = data.url ? await fetchArticle(data.url) : (data.text ?? "");
       // Extraction runs on the cheap triage route (fast, cost-effective model).
       let raw: string;

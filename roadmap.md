@@ -1,5 +1,11 @@
 # Verfiai roadmap
 
+## Nov 8 Day 1 cost cuts — no publishing
+
+- [x] Add exact English eligible editorial matching before extraction/search/model calls, preserving auth, limits and dated review provenance.
+- [x] Defer libphonenumber-js until phone validation and Checker until its generic-route citation branch. PDF/document/spreadsheet/OCR packages already lazy; preserve their implementations.
+- [x] Full suite: 323 passed, four privileged tests skipped; automatic production build OK. Signed-in editorial review, phone validation and citation checker browser checks pass with no runtime errors. No publishing; no measured billing or total-bundle savings claim.
+
 ## Nov 6 tool load hardening
 
 - [x] Lazy-load PDF manipulation; add best-effort session caches for ISBN, arXiv and DNS and friendly 429/5xx messages for the requested services.

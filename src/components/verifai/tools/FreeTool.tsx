@@ -1,6 +1,6 @@
 import { readSessionCache, writeSessionCache } from "@/lib/tools/session-cache";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { parsePhoneNumberFromString, type CountryCode } from "libphonenumber-js";
+import type { CountryCode } from "libphonenumber-js";
 import { Button } from "@/components/ui/button";
 
 type Props = { slug: string };
@@ -692,6 +692,7 @@ async function lookup(
   },
 ): Promise<{ value: Result; label?: string; note?: string }> {
   if (slug === "phone-verifier") {
+    const { parsePhoneNumberFromString } = await import("libphonenumber-js");
     const parsed = parsePhoneNumberFromString(query, opts.phoneCountry);
     return {
       value: parsed
