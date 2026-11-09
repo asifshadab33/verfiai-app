@@ -9,6 +9,7 @@ Verfiai is a research and fact-checking workspace. It helps people examine claim
 - Research and report generation: https://verfiai.app/research
 - Sources directory: https://verfiai.app/sources
 - Free tools hub: https://verfiai.app/tools
+- Full tool and guide descriptions: https://verfiai.app/llms-full.txt
 - Executive external tools directory: https://verfiai.app/executive-tools
 
 ## Key links
