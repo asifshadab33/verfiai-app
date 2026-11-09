@@ -26,6 +26,7 @@ import { Route as GlossaryRouteImport } from './routes/glossary'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as HowToCheckRouteImport } from './routes/how-to-check'
 import { Route as KnowledgeRouteImport } from './routes/knowledge'
+import { Route as LlmsFullDottxtRouteImport } from './routes/llms-full[.]txt'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
 import { Route as MethodologyRouteImport } from './routes/methodology'
 import { Route as OfflineRouteImport } from './routes/offline'
@@ -211,6 +212,11 @@ const HowToCheckRoute = HowToCheckRouteImport.update({
 const KnowledgeRoute = KnowledgeRouteImport.update({
   id: '/knowledge',
   path: '/knowledge',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LlmsFullDottxtRoute = LlmsFullDottxtRouteImport.update({
+  id: '/llms-full.txt',
+  path: '/llms-full.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
@@ -743,6 +749,7 @@ export interface FileRoutesByFullPath {
   '/how-it-works': typeof HowItWorksRoute
   '/how-to-check': typeof HowToCheckRoute
   '/knowledge': typeof KnowledgeRoute
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/methodology': typeof MethodologyRoute
   '/offline': typeof OfflineRoute
@@ -863,6 +870,7 @@ export interface FileRoutesByTo {
   '/how-it-works': typeof HowItWorksRoute
   '/how-to-check': typeof HowToCheckRoute
   '/knowledge': typeof KnowledgeRoute
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/methodology': typeof MethodologyRoute
   '/offline': typeof OfflineRoute
@@ -984,6 +992,7 @@ export interface FileRoutesById {
   '/how-it-works': typeof HowItWorksRoute
   '/how-to-check': typeof HowToCheckRoute
   '/knowledge': typeof KnowledgeRoute
+  '/llms-full.txt': typeof LlmsFullDottxtRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/methodology': typeof MethodologyRoute
   '/offline': typeof OfflineRoute
@@ -1106,6 +1115,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/how-to-check'
     | '/knowledge'
+    | '/llms-full.txt'
     | '/llms.txt'
     | '/methodology'
     | '/offline'
@@ -1226,6 +1236,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/how-to-check'
     | '/knowledge'
+    | '/llms-full.txt'
     | '/llms.txt'
     | '/methodology'
     | '/offline'
@@ -1346,6 +1357,7 @@ export interface FileRouteTypes {
     | '/how-it-works'
     | '/how-to-check'
     | '/knowledge'
+    | '/llms-full.txt'
     | '/llms.txt'
     | '/methodology'
     | '/offline'
@@ -1467,6 +1479,7 @@ export interface RootRouteChildren {
   HowItWorksRoute: typeof HowItWorksRoute
   HowToCheckRoute: typeof HowToCheckRoute
   KnowledgeRoute: typeof KnowledgeRoute
+  LlmsFullDottxtRoute: typeof LlmsFullDottxtRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
   MethodologyRoute: typeof MethodologyRoute
   OfflineRoute: typeof OfflineRoute
@@ -1689,6 +1702,13 @@ declare module '@tanstack/react-router' {
       path: '/knowledge'
       fullPath: '/knowledge'
       preLoaderRoute: typeof KnowledgeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/llms-full.txt': {
+      id: '/llms-full.txt'
+      path: '/llms-full.txt'
+      fullPath: '/llms-full.txt'
+      preLoaderRoute: typeof LlmsFullDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/llms.txt': {
@@ -2419,6 +2439,7 @@ const rootRouteChildren: RootRouteChildren = {
   HowItWorksRoute: HowItWorksRoute,
   HowToCheckRoute: HowToCheckRoute,
   KnowledgeRoute: KnowledgeRoute,
+  LlmsFullDottxtRoute: LlmsFullDottxtRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
   MethodologyRoute: MethodologyRoute,
   OfflineRoute: OfflineRoute,
