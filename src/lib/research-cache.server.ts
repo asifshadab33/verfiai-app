@@ -7,7 +7,23 @@ export type ResearchCacheHit<T> = { value: T; createdAt: string; fresh: boolean 
 
 /** Exact inputs, caller scope and scoring cohort are supplied by report callers. */
 export const researchResultKey = (scope: string, input: unknown, cohort: string) =>
-  `research-result-v1:${sha(JSON.stringify([scope, input, cohort]))}`;
+  `research-result-v2:${sha(JSON.stringify([scope, normalizeCacheInput(input), cohort]))}`;
+
+/** Case/whitespace-insensitive, but punctuation and numbers are preserved so "1.5" ≠ "15".
+ * Object keys are sorted so field order never splits the cache; empty strings drop out. */
+export function normalizeCacheInput(input: unknown): unknown {
+  if (typeof input === "string") return input.normalize("NFKC").toLowerCase().replace(/\s+/gu, " ").trim();
+  if (Array.isArray(input)) return input.map(normalizeCacheInput);
+  if (input && typeof input === "object") {
+    const out: Record<string, unknown> = {};
+    for (const k of Object.keys(input).sort()) {
+      const v = normalizeCacheInput((input as Record<string, unknown>)[k]);
+      if (v !== undefined && v !== "") out[k] = v;
+    }
+    return out;
+  }
+  return input;
+}
 
 /** Popularity is an efficiency hint, never an authorization or quota counter.
  * Concurrent best-effort writes may undercount hits; timestamps never slide. */

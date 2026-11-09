@@ -25,6 +25,7 @@ const PAGES = [
   "/glossary",
   "/rss.xml",
   "/llms.txt",
+  "/llms-full.txt",
   "/sources",
   "/security",
   "/contact",

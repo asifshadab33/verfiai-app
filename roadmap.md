@@ -295,3 +295,8 @@
 - [ ] Stage 3 DEFERRED: Response Agreement panel direction pending user decision — do not touch ResponseAgreementPanel.tsx or ReportView.tsx.
 - Constraints: no Paddle/subscription/billing path changes; MONETIZATION_ENABLED=false; no new checkout.
 - Verification after stages 1–2: full regression suite (baseline 79 passed, 4 privileged skipped), production build, spot-check three locales incl. Arabic RTL.
+
+## Nov 9 runs
+- [x] Day 2: research cache keys normalized (case/space/field order; numbers kept). Prompt compression skipped: prompts already terse, cutting risks output schema.
+- [x] Visibility: tool JSON-LD (UtilitiesApplication, OS Any) + BreadcrumbList; llms-full.txt; IndexNow key file; Share tool / embed link button on tool pages. FAQPage skipped (Google retired the rich result); changefreq/priority skipped (Google ignores them).
+- [ ] IndexNow ping on publish (needs owner OK to submit URLs to Bing).

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
+import { ShareToolButton } from "./ShareToolButton";
 
 export type ToolNote = { title: string; body: ReactNode };
 
@@ -28,6 +29,7 @@ export function ToolPage({
 
   return (
     <ContentPage title={title} intro={resolvedIntro}>
+      <ShareToolButton title={title} />
       {styleControls ? (
         <div className="tool-page-content">
           <p className="mb-5 text-xs leading-5 text-muted-foreground">{resolvedPrivacy}</p>
