@@ -117,14 +117,21 @@ function Page() {
         <strong>{tx("executiveToolsNoticeTitle")}</strong>{" "}
         {tx("executiveToolsNotice")}
       </div>
+      <p className="mt-3 text-xs leading-5 text-muted-foreground" role="note">
+        {tx("executiveToolsDisclosure")}
+      </p>
       <div className="mt-8 space-y-8">
         {categories.map((category) => (
           <PageSection key={category.key} title={tx(category.key)}>
             <ul className="grid gap-3 sm:grid-cols-2">
-              {category.tools.map((tool) => (
+              {category.tools.map((tool) => {
+                const partner = resolvePartnerLink(tool.name);
+                const href = partner ? partner.href : tool.url;
+                const rel = partnerLinkRel(partner?.isPartner ?? false);
+                return (
                 <li key={tool.url} className="rounded-lg border p-4">
                   <div className="flex flex-wrap items-start justify-between gap-2">
-                    <a className="font-semibold text-brand underline" href={tool.url} target="_blank" rel="noopener noreferrer">
+                    <a className="font-semibold text-brand underline" href={href} target="_blank" rel={rel}>
                       {tool.name}
                     </a>
                     <span className="shrink-0 rounded-full border px-2 py-0.5 text-xs text-muted-foreground">
