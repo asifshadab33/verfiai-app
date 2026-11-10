@@ -3,6 +3,7 @@ import { ContentPage, PageSection } from "@/components/verifai/ContentPage";
 import { siteText } from "@/lib/site-i18n";
 import { isLang } from "@/lib/translations";
 import { toolHead } from "@/lib/tools/tool-head";
+import { partnerLinkRel, resolvePartnerLink } from "@/lib/affiliates";
 
 type CuratedTool = { name: string; url: string; detail: string };
 
