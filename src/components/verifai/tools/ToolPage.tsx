@@ -41,6 +41,13 @@ export function ToolPage({
           {children}
         </>
       )}
+      <aside className="my-8 rounded-lg border border-border bg-muted/40 px-4 py-3 text-sm leading-6 text-muted-foreground">
+        Need more than a quick check? The{" "}
+        <Link to="/app" className="inline-flex min-h-11 items-center text-brand underline">
+          Verfiai AI Research Engine
+        </Link>{" "}
+        turns a question into a sourced report you can verify — free during our community year.
+      </aside>
       {notes.map((n) => (
         <PageSection key={n.title} title={n.title}>
           <div>{n.body}</div>
