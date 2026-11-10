@@ -140,7 +140,8 @@ function Page() {
                   </div>
                   <p className="mt-2 text-sm leading-6 text-muted-foreground">{tool.detail}</p>
                 </li>
-              ))}
+                );
+              })}
             </ul>
           </PageSection>
         ))}
