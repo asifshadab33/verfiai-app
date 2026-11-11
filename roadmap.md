@@ -1,5 +1,11 @@
 # Verfiai roadmap
 
+## Nov 11 optional local AI and UJANI companion
+
+- [ ] Add an explicitly selected browser-to-local Ollama connection; keep cloud verification and its access safeguards unchanged, and label local output as unverified.
+- [ ] Link verified UJANI repositories from the tools hub and executive directory without implying downloads or a working UJANI browser bridge.
+- [ ] Run regression tests and desktop/mobile browser checks; no publishing requested.
+
 ## Nov 8 Day 1 cost cuts — no publishing
 
 - [x] Add exact English eligible editorial matching before extraction/search/model calls, preserving auth, limits and dated review provenance.
