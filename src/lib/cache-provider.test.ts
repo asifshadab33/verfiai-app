@@ -14,7 +14,7 @@ vi.mock("./db.server", () => ({
     }),
   }),
 }));
-import { cached, CACHE_TTL } from "./cache.server";
+import { cached, cacheKey, CACHE_TTL } from "./cache.server";
 afterEach(() => {
   state.row = null;
   state.writes = 0;
@@ -22,6 +22,21 @@ afterEach(() => {
   vi.unstubAllEnvs();
 });
 describe("provider cache", () => {
+  it("reuses case/space equivalents without merging punctuation, numbers or part boundaries", () => {
+    expect(cacheKey("search", ["  C++   2026 "])).toBe(cacheKey("search", ["c++ 2026"]));
+    expect(cacheKey("search", ["c++ 2026"])).not.toBe(cacheKey("search", ["c 2026"]));
+    expect(cacheKey("citation", ["10.1234/a-b"])).not.toBe(cacheKey("citation", ["10.1234/a/b"]));
+    expect(cacheKey("search", ["3.5"])).not.toBe(cacheKey("search", ["35"]));
+    expect(cacheKey("search", ["a|b", "c"])).not.toBe(cacheKey("search", ["a", "b|c"]));
+  });
+  it("does not persist retryable citation failures", async () => {
+    const compute = vi.fn(async () => ({ status: "not_found" }));
+    const options = { key: "citation:failed", kind: "crossref", ttlMs: CACHE_TTL.citation(), compute, shouldCache: (v: { status: string }) => v.status !== "not_found" };
+    await cached(options);
+    await cached(options);
+    expect(compute).toHaveBeenCalledTimes(2);
+    expect(state.writes).toBe(0);
+  });
   it("uses the 24-hour search cache without repeating the external request", async () => {
     vi.stubEnv("SEARCH_CACHE_TTL_HOURS", "");
     expect(CACHE_TTL.search()).toBe(24 * 3600_000);
