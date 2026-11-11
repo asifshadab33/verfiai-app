@@ -26,6 +26,15 @@ afterEach(() => {
 });
 
 describe("first-wave search engines", () => {
+  it("separates language-sensitive results and reuses canonical language aliases", async () => {
+    const request = vi.fn(async () => json({ results: { bindings: [{ item: { value: "http://www.wikidata.org/entity/Q42" }, itemLabel: { value: "Example" } }] } }));
+    vi.stubGlobal("fetch", request);
+    await engineSearch("wikidata", "example", "German");
+    await engineSearch("wikidata", "example", "de");
+    expect(request).toHaveBeenCalledTimes(1);
+    await engineSearch("wikidata", "example", "ar");
+    expect(request).toHaveBeenCalledTimes(2);
+  });
   it("runs Wikidata in the default cascade and the Google Fact Check engine is registered", () => {
     expect(DEFAULT_ENGINES).toContain("wikidata");
     expect(DEFAULT_ENGINES).toContain("google-factcheck");
