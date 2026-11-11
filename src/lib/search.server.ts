@@ -880,7 +880,7 @@ export async function engineSearch(
   const engine = ENGINES[engineId];
   if (!engine) return [];
   return cached({
-    key: cacheKey(`search:${engineId}`, [query, engineId === "wikipedia" ? language : undefined]),
+    key: cacheKey(`search:${engineId}`, [query, ["wikipedia", "wikidata", "searxng"].includes(engineId) ? toLangCode(language) : undefined]),
     kind: engineId,
     ttlMs: CACHE_TTL.search(),
     compute: () => engine.run(query, language),
