@@ -1,5 +1,11 @@
 # Verfiai roadmap
 
+## Nov 11 website performance — no publishing
+
+- [ ] Audit visitor vitals and heavy tool/research loading; defer unused client code.
+- [ ] Improve safe provider-cache identity and citation reuse without changing private verification limits or freshness.
+- [ ] Check selected-locale loading and hydration; run regression suite and browser checks and inspect automatic build results.
+
 ## Nov 11 optional local AI and UJANI companion
 
 - [ ] Add an explicitly selected browser-to-local Ollama connection; keep cloud verification and its access safeguards unchanged, and label local output as unverified.
