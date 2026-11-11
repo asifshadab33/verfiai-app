@@ -7,23 +7,16 @@ import { admin } from "./db.server";
 
 export const sha = (s: string) => createHash("sha256").update(s).digest("hex");
 
-// Normalizes queries/claims so rephrased-identical inputs share one cache entry:
-// lowercase, strip punctuation, collapse whitespace, trim.
+// Only case and whitespace are interchangeable: punctuation/numbers carry meaning.
 export const normalizeQuery = (q: string) =>
   q
     .toLowerCase()
-    .replace(/[^\p{L}\p{N}\s]/gu, " ")
     .replace(/\s+/g, " ")
     .trim();
 
-/** Consistent cache key: `kind:` + sha of the normalized parts. */
+/** Versioned, unambiguous parts; invalidate the older punctuation-stripping keys. */
 export function cacheKey(kind: string, parts: (string | number | undefined)[]): string {
-  return `${kind}:${sha(
-    parts
-      .filter((p) => p !== undefined && p !== "")
-      .map((p) => normalizeQuery(String(p)))
-      .join("|"),
-  )}`;
+  return `${kind}:v2:${sha(JSON.stringify(parts.map((p) => p === undefined ? null : normalizeQuery(String(p)))))}`;
 }
 
 const hours = (v: string | undefined, d: number) => {
@@ -78,11 +71,12 @@ export async function cached<T>(o: {
   ttlMs: number;
   compute: () => Promise<T>;
   cacheEmpty?: boolean;
+  shouldCache?: (value: T) => boolean;
 }): Promise<T> {
   const hit = await cacheGet<T>(o.key, o.ttlMs);
   if (hit !== null && hit !== undefined) return hit;
   const value = await o.compute();
   const empty = Array.isArray(value) && value.length === 0;
-  if (!empty || o.cacheEmpty) await cacheSet(o.key, o.kind, value);
+  if ((!empty || o.cacheEmpty) && (o.shouldCache?.(value) ?? true)) await cacheSet(o.key, o.kind, value);
   return value;
 }

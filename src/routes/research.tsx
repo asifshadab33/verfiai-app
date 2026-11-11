@@ -1,15 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ContentPage } from "@/components/verifai/ContentPage";
-import { ReportView } from "@/components/verifai/ReportView";
 import { useAuth } from "@/hooks/useAuth";
 import { generateReport, type ResearchReport } from "@/lib/report.functions";
 import { GenerationProgress } from "@/components/verifai/GenerationProgress";
 import { useVerificationProgress } from "@/hooks/useVerificationProgress";
+
+const ReportView = lazy(() => import("@/components/verifai/ReportView").then((m) => ({ default: m.ReportView })));
 
 type Kind = "summary" | "deep" | "matrix";
 const KINDS: { id: Kind; label: string; hint: string }[] = [
@@ -50,10 +51,10 @@ export const Route = createFileRoute("/research")({
 });
 
 /** Citation markers like [1] or [2, 3] in a finding's text, mapped to 0-based source indexes. */
-export function citedIndexes(text: string): number[] {
+function citedIndexes(text: string): number[] {
   const out = new Set<number>();
   for (const m of text.matchAll(/\[(\d+(?:\s*,\s*\d+)*)\]/g))
-    for (const n of m[1]!.split(",")) out.add(Number(n.trim()) - 1);
+    for (const n of (m[1] ?? "").split(",")) out.add(Number(n.trim()) - 1);
   return [...out].filter((n) => n >= 0);
 }
 
@@ -217,7 +218,9 @@ function Research() {
               <Matrix report={result.report} />
             </section>
           )}
-          <ReportView report={result.report} reportId={result.id} />
+          <Suspense fallback={<p role="status">Loading report…</p>}>
+            <ReportView report={result.report} reportId={result.id} />
+          </Suspense>
         </div>
       )}
     </ContentPage>

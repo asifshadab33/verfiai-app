@@ -15,7 +15,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { isLang } from "../lib/translations";
 import { translations } from "../lib/i18n/interface";
-import { ensureLocale } from "../lib/locale-dictionaries";
+import { ensureLocale, localeScope } from "../lib/locale-dictionaries";
 import { documentLanguage } from "../lib/page-language";
 import { AnalyticsConsent } from "../components/verifai/AnalyticsConsent";
 import { SiteFooter } from "../components/verifai/SiteFooter";
@@ -87,7 +87,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   search: { middlewares: [retainSearchParams(["lang"])] },
   beforeLoad: async ({ location }) => {
     const value = new URLSearchParams(location.searchStr).get("lang");
-    await ensureLocale(isLang(value) ? value : "en");
+    await ensureLocale(isLang(value) ? value : "en", localeScope(location.pathname));
   },
   head: () => ({
     meta: [

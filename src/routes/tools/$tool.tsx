@@ -1,13 +1,13 @@
 import { createFileRoute, useLocation } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
 import { ToolPage } from "@/components/verifai/tools/ToolPage";
-import { NewTool } from "@/components/verifai/tools/NewTool";
 import { NEW_TOOLS } from "@/lib/tools/new-tool-catalog";
 import { toolHead } from "@/lib/tools/tool-head";
 import { isLang } from "@/lib/translations";
 import { siteText } from "@/lib/site-i18n";
 
 const Checker = lazy(() => import("@/components/verifai/Checker").then((m) => ({ default: m.Checker })));
+const NewTool = lazy(() => import("@/components/verifai/tools/NewTool").then((m) => ({ default: m.NewTool })));
 
 export const Route = createFileRoute("/tools/$tool")({
   head: ({ params }) => {
@@ -74,7 +74,9 @@ function Page() {
           : []
       }
     >
-      <NewTool slug={slug} locale={lang} />
+      <Suspense fallback={<p role="status">{siteText(lang, "loading")}</p>}>
+        <NewTool key={slug} slug={slug} locale={lang} />
+      </Suspense>
     </ToolPage>
   );
 }

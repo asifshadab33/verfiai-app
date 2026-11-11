@@ -230,12 +230,15 @@ function compare(ref: Ref, work: any) {
 
 /** Verifies one reference against Crossref (DOI first, then title match). Cached ~1 month. */
 export async function checkOne(ref: Ref): Promise<CitationResult> {
-  const ck = cacheKey("citation", [ref.doi ?? "", ref.title, ref.author ?? "", ref.year ?? ""]);
+  const doi = ref.doi?.replace(/^https?:\/\/(dx\.)?doi\.org\//i, "").replace(/^doi:\s*/i, "").trim();
+  const ck = cacheKey("citation", [doi ?? "", ref.title || ref.raw, ref.author ?? "", ref.year ?? ""]);
   const hit = await cached({
     key: ck,
     kind: "crossref",
     ttlMs: CACHE_TTL.citation(),
     compute: () => checkOneUncached(ref),
+    // Registry failures and absent matches are retryable, not month-long verdicts.
+    shouldCache: (value) => value.status !== "not_found",
   });
   return { ...hit, raw: ref.raw };
 }

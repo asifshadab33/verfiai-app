@@ -47,3 +47,5 @@
 - Browser ISBN, arXiv and DNS tools use best-effort session caches; PDF manipulation loads pdf-lib inside operations so visits avoid unnecessary requests and PDF code loading.
 - Claim checks may reuse exact English editorial assertions only when the shared ClaimReview validator accepts their review; keep dated provenance, auth and usage guards, and never infer live scoring from editorial evidence.
 - Shared tool pages load phone parsing only on validation and citation checking only in its own branch, so unrelated tools do not eagerly load those dependencies.
+- Research report rendering and generic tool implementations are lazy boundaries; route components stay unexported so automatic route splitting remains effective.
+- Tool routes preload only selected-locale site copy (except citation checking); hydration uses the same scope and navigation upgrades to full dictionaries before localized research renders.

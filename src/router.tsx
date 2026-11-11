@@ -1,7 +1,7 @@
 import { QueryClient } from "@tanstack/react-query";
 import { createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
-import { ensureLocale } from "./lib/locale-dictionaries";
+import { ensureLocale, localeScope } from "./lib/locale-dictionaries";
 import { isLang } from "./lib/translations";
 
 export const getRouter = () => {
@@ -17,7 +17,7 @@ export const getRouter = () => {
       locale: new URLSearchParams(router.state.location.searchStr).get("lang") ?? "en",
     }),
     hydrate: async (data: { locale: string }) => {
-      await ensureLocale(isLang(data.locale) ? data.locale : "en");
+      await ensureLocale(isLang(data.locale) ? data.locale : "en", localeScope(router.state.location.pathname));
     },
   });
 
