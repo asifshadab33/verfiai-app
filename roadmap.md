@@ -2,9 +2,9 @@
 
 ## Nov 11 website performance — no publishing
 
-- [ ] Audit visitor vitals and heavy tool/research loading; defer unused client code.
-- [ ] Improve safe provider-cache identity and citation reuse without changing private verification limits or freshness.
-- [ ] Check selected-locale loading and hydration; run regression suite and browser checks and inspect automatic build results.
+- [x] Audit visitor vitals and defer generic tool implementations and research report rendering; heavy file libraries already load on demand. Homepage LCP p75 3.14s (96 readings); tool/research traffic insufficient for a reliable comparison.
+- [x] Version safe provider-cache identities, canonicalize language-sensitive engine keys and citation DOI prefixes, include raw-only references, and avoid caching retryable misses; private verification limits/freshness unchanged.
+- [x] Match site-only tool locale loading between SSR/hydration with full-dictionary upgrade for research/citation navigation. Full suite 337 passed, four privileged skipped; automatic build OK. Browser local summarizer result, signed-in research form and German/Arabic rendering pass without errors. No AI/paid calls or publishing; report generation and production bundle byte savings not measured.
 
 ## Nov 11 optional local AI and UJANI companion
 
