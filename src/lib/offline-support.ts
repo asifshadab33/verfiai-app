@@ -9,7 +9,7 @@ export function isOfflineSupportAllowed(hostname: string, search: string, inFram
   const host = hostname.toLowerCase();
   if (!prod || inFrame || new URLSearchParams(search).get("sw") === "off") return false;
   if (LOVABLE_HOSTS.some((suffix) => host.endsWith(suffix))) {
-    const label = host.split(".")[0];
+    const label = host.split(".")[0] ?? "";
     if (PREVIEW_LABEL.test(label) || /^project--.+-dev$/.test(label)) return false;
   }
   if (DEV_DOMAINS.some((d) => host === d || host.endsWith(`.${d}`))) return false;
