@@ -18,4 +18,10 @@ describe("research cache key normalization", () => {
     expect(researchResultKey("u1", q, "legacy")).not.toBe(researchResultKey("u2", q, "legacy"));
     expect(researchResultKey("u1", q, "legacy")).not.toBe(researchResultKey("u1", q, "scoring-v1"));
   });
+  it("ignores leading request phrases but keeps negations distinct", () => {
+    const base = researchResultKey("u1", { question: "coffee raises blood pressure" }, "legacy");
+    expect(researchResultKey("u1", { question: "Is it true that coffee raises blood pressure" }, "legacy")).toBe(base);
+    expect(researchResultKey("u1", { question: "Can you please check if coffee raises blood pressure" }, "legacy")).toBe(base);
+    expect(researchResultKey("u1", { question: "coffee does not raise blood pressure" }, "legacy")).not.toBe(base);
+  });
 });

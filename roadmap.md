@@ -312,3 +312,9 @@
 - [x] Day 2: research cache keys normalized (case/space/field order; numbers kept). Prompt compression skipped: prompts already terse, cutting risks output schema.
 - [x] Visibility: tool JSON-LD (UtilitiesApplication, OS Any) + BreadcrumbList; llms-full.txt; IndexNow key file; Share tool / embed link button on tool pages. FAQPage skipped (Google retired the rich result); changefreq/priority skipped (Google ignores them).
 - [ ] IndexNow ping on publish (needs owner OK to submit URLs to Bing).
+
+## Nov 11 hardening + smoother site
+- [x] Health check: tests, security scans clean
+- [x] Offline tools: existing offline helper now refuses previews/frames/?sw=off and cleans up there
+- [x] Answer reuse ignores leading request phrases ("is it true that…"); negations/numbers stay distinct
+- [x] Report progress rejoins after phone tab switch / network return (missed events not replayed)

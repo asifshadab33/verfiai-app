@@ -7,12 +7,20 @@ export type ResearchCacheHit<T> = { value: T; createdAt: string; fresh: boolean 
 
 /** Exact inputs, caller scope and scoring cohort are supplied by report callers. */
 export const researchResultKey = (scope: string, input: unknown, cohort: string) =>
-  `research-result-v2:${sha(JSON.stringify([scope, normalizeCacheInput(input), cohort]))}`;
+  `research-result-v3:${sha(JSON.stringify([scope, normalizeCacheInput(input), cohort]))}`;
+
+/** Leading English request phrases that never change the claim being asked about.
+ * Only exact prefixes are stripped; negations, numbers and punctuation are untouched. */
+const LEADING_FILLER =
+  /^(?:(?:please|hey|hi)[,!]? )*(?:(?:can|could|would) you (?:please )?(?:tell me|check|verify|confirm|fact[- ]check)(?: (?:if|whether|that))? |(?:i want to know|i wonder|tell me|check|verify|fact[- ]check)(?: (?:if|whether|that))?:? |is it (?:true|correct|accurate) that )/u;
 
 /** Case/whitespace-insensitive, but punctuation and numbers are preserved so "1.5" ≠ "15".
  * Object keys are sorted so field order never splits the cache; empty strings drop out. */
 export function normalizeCacheInput(input: unknown): unknown {
-  if (typeof input === "string") return input.normalize("NFKC").toLowerCase().replace(/\s+/gu, " ").trim();
+  if (typeof input === "string") {
+    const text = input.normalize("NFKC").toLowerCase().replace(/\s+/gu, " ").trim();
+    return text.replace(LEADING_FILLER, "").trim() || text;
+  }
   if (Array.isArray(input)) return input.map(normalizeCacheInput);
   if (input && typeof input === "object") {
     const out: Record<string, unknown> = {};

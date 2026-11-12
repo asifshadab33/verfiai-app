@@ -1,3 +1,4 @@
+import { registerOfflineSupport } from "@/lib/offline-support";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -153,11 +154,7 @@ function RootComponent() {
   const locale = new URLSearchParams(location.searchStr).get("lang");
   const footerLang = isLang(locale) ? locale : "en";
   useEffect(() => {
-    if (import.meta.env.PROD && "serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/service-worker.js").catch((error: unknown) => {
-        console.error("Verfiai service worker registration failed:", error);
-      });
-    }
+    void registerOfflineSupport();
   }, []);
   useEffect(() => {
     // Fallback skip-link target for routes whose <main> lacks a declarative id.
