@@ -11,7 +11,12 @@ context.onmessage = (event: MessageEvent<RegexWorkerRequest>) => {
     let match: RegExpExecArray | null;
     while ((match = expression.exec(input)) !== null) {
       matches.push({ value: match[0], index: match.index });
-      if (match[0] === "") expression.lastIndex++;
+      if (matches.length >= 1000) break;
+      if (match[0] === "") {
+        const index = expression.lastIndex;
+        const code = input.codePointAt(index);
+        expression.lastIndex += (safeFlags.includes("u") || safeFlags.includes("v")) && code !== undefined && code > 0xffff ? 2 : 1;
+      }
     }
     context.postMessage({ ok: true, matches });
   } catch (error) {

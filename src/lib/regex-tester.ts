@@ -9,6 +9,7 @@ type WorkerResult =
 type WorkerLike = Pick<Worker, "postMessage" | "terminate"> & {
   onmessage: ((event: MessageEvent<WorkerResult>) => void) | null;
   onerror: ((event: ErrorEvent) => void) | null;
+  onmessageerror?: (() => void) | null;
 };
 type WorkerFactory = () => WorkerLike;
 
@@ -33,6 +34,11 @@ export function runRegexInWorker(
   workerFactory: WorkerFactory = createRegexWorker,
 ): Promise<RegexMatch[]> {
   validateRegexInput(pattern, input);
+  if (!/^(?!.*(.).*\1)[dgimsuvy]*$/.test(flags) || (flags.includes("u") && flags.includes("v")))
+    throw new Error("Use valid, non-repeated regular expression flags.");
+  const deadline = Number.isFinite(timeoutMs)
+    ? Math.max(1, Math.min(REGEX_EXECUTION_TIMEOUT_MS, timeoutMs))
+    : REGEX_EXECUTION_TIMEOUT_MS;
   return new Promise((resolve, reject) => {
     let worker: WorkerLike;
     try {
@@ -47,12 +53,14 @@ export function runRegexInWorker(
       if (settled) return;
       settled = true;
       clearTimeout(timer);
-      worker.terminate();
-      callback();
+      worker.onmessage = null;
+      worker.onerror = null;
+      worker.onmessageerror = null;
+      try { worker.terminate(); } finally { callback(); }
     };
     timer = setTimeout(
       () => finish(() => reject(new Error("Pattern is too complex to run safely. Try a simpler pattern."))),
-      timeoutMs,
+      deadline,
     );
     worker.onmessage = (event) => {
       const result = event.data;
@@ -63,6 +71,9 @@ export function runRegexInWorker(
     };
     worker.onerror = () =>
       finish(() => reject(new Error("Pattern is too complex to run safely. Try a simpler pattern.")));
-    worker.postMessage({ pattern, input, flags });
+    worker.onmessageerror = () =>
+      finish(() => reject(new Error("This browser could not read the regex result.")));
+    try { worker.postMessage({ pattern, input, flags }); }
+    catch { finish(() => reject(new Error("This browser could not start the safe regex tester."))); }
   });
 }

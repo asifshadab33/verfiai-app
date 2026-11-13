@@ -1,6 +1,7 @@
 /** Offline support only runs on the published site; previews and embedded frames must
  * never keep a worker that could serve stale pages after code changes. */
-const SW_PATH = "/service-worker.js";
+const SW_PATH = "/sw.js";
+const APP_WORKER_PATHS = [SW_PATH, "/service-worker.js"];
 const PREVIEW_LABEL = /^(?:id-preview|preview)(?:-[a-z0-9]+)?--.+$/;
 const LOVABLE_HOSTS = [".lovable.app", ".gpt-eng.com", ".gptengineer.run"];
 const DEV_DOMAINS = ["lovableproject.com", "lovableproject-dev.com", "beta.lovable.dev"];
@@ -35,12 +36,14 @@ export async function registerOfflineSupport() {
       const regs = await navigator.serviceWorker.getRegistrations();
       await Promise.all(
         regs
-          .filter((r) => [r.active, r.waiting, r.installing].some((w) => w?.scriptURL.endsWith(SW_PATH)))
+          .filter((r) => [r.active, r.waiting, r.installing].some((w) => w && APP_WORKER_PATHS.includes(new URL(w.scriptURL).pathname)))
           .map((r) => r.unregister()),
       );
       return;
     }
-    await navigator.serviceWorker.register(SW_PATH);
+    const registration = await navigator.serviceWorker.register(SW_PATH, { updateViaCache: "none" });
+    // Check once on startup; no polling or forced reloads.
+    await registration.update();
   } catch (error) {
     console.error("Verfiai offline support setup failed:", error);
   }

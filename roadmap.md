@@ -1,5 +1,12 @@
 # Verfiai roadmap
 
+## Nov 13 browser release verification — no publishing
+
+- [ ] Split NewTool implementations into lazy-loaded category modules and harden regex worker timeouts/termination; verify browser behavior and regression tests.
+- [ ] Replace legacy custom offline caching with generated, tools-only NetworkFirst caching and same-path legacy cleanup; verify offline operation, updates and private-route exclusion in Chromium.
+- [ ] Exercise signed-in report generation across tab changes and network loss; repair any recovery failures and verify result readback.
+- [ ] Run regression tests and check automatic build; report any production-test limitations before publishing.
+
 ## Nov 11 website performance — no publishing
 
 - [x] Audit visitor vitals and defer generic tool implementations and research report rendering; heavy file libraries already load on demand. Homepage LCP p75 3.14s (96 readings); tool/research traffic insufficient for a reliable comparison.

@@ -49,3 +49,5 @@
 - Shared tool pages load phone parsing only on validation and citation checking only in its own branch, so unrelated tools do not eagerly load those dependencies.
 - Research report rendering and generic tool implementations are lazy boundaries; route components stay unexported so automatic route splitting remains effective.
 - Tool routes preload only selected-locale site copy (except citation checking); hydration uses the same scope and navigation upgrades to full dictionaries before localized research renders.
+- Offline app-shell caching uses generated Workbox with one preview-guarded registrar; only credential-free tool documents and same-origin hashed assets qualify, so private routes and APIs stay network-only.
+- NewTool is a lazy category registry with shared controls; regex execution remains worker-only with a capped deadline and cleanup on every outcome, preventing heavy tool code and unbounded regex work from blocking unrelated pages.

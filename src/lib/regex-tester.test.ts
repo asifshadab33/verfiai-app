@@ -46,4 +46,39 @@ describe("regex tester safety", () => {
     await expect(pending).resolves.toEqual([{ value: "12", index: 1 }]);
     expect(worker.terminate).toHaveBeenCalledOnce();
   });
+  it("clamps excessive or infinite timeouts to 200ms", async () => {
+    vi.useFakeTimers();
+    for (const timeout of [999999, Infinity, NaN]) {
+      const worker = mockWorker();
+      const pending = runRegexInWorker("(a+)+$", "aaaa!", "g", timeout, () => worker);
+      const assertion = expect(pending).rejects.toThrow(/too complex/);
+      await vi.advanceTimersByTimeAsync(200);
+      await assertion;
+      expect(worker.terminate).toHaveBeenCalledOnce();
+      expect(worker.onmessage).toBeNull();
+    }
+  });
+  it("terminates immediately when dispatch throws", async () => {
+    const worker = mockWorker();
+    worker.postMessage.mockImplementation(() => { throw new Error("dispatch failed"); });
+    await expect(runRegexInWorker("a", "a", "g", 200, () => worker)).rejects.toThrow(/safe regex tester/);
+    expect(worker.terminate).toHaveBeenCalledOnce();
+  });
+  it("terminates on worker errors and invalid patterns", async () => {
+    const worker = mockWorker();
+    const pending = runRegexInWorker("[", "a", "g", 200, () => worker);
+    worker.onmessage?.({ data: { ok: false, error: "Invalid regular expression" } } as MessageEvent);
+    await expect(pending).rejects.toThrow(/Invalid regular expression/);
+    expect(worker.terminate).toHaveBeenCalledOnce();
+    const crashed = mockWorker();
+    const failure = runRegexInWorker("a", "a", "g", 200, () => crashed);
+    crashed.onerror?.({} as ErrorEvent);
+    await expect(failure).rejects.toThrow(/too complex/);
+    expect(crashed.terminate).toHaveBeenCalledOnce();
+  });
+  it("rejects duplicate and incompatible flags before starting a worker", () => {
+    const factory = vi.fn(mockWorker);
+    for (const flags of ["gg", "uv", "z"]) expect(() => runRegexInWorker("a", "a", flags, 200, factory)).toThrow(/flags/);
+    expect(factory).not.toHaveBeenCalled();
+  });
 });

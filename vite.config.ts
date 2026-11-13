@@ -9,6 +9,8 @@ import { fileURLToPath } from "node:url";
 import { loadEnv } from "vite";
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 import clientBuildEnv from "./client-build-env.json";
+import { VitePWA } from "vite-plugin-pwa";
+import { offlineWorkbox } from "./src/lib/offline-policy";
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
 
@@ -33,6 +35,15 @@ export default defineConfig({
     server: { entry: "server" },
   },
   vite: {
+    plugins: [VitePWA({
+      strategies: "generateSW",
+      filename: "sw.js",
+      manifest: false,
+      injectRegister: null,
+      registerType: "autoUpdate",
+      devOptions: { enabled: false },
+      workbox: offlineWorkbox,
+    })],
     // Explicitly replace these public variables in both dev and production client bundles.
     // This avoids relying on the editor's process.env-to-import.meta.env behavior.
     define: Object.fromEntries(
