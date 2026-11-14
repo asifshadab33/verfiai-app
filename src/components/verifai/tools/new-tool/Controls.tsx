@@ -112,7 +112,6 @@ export function Controls({slug, locale, definition, input, setInput, secondary, 
                       if (videoRef.current) videoRef.current.srcObject = cameraStream.current;
                       setCameraActive(true);
                       setFile(null);
-                      setError("");
                     } catch (reason) {
                       showError(reason);
                     }

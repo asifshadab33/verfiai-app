@@ -9,7 +9,7 @@ type WorkerResult =
 type WorkerLike = Pick<Worker, "postMessage" | "terminate"> & {
   onmessage: ((event: MessageEvent<WorkerResult>) => void) | null;
   onerror: ((event: ErrorEvent) => void) | null;
-  onmessageerror?: (() => void) | null;
+  onmessageerror?: ((event: MessageEvent) => void) | null;
 };
 type WorkerFactory = () => WorkerLike;
 
