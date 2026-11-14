@@ -2,6 +2,7 @@
 
 ## Nov 13 browser release verification — no publishing
 
+- [x] Nov 14: 10 regex regressions pass, including real-thread catastrophic backtracking, deadline termination and ignored late callbacks. Chromium confirms one worker created/terminated, main-thread heartbeat continues, and a subsequent normal pattern succeeds. Automatic build OK; no publishing. Offline/report recovery checks below remain pending from Nov 13.
 - [ ] Split NewTool implementations into lazy-loaded category modules and harden regex worker timeouts/termination; verify browser behavior and regression tests.
 - [ ] Replace legacy custom offline caching with generated, tools-only NetworkFirst caching and same-path legacy cleanup; verify offline operation, updates and private-route exclusion in Chromium.
 - [ ] Exercise signed-in report generation across tab changes and network loss; repair any recovery failures and verify result readback.
