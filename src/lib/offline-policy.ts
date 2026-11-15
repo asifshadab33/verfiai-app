@@ -23,6 +23,14 @@ export const offlineWorkbox = {
         cacheName: "verfiai-tools-documents-v2",
         // Tool HTML is fetched without a session, including when the visitor is signed in.
         fetchOptions: { credentials: "omit" as const, redirect: "error" as const },
+        // Workbox ignores fetchOptions for navigate-mode requests. Convert the
+        // fetch itself to a credential-free request; the cache key stays the URL.
+        plugins: [{
+          requestWillFetch: async ({ request }: { request: Request }) => new Request(request.url, {
+            method: "GET", mode: "same-origin", credentials: "omit", redirect: "error",
+            cache: "no-cache",
+          }),
+        }],
         cacheableResponse: { statuses: [200] },
         expiration: { maxEntries: 60, maxAgeSeconds: 86400 },
       },

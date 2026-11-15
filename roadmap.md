@@ -1,12 +1,13 @@
 # Verfiai roadmap
 
-## Nov 13 browser release verification — no publishing
+## Nov 13–15 browser release verification
 
 - [x] Nov 14: 10 regex regressions pass, including real-thread catastrophic backtracking, deadline termination and ignored late callbacks. Chromium confirms one worker created/terminated, main-thread heartbeat continues, and a subsequent normal pattern succeeds. Automatic build OK; no publishing. Offline/report recovery checks below remain pending from Nov 13.
-- [ ] Split NewTool implementations into lazy-loaded category modules and harden regex worker timeouts/termination; verify browser behavior and regression tests.
-- [ ] Replace legacy custom offline caching with generated, tools-only NetworkFirst caching and same-path legacy cleanup; verify offline operation, updates and private-route exclusion in Chromium.
-- [ ] Exercise signed-in report generation across tab changes and network loss; repair any recovery failures and verify result readback.
-- [ ] Run regression tests and check automatic build; report any production-test limitations before publishing.
+- [x] Chromium confirms the hub loads no category, summarizer loads text only, and regex loads developer only; summarizer runs, mobile has no overflow or runtime errors, and dev registers no worker. Regex termination regressions remain green.
+- [x] Generated Workbox tested on an isolated HTTP origin: tools and hashed script load offline, NetworkFirst refresh survives offline reload, worker/precache updates activate, and private/query/API paths remain absent. Fixed Workbox ignoring navigation fetchOptions using a credential-free requestWillFetch plugin; browser confirms cookies omitted, with a regression test. This verifies real generated policy, not the complete hosted application bundle.
+- [x] Real signed-in report generated across a tab switch and four-second connectivity loss; saved result reopened from My reports with no runtime errors. Missed progress events are still not replayed; reconnect does not retry generation.
+- [x] Full suite 364 passed, four privileged integration tests skipped; automatic build OK Nov 15 06:25:57 UTC.
+- [ ] Publish and verify the complete hosted application bundle, lazy chunks and offline tool reload; pre-publish built preview is access-controlled and local production artifacts are unavailable.
 
 ## Nov 11 website performance — no publishing
 

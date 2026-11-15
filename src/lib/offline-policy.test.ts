@@ -35,4 +35,17 @@ describe("offline cache privacy", () => {
     expect(documents?.options.expiration).toEqual({ maxEntries: 60, maxAgeSeconds: 86400 });
     expect(offlineWorkbox.navigateFallback).toBeNull();
   });
+  it("rebuilds navigation fetches without credentials or bearer headers", async () => {
+    const plugin = offlineWorkbox.runtimeCaching[0]?.options.plugins?.[0];
+    if (!plugin) throw new Error("Missing privacy plugin");
+    const request = new Request("https://verfiai.app/tools/text-cleaner", {
+      credentials: "include", headers: { authorization: "Bearer test" },
+    });
+    const safe = await plugin.requestWillFetch({ request });
+    expect(safe.credentials).toBe("omit");
+    expect(safe.mode).toBe("same-origin");
+    expect(safe.redirect).toBe("error");
+    expect(safe.headers.has("authorization")).toBe(false);
+    expect(safe.url).toBe(request.url);
+  });
 });
