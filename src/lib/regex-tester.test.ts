@@ -107,6 +107,57 @@ describe("regex tester safety", () => {
     }
   }, 5000);
 
+  it("terminates every worker across repeated timeouts and keeps the main thread responsive", async () => {
+    const source = readFileSync(new URL("./regex-tester.worker.ts", import.meta.url), "utf8");
+    const compiled = ts.transpileModule(source, {
+      compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.CommonJS },
+    }).outputText;
+    let ticks = 0;
+    const heartbeat = setInterval(() => { ticks++; }, 5);
+    const threads: ThreadWorker[] = [];
+    try {
+      for (let round = 0; round < 3; round++) {
+        const thread = new ThreadWorker(`
+          const { parentPort } = require('node:worker_threads');
+          globalThis.self = { postMessage: data => parentPort.postMessage(data) };
+          ${compiled}
+          parentPort.on('message', data => {
+            parentPort.postMessage({ started: true });
+            self.onmessage({ data });
+          });
+          parentPort.postMessage({ ready: true });
+        `, { eval: true });
+        threads.push(thread);
+        let exited = false;
+        const exit = new Promise<void>((resolve) => thread.once("exit", () => { exited = true; resolve(); }));
+        const worker = mockWorker();
+        thread.on("message", (data) => {
+          if (!data.ready && !data.started) worker.onmessage?.({ data } as MessageEvent);
+        });
+        thread.on("error", () => worker.onerror?.({} as ErrorEvent));
+        worker.postMessage.mockImplementation((data) => thread.postMessage(data));
+        worker.terminate.mockImplementation(() => { void thread.terminate(); });
+        await new Promise<void>((resolve, reject) => {
+          const timer = setTimeout(() => reject(new Error("Worker did not become ready")), 2000);
+          thread.once("message", () => { clearTimeout(timer); resolve(); });
+        });
+        const ticksAtStart = ticks;
+        await expect(runRegexInWorker("(a+)+$", "a".repeat(10000) + "!", "g", 200, () => worker))
+          .rejects.toThrow(/too complex/);
+        expect(worker.terminate).toHaveBeenCalledOnce();
+        expect(ticks - ticksAtStart).toBeGreaterThanOrEqual(3);
+        await exit;
+        expect(exited).toBe(true);
+      }
+      // Each round spawned and terminated its own worker; none linger.
+      expect(threads).toHaveLength(3);
+      for (const thread of threads) expect(thread.threadId).toBe(-1);
+    } finally {
+      clearInterval(heartbeat);
+      await Promise.all(threads.map((thread) => thread.terminate()));
+    }
+  }, 15000);
+
   it("returns worker matches and terminates the worker", async () => {
     const worker = mockWorker();
     const pending = runRegexInWorker("\\d+", "a12b", "g", 100, () => worker);
