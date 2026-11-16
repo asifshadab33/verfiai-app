@@ -7,7 +7,8 @@
 - [x] Generated Workbox tested on an isolated HTTP origin: tools and hashed script load offline, NetworkFirst refresh survives offline reload, worker/precache updates activate, and private/query/API paths remain absent. Fixed Workbox ignoring navigation fetchOptions using a credential-free requestWillFetch plugin; browser confirms cookies omitted, with a regression test. This verifies real generated policy, not the complete hosted application bundle.
 - [x] Real signed-in report generated across a tab switch and four-second connectivity loss; saved result reopened from My reports with no runtime errors. Missed progress events are still not replayed; reconnect does not retry generation.
 - [x] Full suite 364 passed, four privileged integration tests skipped; automatic build OK Nov 15 06:25:57 UTC.
-- [ ] Publish and verify the complete hosted application bundle, lazy chunks and offline tool reload; pre-publish built preview is access-controlled and local production artifacts are unavailable.
+- [ ] Verify the complete hosted application bundle, offline loading/updates and private-route exclusion before publishing. Nov 16: hosted build is successful and in sync at 4ac3e3ec; direct requests return 401 and Chromium redirects to Lovable login. No connected viewer or downloadable local production artifacts are available; localhost serves development modules. Blocked on an owner-created shared preview link (Share → Create shared preview link); do not publish to bypass verification.
+- [x] Nov 16: rerun full suite — 364 passed, four privileged integration tests skipped; automatic build OK at 15:14:16 UTC. Basic security scan reports no issues; deep scan remains dated Nov 7. No application changes or publishing.
 
 ## Nov 11 website performance — no publishing
 
