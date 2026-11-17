@@ -9,6 +9,7 @@
 - [x] Full suite 364 passed, four privileged integration tests skipped; automatic build OK Nov 15 06:25:57 UTC.
 - [ ] Verify the complete hosted application bundle, offline loading/updates and private-route exclusion before publishing. Nov 16: hosted build is successful and in sync at 4ac3e3ec; direct requests return 401 and Chromium redirects to Lovable login. No connected viewer or downloadable local production artifacts are available; localhost serves development modules. Blocked on an owner-created shared preview link (Share → Create shared preview link); do not publish to bypass verification.
 - [x] Nov 16: rerun full suite — 364 passed, four privileged integration tests skipped; automatic build OK at 15:14:16 UTC. Basic security scan reports no issues; deep scan remains dated Nov 7. No application changes or publishing.
+- [x] Nov 17: full suite — 365 passed, four privileged integration tests skipped, including the new repeated-timeout worker regression; automatic build OK at 16:14:32 UTC. Complete production-bundle browser checks and conditional publication remain blocked: the supplied link is the literal placeholder `[shared preview URL]`, not an accessible URL. Actual shared preview link requested; no application changes or publishing.
 
 ## Nov 11 website performance — no publishing
 
