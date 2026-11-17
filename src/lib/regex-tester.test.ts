@@ -213,6 +213,22 @@ describe("regex tester safety", () => {
     expect(vi.getTimerCount()).toBe(0);
   });
 
+  it("cleans up exactly once when a worker completes just as its timeout fires", async () => {
+    vi.useFakeTimers();
+    const worker = mockWorker();
+    const pending = runRegexInWorker("\\d+", "a12b", "g", 25, () => worker);
+    // Deliver the result on the very tick the deadline timer would fire.
+    await vi.advanceTimersByTimeAsync(24);
+    worker.onmessage?.({ data: { ok: true, matches: [{ value: "12", index: 1 }] } } as MessageEvent);
+    await vi.advanceTimersByTimeAsync(100);
+    // The result wins, the deadline rejection never fires, and cleanup ran once.
+    await expect(pending).resolves.toEqual([{ value: "12", index: 1 }]);
+    expect(worker.terminate).toHaveBeenCalledOnce();
+    expect(worker.onmessage).toBeNull();
+    expect(worker.onerror).toBeNull();
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
   it("returns worker matches and terminates the worker", async () => {
     const worker = mockWorker();
     const pending = runRegexInWorker("\\d+", "a12b", "g", 100, () => worker);
