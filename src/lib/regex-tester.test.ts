@@ -229,6 +229,23 @@ describe("regex tester safety", () => {
     expect(vi.getTimerCount()).toBe(0);
   });
 
+  it("cleans up exactly once when a worker throws just as its timeout fires", async () => {
+    vi.useFakeTimers();
+    const worker = mockWorker();
+    const pending = runRegexInWorker("(a+)+$", "a".repeat(100) + "!", "g", 25, () => worker);
+    const assertion = expect(pending).rejects.toThrow(/too complex/);
+    // The worker errors on the tick just before the deadline timer would fire.
+    await vi.advanceTimersByTimeAsync(24);
+    worker.onerror?.({} as ErrorEvent);
+    await vi.advanceTimersByTimeAsync(100);
+    await assertion;
+    // The error rejection wins, the deadline never fires again, cleanup ran once.
+    expect(worker.terminate).toHaveBeenCalledOnce();
+    expect(worker.onmessage).toBeNull();
+    expect(worker.onerror).toBeNull();
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
   it("returns worker matches and terminates the worker", async () => {
     const worker = mockWorker();
     const pending = runRegexInWorker("\\d+", "a12b", "g", 100, () => worker);
