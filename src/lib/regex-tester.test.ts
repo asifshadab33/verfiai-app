@@ -185,6 +185,34 @@ describe("regex tester safety", () => {
     expect(vi.getTimerCount()).toBe(0);
   });
 
+  it("stress: many consecutive timeout cycles leak no workers, handlers, or timers", async () => {
+    vi.useFakeTimers();
+    const cycles = 50;
+    const workers: ReturnType<typeof mockWorker>[] = [];
+    const factory = vi.fn(() => {
+      const worker = mockWorker();
+      workers.push(worker);
+      return worker;
+    });
+    // Hammer the runner with back-to-back timeouts, none of which ever respond.
+    for (let cycle = 0; cycle < cycles; cycle++) {
+      const pending = runRegexInWorker("(.+)+$", "a".repeat(200) + "!", "g", 10, factory);
+      const assertion = expect(pending).rejects.toThrow(/too complex/);
+      await vi.advanceTimersByTimeAsync(10);
+      await assertion;
+    }
+    // Every cycle spawned exactly one worker, and every one was terminated exactly once.
+    expect(factory).toHaveBeenCalledTimes(cycles);
+    expect(workers).toHaveLength(cycles);
+    for (const worker of workers) {
+      expect(worker.terminate).toHaveBeenCalledOnce();
+      expect(worker.onmessage).toBeNull();
+      expect(worker.onerror).toBeNull();
+    }
+    // After the final cycle the environment is clean: no pending timers at all.
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
   it("returns worker matches and terminates the worker", async () => {
     const worker = mockWorker();
     const pending = runRegexInWorker("\\d+", "a12b", "g", 100, () => worker);
