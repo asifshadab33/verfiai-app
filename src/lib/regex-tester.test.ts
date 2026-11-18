@@ -316,6 +316,34 @@ describe("regex tester safety", () => {
     await expect(pending).resolves.toEqual([{ value: "12", index: 1 }]);
     expect(worker.terminate).toHaveBeenCalledOnce();
   });
+
+  it("removes handlers and timers exactly once on the successful worker-response path", async () => {
+    vi.useFakeTimers();
+    const worker = mockWorker();
+    const pending = runRegexInWorker("\\d+", "a12b", "g", 25, () => worker);
+    let resolutions = 0;
+    const tracked = pending.then((matches) => { resolutions++; return matches; });
+    // The worker answers before the deadline.
+    await vi.advanceTimersByTimeAsync(10);
+    const lateMessage = worker.onmessage;
+    const lateError = worker.onerror;
+    worker.onmessage?.({ data: { ok: true, matches: [{ value: "12", index: 1 }] } } as MessageEvent);
+    await expect(tracked).resolves.toEqual([{ value: "12", index: 1 }]);
+    expect(resolutions).toBe(1);
+    expect(worker.terminate).toHaveBeenCalledOnce();
+    expect(worker.onmessage).toBeNull();
+    expect(worker.onerror).toBeNull();
+    expect(worker.onmessageerror).toBeNull();
+    // The pending deadline was cleared; no timers remain.
+    expect(vi.getTimerCount()).toBe(0);
+    // Late events after success are ignored: no second cleanup, no extra resolution.
+    lateMessage?.({ data: { ok: true, matches: [{ value: "99", index: 0 }] } } as MessageEvent);
+    lateError?.({} as ErrorEvent);
+    await vi.advanceTimersByTimeAsync(100);
+    expect(resolutions).toBe(1);
+    expect(worker.terminate).toHaveBeenCalledOnce();
+    expect(vi.getTimerCount()).toBe(0);
+  });
   it("clamps excessive or infinite timeouts to 200ms", async () => {
     vi.useFakeTimers();
     for (const timeout of [999999, Infinity, NaN]) {
