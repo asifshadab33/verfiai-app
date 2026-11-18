@@ -13,6 +13,7 @@ function mockWorker() {
   return {
     onmessage: null as ((event: MessageEvent) => void) | null,
     onerror: null as ((event: ErrorEvent) => void) | null,
+    onmessageerror: null as ((event: MessageEvent) => void) | null,
     postMessage: vi.fn(),
     terminate: vi.fn(),
   };
@@ -260,6 +261,51 @@ describe("regex tester safety", () => {
     expect(worker.terminate).toHaveBeenCalledOnce();
     expect(worker.onmessage).toBeNull();
     expect(worker.onerror).toBeNull();
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it("rejects and cleans up exactly once across repeated timeout events", async () => {
+    vi.useFakeTimers();
+    const worker = mockWorker();
+    const pending = runRegexInWorker("(a+)+$", "a".repeat(100) + "!", "g", 25, () => worker);
+    let rejections = 0;
+    const tracked = pending.catch((error) => { rejections++; throw error; });
+    const assertion = expect(tracked).rejects.toThrow(/too complex/);
+    // The deadline fires; afterwards every worker event channel fires again.
+    await vi.advanceTimersByTimeAsync(25);
+    const lateMessage = worker.onmessage;
+    const lateError = worker.onerror;
+    const lateMessageError = worker.onmessageerror;
+    await vi.advanceTimersByTimeAsync(100);
+    await assertion;
+    // Repeated late events are all ignored: one rejection, one cleanup.
+    lateMessage?.({ data: { ok: true, matches: [] } } as MessageEvent);
+    lateError?.({} as ErrorEvent);
+    lateMessageError?.({} as MessageEvent);
+    await vi.advanceTimersByTimeAsync(100);
+    expect(rejections).toBe(1);
+    expect(worker.terminate).toHaveBeenCalledOnce();
+    expect(worker.onmessage).toBeNull();
+    expect(worker.onerror).toBeNull();
+    expect(worker.onmessageerror).toBeNull();
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it("cleans up exactly once when the worker terminates unexpectedly", async () => {
+    vi.useFakeTimers();
+    const worker = mockWorker();
+    const pending = runRegexInWorker("\\d+", "a12b", "g", 25, () => worker);
+    const assertion = expect(pending).rejects.toThrow(/could not read the regex result/);
+    // The worker dies unexpectedly (unreadable result) before the deadline.
+    await vi.advanceTimersByTimeAsync(10);
+    worker.onmessageerror?.({} as MessageEvent);
+    // The deadline and any late events must not fire cleanup a second time.
+    await vi.advanceTimersByTimeAsync(100);
+    await assertion;
+    expect(worker.terminate).toHaveBeenCalledOnce();
+    expect(worker.onmessage).toBeNull();
+    expect(worker.onerror).toBeNull();
+    expect(worker.onmessageerror).toBeNull();
     expect(vi.getTimerCount()).toBe(0);
   });
 
