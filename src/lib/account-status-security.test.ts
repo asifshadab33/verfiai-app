@@ -17,7 +17,9 @@ describe("account-status helper security", () => {
     });
 
     it(`${name} checks caller ownership before reading private membership`, () => {
-      const body = migration.split(`CREATE OR REPLACE FUNCTION public.${name}(`)[1].split("$function$;")[0];
+      const definition = migration.split(`CREATE OR REPLACE FUNCTION public.${name}(`)[1];
+      if (definition === undefined) throw new Error(`Missing function definition: ${name}`);
+      const body = definition.split("$function$;")[0];
       expect(body).toContain("STABLE SECURITY DEFINER\nSET search_path = public");
       expect(body).toContain(`WHEN auth.role() = 'service_role' OR (auth.uid() IS NOT NULL AND auth.uid() = ${identity})`);
       expect(body).toMatch(/THEN EXISTS \([\s\S]*\)\s+ELSE false\s+END/);
