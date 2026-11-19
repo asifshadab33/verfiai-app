@@ -127,6 +127,13 @@
       "when": 1793204919332,
       "tag": "0017_verification_progress_stage_events",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1795092954457,
+      "tag": "0018_scope_account_status_helpers",
+      "breakpoints": true
     }
   ]
 }

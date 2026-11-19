@@ -51,3 +51,4 @@
 - Tool routes preload only selected-locale site copy (except citation checking); hydration uses the same scope and navigation upgrades to full dictionaries before localized research renders.
 - Offline app-shell caching uses generated Workbox with one preview-guarded registrar; only credential-free tool documents and same-origin hashed assets qualify, so private routes and APIs stay network-only.
 - NewTool is a lazy category registry with shared controls; regex execution remains worker-only with a capped deadline and cleanup on every outcome, preventing heavy tool code and unbounded regex work from blocking unrelated pages.
+- Account-status database helpers accept only the authenticated caller's own identity or a trusted service caller, with no public execution, because role and subscription membership must not be enumerable.
