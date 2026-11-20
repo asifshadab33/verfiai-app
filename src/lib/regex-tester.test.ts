@@ -344,6 +344,36 @@ describe("regex tester safety", () => {
     expect(worker.terminate).toHaveBeenCalledOnce();
     expect(vi.getTimerCount()).toBe(0);
   });
+  it("rejects an invalid successful worker response and cleans up exactly once", async () => {
+    vi.useFakeTimers();
+    const worker = mockWorker();
+    const pending = runRegexInWorker("\\d+", "a12b", "g", 25, () => worker);
+    let rejections = 0;
+    const tracked = pending.catch((error) => { rejections++; throw error; });
+    const assertion = expect(tracked).rejects.toThrow(/could not read the regex result/);
+    // The worker reports success but the payload is not a valid match list.
+    await vi.advanceTimersByTimeAsync(10);
+    const lateMessage = worker.onmessage;
+    const lateError = worker.onerror;
+    worker.onmessage?.({ data: { ok: true, matches: "not-an-array" } } as unknown as MessageEvent);
+    // The deadline and any late events must not fire cleanup a second time.
+    await vi.advanceTimersByTimeAsync(100);
+    await assertion;
+    expect(rejections).toBe(1);
+    expect(worker.terminate).toHaveBeenCalledOnce();
+    expect(worker.onmessage).toBeNull();
+    expect(worker.onerror).toBeNull();
+    expect(worker.onmessageerror).toBeNull();
+    expect(vi.getTimerCount()).toBe(0);
+    // Late events after the rejection are ignored: no second cleanup.
+    lateMessage?.({ data: { ok: true, matches: [] } } as MessageEvent);
+    lateError?.({} as ErrorEvent);
+    await vi.advanceTimersByTimeAsync(100);
+    expect(rejections).toBe(1);
+    expect(worker.terminate).toHaveBeenCalledOnce();
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
   it("clamps excessive or infinite timeouts to 200ms", async () => {
     vi.useFakeTimers();
     for (const timeout of [999999, Infinity, NaN]) {
