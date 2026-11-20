@@ -96,6 +96,7 @@ function Reports() {
           Back to workspace
         </Link>
         <div className="flex items-center gap-3 text-sm text-muted-foreground">
+          <Button asChild variant="outline" size="sm"><Link to="/dashboard">My account</Link></Button>
           <span>{user.email}</span>
           <Button variant="outline" size="sm" onClick={out}>
             Sign out

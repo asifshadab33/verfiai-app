@@ -1,5 +1,9 @@
 # Verfiai roadmap
 
+## Nov 20 owner account dashboard
+
+- [x] Add /dashboard with secured owner-only subscription/role reads, refresh, report navigation and sign-out. Browser verified real owner Community access/Admin, signed-out redirects, mobile fit and no runtime errors; no publishing.
+
 ## Nov 13–15 browser release verification
 
 - [x] Nov 14: 10 regex regressions pass, including real-thread catastrophic backtracking, deadline termination and ignored late callbacks. Chromium confirms one worker created/terminated, main-thread heartbeat continues, and a subsequent normal pattern succeeds. Automatic build OK; no publishing. Offline/report recovery checks below remain pending from Nov 13.

@@ -1,5 +1,7 @@
 # src/lib rules
 
+- Account dashboards aggregate owner-only status RPCs using middleware identity and server-selected billing environment; never accept a target account ID or infer membership on failure.
+
 - Knowledge/library public reads use an anonymous server publishable client and safe column projections; library responses are no-store and issue validation/throttling is enforced by a database trigger so direct writes cannot bypass it.
 
 - Reports and claim checks use Tavily plus free sources (DuckDuckGo Instant Answer API only, never scraped result pages; English + report-language Wikipedia; Crossref; OpenAlex; PubMed) merged via local BM25/RRF ranking and OpenRouter engines (DeepSeek primary, Qwen fallback) in `research.server.ts`; keys stay server-side because browser keys can be stolen.

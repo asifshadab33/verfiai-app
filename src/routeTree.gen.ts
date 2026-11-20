@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AccuracyRouteImport } from './routes/accuracy'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -44,6 +45,7 @@ import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as TemplatesRouteImport } from './routes/templates'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as VideoResearchRouteImport } from './routes/video-research'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AccountLibraryUsageRouteImport } from './routes/account/library-usage'
 import { Route as AccountUsageRouteImport } from './routes/account/usage'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout/success'
@@ -132,6 +134,10 @@ import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/l
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -303,6 +309,11 @@ const VideoResearchRoute = VideoResearchRouteImport.update({
   id: '/video-research',
   path: '/video-research',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AccountLibraryUsageRoute = AccountLibraryUsageRouteImport.update({
   id: '/account/library-usage',
@@ -767,6 +778,7 @@ export interface FileRoutesByFullPath {
   '/templates': typeof TemplatesRoute
   '/terms': typeof TermsRoute
   '/video-research': typeof VideoResearchRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
   '/account/library-usage': typeof AccountLibraryUsageRoute
   '/account/usage': typeof AccountUsageRoute
   '/checkout/success': typeof CheckoutSuccessRoute
@@ -888,6 +900,7 @@ export interface FileRoutesByTo {
   '/templates': typeof TemplatesRoute
   '/terms': typeof TermsRoute
   '/video-research': typeof VideoResearchRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
   '/account/library-usage': typeof AccountLibraryUsageRoute
   '/account/usage': typeof AccountUsageRoute
   '/checkout/success': typeof CheckoutSuccessRoute
@@ -976,6 +989,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/accuracy': typeof AccuracyRoute
   '/admin': typeof AdminRoute
@@ -1010,6 +1024,7 @@ export interface FileRoutesById {
   '/templates': typeof TemplatesRoute
   '/terms': typeof TermsRoute
   '/video-research': typeof VideoResearchRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/account/library-usage': typeof AccountLibraryUsageRoute
   '/account/usage': typeof AccountUsageRoute
   '/checkout/success': typeof CheckoutSuccessRoute
@@ -1133,6 +1148,7 @@ export interface FileRouteTypes {
     | '/templates'
     | '/terms'
     | '/video-research'
+    | '/dashboard'
     | '/account/library-usage'
     | '/account/usage'
     | '/checkout/success'
@@ -1254,6 +1270,7 @@ export interface FileRouteTypes {
     | '/templates'
     | '/terms'
     | '/video-research'
+    | '/dashboard'
     | '/account/library-usage'
     | '/account/usage'
     | '/checkout/success'
@@ -1341,6 +1358,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/about'
     | '/accuracy'
     | '/admin'
@@ -1375,6 +1393,7 @@ export interface FileRouteTypes {
     | '/templates'
     | '/terms'
     | '/video-research'
+    | '/_authenticated/dashboard'
     | '/account/library-usage'
     | '/account/usage'
     | '/checkout/success'
@@ -1463,6 +1482,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AccuracyRoute: typeof AccuracyRoute
   AdminRoute: typeof AdminRoute
@@ -1590,6 +1610,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -1829,6 +1856,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/video-research'
       preLoaderRoute: typeof VideoResearchRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/account/library-usage': {
       id: '/account/library-usage'
@@ -2421,8 +2455,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AccuracyRoute: AccuracyRoute,
   AdminRoute: AdminRoute,

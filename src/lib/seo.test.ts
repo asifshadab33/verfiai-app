@@ -53,6 +53,7 @@ describe("leaf search metadata policy", () => {
       "/auth",
       "/admin",
       "/account/usage",
+      "/dashboard",
       "/reports",
       "/r/example",
     ]) {
@@ -68,12 +69,15 @@ describe("leaf search metadata policy", () => {
       "account/usage",
       "account/library-usage",
       "checkout/success",
+      "_authenticated/dashboard",
+      "_authenticated/route",
     ];
     for (const route of routes) {
       const source = readFileSync(new URL(`../routes/${route}.tsx`, import.meta.url), "utf8");
       expect(source).toMatch(/name: "robots", content: "noindex,\s*nofollow"/);
       expect(sitemapPaths()).not.toContain(`/${route}`);
     }
+    expect(sitemapPaths()).not.toContain("/dashboard");
     expect(new Set(sitemapPaths()).size).toBe(sitemapPaths().length);
     expect(
       sitemapPaths().some(
