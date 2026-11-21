@@ -1,5 +1,10 @@
 # Verfiai roadmap
 
+## Nov 21 social sign-in
+
+- [x] Add Microsoft and Lovable buttons alongside Google using managed auth; existing profiles and public callback preserved. Both providers confirmed enabled; official Lovable mark uses Cloud auth 1.3.
+- [x] Five dispatch/error tests pass; desktop/mobile buttons render without overflow or runtime errors; automatic build OK. External account sign-in completion not exercised; no publishing.
+
 ## Nov 20 owner account dashboard
 
 - [x] Add /dashboard with secured owner-only subscription/role reads, refresh, report navigation and sign-out. Browser verified real owner Community access/Admin, signed-out redirects, mobile fit and no runtime errors; no publishing.

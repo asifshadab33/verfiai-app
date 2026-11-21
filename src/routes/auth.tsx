@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { FileCheck2, LoaderCircle } from "lucide-react";
+import { FileCheck2, Grid2X2, LoaderCircle } from "lucide-react";
+import { LovableMark } from "@lovable.dev/cloud-auth-js/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
@@ -15,7 +16,7 @@ export const Route = createFileRoute("/auth")({
       {
         name: "description",
         content:
-          "Sign in to Verfiai with Google or email to generate and save AI research reports.",
+          "Sign in to Verfiai with Google, Microsoft, Lovable or email to generate and save AI research reports.",
       },
       { property: "og:title", content: "Sign in | Verfiai" },
       { property: "og:description", content: "Sign in to generate and save AI research reports." },
@@ -33,18 +34,30 @@ function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const [oauthBusy, setOauthBusy] = useState<"google" | "microsoft" | "lovable" | null>(null);
   const [msg, setMsg] = useState("");
   const [err, setErr] = useState("");
   useEffect(() => {
     if (user) navigate({ to: "/reports" });
   }, [user, navigate]);
 
-  async function google() {
+  async function socialSignIn(provider: "google" | "microsoft" | "lovable") {
+    if (oauthBusy || busy) return;
     setErr("");
-    const r = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin + "/auth",
-    });
-    if (r.error) setErr("Google sign-in didn't complete. Please try again.");
+    setMsg("");
+    setOauthBusy(provider);
+    const name = { google: "Google", microsoft: "Microsoft", lovable: "Lovable" }[provider];
+    try {
+      const r = await lovable.auth.signInWithOAuth(provider, {
+        redirect_uri: window.location.origin + "/auth",
+      });
+      if (r.error) setErr(`${name} sign-in didn't complete. Please try again.`);
+      if (r.redirected) return;
+    } catch {
+      setErr(`${name} sign-in didn't complete. Please try again.`);
+    } finally {
+      setOauthBusy(null);
+    }
   }
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -102,9 +115,20 @@ function AuthPage() {
         </p>
         {mode !== "reset" && (
           <>
-            <Button variant="outline" className="mt-6 w-full" onClick={google}>
-              Continue with Google
-            </Button>
+            <div className="mt-6 space-y-3">
+              <Button type="button" variant="outline" className="w-full" disabled={busy || oauthBusy !== null} onClick={() => socialSignIn("google")}>
+                {oauthBusy === "google" && <LoaderCircle aria-hidden="true" className="animate-spin" />}
+                Continue with Google
+              </Button>
+              <Button type="button" variant="outline" className="w-full" disabled={busy || oauthBusy !== null} onClick={() => socialSignIn("microsoft")}>
+                {oauthBusy === "microsoft" ? <LoaderCircle aria-hidden="true" className="animate-spin" /> : <Grid2X2 aria-hidden="true" />}
+                Continue with Microsoft
+              </Button>
+              <Button type="button" variant="outline" className="w-full" disabled={busy || oauthBusy !== null} onClick={() => socialSignIn("lovable")}>
+                {oauthBusy === "lovable" ? <LoaderCircle aria-hidden="true" className="animate-spin" /> : <LovableMark />}
+                Continue with Lovable
+              </Button>
+            </div>
             <div className="my-5 flex items-center gap-3 text-xs text-muted-foreground">
               <span className="h-px flex-1 bg-border" />
               or
@@ -136,7 +160,7 @@ function AuthPage() {
               />
             </label>
           )}
-          <Button type="submit" className="w-full" disabled={busy}>
+          <Button type="submit" className="w-full" disabled={busy || oauthBusy !== null}>
             {busy && <LoaderCircle className="animate-spin" />}
             {mode === "up" ? "Create account" : mode === "reset" ? "Send reset link" : "Sign in"}
           </Button>
