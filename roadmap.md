@@ -1,5 +1,10 @@
 # Verfiai roadmap
 
+## Nov 22 account entry
+
+- [ ] Finish Microsoft sign-in return to /dashboard after session hydration and verify new-account dashboard access.
+- [ ] Add a dedicated sign-up page using existing account/profile handling, email confirmation and Microsoft/Lovable account creation; test entry flows without publishing.
+
 ## Nov 21 social sign-in
 
 - [x] Add Microsoft and Lovable buttons alongside Google using managed auth; existing profiles and public callback preserved. Both providers confirmed enabled; official Lovable mark uses Cloud auth 1.3.
