@@ -51,6 +51,7 @@ describe("leaf search metadata policy", () => {
       "/fact-checker",
       "/pricing",
       "/auth",
+      "/signup",
       "/admin",
       "/account/usage",
       "/dashboard",
@@ -63,6 +64,7 @@ describe("leaf search metadata policy", () => {
   it("noindexes auth, admin and every account/transactional route and omits them from the sitemap", () => {
     const routes = [
       "auth",
+      "signup",
       "admin",
       "reports",
       "reset-password",

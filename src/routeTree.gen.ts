@@ -40,6 +40,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
 import { Route as SampleReportRouteImport } from './routes/sample-report'
 import { Route as SecurityRouteImport } from './routes/security'
+import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SourcesRouteImport } from './routes/sources'
 import { Route as TemplatesRouteImport } from './routes/templates'
@@ -283,6 +284,11 @@ const SampleReportRoute = SampleReportRouteImport.update({
 const SecurityRoute = SecurityRouteImport.update({
   id: '/security',
   path: '/security',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -773,6 +779,7 @@ export interface FileRoutesByFullPath {
   '/rss.xml': typeof RssDotxmlRoute
   '/sample-report': typeof SampleReportRoute
   '/security': typeof SecurityRoute
+  '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sources': typeof SourcesRoute
   '/templates': typeof TemplatesRoute
@@ -895,6 +902,7 @@ export interface FileRoutesByTo {
   '/rss.xml': typeof RssDotxmlRoute
   '/sample-report': typeof SampleReportRoute
   '/security': typeof SecurityRoute
+  '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sources': typeof SourcesRoute
   '/templates': typeof TemplatesRoute
@@ -1019,6 +1027,7 @@ export interface FileRoutesById {
   '/rss.xml': typeof RssDotxmlRoute
   '/sample-report': typeof SampleReportRoute
   '/security': typeof SecurityRoute
+  '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sources': typeof SourcesRoute
   '/templates': typeof TemplatesRoute
@@ -1143,6 +1152,7 @@ export interface FileRouteTypes {
     | '/rss.xml'
     | '/sample-report'
     | '/security'
+    | '/signup'
     | '/sitemap.xml'
     | '/sources'
     | '/templates'
@@ -1265,6 +1275,7 @@ export interface FileRouteTypes {
     | '/rss.xml'
     | '/sample-report'
     | '/security'
+    | '/signup'
     | '/sitemap.xml'
     | '/sources'
     | '/templates'
@@ -1388,6 +1399,7 @@ export interface FileRouteTypes {
     | '/rss.xml'
     | '/sample-report'
     | '/security'
+    | '/signup'
     | '/sitemap.xml'
     | '/sources'
     | '/templates'
@@ -1512,6 +1524,7 @@ export interface RootRouteChildren {
   RssDotxmlRoute: typeof RssDotxmlRoute
   SampleReportRoute: typeof SampleReportRoute
   SecurityRoute: typeof SecurityRoute
+  SignupRoute: typeof SignupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SourcesRoute: typeof SourcesRoute
   TemplatesRoute: typeof TemplatesRoute
@@ -1820,6 +1833,13 @@ declare module '@tanstack/react-router' {
       path: '/security'
       fullPath: '/security'
       preLoaderRoute: typeof SecurityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -2498,6 +2518,7 @@ const rootRouteChildren: RootRouteChildren = {
   RssDotxmlRoute: RssDotxmlRoute,
   SampleReportRoute: SampleReportRoute,
   SecurityRoute: SecurityRoute,
+  SignupRoute: SignupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SourcesRoute: SourcesRoute,
   TemplatesRoute: TemplatesRoute,

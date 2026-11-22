@@ -2,8 +2,10 @@
 
 ## Nov 22 account entry
 
-- [ ] Finish Microsoft sign-in return to /dashboard after session hydration and verify new-account dashboard access.
-- [ ] Add a dedicated sign-up page using existing account/profile handling, email confirmation and Microsoft/Lovable account creation; test entry flows without publishing.
+- [x] Return hydrated sign-in sessions to /dashboard with history replacement. Chromium verified a real temporary new account through the public OAuth-style hash callback, dashboard owner reads, refresh, reload, sign-out and guard; zero runtime errors. Real Microsoft broker reaches Microsoft's credential screen.
+- [x] Add /signup using shared account entry, existing profile handling, email confirmation and managed social signup. Ten entry tests and seven secured account tests pass; desktop/mobile signup navigation and fit verified; automatic build OK.
+- [ ] Complete Microsoft authentication with a new Microsoft identity: requires the user's Microsoft sign-in/consent interaction; the test account callback is not a completed Microsoft-provider signup. No publishing.
+- Verification note: full suite 395 passed, ten skipped; the previously unfinished invalid-regex-success regression fails (matches payload lacks validation). Kept unrelated regex code unchanged.
 
 ## Nov 21 social sign-in
 
