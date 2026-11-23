@@ -13,6 +13,33 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  account-status-security:
+    name: Account-status security tests (7)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run the seven account-status security tests
+        env:
+          # Optional QA-only database; the two endpoint tests skip cleanly without it.
+          SUPABASE_URL: ${{ secrets.VERIFAI_QA_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.VERIFAI_QA_SUPABASE_SERVICE_ROLE_KEY }}
+        run: >-
+          npx vitest run
+          src/lib/account-status-security.test.ts
+          src/lib/account-status-endpoints.integration.test.ts
+
   validate:
     runs-on: ubuntu-latest
     timeout-minutes: 20

@@ -57,6 +57,7 @@
 - [x] Executive-tools passes existing derived route/sitemap coverage; basic security scan has no findings.
 - [ ] Deep scan is running; production bundle/production-preview validation remains required before publication.
 - [ ] Publish only after required checks pass, then browser-check homepage/executive-tools and sample public endpoints.
+- [x] Nov 23: regex worker success payloads now shape-validated (invalid `matches` rejects cleanly); all 20 regex tests pass. CI: added dedicated `account-status-security` job running the seven account-status security tests on every PR; existing `validate` job already runs the full suite and production build on every PR.
 - Optional executive directory card deferred until mandatory recovery and verification finish.
 
 ## Nov 4 tools verification

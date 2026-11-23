@@ -13,6 +13,20 @@ type WorkerLike = Pick<Worker, "postMessage" | "terminate"> & {
 };
 type WorkerFactory = () => WorkerLike;
 
+function isValidMatchList(matches: unknown): matches is RegexMatch[] {
+  return (
+    Array.isArray(matches) &&
+    matches.every(
+      (m) =>
+        typeof m === "object" &&
+        m !== null &&
+        typeof (m as RegexMatch).value === "string" &&
+        typeof (m as RegexMatch).index === "number" &&
+        Number.isFinite((m as RegexMatch).index),
+    )
+  );
+}
+
 export function validateRegexInput(pattern: string, input: string) {
   if (pattern.length > REGEX_MAX_PATTERN_LENGTH)
     throw new Error("Regular expression must be 1,000 characters or fewer.");
@@ -65,6 +79,15 @@ export function runRegexInWorker(
     worker.onmessage = (event) => {
       const result = event.data;
       finish(() => {
+        if (
+          typeof result !== "object" ||
+          result === null ||
+          (result.ok === true && !isValidMatchList(result.matches)) ||
+          (result.ok === false && typeof result.error !== "string")
+        ) {
+          reject(new Error("This browser could not read the regex result."));
+          return;
+        }
         if (result.ok) resolve(result.matches);
         else reject(new Error(result.error));
       });
