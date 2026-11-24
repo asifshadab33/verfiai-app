@@ -1,5 +1,9 @@
 # Verfiai roadmap
 
+## Nov 24 CI permissions guard
+
+- [x] Add GitHub Actions error annotations (file/line) for disallowed workflow permissions and regression tests for invalid/unsupported permission syntax failing closed with the workflow file named. 27 guard tests pass; annotations emit only under GITHUB_ACTIONS.
+
 ## Nov 22 account entry
 
 - [x] Return hydrated sign-in sessions to /dashboard with history replacement. Chromium verified a real temporary new account through the public OAuth-style hash callback, dashboard owner reads, refresh, reload, sign-out and guard; zero runtime errors. Real Microsoft broker reaches Microsoft's credential screen.

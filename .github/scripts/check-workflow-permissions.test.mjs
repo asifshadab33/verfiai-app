@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { test } from 'node:test';
-import { checkWorkflowDirectory, validateWorkflowPermissions } from './check-workflow-permissions.mjs';
+import { checkWorkflowDirectory, formatAnnotation, validateWorkflowPermissions } from './check-workflow-permissions.mjs';
 
 const workflow = (top = '{ contents: read }', job = '') => `
 permissions: ${top}
@@ -89,6 +89,102 @@ test('every workflow extension is scanned and an unsafe new workflow exits nonze
     const result = spawnSync(process.execPath, ['.github/scripts/check-workflow-permissions.mjs', directory], { encoding: 'utf8' });
     assert.equal(result.status, 1);
     assert.match(result.stderr, /packages: write/);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
+test('violations carry file, job, scope, and line for annotations', () => {
+  const source = workflow(undefined, 'permissions: { contents: write }');
+  assert.throws(
+    () => validateWorkflowPermissions(source, 'deploy.yml'),
+    (error) => {
+      assert.equal(error.violations.length, 1);
+      const [violation] = error.violations;
+      assert.equal(violation.file, 'deploy.yml');
+      assert.equal(violation.job, 'validate');
+      assert.equal(violation.scope, 'contents');
+      assert.equal(violation.level, 'write');
+      // The first line mentioning the scope is used; here the top-level permissions line.
+      assert.equal(violation.line, 2);
+      return true;
+    },
+  );
+});
+
+test('formatAnnotation emits a GitHub Actions error command with file and line', () => {
+  const annotation = formatAnnotation({ file: 'ci.yml', line: 12, message: 'workflow ci.yml (top level): disallowed permission contents: write' });
+  assert.equal(annotation, '::error file=ci.yml,line=12::workflow ci.yml (top level): disallowed permission contents: write');
+});
+
+test('formatAnnotation escapes percent, CR, and LF so messages stay on one line', () => {
+  const annotation = formatAnnotation({ file: 'ci.yml', message: 'bad\n50%\rvalue' });
+  assert.equal(annotation, '::error file=ci.yml::bad%0A50%25%0Dvalue');
+});
+
+test('CLI emits error annotations only when running under GitHub Actions', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'workflow-annotations-'));
+  try {
+    writeFileSync(join(directory, 'unsafe.yml'), workflow(undefined, 'permissions: { packages: write }'));
+    const plain = spawnSync(process.execPath, ['.github/scripts/check-workflow-permissions.mjs', directory], { encoding: 'utf8' });
+    assert.equal(plain.status, 1);
+    assert.doesNotMatch(plain.stdout + plain.stderr, /::error/);
+    const ci = spawnSync(process.execPath, ['.github/scripts/check-workflow-permissions.mjs', directory], {
+      encoding: 'utf8',
+      env: { ...process.env, GITHUB_ACTIONS: 'true' },
+    });
+    assert.equal(ci.status, 1);
+    assert.match(ci.stdout, /^::error file=unsafe\.yml,line=\d+::workflow unsafe\.yml, job validate: disallowed permission packages: write/m);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
+test('invalid YAML syntax fails closed and names the workflow file', () => {
+  assert.throws(
+    () => validateWorkflowPermissions('permissions: { contents: read\njobs: [', 'broken.yml'),
+    /broken\.yml/,
+  );
+});
+
+test('a scalar workflow document fails closed and names the workflow file', () => {
+  assert.throws(() => validateWorkflowPermissions('just a string', 'scalar.yml'), /scalar\.yml: expected a workflow mapping/);
+});
+
+test('permissions as a list fails closed and names the workflow file', () => {
+  assert.throws(
+    () => validateWorkflowPermissions('permissions: [read]\njobs: { validate: { runs-on: ubuntu-latest } }', 'list.yml'),
+    /workflow list\.yml \(top level\): permissions must be an explicit mapping/,
+  );
+});
+
+test('a non-string permission level is rejected, not treated as read-only', () => {
+  assert.throws(
+    () => validateWorkflowPermissions(workflow('{ contents: [read] }'), 'levels.yml'),
+    /workflow levels\.yml \(top level\): disallowed permission contents: read/,
+  );
+});
+
+test('a workflow without jobs fails closed and names the workflow file', () => {
+  assert.throws(
+    () => validateWorkflowPermissions('permissions: { contents: read }\njobs: {}', 'nojobs.yml'),
+    /nojobs\.yml: expected at least one job/,
+  );
+});
+
+test('a scalar job definition fails closed and names the workflow file and job', () => {
+  assert.throws(
+    () => validateWorkflowPermissions('permissions: { contents: read }\njobs: { validate: oops }', 'badjob.yml'),
+    /workflow badjob\.yml, job validate: expected a job mapping/,
+  );
+});
+
+test('directory scan reports the file for syntactically invalid workflows', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'workflow-invalid-'));
+  try {
+    writeFileSync(join(directory, 'valid.yml'), workflow());
+    writeFileSync(join(directory, 'invalid.yml'), 'permissions: { contents: read\njobs: [');
+    assert.throws(() => checkWorkflowDirectory(directory), /invalid\.yml/);
   } finally {
     rmSync(directory, { recursive: true, force: true });
   }
