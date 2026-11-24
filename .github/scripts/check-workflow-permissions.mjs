@@ -7,30 +7,34 @@ import { pathToFileURL } from 'node:url';
 const { load, JSON_SCHEMA } = createRequire(import.meta.url)('js-yaml');
 const isMapping = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
 
-function checkPermissions(value, location) {
+function checkPermissions(value, location, violations) {
   if (!isMapping(value)) {
     throw new Error(`${location}: permissions must be an explicit mapping (only contents: read or no permissions).`);
   }
   for (const [scope, level] of Object.entries(value)) {
     if (level === 'none' || (scope === 'contents' && level === 'read')) continue;
-    throw new Error(`${location}: unapproved permission ${scope}: ${String(level)}; only contents: read is approved.`);
+    violations.push(`${location}: disallowed permission ${scope}: ${String(level)} (approved set: contents: read)`);
   }
 }
 
 export function validateWorkflowPermissions(source, filename = 'workflow') {
   const workflow = load(source, { schema: JSON_SCHEMA });
   if (!isMapping(workflow)) throw new Error(`${filename}: expected a workflow mapping.`);
+  const violations = [];
   // Omitted workflow permissions can inherit repository defaults, including write access.
-  checkPermissions(workflow.permissions, `${filename} workflow`);
+  checkPermissions(workflow.permissions, `workflow ${filename} (top level)`, violations);
   if (!isMapping(workflow.jobs) || Object.keys(workflow.jobs).length === 0) {
     throw new Error(`${filename}: expected at least one job.`);
   }
   for (const [name, job] of Object.entries(workflow.jobs)) {
-    if (!isMapping(job)) throw new Error(`${filename} job ${name}: expected a job mapping.`);
+    if (!isMapping(job)) throw new Error(`workflow ${filename}, job ${name}: expected a job mapping.`);
     if (Object.hasOwn(job, 'permissions')) {
-      checkPermissions(job.permissions, `${filename} job ${name}`);
+      checkPermissions(job.permissions, `workflow ${filename}, job ${name}`, violations);
     }
     // Jobs without overrides inherit the already-validated workflow permissions.
+  }
+  if (violations.length) {
+    throw new Error(`Disallowed workflow permissions found:\n${violations.map((v) => `  - ${v}`).join('\n')}`);
   }
 }
 
