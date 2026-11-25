@@ -10,6 +10,7 @@ export function cacheBuiltAsset({ request, url, sameOrigin }: { request: Request
 }
 
 export const offlineWorkbox = {
+  globDirectory: "dist/client",
   globPatterns: ["offline.html", "icons/*.png"],
   navigateFallback: null,
   cleanupOutdatedCaches: true,
