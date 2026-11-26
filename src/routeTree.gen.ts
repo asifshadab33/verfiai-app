@@ -129,6 +129,11 @@ import { Route as ToolsWaybackRouteImport } from './routes/tools/wayback'
 import { Route as ToolsWeaselWordsRouteImport } from './routes/tools/weasel-words'
 import { Route as ToolsWordCounterRouteImport } from './routes/tools/word-counter'
 import { Route as ToolsZenodoFinderRouteImport } from './routes/tools/zenodo-finder'
+import { Route as AuthenticatedCommunityIndexRouteImport } from './routes/_authenticated/community/index'
+import { Route as AuthenticatedCommunityPostIdRouteImport } from './routes/_authenticated/community/$postId'
+import { Route as AuthenticatedDashboardFactsRouteImport } from './routes/_authenticated/dashboard_.facts'
+import { Route as AuthenticatedDashboardPostsRouteImport } from './routes/_authenticated/dashboard_.posts'
+import { Route as AuthenticatedDashboardToolsRouteImport } from './routes/_authenticated/dashboard_.tools'
 import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 
@@ -735,6 +740,36 @@ const ToolsZenodoFinderRoute = ToolsZenodoFinderRouteImport.update({
   path: '/tools/zenodo-finder',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedCommunityIndexRoute =
+  AuthenticatedCommunityIndexRouteImport.update({
+    id: '/community/',
+    path: '/community/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCommunityPostIdRoute =
+  AuthenticatedCommunityPostIdRouteImport.update({
+    id: '/community/$postId',
+    path: '/community/$postId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardFactsRoute =
+  AuthenticatedDashboardFactsRouteImport.update({
+    id: '/dashboard_/facts',
+    path: '/dashboard/facts',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardPostsRoute =
+  AuthenticatedDashboardPostsRouteImport.update({
+    id: '/dashboard_/posts',
+    path: '/dashboard/posts',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDashboardToolsRoute =
+  AuthenticatedDashboardToolsRouteImport.update({
+    id: '/dashboard_/tools',
+    path: '/dashboard/tools',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const ApiPublicPaymentsWebhookRoute =
   ApiPublicPaymentsWebhookRouteImport.update({
     id: '/api/public/payments/webhook',
@@ -868,6 +903,11 @@ export interface FileRoutesByFullPath {
   '/tools/zenodo-finder': typeof ToolsZenodoFinderRoute
   '/resources/': typeof ResourcesIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/community/$postId': typeof AuthenticatedCommunityPostIdRoute
+  '/dashboard/facts': typeof AuthenticatedDashboardFactsRoute
+  '/dashboard/posts': typeof AuthenticatedDashboardPostsRoute
+  '/dashboard/tools': typeof AuthenticatedDashboardToolsRoute
+  '/community/': typeof AuthenticatedCommunityIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
@@ -991,6 +1031,11 @@ export interface FileRoutesByTo {
   '/tools/zenodo-finder': typeof ToolsZenodoFinderRoute
   '/resources': typeof ResourcesIndexRoute
   '/tools': typeof ToolsIndexRoute
+  '/community/$postId': typeof AuthenticatedCommunityPostIdRoute
+  '/dashboard/facts': typeof AuthenticatedDashboardFactsRoute
+  '/dashboard/posts': typeof AuthenticatedDashboardPostsRoute
+  '/dashboard/tools': typeof AuthenticatedDashboardToolsRoute
+  '/community': typeof AuthenticatedCommunityIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
@@ -1116,6 +1161,11 @@ export interface FileRoutesById {
   '/tools/zenodo-finder': typeof ToolsZenodoFinderRoute
   '/resources/': typeof ResourcesIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/_authenticated/community/$postId': typeof AuthenticatedCommunityPostIdRoute
+  '/_authenticated/dashboard_/facts': typeof AuthenticatedDashboardFactsRoute
+  '/_authenticated/dashboard_/posts': typeof AuthenticatedDashboardPostsRoute
+  '/_authenticated/dashboard_/tools': typeof AuthenticatedDashboardToolsRoute
+  '/_authenticated/community/': typeof AuthenticatedCommunityIndexRoute
   '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
@@ -1241,6 +1291,11 @@ export interface FileRouteTypes {
     | '/tools/zenodo-finder'
     | '/resources/'
     | '/tools/'
+    | '/community/$postId'
+    | '/dashboard/facts'
+    | '/dashboard/posts'
+    | '/dashboard/tools'
+    | '/community/'
     | '/api/public/payments/webhook'
     | '/lovable/email/transactional/preview'
   fileRoutesByTo: FileRoutesByTo
@@ -1364,6 +1419,11 @@ export interface FileRouteTypes {
     | '/tools/zenodo-finder'
     | '/resources'
     | '/tools'
+    | '/community/$postId'
+    | '/dashboard/facts'
+    | '/dashboard/posts'
+    | '/dashboard/tools'
+    | '/community'
     | '/api/public/payments/webhook'
     | '/lovable/email/transactional/preview'
   id:
@@ -1488,6 +1548,11 @@ export interface FileRouteTypes {
     | '/tools/zenodo-finder'
     | '/resources/'
     | '/tools/'
+    | '/_authenticated/community/$postId'
+    | '/_authenticated/dashboard_/facts'
+    | '/_authenticated/dashboard_/posts'
+    | '/_authenticated/dashboard_/tools'
+    | '/_authenticated/community/'
     | '/api/public/payments/webhook'
     | '/lovable/email/transactional/preview'
   fileRoutesById: FileRoutesById
@@ -2458,6 +2523,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsZenodoFinderRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/community/': {
+      id: '/_authenticated/community/'
+      path: '/community'
+      fullPath: '/community/'
+      preLoaderRoute: typeof AuthenticatedCommunityIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/community/$postId': {
+      id: '/_authenticated/community/$postId'
+      path: '/community/$postId'
+      fullPath: '/community/$postId'
+      preLoaderRoute: typeof AuthenticatedCommunityPostIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard_/facts': {
+      id: '/_authenticated/dashboard_/facts'
+      path: '/dashboard/facts'
+      fullPath: '/dashboard/facts'
+      preLoaderRoute: typeof AuthenticatedDashboardFactsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard_/posts': {
+      id: '/_authenticated/dashboard_/posts'
+      path: '/dashboard/posts'
+      fullPath: '/dashboard/posts'
+      preLoaderRoute: typeof AuthenticatedDashboardPostsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/dashboard_/tools': {
+      id: '/_authenticated/dashboard_/tools'
+      path: '/dashboard/tools'
+      fullPath: '/dashboard/tools'
+      preLoaderRoute: typeof AuthenticatedDashboardToolsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/api/public/payments/webhook': {
       id: '/api/public/payments/webhook'
       path: '/api/public/payments/webhook'
@@ -2477,10 +2577,20 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedCommunityPostIdRoute: typeof AuthenticatedCommunityPostIdRoute
+  AuthenticatedDashboardFactsRoute: typeof AuthenticatedDashboardFactsRoute
+  AuthenticatedDashboardPostsRoute: typeof AuthenticatedDashboardPostsRoute
+  AuthenticatedDashboardToolsRoute: typeof AuthenticatedDashboardToolsRoute
+  AuthenticatedCommunityIndexRoute: typeof AuthenticatedCommunityIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedCommunityPostIdRoute: AuthenticatedCommunityPostIdRoute,
+  AuthenticatedDashboardFactsRoute: AuthenticatedDashboardFactsRoute,
+  AuthenticatedDashboardPostsRoute: AuthenticatedDashboardPostsRoute,
+  AuthenticatedDashboardToolsRoute: AuthenticatedDashboardToolsRoute,
+  AuthenticatedCommunityIndexRoute: AuthenticatedCommunityIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

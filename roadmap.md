@@ -1,5 +1,11 @@
 # Verfiai roadmap
 
+## Nov 26 signed-in workspace
+
+- [ ] Add owner facts and saved-tools dashboard pages.
+- [ ] Add authenticated community feed, posts and comments with owner controls.
+- [ ] Verify permissions, tests and signed-in browser flows; no publishing.
+
 ## Nov 24 CI permissions guard
 
 - [x] Add GitHub Actions error annotations (file/line) for disallowed workflow permissions and regression tests for invalid/unsupported permission syntax failing closed with the workflow file named. 27 guard tests pass; annotations emit only under GITHUB_ACTIONS.

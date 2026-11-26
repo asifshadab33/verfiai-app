@@ -14,6 +14,71 @@ export type Database = {
   }
   public: {
     Tables: {
+      community_comments: {
+        Row: {
+          author_name: string
+          body: string
+          created_at: string
+          id: string
+          post_id: string
+          user_id: string
+        }
+        Insert: {
+          author_name?: string
+          body: string
+          created_at?: string
+          id?: string
+          post_id: string
+          user_id?: string
+        }
+        Update: {
+          author_name?: string
+          body?: string
+          created_at?: string
+          id?: string
+          post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "community_comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "community_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      community_posts: {
+        Row: {
+          author_name: string
+          body: string
+          created_at: string
+          id: string
+          source_url: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          author_name?: string
+          body: string
+          created_at?: string
+          id?: string
+          source_url?: string
+          title: string
+          user_id?: string
+        }
+        Update: {
+          author_name?: string
+          body?: string
+          created_at?: string
+          id?: string
+          source_url?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       community_waitlist: {
         Row: {
           consent_version: string
@@ -227,6 +292,51 @@ export type Database = {
           title?: string
           updated_at?: string
           verified_at?: string | null
+        }
+        Relationships: []
+      }
+      member_facts: {
+        Row: {
+          claim: string
+          created_at: string
+          id: string
+          notes: string
+          source_url: string
+          user_id: string
+        }
+        Insert: {
+          claim: string
+          created_at?: string
+          id?: string
+          notes?: string
+          source_url?: string
+          user_id?: string
+        }
+        Update: {
+          claim?: string
+          created_at?: string
+          id?: string
+          notes?: string
+          source_url?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      member_tools: {
+        Row: {
+          created_at: string
+          tool_key: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          tool_key: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          tool_key?: string
+          user_id?: string
         }
         Relationships: []
       }
