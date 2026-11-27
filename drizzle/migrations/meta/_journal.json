@@ -148,6 +148,13 @@
       "when": 1795671165619,
       "tag": "0020_account_workspace_community",
       "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1795753897050,
+      "tag": "0021_community_requires_verified_email",
+      "breakpoints": true
     }
   ]
 }

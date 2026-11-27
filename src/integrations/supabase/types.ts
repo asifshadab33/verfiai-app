@@ -843,6 +843,7 @@ export type Database = {
         Args: { p_email: string; p_fingerprint: string; p_interest?: string }
         Returns: undefined
       }
+      member_email_is_verified: { Args: never; Returns: boolean }
       reserve_verification_request: {
         Args: { p_authenticated: boolean; p_subject_hash: string }
         Returns: {
