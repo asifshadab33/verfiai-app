@@ -3,10 +3,10 @@
 ## Nov 26 signed-in workspace
 
 - [x] Nov 27 build recovery: remove missing adapter imports using existing Zod validators, scope pagination navigation, and correct citation shortcut to /app?tab=citation. Automatic build OK; signed-in page loading and citation navigation verified.
-- [ ] Community read-access scan findings: awaiting owner choice between all signed-in users and approved members; retain requested shared feed meanwhile.
-- [ ] Add owner facts and saved-tools dashboard pages.
-- [ ] Add authenticated community feed, posts and comments with owner controls.
-- [ ] Verify permissions, tests and signed-in browser flows; no publishing.
+- [x] Nov 27 owner decision: community posts and comments are readable by all signed-in users; writes stay owner-only. Shared feed is intended behavior, so the two read-access scan findings are proposed for approval as by-design, not fixed by narrowing access.
+- [x] Add owner facts and saved-tools dashboard pages.
+- [x] Add authenticated community feed, posts and comments with owner controls.
+- [x] Verify permissions, tests and signed-in browser flows; no publishing. Full suite 396 passed, ten skipped; automatic build OK.
 
 ## Nov 24 CI permissions guard
 
