@@ -2,6 +2,8 @@
 
 ## Nov 26 signed-in workspace
 
+- [x] Nov 27 build recovery: remove missing adapter imports using existing Zod validators, scope pagination navigation, and correct citation shortcut to /app?tab=citation. Automatic build OK; signed-in page loading and citation navigation verified.
+- [ ] Community read-access scan findings: awaiting owner choice between all signed-in users and approved members; retain requested shared feed meanwhile.
 - [ ] Add owner facts and saved-tools dashboard pages.
 - [ ] Add authenticated community feed, posts and comments with owner controls.
 - [ ] Verify permissions, tests and signed-in browser flows; no publishing.

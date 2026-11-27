@@ -93,6 +93,11 @@ describe("leaf search metadata policy", () => {
     for (const file of routeFiles(routeRoot)) {
       const source = readFileSync(file, "utf8");
       const route = source.match(/createFileRoute\(["']([^"']+)["']\)/)?.[1];
+      if (route?.startsWith('/_authenticated/')) {
+        const publicPath = route.replace('/_authenticated', '').replace(/_\//g, '/').replace(/\/+$/, '') || '/';
+        expect(sitemapPaths(), `${publicPath} is private`).not.toContain(publicPath);
+        continue;
+      }
       if (!route || route.includes("$") || /name: "robots", content: "noindex/.test(source))
         continue;
       const normalized = route.replace(/\/+$/, "") || "/";

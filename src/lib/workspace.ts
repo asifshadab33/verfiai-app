@@ -11,7 +11,7 @@ export const idSchema = z.object({ id: z.string().uuid() });
 export const pageSchema = z.object({ page: z.number().int().min(0).max(10000).default(0), mine: z.boolean().default(false) });
 export const WORKSPACE_TOOLS = [
   { key: 'fact-checker', title: 'Fact checker', path: '/fact-checker', note: 'Research with linked evidence' },
-  { key: 'citation-checker', title: 'Citation checker', path: '/tools/citation-checker', note: 'Checks public citation records' },
+  { key: 'citation-checker', title: 'Citation checker', path: '/app', search: { tab: 'citation' }, note: 'Checks public citation records' },
   { key: 'evidence-matrix', title: 'Evidence matrix', path: '/tools/evidence-matrix', note: 'Organize evidence in your browser' },
   { key: 'doi-checker', title: 'DOI & retraction checker', path: '/tools/doi-checker', note: 'Looks up public publication records' },
   { key: 'word-counter', title: 'Word counter', path: '/tools/word-counter', note: 'Runs in your browser' },
